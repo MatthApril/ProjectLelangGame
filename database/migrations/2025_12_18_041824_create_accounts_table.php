@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id(); // AUTO INCREMEMT
+            $table->id('account_id'); // AUTO INCREMEMT
             $table->string('username')->unique();
             $table->string('password');
             $table->string('email')->unique();
