@@ -19,7 +19,12 @@ class AuthController extends Controller
     }
 
     function doRegister(Request $req) {
+        $req->validate([
+            'username' => 'required|string'
+        ],
+        [
 
+        ]);
     }
 
 }
