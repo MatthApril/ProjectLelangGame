@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id('complaint_id');
-            $table->foreignId('customer_id')->constrained('accounts', 'account_id')->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->text('content');
             $table->string('proof_img')->nullable();
             $table->boolean('is_served')->default(false);
