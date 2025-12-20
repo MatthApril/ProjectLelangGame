@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Game extends Model
+{
+    use SoftDeletes;
+    protected $table = 'games';
+    protected $primaryKey = 'game_id';
+    public $timestamps = false;
+    public $incrementing = true;
+
+    protected $fillable = [
+        'game_name'
+    ];
+
+    public function gamesCategories()
+    {
+        return $this->hasMany(GameCategory::class, 'game_id');
+    }
+}
