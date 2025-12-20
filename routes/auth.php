@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -12,3 +13,5 @@ Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'doRegister'])->name('doRegister');
 
+Route::post('/verify', [VerificationController::class, ''])->name('verify');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -17,6 +17,13 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    function logout(Request $req) {
+        Auth::logout();
+        $req->session()->invalidate();
+        $req->session()->regenerateToken();
+        return redirect()->route('user.home');
+    }
+
     function doLogin(Request $req) {
         $req->validate([
             'email' => 'required|email',
@@ -27,18 +34,20 @@ class AuthController extends Controller
             'password.required' => 'Password wajib diisi',
         ]);
 
-        if (Auth::attempt($req->only('email', 'password'), $req->remember)) {
+        if (Auth::attempt($req->only('email', 'password'), $req->filled('remember'))) {
 
-            if (Auth::user()->role === 'admin') {
+            if (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             }
 
-            if (Auth::user()->role === 'seller') {
+            if (Auth::user()->role == 'seller') {
                 return redirect()->route('seller.dashboard');
             }
 
             return redirect()->route('user.home');
         }
+
+        return back()->with('error', 'Email atau Password salah');
     }
 
     function doRegister(Request $req) {
@@ -60,14 +69,19 @@ class AuthController extends Controller
         // ]);
 
         $req['status'] = 'verify';
-        dd($req->all());
-        $account = User::create([
+        $user = User::create([
             'username' => $req->username,
             'password' => $req->password,
             'email' => $req->email,
             'role' => $req->role,
         ]);
 
+        Auth::login($user);
+        if ($req->role == 'seller') {
+            return redirect()->route('seller.dashboard');
+        }
+
+        return redirect()->route('user.home');
     }
 
 }
