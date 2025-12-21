@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notification_recipients', function (Blueprint $table) {
-            $table->id('notif_recip_id');
-            $table->foreignId('notification_id')->constrained('notifications', 'notification_id')->cascadeOnDelete();
+        Schema::create('verifications', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
+            $table->string('unique_id');
+            $table->string('otp');
+            $table->enum('type', ['register', 'reset_password']);
+            $table->integer('resend')->default(0);
+            $table->enum('status', ['active', 'valid', 'invalid']);
+            $table->timestamps();
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notification_recipients');
+        Schema::dropIfExists('email_verifications');
     }
 };
