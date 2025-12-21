@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
     function showLoginForm() {
-        return view('auth.login');
+        return view('pages.auth.login');
     }
 
     function showRegisterForm() {
-        return view('auth.register');
+        return view('pages.auth.register');
     }
 
     function logout(Request $req) {
@@ -81,7 +80,7 @@ class AuthController extends Controller
             return redirect()->route('seller.dashboard');
         }
 
-        return redirect()->route('user.home');
+        return redirect()->route('verify.index');
     }
 
 }

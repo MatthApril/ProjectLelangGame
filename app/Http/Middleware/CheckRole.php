@@ -22,7 +22,7 @@ class CheckRole
         }
 
         if (!in_array($user->role, $roles)) {
-            abort(403);
+            return redirect()->route('user.home');
         }
 
         return $next($request);

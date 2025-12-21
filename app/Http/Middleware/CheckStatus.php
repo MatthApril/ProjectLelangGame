@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Verification;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckStatus
@@ -15,10 +17,13 @@ class CheckStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->status == 'active') {
-        } else if ($request->user()->status == 'verify') {
-            return redirect()->route('verify');
+        $verify = Verification::whereUserId($request->user()->user_id)
+                    ->whereStatus('valid')
+                    ->whereType('register')->first();
+        if ($verify) {
+            return $next($request);
         }
-        return $next($request);
+
+        return redirect()->route('verify.index');
     }
 }

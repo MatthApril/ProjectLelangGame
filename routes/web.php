@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/login');
+Route::redirect('/', '/user');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
