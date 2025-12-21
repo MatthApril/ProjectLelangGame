@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\EmailRegisteredRule;
+use App\Rules\UsernameExistRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -50,22 +53,22 @@ class AuthController extends Controller
     }
 
     function doRegister(Request $req) {
-        // $req->validate([
-        //     'username' => 'required|string',
-        //     'email' => 'required|email',
-        //     'password' => 'required|string',
-        //     'confirm_password' => 'required|same:password',
-        //     'role' => ['required', Rule::in(['user', 'seller'])]
-        // ],
-        // [
-        //     'username.required' => 'Username wajib diisi',
-        //     'email.required' => 'Email wajib diisi',
-        //     'password.required' => 'Password wajib diisi',
-        //     'confirm_password.required' => 'Konfirmasi Password wajib diisi',
-        //     'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
-        //     'role.required' => 'Role wajib dipilih',
-        //     'role.' => 'Role tidak valid',
-        // ]);
+        $req->validate([
+            'username' => ['required', 'string', new UsernameExistRule],
+            'email' => ['required', 'string', new EmailRegisteredRule],
+            'password' => 'required|string',
+            'confirm_password' => 'required|same:password',
+            'role' => ['required', Rule::in(['user', 'seller'])]
+        ],
+        [
+            'username.required' => 'Username wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'password.required' => 'Password wajib diisi',
+            'confirm_password.required' => 'Konfirmasi Password wajib diisi',
+            'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
+            'role.required' => 'Role wajib dipilih',
+            'role.' => 'Role tidak valid',
+        ]);
 
         $req['status'] = 'verify';
         $user = User::create([

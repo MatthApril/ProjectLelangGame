@@ -18,7 +18,6 @@ class VerificationController extends Controller
     function show($unique_id) {
         $verify = Verification::whereUserId(Auth::user()->user_id)->whereUniqueId($unique_id)
                     ->whereStatus('active')->count();
-        // dd($verify);
         if (!$verify) abort(404);
         return view('pages.verification.show', compact('unique_id'));
     }
@@ -28,7 +27,7 @@ class VerificationController extends Controller
                     ->where('status', 'active')->first();
 
         if (!$verify) abort(404);
-        // dd($req->otp);
+
         if (md5($req->otp) != $verify->otp) {
             $verify->update(['status' => 'invalid']);
             return redirect()->route('verify.index')->with('login_failed', 'Gagal Verifikasi');
