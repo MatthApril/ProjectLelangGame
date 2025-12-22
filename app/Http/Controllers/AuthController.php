@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\SellerRegisterRequest;
+use App\Http\Requests\UserRegisterRequest;
 use App\Models\User;
-use App\Rules\EmailRegisteredRule;
-use App\Rules\UsernameExistRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -18,10 +16,24 @@ class AuthController extends Controller
         return view('pages.auth.login');
     }
 
-    public function showRegisterForm()
+    public function showSellerRegisterForm()
     {
-        return view('pages.auth.register');
+        return view('pages.auth.seller_register');
     }
+
+    public function showUserRegisterForm()
+    {
+        return view('pages.auth.user_register');
+    }
+
+    function showChangeEmail() {
+        return view();
+    }
+
+    function showChangePassword() {
+        return view();
+    }
+
 
     public function logout(Request $req)
     {
@@ -52,7 +64,7 @@ class AuthController extends Controller
         return back()->with('error', 'Email atau Password salah');
     }
 
-    public function doRegister(RegisterRequest $req)
+    public function doUserRegister(UserRegisterRequest $req)
     {
         $req->validated();
 
@@ -61,7 +73,28 @@ class AuthController extends Controller
             'username' => $req->username,
             'password' => $req->password,
             'email' => $req->email,
-            'role' => $req->role,
+            'role' => 'user',
+        ]);
+
+        Auth::login($user);
+        return redirect()->route('verify.index');
+    }
+
+    public function doSellerRegister(SellerRegisterRequest $req)
+    {
+        $req->validated();
+
+        $req['status'] = 'verify';
+        $user = User::create([
+            'username' => $req->username,
+            'password' => $req->password,
+            'email' => $req->email,
+            'role' => 'seller',
+        ]);
+
+        $user->shop()->create([
+            'shop_name'   => $req->shop_name,
+            'shop_rating' => 0,
         ]);
 
         Auth::login($user);
@@ -72,14 +105,6 @@ class AuthController extends Controller
         $user = Auth::user();
         $param['user'] = $user;
         return view('pages.auth.profile', $param);
-    }
-
-    function showChangeEmail() {
-        return view();
-    }
-
-    function showChangePassword() {
-        return view();
     }
 
     function changeEmail(Request $req) {

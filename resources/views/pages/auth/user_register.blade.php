@@ -4,8 +4,11 @@
     </button>
 </a>
 
+<h1>User</h1>
+<p>Buat akun seller <a href="{{ route('seller-register') }}">klik ini</a></p>
+
 <div class="container-fluid">
-    <form action="{{ route('doRegister') }}" method="post">
+    <form action="{{ route('user-register') }}" method="post">
         @csrf
         Username: <input type="text" name="username" id="username" value="{{ old('username') }}">
         <br>
@@ -18,12 +21,6 @@
         @error('email')
             {{ $message }}
         @enderror
-        <br>
-        Role:
-        <select name="role" id="role">
-            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Pembeli</option>
-            <option value="seller" {{ old('role') == 'seller' ? 'selected' : '' }}>Penjual</option>
-        </select>
         <br>
         @error('role')
             {{ $message }}

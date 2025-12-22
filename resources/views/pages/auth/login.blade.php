@@ -21,7 +21,7 @@
         <button type="submit">Login</button>
     </form>
 
-    <a href="{{ route('register') }}">Belum punya akun?</a>
+    <a href="{{ route('user-register') }}">Belum punya akun?</a>
     <br>
     @if (session('error'))
         <p>{{ session('error') }}</p>
