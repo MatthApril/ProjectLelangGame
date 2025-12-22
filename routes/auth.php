@@ -14,6 +14,11 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'doRegister'])->name('doRegister');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
+Route::group(['middleware' => ['auth', 'check_role:user,seller,admin', 'check_status']], function() {
+    Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
+});
+
 Route::group(['middleware' => ['auth', 'check_role:user,seller']], function() {
     Route::get('/verify', [VerificationController::class, 'index'])->name('verify.index');
     Route::post('/verify', [VerificationController::class, 'store'])->name('verify.store');

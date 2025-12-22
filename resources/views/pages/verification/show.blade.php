@@ -18,9 +18,13 @@
         </button>
     </form>
 
-    <a href="!#">
-        Resend OTP
-    </a>
+    <form action="{{ route('verify.store') }}" method="post">
+        @csrf
+        <input type="hidden" name="type" value="register">
+        <button type="submit">
+            Resend OTP
+        </button>
+    </form>
 </body>
 
 </html>

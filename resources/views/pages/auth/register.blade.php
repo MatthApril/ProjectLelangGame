@@ -7,13 +7,13 @@
 <div class="container-fluid">
     <form action="{{ route('doRegister') }}" method="post">
         @csrf
-        Username: <input type="text" name="username" id="username">
+        Username: <input type="text" name="username" id="username" value="{{ old('username') }}">
         <br>
         @error('username')
             {{ $message }}
         @enderror
         <br>
-        Email: <input type="email" name="email" id="email">
+        Email: <input type="email" name="email" id="email" value="{{ old('email') }}">
         <br>
         @error('email')
             {{ $message }}
@@ -21,20 +21,21 @@
         <br>
         Role:
         <select name="role" id="role">
-            <option value="user">Pembeli</option>
-            <option value="seller">Penjual</option>
+            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Pembeli</option>
+            <option value="seller" {{ old('role') == 'seller' ? 'selected' : '' }}>Penjual</option>
         </select>
         <br>
         @error('role')
             {{ $message }}
         @enderror
         <br>
-        Password: <input type="password" name="password" id="password"> <br>
+        Password: <input type="password" name="password" id="password" value="{{ old('password') }}"> <br>
         @error('password')
             {{ $message }}
         @enderror
         <br>
-        Konfirmasi Password: <input type="password" name="confirm_password" id="confirm_password"> <br>
+        Konfirmasi Password: <input type="password" name="confirm_password" id="confirm_password"
+            value="{{ old('confirm_password') }}"> <br>
         @error('confirm_password')
             {{ $message }}
         @enderror
