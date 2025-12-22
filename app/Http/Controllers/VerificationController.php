@@ -35,8 +35,26 @@ class VerificationController extends Controller
             return redirect()->route('verify.index')->with('login_failed', 'Gagal Verifikasi');
         }
 
-        $verify->update(['status' => 'valid']);
-        User::find($verify->user_id)->update(['status' => 'active']);
+        if ($verify->type == 'reset_password') {
+            $verify->update(['status' => 'valid']);
+            return redirect()->route('change-pwd-view');
+        }
+
+        if ($verify->type == 'change_email') {
+            $new_email = session('new_email');
+            if (!$new_email) {
+                return redirect()->route('profile')->with('error', 'Gagal Mengganti Email');
+            }
+            User::find($verify->user_id)->update(['email' => $new_email]);
+            $verify->update(['status' => 'valid']);
+            session()->forget('new_email');
+            return redirect()->route('profile')->with('success', 'Berhasil Mengganti Email');
+        }
+
+        if ($verify->type == 'register') {
+            $verify->update(['status' => 'valid']);
+            User::find($verify->user_id)->update(['status' => 'active']);
+        }
 
         return redirect()->route('user.home');
 

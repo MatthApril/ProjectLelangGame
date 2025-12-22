@@ -8,7 +8,7 @@
 <p>Buat akun user <a href="{{ route('user-register') }}">klik ini</a></p>
 
 <div class="container-fluid">
-    <form action="{{ route('seller-register') }}" method="post">
+    <form action="{{ route('doSellerRegister') }}" method="post">
         @csrf
         Username: <input type="text" name="username" id="username" value="{{ old('username') }}">
         <br>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeShopNameRequest;
+use App\Http\Requests\ChangeUsernameRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SellerRegisterRequest;
 use App\Http\Requests\UserRegisterRequest;
@@ -107,8 +109,30 @@ class AuthController extends Controller
         return view('pages.auth.profile', $param);
     }
 
-    function changeEmail(Request $req) {
+    function changeUsername(ChangeUsernameRequest $req) {
+        $req->validated();
 
+        $user = Auth::user();
+        $user->update([
+            'username' => $req->username
+        ]);
+
+        return back()->with('success', 'Username berhasil diubah');
+    }
+
+    function changeShopName(ChangeShopNameRequest $req) {
+        $req->validated();
+
+        $user = Auth::user();
+        $user->shop->update([
+            'shop_name' => $req->shop_name
+        ]);
+
+        return back()->with('success', 'Nama Toko berhasil diubah');
+    }
+
+    function changeEmail(Request $req) {
+        
     }
 
     function changePassword(Request $req) {

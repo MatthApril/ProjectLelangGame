@@ -17,15 +17,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Register User
 Route::get('/user-register', [AuthController::class, 'showUserRegisterForm'])->name('user-register');
-Route::post('/user-register', [AuthController::class, 'doUserRegister'])->name('doRegister');
+Route::post('/user-register', [AuthController::class, 'doUserRegister'])->name('doUserRegister');
 
 // Register Seller
 Route::get('/seller-register', [AuthController::class, 'showSellerRegisterForm'])->name('seller-register');
-Route::post('/seller-register', [AuthController::class, 'doSellerRegister'])->name('doRegister');
+Route::post('/seller-register', [AuthController::class, 'doSellerRegister'])->name('doSellerRegister');
 
 // Konfirmasi Ganti Profile
 Route::group(['middleware' => ['auth', 'check_role:user,seller,admin', 'check_status']], function() {
     Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
+    Route::post('/change-username', [AuthController::class, 'changeUsername'])->name('change-username');
+    Route::post('/change-shop-name', [AuthController::class, 'changeShopName'])->name('change-shop-name');
     Route::get('/change-pwd', [AuthController::class, 'showChangePassword'])->name('change-pwd-view');
     Route::post('/change-pwd', [AuthController::class, 'showChangePassword'])->name('change-pwd-view');
     Route::get('/change-email', [AuthController::class, 'showChangeEmail'])->name('change-email-view');
@@ -36,8 +38,6 @@ Route::group(['middleware' => ['auth', 'check_role:user,seller,admin', 'check_st
 Route::group(['middleware' => ['auth', 'check_role:user,seller']], function() {
     Route::get('/verify', [VerificationController::class, 'index'])->name('verify.index');
     Route::post('/verify', [VerificationController::class, 'store'])->name('verify.store');
-    Route::post('/changeEmail', [VerificationController::class, 'store'])->name('verify.changeEmail');
-    Route::post('/changePwd', [VerificationController::class, 'store'])->name('verify.changePwd');
     Route::get('/verify/{unique_id}', [VerificationController::class, 'show'])->name('verify.uid');
     Route::put('/verify/{unique_id}', [VerificationController::class, 'update'])->name('verify.update-uid');
 });
