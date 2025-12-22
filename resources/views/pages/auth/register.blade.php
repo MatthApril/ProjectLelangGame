@@ -4,21 +4,14 @@
     </button>
 </a>
 
-<h1>Seller</h1>
-<p>Buat akun user <a href="{{ route('user-register') }}">klik ini</a></p>
+<h1>Register</h1>
 
 <div class="container-fluid">
-    <form action="{{ route('doSellerRegister') }}" method="post">
+    <form action="{{ route('do-register') }}" method="post">
         @csrf
         Username: <input type="text" name="username" id="username" value="{{ old('username') }}">
         <br>
         @error('username')
-            {{ $message }}
-        @enderror
-        <br>
-        Nama Toko: <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}">
-        <br>
-        @error('shop_name')
             {{ $message }}
         @enderror
         <br>
@@ -47,4 +40,8 @@
     </form>
 
     <a href="{{ route('login') }}">Sudah punya akun?</a>
+    <br>
+    @if (session('error'))
+        <p>{{ session('error') }}</p>
+    @endif
 </div>

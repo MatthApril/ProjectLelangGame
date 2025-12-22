@@ -10,14 +10,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OtpChangePwd extends Mailable
+class EmailChangedWarning extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $otp)
+    public function __construct()
     {
         //
     }
@@ -29,7 +29,7 @@ class OtpChangePwd extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'Otp - Change Password Verification',
+            subject: 'Email Akun anda Telah Berubah',
         );
     }
 
@@ -39,8 +39,8 @@ class OtpChangePwd extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.change_pwd',
-            with: ['otp' => $this->otp]
+            view: 'emails.email_changed_warn',
+            with: []
         );
     }
 

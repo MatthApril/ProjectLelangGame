@@ -5,7 +5,7 @@
 </a>
 
 <div class="container-fluid">
-    <form action="{{ route('doLogin') }}" method="post">
+    <form action="{{ route('do-login') }}" method="post">
         @csrf
         Email: <input type="email" name="email" id="email" value="{{ old('email') }}"> <br>
         @error('email')
@@ -21,7 +21,7 @@
         <button type="submit">Login</button>
     </form>
 
-    <a href="{{ route('user-register') }}">Belum punya akun?</a>
+    <a href="{{ route('register') }}">Belum punya akun?</a>
     <br>
     @if (session('error'))
         <p>{{ session('error') }}</p>

@@ -22,7 +22,18 @@ class ChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'password' => ['required', 'string'],
+            'confirm_password' => ['required', 'same:password'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'password.required' => 'Password wajib diisi',
+            'confirm_password.required' => 'Konfirmasi Password wajib diisi',
+            'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
+        ];
+    }
+
 }
