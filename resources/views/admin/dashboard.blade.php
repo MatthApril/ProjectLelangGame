@@ -1,3 +1,0 @@
-<div>
-    dashbor admin
-</div>

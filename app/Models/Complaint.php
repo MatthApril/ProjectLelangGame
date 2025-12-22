@@ -19,6 +19,6 @@ class Complaint extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Account::class, 'customer_id');
+        return $this->belongsTo(User::class, 'customer_id');
     }
 }

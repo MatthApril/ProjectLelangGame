@@ -13,7 +13,7 @@ class NotificationRecipient extends Model
 
     protected $fillable = [
         'notification_id',
-        'account_id'
+        'user_id'
     ];
 
     public function notification()
@@ -23,6 +23,6 @@ class NotificationRecipient extends Model
 
     public function account()
     {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

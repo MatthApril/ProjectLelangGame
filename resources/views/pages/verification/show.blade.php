@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="{{ route('verify.uid', $unique_id) }}" method="post">
+        @csrf
+        @method('PUT')
+        <input type="number" name="otp" id="otp" placeholder="Enter OTP!">
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+
+    <form action="{{ route('verify.store') }}" method="post">
+        @csrf
+        <input type="hidden" name="type" value="register">
+        <button type="submit">
+            Resend OTP
+        </button>
+    </form>
+</body>
+
+</html>

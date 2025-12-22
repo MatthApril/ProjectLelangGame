@@ -2,71 +2,140 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeShopNameRequest;
+use App\Http\Requests\ChangeUsernameRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SellerRegisterRequest;
+use App\Http\Requests\UserRegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
-    function showLoginForm() {
-        return view('auth.login');
+    public function showLoginForm()
+    {
+        return view('pages.auth.login');
     }
 
-    function showRegisterForm() {
-        return view('auth.register');
+    public function showSellerRegisterForm()
+    {
+        return view('pages.auth.seller_register');
     }
 
-    function doLogin(Request $req) {
-        $req->validate([
-            'email' => 'required|email',
-            'password' => 'required|string'
-        ],
-        [
-            'email.required' => 'Email wajib diisi',
-            'password.required' => 'Password wajib diisi',
-        ]);
+    public function showUserRegisterForm()
+    {
+        return view('pages.auth.user_register');
+    }
 
-        if (Auth::attempt($req->only('email', 'password'), $req->remember)) {
+    function showChangeEmail() {
+        return view();
+    }
 
-            if (Auth::user()->role === 'admin') {
+    function showChangePassword() {
+        return view();
+    }
+
+
+    public function logout(Request $req)
+    {
+        Auth::logout();
+        $req->session()->invalidate();
+        $req->session()->regenerateToken();
+
+        return redirect()->route('user.home');
+    }
+
+    public function doLogin(LoginRequest $req)
+    {
+        $req->validated();
+
+        if (Auth::attempt($req->only('email', 'password'), $req->filled('remember'))) {
+
+            if (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             }
 
-            if (Auth::user()->role === 'seller') {
+            if (Auth::user()->role == 'seller') {
                 return redirect()->route('seller.dashboard');
             }
 
             return redirect()->route('user.home');
         }
+
+        return back()->with('error', 'Email atau Password salah');
     }
 
-    function doRegister(Request $req) {
-        // $req->validate([
-        //     'username' => 'required|string',
-        //     'email' => 'required|email',
-        //     'password' => 'required|string',
-        //     'confirm_password' => 'required|same:password',
-        //     'role' => ['required', Rule::in(['user', 'seller'])]
-        // ],
-        // [
-        //     'username.required' => 'Username wajib diisi',
-        //     'email.required' => 'Email wajib diisi',
-        //     'password.required' => 'Password wajib diisi',
-        //     'confirm_password.required' => 'Konfirmasi Password wajib diisi',
-        //     'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
-        //     'role.required' => 'Role wajib dipilih',
-        //     'role.' => 'Role tidak valid',
-        // ]);
+    public function doUserRegister(UserRegisterRequest $req)
+    {
+        $req->validated();
 
         $req['status'] = 'verify';
-        dd($req->all());
-        $account = User::create([
+        $user = User::create([
             'username' => $req->username,
             'password' => $req->password,
             'email' => $req->email,
-            'role' => $req->role,
+            'role' => 'user',
         ]);
+
+        Auth::login($user);
+        return redirect()->route('verify.index');
+    }
+
+    public function doSellerRegister(SellerRegisterRequest $req)
+    {
+        $req->validated();
+
+        $req['status'] = 'verify';
+        $user = User::create([
+            'username' => $req->username,
+            'password' => $req->password,
+            'email' => $req->email,
+            'role' => 'seller',
+        ]);
+
+        $user->shop()->create([
+            'shop_name'   => $req->shop_name,
+            'shop_rating' => 0,
+        ]);
+
+        Auth::login($user);
+        return redirect()->route('verify.index');
+    }
+
+    function showProfile() {
+        $user = Auth::user();
+        $param['user'] = $user;
+        return view('pages.auth.profile', $param);
+    }
+
+    function changeUsername(ChangeUsernameRequest $req) {
+        $req->validated();
+
+        $user = Auth::user();
+        $user->update([
+            'username' => $req->username
+        ]);
+
+        return back()->with('success', 'Username berhasil diubah');
+    }
+
+    function changeShopName(ChangeShopNameRequest $req) {
+        $req->validated();
+
+        $user = Auth::user();
+        $user->shop->update([
+            'shop_name' => $req->shop_name
+        ]);
+
+        return back()->with('success', 'Nama Toko berhasil diubah');
+    }
+
+    function changeEmail(Request $req) {
+        
+    }
+
+    function changePassword(Request $req) {
 
     }
 

@@ -12,12 +12,12 @@ class Cart extends Model
     public $incrementing = true;
 
     protected $fillable = [
-        'account_id'
+        'user_id'
     ];
 
     public function account()
     {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function cartItems()

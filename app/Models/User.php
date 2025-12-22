@@ -17,8 +17,11 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    protected $primaryKey = 'user_id';
+
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
         'role'
@@ -46,4 +49,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'owner_id', 'user_id');
+    }
+
 }
