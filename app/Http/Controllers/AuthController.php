@@ -73,4 +73,21 @@ class AuthController extends Controller
         $param['user'] = $user;
         return view('pages.auth.profile', $param);
     }
+
+    function showChangeEmail() {
+        return view();
+    }
+
+    function showChangePassword() {
+        return view();
+    }
+
+    function changeEmail(Request $req) {
+
+    }
+
+    function changePassword(Request $req) {
+
+    }
+
 }

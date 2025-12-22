@@ -1,4 +1,4 @@
-<div class="container-fluid bg-dark d-flex">
+<div class="container-fluid bg-dark d-flex py-3">
 
     @auth
         <h1 class="text-white"> Welcome {{ Auth::user()->username }}</h1>

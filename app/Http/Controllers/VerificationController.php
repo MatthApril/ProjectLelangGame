@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OtpChangeEmail;
+use App\Mail\OtpChangePwd;
 use App\Mail\OtpEmail;
 use App\Models\User;
 use App\Models\Verification;
@@ -59,12 +61,15 @@ class VerificationController extends Controller
         if ($req->type == 'register') {
             Mail::to($user->email)->queue(new OtpEmail($otp));
             return redirect()->route('verify.update-uid', ['unique_id' => $verify->unique_id]);
-        } else if ($req->type == 'reset_password') {
-            Mail::to($user->email)->queue(new OtpEmail($otp));
-            return redirect()->route('verify.update-uid', ['unique_id' => $verify->unique_id]);
-        } else {
-
         }
+
+        if ($req->type == 'reset_password') {
+            Mail::to($user->email)->queue(new OtpChangePwd($otp));
+            return redirect()->route('verify.update-uid', ['unique_id' => $verify->unique_id]);
+        }
+
+        Mail::to($user->email)->queue(new OtpChangeEmail($otp));
+        return redirect()->route('verify.update-uid', ['unique_id' => $verify->unique_id]);
     }
 
 }

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <p>Kode otp untuk reset password anda adalah: {{ $otp }} </p>
+    <p>Kode otp untuk reset email anda adalah: {{ $otp }} </p>
 </body>
 
 </html>
