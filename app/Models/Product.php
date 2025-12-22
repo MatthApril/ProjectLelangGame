@@ -20,7 +20,8 @@ class Product extends Model
         'stok',
         'price',
         'rating',
-        'category_id'
+        'category_id',
+        'game_id'
     ];
 
     public function shop()
@@ -32,9 +33,13 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function game()
+    {
+        return $this->belongsTo(Game::class, 'game_id');
+    }
 
     public function cartItems()
-    {   
+    {
         return $this->hasMany(CartItem::class, 'product_id');
     }
 

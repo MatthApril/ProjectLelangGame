@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id('shop_id');
             $table->string('shop_name');
-            $table->foreignId('owner_id')->constrained('accounts', 'account_id')->cascadeOnDelete();
+            $table->foreignId('owner_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->float('shop_rating')->default(0);
             $table->timestamps();
             $table->softDeletes();

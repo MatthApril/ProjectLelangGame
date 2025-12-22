@@ -21,4 +21,8 @@ class Game extends Model
     {
         return $this->hasMany(GameCategory::class, 'game_id');
     }
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'game_id');
+    }
 }

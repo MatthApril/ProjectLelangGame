@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id('message_id');
-            $table->foreignId('sender_id')->constrained('accounts', 'account_id')->cascadeOnDelete();
-            $table->foreignId('receiver_id')->constrained('accounts', 'account_id')->cascadeOnDelete();
+            $table->foreignId('sender_id')->constrained('users', 'user_id')->cascadeOnDelete();
+            $table->foreignId('receiver_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->text('content');
             $table->timestamp('created_at')->useCurrent();
         });
