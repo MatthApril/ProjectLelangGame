@@ -16,6 +16,7 @@ class Product extends Model
     protected $fillable = [
         'shop_id',
         'product_name',
+        'description',
         'product_img',
         'stok',
         'price',
@@ -26,30 +27,31 @@ class Product extends Model
 
     public function shop()
     {
-        return $this->belongsTo(Shop::class, 'shop_id');
+        return $this->belongsTo(Shop::class, 'shop_id', 'shop_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
+
     public function game()
     {
-        return $this->belongsTo(Game::class, 'game_id');
+        return $this->belongsTo(Game::class, 'game_id', 'game_id');
     }
 
     public function cartItems()
     {
-        return $this->hasMany(CartItem::class, 'product_id');
+        return $this->hasMany(CartItem::class, 'product_id', 'product_id');
     }
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class, 'product_id');
+        return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
     }
 
     public function comments()
     {
-        return $this->hasMany(ProductComment::class, 'product_id');
+        return $this->hasMany(ProductComment::class, 'product_id', 'product_id');
     }
 }

@@ -50,9 +50,38 @@ class User extends Authenticatable
         ];
     }
 
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'user_id', 'user_id');
+    }
+
     public function shop()
     {
         return $this->hasOne(Shop::class, 'owner_id', 'user_id');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class, 'customer_id', 'user_id');
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id', 'user_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id', 'user_id');
+    }
+
+    public function notificationRecipients()
+    {
+        return $this->hasMany(NotificationRecipient::class, 'user_id', 'user_id');
+    }
 }

@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id('product_id');
             $table->foreignId('shop_id')->constrained('shops', 'shop_id')->cascadeOnDelete();
             $table->string('product_name');
+            $table->text('description');
             $table->string('product_img');
             $table->integer('stok');
             $table->integer('price');
             $table->float('rating')->default(0);
             $table->foreignId('category_id')->constrained('categories', 'category_id');
+            $table->foreignId('game_id')->constrained('games', 'game_id');
             $table->timestamps();
             $table->softDeletes();
         });
