@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GameCategory extends Model
 {
     use SoftDeletes;
-    protected $table = 'games_categories';
+    protected $table = 'game_categories';
     protected $primaryKey = 'game_category_id';
     public $timestamps = false;
     public $incrementing = true;

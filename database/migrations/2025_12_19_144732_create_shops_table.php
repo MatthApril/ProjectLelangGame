@@ -19,6 +19,8 @@ return new class extends Migration
             $table->time('open_hour');
             $table->time('close_hour');
             $table->enum('status', ['open', 'closed'])->default('closed');
+            $table->integer('running_transactions')->default(0);
+            $table->integer('shop_balance')->default(0);
             $table->float('shop_rating')->default(0);
             $table->timestamps();
             $table->softDeletes();

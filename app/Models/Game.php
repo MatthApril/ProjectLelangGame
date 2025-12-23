@@ -14,7 +14,8 @@ class Game extends Model
     public $incrementing = true;
 
     protected $fillable = [
-        'game_name'
+        'game_name',
+        'game_img'
     ];
 
     public function gamesCategories()

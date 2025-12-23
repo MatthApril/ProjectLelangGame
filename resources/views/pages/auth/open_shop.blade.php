@@ -1,7 +1,7 @@
 <div>
     <h1>Open Shop</h1>
 
-    <form action="{{ route('do-open-shop') }}" method="post">
+    <form action="{{ route('do-open-shop') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="shop_name">Nama Toko *</label>

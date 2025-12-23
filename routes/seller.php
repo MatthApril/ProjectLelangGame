@@ -14,5 +14,7 @@ Route::prefix('seller')->as('seller.')
         Route::get('/products/{id}/edit', [SellerController::class, 'edit'])->name('products.edit');
         Route::put('/products/{id}', [SellerController::class, 'update'])->name('products.update');
         Route::delete('/products/{id}', [SellerController::class, 'destroy'])->name('products.destroy');
+
+        Route::get('/games/{game}/categories', [SellerController::class, 'getCategoriesByGame'])->name('games.categories');
 });
 

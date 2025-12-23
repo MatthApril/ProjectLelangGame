@@ -18,8 +18,13 @@ class Shop extends Model
         'shop_rating',
         'shop_img',
         'open_hour',
+        'running_transactions', // Saldo yang masih dalam proses (belum bisa dicairkan)
+        'shop_balance',// Saldo yang sudah bisa dicairkan
         'close_hour',
         'status'
+    ];
+    protected $casts = [
+        'shop_rating' => 'float',
     ];
 
     public function owner()

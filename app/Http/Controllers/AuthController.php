@@ -81,6 +81,7 @@ class AuthController extends Controller
             'password' => $req->password,
             'email' => $req->email,
             'role' => 'user',
+            'balance' => 0
         ]);
 
         Auth::login($user);
@@ -108,6 +109,8 @@ class AuthController extends Controller
             'close_hour' => $validated['close_hour'],
             'status' => 'closed',
             'shop_rating' => 0,
+            'running_transactions' => 0,
+            'shop_balance' => 0
         ]);
 
         return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat');

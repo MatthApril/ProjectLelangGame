@@ -37,18 +37,12 @@
             @enderror
         </div>
 
-        <div>
+       <div>
             <label for="category_id">Kategori *</label>
-            <select id="category_id" name="category_id" required>
-                <option value="">Pilih Kategori</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->category_id }}"
-                            {{ old('category_id', $product->category_id ?? '') == $category->category_id ? 'selected' : '' }}>
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
+            <select id="category_id" name="category_id" required disabled>
+                <option value="">Pilih Game Terlebih Dahulu</option>
             </select>
-             @error('category_id')
+            @error('category_id')
                 <span style="color: red;">{{ $message }}</span>
             @enderror
         </div>
@@ -98,4 +92,48 @@
         </div>
     </form>
 </div>
+
+
+<script>
+    const gameSelect = document.getElementById('game_id');
+    const categorySelect = document.getElementById('category_id');
+    const selectedCategoryId = "{{ old('category_id', $product->category_id ?? '') }}";
+
+    gameSelect.addEventListener('change', function() {
+        const gameId = this.value;
+
+        if (!gameId) {
+            categorySelect.disabled = true;
+            categorySelect.innerHTML = '<option value="">Pilih Game Terlebih Dahulu</option>';
+            return;
+        }
+
+        fetch(`/seller/games/${gameId}/categories`)
+            .then(response => response.json())
+            .then(categories => {
+                categorySelect.disabled = false;
+                categorySelect.innerHTML = '<option value="">Pilih Kategori</option>';
+
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.category_id;
+                    option.textContent = category.category_name;
+
+                    if (selectedCategoryId == category.category_id) {
+                        option.selected = true;
+                    }
+
+                    categorySelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching categories:', error);
+                categorySelect.innerHTML = '<option value="">Error loading categories</option>';
+            });
+    });
+
+    if (gameSelect.value) {
+        gameSelect.dispatchEvent(new Event('change'));
+    }
+</script>
 @endsection

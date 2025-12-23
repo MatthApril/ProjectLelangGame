@@ -15,13 +15,22 @@ use Illuminate\Http\Request;
 class SellerController extends Controller
 {
     function showDashboard() {
-        return view('pages.seller.dashboard');
+        $user = Auth::user();
+        $shop = $user->shop;
+
+        $totalProducts = $shop->products()->count();
+        $activeProducts = $shop->products()->where('stok', '>', 0)->count();
+        $totalOrders = $shop->orders()->count();
+
+        $runningTransactions = $shop->running_transactions; // Saldo yang masih dalam proses (belum bisa dicairkan)
+        $shopBalance = $shop->shop_balance; // Saldo yang sudah bisa dicairkan
+
+        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance'));
     }
 
     public function index(Request $request)
     {
-        $query = Product::where('shop_id', Auth::user()->shop->shop_id)
-            ->with(['game', 'category']);
+        $query = Product::where('shop_id', Auth::user()->shop->shop_id)->with(['game', 'category']);
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -39,11 +48,10 @@ class SellerController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
         $games = Game::all();
         $product = null;
 
-        return view('pages.seller.create', compact('categories', 'games', 'product'));
+        return view('pages.seller.create', compact( 'games', 'product'));
     }
 
     public function store(InsertProductRequest $request)
@@ -74,10 +82,9 @@ class SellerController extends Controller
     public function edit($id)
     {
         $product = Product::where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
-        $categories = Category::all();
         $games = Game::all();
 
-        return view('pages.seller.create', compact('product', 'categories', 'games'));
+        return view('pages.seller.create', compact('product', 'games'));
     }
 
     public function update(UpdateProductRequest $request, $id)
@@ -113,5 +120,12 @@ class SellerController extends Controller
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dihapus!');
+    }
+
+    public function getCategoriesByGame($gameId)
+    {
+        $categories = Game::findOrFail($gameId)->gamesCategories()->whereHas('category', function($query) {    $query->whereNull('deleted_at'); })->with('category')->get()->pluck('category')->filter(); 
+
+        return response()->json($categories);
     }
 }
