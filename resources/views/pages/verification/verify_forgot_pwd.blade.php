@@ -9,19 +9,22 @@
 </head>
 
 <body>
-    <form action="<?php echo e(route('verify.uid', $unique_id)); ?>" method="post">
-        <?php echo csrf_field(); ?>
-        <?php echo method_field('PUT'); ?>
+    <form action="{{ route('forgot-pwd.verify.uid', $unique_id) }}" method="post">
+        @csrf
+        @method('PUT')
         <input type="number" name="otp" id="otp" placeholder="Enter OTP!">
         <button type="submit">
             Submit
         </button>
     </form>
 
-    <a href="!#">
-        Resend OTP
-    </a>
+    <form action="{{ route('forgot-pwd.resend') }}" method="post">
+        @csrf
+        <input type="hidden" name="type" value="{{ $type }}">
+        <button type="submit">
+            Resend OTP
+        </button>
+    </form>
 </body>
 
 </html>
-<?php /**PATH D:\xampp\htdocs\ProjectLelangGame\resources\views/pages/verification/show.blade.php ENDPATH**/ ?>

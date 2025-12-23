@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ChangeShopNameRequest;
 use App\Http\Requests\ChangeUsernameRequest;
 use App\Http\Requests\LoginRequest;
@@ -77,7 +76,7 @@ class AuthController extends Controller
         $req['status'] = 'verify';
         $user = User::create([
             'username' => $req->username,
-            'password' => $req->password,
+            'password' => bcrypt($req->password),
             'email' => $req->email,
             'role' => 'user',
         ]);
@@ -122,22 +121,6 @@ class AuthController extends Controller
         ]);
 
         return back()->with('success', 'Nama Toko berhasil diubah');
-    }
-
-    function changePassword(ChangePasswordRequest $req) {
-        $req->validated();
-        $user = Auth::user();
-
-        $user->update([
-            'password' => $req->password
-        ]);
-
-        Verification::where('user_id', $user->user_id)
-            ->where('type', 'reset_password')
-            ->where('status', 'valid')
-            ->update(['status' => 'invalid']);
-
-        return redirect()->route('profile')->with('success', 'Password berhasil diubah');
     }
 
 }

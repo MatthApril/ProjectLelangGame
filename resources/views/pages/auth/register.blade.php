@@ -41,7 +41,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @enderror
-                @error('password_confirmation')
+                @error('confirm_password')
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -61,35 +61,37 @@
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-person-fill"></i></span>
                                 <input type="text" class="form-control" name="username" id="username"
-                                    placeholder="Username" autocomplete="off" required>
+                                    placeholder="Username" autocomplete="off" value="{{ old('username') }}" required>
                             </div>
                             <label>Alamat Email : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-envelope-at-fill"></i></span>
                                 <input type="email" class="form-control" name="email" id="email"
-                                    placeholder="Email" autocomplete="off" required>
+                                    placeholder="Email" autocomplete="off" value="{{ old('email') }}" required>
                             </div>
                             <label>Password : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="password" id="password"
-                                    placeholder="Password" autocomplete="off" required>
+                                    placeholder="Password" autocomplete="off" value="{{ old('password') }}" required>
                             </div>
                             <label>Konfirmasi Password : </label>
                             <div class="input-group flex-nowrap mb-3">
-                                <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
-                                <input type="password" class="form-control" name="password_confirmation"
+                                <span class="input-group-text" id="addon-wrapping"><i
+                                        class="bi bi-key-fill"></i></span>
+                                <input type="password" class="form-control" name="confirm_password"
                                     id="password_confirmation" placeholder="Konfirmasi Password" autocomplete="off"
-                                    required>
+                                    value="{{ old('confirm_password') }}" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary rounded-5 my-3">Daftar</button>
                             </div>
                             <hr>
-                            <div class="text-center my-3">Sudah Punya Akun? <a href="{{ route('login') }}">Masuk
-                                    Sekarang</a></div>
                         </form>
+                        <div class="text-center my-3">Sudah Punya Akun? <a href="{{ route('login') }}">Masuk
+                                Sekarang</a>
+                        </div>
                     </div>
                 </div>
             </div>

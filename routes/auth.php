@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth', 'check_role:user,seller', 'check_status']
 // Ganti Password
 Route::group(['middleware' => ['auth', 'check_role:user,seller', 'check_status', 'check_change_pwd_status']], function() {
     Route::get('/change-pwd', [AuthController::class, 'showChangePassword'])->name('change-pwd-view');
-    Route::post('/change-pwd', [AuthController::class, 'changePassword'])->name('change-pwd');
+    Route::post('/change-pwd', [VerificationController::class, 'changePassword'])->name('change-pwd');
 });
 
 // Verifikasi ganti Email
@@ -49,6 +49,19 @@ Route::group(['middleware' => ['auth', 'check_role:user,seller']], function() {
     Route::get('/change-pwd/verify/{unique_id}', [VerificationController::class, 'show'])->name('change-pwd.verify.uid');
     Route::put('/change-pwd/verify/{unique_id}', [VerificationController::class, 'update'])->name('change-pwd.verify.update-uid');
 });
+
+// Forgot Password
+Route::get('/forgot-pwd-email', [VerificationController::class, 'showForgotPwdEmailForm'])->name('forgot-pwd-email-view');
+Route::post('/forgot-pwd/verify', [VerificationController::class, 'sendResetPwdOtp'])->name('forgot-pwd.store');
+Route::post('/forgot-pwd/resend', [VerificationController::class, 'resendOTP'])->name('forgot-pwd.resend');
+
+Route::group(['middleware' => ['check_forgot_pwd_status']], function() {
+    Route::get('/forgot-pwd/update', [VerificationController::class, 'showForgotPwdForm'])->name('forgot-pwd-view');
+    Route::post('/forgot-pwd/update', [VerificationController::class, 'changeForgotPassword'])->name('forgot-pwd.update');
+});
+
+Route::get('/forgot-pwd/verify/{unique_id}', [VerificationController::class, 'forgotPwdShow'])->name('forgot-pwd.verify.uid');
+Route::put('/forgot-pwd/verify/{unique_id}', [VerificationController::class, 'forgotPwdUpdate'])->name('forgot-pwd.verify.update-uid');
 
 // Verify Registrasi
 Route::group(['middleware' => ['auth', 'check_role:user,seller']], function() {
