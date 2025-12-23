@@ -20,7 +20,7 @@
 
     <form action="{{ route('verify.store') }}" method="post">
         @csrf
-        <input type="hidden" name="type" value="register">
+        <input type="hidden" name="type" value="{{ $type }}">
         <button type="submit">
             Resend OTP
         </button>

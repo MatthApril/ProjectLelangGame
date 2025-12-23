@@ -7,7 +7,7 @@ use App\Rules\ShopNameExist;
 use App\Rules\UsernameExistRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SellerRegisterRequest extends FormRequest
+class OpenShopRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,23 +25,14 @@ class SellerRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string', new UsernameExistRule],
-            'email' => ['required', 'string', new EmailRegisteredRule],
             'shop_name' => ['required', 'string', new ShopNameExist],
-            'password' => ['required', 'string'],
-            'confirm_password' => ['required', 'same:password'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'username.required' => 'Username wajib diisi',
-            'email.required' => 'Email wajib diisi',
             'shop_name.required' => 'Nama Toko wajib diisi',
-            'password.required' => 'Password wajib diisi',
-            'confirm_password.required' => 'Konfirmasi Password wajib diisi',
-            'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
         ];
     }
 

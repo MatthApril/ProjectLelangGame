@@ -2,40 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ChangeShopNameRequest;
 use App\Http\Requests\ChangeUsernameRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SellerRegisterRequest;
-use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\OpenShopRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // VIEW
     public function showLoginForm()
     {
         return view('pages.auth.login');
     }
 
-    public function showSellerRegisterForm()
+    public function showRegisterForm()
     {
-        return view('pages.auth.seller_register');
-    }
-
-    public function showUserRegisterForm()
-    {
-        return view('pages.auth.user_register');
-    }
-
-    function showChangeEmail() {
-        return view();
+        return view('pages.auth.register');
     }
 
     function showChangePassword() {
-        return view();
+        return view('pages.auth.change_pwd');
     }
 
+    function showOpenShop() {
+        return view('pages.auth.open_shop');
+    }
+
+    // POST
+    function showProfile() {
+        $user = Auth::user();
+        $param['user'] = $user;
+        return view('pages.auth.profile', $param);
+    }
 
     public function logout(Request $req)
     {
@@ -66,7 +70,7 @@ class AuthController extends Controller
         return back()->with('error', 'Email atau Password salah');
     }
 
-    public function doUserRegister(UserRegisterRequest $req)
+    public function doRegister(RegisterRequest $req)
     {
         $req->validated();
 
@@ -82,31 +86,20 @@ class AuthController extends Controller
         return redirect()->route('verify.index');
     }
 
-    public function doSellerRegister(SellerRegisterRequest $req)
-    {
+    function doOpenShop(OpenShopRequest $req) {
         $req->validated();
 
-        $req['status'] = 'verify';
-        $user = User::create([
-            'username' => $req->username,
-            'password' => $req->password,
-            'email' => $req->email,
+        $user = Auth::user();
+
+        $user->update([
             'role' => 'seller',
         ]);
 
         $user->shop()->create([
-            'shop_name'   => $req->shop_name,
-            'shop_rating' => 0,
+            'shop_name' => $req->shop_name,
         ]);
 
-        Auth::login($user);
-        return redirect()->route('verify.index');
-    }
-
-    function showProfile() {
-        $user = Auth::user();
-        $param['user'] = $user;
-        return view('pages.auth.profile', $param);
+        return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat');
     }
 
     function changeUsername(ChangeUsernameRequest $req) {
@@ -131,12 +124,20 @@ class AuthController extends Controller
         return back()->with('success', 'Nama Toko berhasil diubah');
     }
 
-    function changeEmail(Request $req) {
-        
-    }
+    function changePassword(ChangePasswordRequest $req) {
+        $req->validated();
+        $user = Auth::user();
 
-    function changePassword(Request $req) {
+        $user->update([
+            'password' => $req->password
+        ]);
 
+        Verification::where('user_id', $user->user_id)
+            ->where('type', 'reset_password')
+            ->where('status', 'valid')
+            ->update(['status' => 'invalid']);
+
+        return redirect()->route('profile')->with('success', 'Password berhasil diubah');
     }
 
 }

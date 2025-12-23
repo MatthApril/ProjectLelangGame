@@ -39,7 +39,7 @@ class OtpChangePwd extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.changepwd',
+            view: 'emails.change_pwd',
             with: ['otp' => $this->otp]
         );
     }

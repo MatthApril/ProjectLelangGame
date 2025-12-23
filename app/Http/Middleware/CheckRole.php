@@ -18,11 +18,11 @@ class CheckRole
         $user = $request->user();
 
         if (!$user) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'Please login first.');
         }
 
         if (!in_array($user->role, $roles)) {
-            return redirect()->route('user.home');
+            return redirect()->back()->with('error', 'Unauthorized access.');
         }
 
         return $next($request);
