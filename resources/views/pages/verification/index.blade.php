@@ -10,6 +10,10 @@
 
 <body>
 
+    @if (session('login_failed'))
+        <p>{{ session('login_failed') }}</p>
+    @endif
+
     <form action="{{ route('verify.store') }}" method="post">
         @csrf
         <input type="hidden" name="type" value="register">

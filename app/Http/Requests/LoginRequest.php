@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -31,6 +31,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format Email tidak valid',
             'password.required' => 'Password wajib diisi',
         ];
     }

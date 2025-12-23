@@ -14,7 +14,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,10 +26,9 @@ class RegisterRequest extends FormRequest
     {
         return [
             'username' => ['required', 'string', new UsernameExistRule],
-            'email' => ['required', 'string', new EmailRegisteredRule],
+            'email' => ['required', 'email', new EmailRegisteredRule],
             'password' => ['required', 'string'],
             'confirm_password' => ['required', 'same:password'],
-            'role' => ['required', Rule::in(['user', 'seller'])],
         ];
     }
 
@@ -38,11 +37,10 @@ class RegisterRequest extends FormRequest
         return [
             'username.required' => 'Username wajib diisi',
             'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format Email tidak valid',
             'password.required' => 'Password wajib diisi',
             'confirm_password.required' => 'Konfirmasi Password wajib diisi',
             'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
-            'role.required' => 'Role wajib dipilih',
-            'role.in' => 'Role tidak valid',
         ];
     }
 
