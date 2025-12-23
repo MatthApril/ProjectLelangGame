@@ -5,16 +5,6 @@
 <div>
     <h1>{{ $product ? 'Edit Produk' : 'Tambah Produk Baru' }}</h1>
 
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form action="{{ $product ? route('seller.products.update', $product->product_id) : route('seller.products.store') }}"
           method="POST"
           enctype="multipart/form-data">
@@ -26,6 +16,9 @@
         <div>
             <label for="product_name">Nama Produk *</label>
             <input type="text" id="product_name" name="product_name" value="{{ old('product_name', $product->product_name ?? '') }}" required>
+            @error('product_name')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
@@ -39,6 +32,9 @@
                     </option>
                 @endforeach
             </select>
+            @error('game_id')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
@@ -52,27 +48,42 @@
                     </option>
                 @endforeach
             </select>
+             @error('category_id')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
             <label for="description">Deskripsi *</label>
             <textarea id="description" name="description" rows="5" required>{{ old('description', $product->description ?? '') }}</textarea>
+            @error('description')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
             <label for="stok">Stok *</label>
             <input type="number" id="stok" name="stok" value="{{ old('stok', $product->stok ?? 1) }}" min="0" required>
+            @error('stok')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
             <label for="price">Harga (Rp) *</label>
             <input type="number" id="price" name="price" value="{{ old('price', $product->price ?? '') }}" min="0" required>
+             @error('price')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
             <label for="product_img">Gambar Produk {{ $product ? '' : '*' }}</label>
             <input type="file" id="product_img"name="product_img" accept="image/*" {{ $product ? '' : 'required' }}>
             <p>Format: JPG, PNG, JPEG. Max: 2MB</p>
+             @error('product_img')
+                <span style="color: red;">{{ $message }}</span>
+            @enderror
             @if($product && $product->product_img)
                 <div>
                     <p>Gambar saat ini:</p>
