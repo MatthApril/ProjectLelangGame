@@ -30,6 +30,7 @@ class AuthController extends Controller
     }
 
     function showOpenShop() {
+
         return view('pages.auth.open_shop');
     }
 
@@ -79,6 +80,7 @@ class AuthController extends Controller
             'password' => bcrypt($req->password),
             'email' => $req->email,
             'role' => 'user',
+            'balance' => 0
         ]);
 
         Auth::login($user);
@@ -86,16 +88,28 @@ class AuthController extends Controller
     }
 
     function doOpenShop(OpenShopRequest $req) {
-        $req->validated();
+        $validated = $req->validated();
 
         $user = Auth::user();
+
+        $imagePath = null;
+        if ($req->hasFile('shop_img')) {
+            $imagePath = $req->file('shop_img')->store("shops/{$user->user_id}", 'public');
+        }
 
         $user->update([
             'role' => 'seller',
         ]);
 
         $user->shop()->create([
-            'shop_name' => $req->shop_name,
+            'shop_name' => $validated['shop_name'],
+            'shop_img' => $imagePath,
+            'open_hour' => $validated['open_hour'],
+            'close_hour' => $validated['close_hour'],
+            'status' => 'closed',
+            'shop_rating' => 0,
+            'running_transactions' => 0,
+            'shop_balance' => 0
         ]);
 
         return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat');

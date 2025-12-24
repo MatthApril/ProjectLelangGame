@@ -14,11 +14,16 @@ class Game extends Model
     public $incrementing = true;
 
     protected $fillable = [
-        'game_name'
+        'game_name',
+        'game_img'
     ];
 
     public function gamesCategories()
     {
         return $this->hasMany(GameCategory::class, 'game_id');
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'game_id');
     }
 }

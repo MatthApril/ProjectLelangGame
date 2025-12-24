@@ -24,7 +24,7 @@ Route::get('/open-shop', [AuthController::class, 'showOpenShop'])->name('open-sh
 Route::post('/open-shop', [AuthController::class, 'doOpenShop'])->name('do-open-shop');
 
 // Konfirmasi Ganti Profile
-Route::group(['middleware' => ['auth', 'check_role:user,seller', 'check_status']], function() {
+Route::group(['middleware' => ['auth', 'check_role:user,seller,admin', 'check_status']], function() {
     Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
     Route::post('/change-username', [AuthController::class, 'changeUsername'])->name('change-username');
     Route::post('/change-shop-name', [AuthController::class, 'changeShopName'])->name('change-shop-name');
