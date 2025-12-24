@@ -81,7 +81,7 @@
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="confirm_password"
-                                    id="password_confirmation" placeholder="Konfirmasi Password" autocomplete="off"
+                                    id="confirm_password" placeholder="Konfirmasi Password" autocomplete="off"
                                     value="{{ old('confirm_password') }}" required>
                             </div>
                             <div class="d-grid">
