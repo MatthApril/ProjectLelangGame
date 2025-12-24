@@ -65,13 +65,13 @@
             </div>
             <div class="col-md-3 my-3">
                 <h6 class="fw-bold">Ikuti LelangGame</h6>
-                    <img src="https://files.itemku.com/logo/social-media/facebook-square.svg" alt="" width="25">
-                    <img src="https://files.itemku.com/logo/social-media/instagram-square.svg" alt="" width="25" class="ms-1">
-                    <img src="https://files.itemku.com/logo/social-media/youtube-square.svg" alt="" width="25" class="ms-1">
-                    <img src="https://files.itemku.com/logo/social-media/tiktok-square.svg" alt="" width="25" class="ms-1">
-                    <img src="https://files.itemku.com/logo/social-media/twitter-square.svg" alt="" width="25" class="ms-1">
-                <h6 class="fw-bold mt-3">Download LelangGame App</h6>
-                <img src="https://imgop.itemku.com/?url=https%3A%2F%2Fitemku-assets.s3.ap-southeast-1.amazonaws.com%2Fapp%2Fgoogle-play-badge.png&w=375&q=75" alt="" width="130" class="mt-2">
+                    <img src="https://files.itemku.com/logo/social-media/facebook-square.svg" alt="" width="30">
+                    <img src="https://files.itemku.com/logo/social-media/instagram-square.svg" alt="" width="30" class="ms-1">
+                    <img src="https://files.itemku.com/logo/social-media/youtube-square.svg" alt="" width="30" class="ms-1">
+                    <img src="https://files.itemku.com/logo/social-media/tiktok-square.svg" alt="" width="30" class="ms-1">
+                    <img src="https://files.itemku.com/logo/social-media/twitter-square.svg" alt="" width="30" class="ms-1">
+                <h6 class="fw-bold mt-5">Download LelangGame App</h6>
+                <img src="https://imgop.itemku.com/?url=https%3A%2F%2Fitemku-assets.s3.ap-southeast-1.amazonaws.com%2Fapp%2Fgoogle-play-badge.png&w=375&q=75" alt="PlayStore Logo" width="130">
             </div>
         </div>
         <hr>

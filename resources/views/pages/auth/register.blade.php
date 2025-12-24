@@ -41,7 +41,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @enderror
-                @error('password_confirmation')
+                @error('confirm_password')
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -79,8 +79,8 @@
                             <label>Konfirmasi Password : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
-                                <input type="password" class="form-control" name="password_confirmation"
-                                    id="password_confirmation" placeholder="Konfirmasi Password" autocomplete="off"
+                                <input type="password" class="form-control" name="confirm_password"
+                                    id="confirm_password" placeholder="Konfirmasi Password" autocomplete="off"
                                     required>
                             </div>
                             <div class="d-grid">

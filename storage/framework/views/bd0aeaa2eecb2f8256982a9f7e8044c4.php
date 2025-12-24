@@ -1,6 +1,13 @@
 <?php $__env->startSection('content'); ?>
     <div class="container-fluid">
-        Home
+        <h3 class="fw-semibold">Home</h3>
+        <hr>
+        <h3 class="fw-semibold">FAQ</h3>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+                
+            </div>
+        </div>
     </div>
 <?php $__env->stopSection(); ?>
 
