@@ -20,9 +20,9 @@ class Order extends Model
 
     public function account()
     {
-        return $this->belongsTo(Account::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
-
+    
     public function shop()
     {
         return $this->belongsTo(Shop::class, 'shop_id');

@@ -18,8 +18,10 @@ class CheckChangePwdStatus
     {
         $verify = Verification::whereUserId($request->user()->user_id)
                     ->whereStatus('valid')
-                    ->whereType('reset_password')->first();
-        if ($verify->created_at->addMinutes(5)->isFuture()) {
+                    ->whereType('reset_password')
+                    ->latest()
+                    ->first();
+        if (now()->lessThan($verify->expires_at)) {
             return $next($request);
         }
 

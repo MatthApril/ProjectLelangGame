@@ -51,13 +51,13 @@
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-envelope-at-fill"></i></span>
                                 <input type="email" class="form-control" name="email" id="email"
-                                    placeholder="Email" autocomplete="off" required>
+                                    placeholder="Email" autocomplete="off" value="{{ old('email') }}" required>
                             </div>
                             <label>Password : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="password" id="password"
-                                    placeholder="Password" autocomplete="off" required>
+                                    placeholder="Password" autocomplete="off" value="{{ old('password') }}" required>
                             </div>
                             <label>Captcha : </label>
                             <div class="input-group flex-nowrap mb-3">
@@ -72,13 +72,16 @@
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="remember"
-                                        id="remember">
+                                    <input class="form-check-input" type="checkbox"
+                                        {{ old('remember') ? 'checked' : '' }} name="remember" id="remember">
                                     <label class="form-check-label" for="remember">
                                         Ingat Saya
                                     </label>
                                 </div>
-                                <a href="#" class="text-decoration-none text-secondary">Lupa Password?</a>
+                                <a href="{{ route('forgot-pwd-email-view') }}"
+                                    class="text-decoration-none text-secondary">Lupa
+                                    Password?
+                                </a>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary rounded-5 my-3">Masuk</button>

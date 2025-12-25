@@ -17,6 +17,10 @@ class CheckStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (Auth::user()->role == 'admin') {
+            return $next($request);
+        }
+
         $verify = Verification::whereUserId($request->user()->user_id)
                     ->whereStatus('valid')
                     ->whereType('register')->first();

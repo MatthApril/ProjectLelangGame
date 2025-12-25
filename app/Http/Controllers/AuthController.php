@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ChangeShopNameRequest;
 use App\Http\Requests\ChangeUsernameRequest;
 use App\Http\Requests\LoginRequest;
@@ -31,6 +30,7 @@ class AuthController extends Controller
     }
 
     function showOpenShop() {
+
         return view('pages.auth.open_shop');
     }
 
@@ -75,9 +75,10 @@ class AuthController extends Controller
         $req['status'] = 'verify';
         $user = User::create([
             'username' => $req->username,
-            'password' => $req->password,
+            'password' => bcrypt($req->password),
             'email' => $req->email,
             'role' => 'user',
+            'balance' => 0
         ]);
 
         Auth::login($user);
@@ -85,16 +86,28 @@ class AuthController extends Controller
     }
 
     function doOpenShop(OpenShopRequest $req) {
-        $req->validated();
+        $validated = $req->validated();
 
         $user = Auth::user();
+
+        $imagePath = null;
+        if ($req->hasFile('shop_img')) {
+            $imagePath = $req->file('shop_img')->store("shops/{$user->user_id}", 'public');
+        }
 
         $user->update([
             'role' => 'seller',
         ]);
 
         $user->shop()->create([
-            'shop_name' => $req->shop_name,
+            'shop_name' => $validated['shop_name'],
+            'shop_img' => $imagePath,
+            'open_hour' => $validated['open_hour'],
+            'close_hour' => $validated['close_hour'],
+            'status' => 'closed',
+            'shop_rating' => 0,
+            'running_transactions' => 0,
+            'shop_balance' => 0
         ]);
 
         return redirect()->route('seller.dashboard')->with('success', 'Toko Berhasil Dibuat!');
@@ -120,22 +133,6 @@ class AuthController extends Controller
         ]);
 
         return back()->with('success', 'Nama Toko berhasil diubah');
-    }
-
-    function changePassword(ChangePasswordRequest $req) {
-        $req->validated();
-        $user = Auth::user();
-
-        $user->update([
-            'password' => $req->password
-        ]);
-
-        Verification::where('user_id', $user->user_id)
-            ->where('type', 'reset_password')
-            ->where('status', 'valid')
-            ->update(['status' => 'invalid']);
-
-        return redirect()->route('profile')->with('success', 'Password Berhasil Diubah!');
     }
 
 }
