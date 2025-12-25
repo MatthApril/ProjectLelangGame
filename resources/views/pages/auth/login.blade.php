@@ -29,6 +29,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @foreach ($errors->all() as $error)
+                                <i class="bi bi-exclamation-circle-fill"></i> {{ $error }} <br>
+                            @endforeach
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="d-flex justify-content-center align-items-center">
@@ -50,6 +58,17 @@
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="password" id="password"
                                     placeholder="Password" autocomplete="off" value="{{ old('password') }}" required>
+                            </div>
+                            <label>Captcha : </label>
+                            <div class="input-group flex-nowrap mb-3">
+                                <div class="captcha">
+                                    <span>{!! captcha_img() !!}</span>
+                                    <button type="button" class="btn btn-danger" id="refresh-captcha"><i class="bi bi-arrow-clockwise"></i></button>
+                                </div>
+                            </div>
+                            <div class="input-group flex-nowrap mb-3">
+                                <input type="text" class="form-control" name="captcha" id="captcha"
+                                    placeholder="Masukkan Captcha" autocomplete="off" required>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="form-check">
@@ -77,11 +96,26 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#refresh-captcha').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/reload-captcha',
+                    success: function (data) {
+                        $(".captcha img").attr('src', data.captcha);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 

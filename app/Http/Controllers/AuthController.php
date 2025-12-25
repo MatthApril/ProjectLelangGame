@@ -52,8 +52,6 @@ class AuthController extends Controller
 
     public function doLogin(LoginRequest $req)
     {
-        $req->validated();
-
         if (Auth::attempt($req->only('email', 'password'), $req->filled('remember'))) {
 
             if (Auth::user()->role == 'admin') {
@@ -67,7 +65,7 @@ class AuthController extends Controller
             return redirect()->route('user.home');
         }
 
-        return back()->with('error', 'Email atau Password salah');
+        return back()->with('error', 'Email Atau Password Salah!');
     }
 
     public function doRegister(RegisterRequest $req)
@@ -112,7 +110,7 @@ class AuthController extends Controller
             'shop_balance' => 0
         ]);
 
-        return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat');
+        return redirect()->route('seller.dashboard')->with('success', 'Toko Berhasil Dibuat!');
     }
 
     function changeUsername(ChangeUsernameRequest $req) {

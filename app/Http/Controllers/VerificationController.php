@@ -57,10 +57,10 @@ class VerificationController extends Controller
             if ($verify->type == 'register') {
                 Auth::logout();
 
-                return redirect()->route('register')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan daftar ulang.');
+                return redirect()->route('register')->with('error', 'OTP Tidak Valid Atau Sudah Kadaluarsa. Silakan Daftar Ulang!');
             }
 
-            return redirect()->route('profile')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan coba lagi.');
+            return redirect()->route('profile')->with('error', 'OTP Tidak Valid Atau Sudah Kadaluarsa. Silakan Coba Lagi.');
         }
 
         if ($verify->type == 'reset_password') {
@@ -78,7 +78,7 @@ class VerificationController extends Controller
                 ->whereType('change_email')
                 ->whereStatus('active')
                 ->update(['status' => 'invalid']);
-            return redirect()->route('profile')->with('success', 'Email berhasil diubah');
+            return redirect()->route('profile')->with('success', 'Email Berhasil Diubah!');
         }
 
         if ($verify->type == 'register') {
@@ -118,8 +118,8 @@ class VerificationController extends Controller
             $req->validate([
                 'email' => ['required', 'email', new EmailRegisteredRule]
             ], [
-                'email.required' => 'Email baru wajib diisi',
-                'email.email' => 'Format email tidak valid',
+                'email.required' => 'Email Baru Wajib Diisi!',
+                'email.email' => 'Format Email Tidak Valid!',
             ]);
 
             session(['new_email' => $req->email]);

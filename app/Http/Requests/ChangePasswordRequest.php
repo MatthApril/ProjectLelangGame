@@ -30,9 +30,9 @@ class ChangePasswordRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'password.required' => 'Password wajib diisi',
-            'confirm_password.required' => 'Konfirmasi Password wajib diisi',
-            'confirm_password.same' => 'Konfirmasi Password dengan Password tidak sama',
+            'password.required' => 'Password Wajib Diisi!',
+            'confirm_password.required' => 'Konfirmasi Password Wajib Diisi!',
+            'confirm_password.same' => 'Konfirmasi Password Dengan Password Tidak Sama!',
         ];
     }
 

@@ -23,16 +23,19 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'captcha' => 'required|captcha'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Format Email tidak valid',
-            'password.required' => 'Password wajib diisi',
+            'email.required' => 'Email Wajib Diisi!',
+            'email.email' => 'Format Email Tidak Valid!',
+            'password.required' => 'Password Wajib Diisi!',
+            'captcha.required' => 'Captcha Wajib Diisi!',
+            'captcha.captcha' => 'Captcha Tidak Valid!',
         ];
     }
 
