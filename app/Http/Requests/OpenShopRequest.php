@@ -32,7 +32,7 @@ class OpenShopRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'shop_name.required' => 'Nama Toko wajib diisi',
+            'shop_name.required' => 'Nama Toko Wajib Diisi!',
         ];
     }
 
