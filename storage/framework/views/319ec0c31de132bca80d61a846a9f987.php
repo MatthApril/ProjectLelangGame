@@ -1,12 +1,12 @@
 <nav class="bg-darkblue text-white">
   <div class="container-fluid">
-    <div class="row d-flex align-items-center">      
-      <div class="col-md-2 d-flex align-items-center gap-1 py-2">
-        <img src="<?php echo e(asset('images/Logo/LogoWarna-RemoveBg.png')); ?>" alt="LelangGame Logo" width="60">
-        <h3 class="fw-semibold">LelangGame</h3>
+    <div class="row d-flex align-items-center justify-content-center">      
+      <div class="col-md-3 d-flex align-items-center py-2">
+        <img src="<?php echo e(asset('images/Logo/LogoWarna-RemoveBg.png')); ?>" alt="LelangGame Logo" width="50">
+        <h5 class="fw-semibold">LelangGame</h5>
       </div>
       <?php if(auth()->guard()->check()): ?>
-      <div class="col-md-7">
+      <div class="col-md-6">
         <form>
           <div class="input-group">
             <span class="input-group-text">
@@ -16,7 +16,7 @@
           </div>
         </form>
       </div>
-      <div class="col-md-3 py-3">
+      <div class="col-md-3 py-2">
         <div class="d-flex align-items-center justify-content-end gap-3">
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-envelope" style="font-size: 1.5rem;"></i></a>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-bell" style="font-size: 1.5rem;"></i></a>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <?php else: ?>
-      <div class="col-md-8">
+      <div class="col-md-6">
         <form>
           <div class="input-group">
             <span class="input-group-text">
@@ -36,7 +36,7 @@
           </div>
         </form>
       </div>
-      <div class="col-md-2 py-3">
+      <div class="col-md-3 py-2">
         <div class="d-flex align-items-center justify-content-end gap-3">
             <a href="<?php echo e(route('login')); ?>" class="text-decoration-none text-white"><i class="bi bi-cart3" style="font-size: 1.5rem;"></i></a>
             <span class="fs-5"> | </span>
@@ -69,6 +69,5 @@
       <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a>
     </div>
 </nav>
-
 
 <?php /**PATH D:\xampp\htdocs\ProjectLelangGame\resources\views/partials/header.blade.php ENDPATH**/ ?>
