@@ -1,9 +1,11 @@
 <nav class="bg-darkblue text-white">
   <div class="container-fluid">
     <div class="row d-flex align-items-center justify-content-center">      
-      <div class="col-md-3 d-flex align-items-center py-2">
-        <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50">
-        <h5 class="fw-semibold">LelangGame</h5>
+      <div class="col-md-3 py-2">
+        <a href="{{ route('user.home') }}" class="d-flex align-items-center text-white text-decoration-none">
+          <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50">
+          <h5 class="fw-semibold">LelangGame</h5>
+        </a>
       </div>
       @auth
       <div class="col-md-6">
@@ -70,3 +72,23 @@
     </div>
 </nav>
 {{--  --}}
+{{-- <div class="container-fluid py-2 bg-darkblue">
+    @auth
+        <h1 class="text-white"> Welcome {{ Auth::user()->username }}</h1>
+        <a href="{{ route('profile') }}">
+            <button class="btn btn-success" type="submit">
+                Profile
+            </button>
+        </a>
+        <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    @else
+        <a href="{{ route('login') }}">
+            <button class="btn btn-primary" type="submit">
+                Login
+            </button>
+        </a>
+    @endauth
+</div> --}}

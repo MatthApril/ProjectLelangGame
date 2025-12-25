@@ -1,9 +1,11 @@
 <nav class="bg-darkblue text-white">
   <div class="container-fluid">
     <div class="row d-flex align-items-center justify-content-center">      
-      <div class="col-md-3 d-flex align-items-center py-2">
-        <img src="<?php echo e(asset('images/Logo/LogoWarna-RemoveBg.png')); ?>" alt="LelangGame Logo" width="50">
-        <h5 class="fw-semibold">LelangGame</h5>
+      <div class="col-md-3 py-2">
+        <a href="<?php echo e(route('user.home')); ?>" class="d-flex align-items-center text-white text-decoration-none">
+          <img src="<?php echo e(asset('images/Logo/LogoWarna-RemoveBg.png')); ?>" alt="LelangGame Logo" width="50">
+          <h5 class="fw-semibold">LelangGame</h5>
+        </a>
       </div>
       <?php if(auth()->guard()->check()): ?>
       <div class="col-md-6">
@@ -69,5 +71,6 @@
       <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a>
     </div>
 </nav>
+
 
 <?php /**PATH D:\xampp\htdocs\ProjectLelangGame\resources\views/partials/header.blade.php ENDPATH**/ ?>
