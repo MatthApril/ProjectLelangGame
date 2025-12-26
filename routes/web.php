@@ -16,6 +16,7 @@ Route::get('/check-php', function () {
         'gd_info' => extension_loaded('gd') ? gd_info() : 'Not Installed',
     ];
 });
+
 Route::redirect('/', '/home');
 
 require __DIR__.'/auth.php';

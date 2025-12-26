@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.templatepolosan')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Masuk | LelangGame</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/Logo/LogoWarna.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/palette.css') }}">
-</head>
+@section('title', 'Masuk | LelangGame')
 
-<body class="bg-light">
+@section('content')
     <div class="container-fluid">
         <a href="{{ route('user.home') }}">
             <button type="submit" class="btn btn-outline-danger rounded-5 px-3 my-3">
@@ -22,7 +10,7 @@
             </button>
         </a>
         <div class="row d-flex justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
@@ -50,8 +38,8 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-envelope-at-fill"></i></span>
-                                <input type="email" class="form-control" name="email" id="email"
-                                    placeholder="Email" autocomplete="off" value="{{ old('email') }}" required>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                    autocomplete="off" value="{{ old('email') }}" required>
                             </div>
                             <label>Password : </label>
                             <div class="input-group flex-nowrap mb-3">
@@ -73,8 +61,8 @@
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                        {{ old('remember') ? 'checked' : '' }} name="remember" id="remember">
+                                    <input class="form-check-input" type="checkbox" {{ old('remember') ? 'checked' : '' }}
+                                        name="remember" id="remember">
                                     <label class="form-check-label" for="remember">
                                         Ingat Saya
                                     </label>
@@ -118,6 +106,7 @@
             });
         });
     </script>
-</body>
+    </body>
 
-</html>
+    </html>
+@endsection
