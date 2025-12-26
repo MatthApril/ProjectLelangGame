@@ -52,8 +52,7 @@
                                 <button type="submit" class="btn btn-primary rounded-5 my-3">Masuk</button>
                             </div>
                             <hr>
-                            <div class="text-center my-3">Belum Punya Akun? <a href="<?php echo e(route('register')); ?>">Daftar
-                                    Sekarang</a></div>
+                            <div class="text-center my-3">Belum Punya Akun? <a href="<?php echo e(route('register')); ?>">Daftar Sekarang</a></div>
                         </form>
                     </div>
                 </div>

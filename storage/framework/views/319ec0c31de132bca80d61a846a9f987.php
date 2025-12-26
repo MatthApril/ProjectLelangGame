@@ -24,7 +24,22 @@
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-bell" style="font-size: 1.5rem;"></i></a>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-cart3" style="font-size: 1.5rem;"></i></a>
             <span class="fs-5"> | </span>
-            <a href="<?php echo e(route('profile')); ?>" class="btn btn-outline-light text-decoration-none text-wrap"><i class="bi bi-person-circle"></i> <?php echo e(Auth::user()->username); ?> </a>
+            <div class="dropdown dropstart">
+              <button class="btn btn-outline-light text-decoration-none text-wrap dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-person-circle"></i> <?php echo e(Auth::user()->username); ?>
+
+              </button>
+
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="<?php echo e(route('profile')); ?>"><i class="bi bi-person-fill"></i> Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <form action="<?php echo e(route('logout')); ?>" method="post">
+                  <?php echo csrf_field(); ?>
+                  <li><button type="submit" class="dropdown-item text-danger fw-semibold" href="<?php echo e(route('logout')); ?>"><i class="bi bi-box-arrow-left"></i> Logout</button></li>
+                  </form>
+              </ul>
+          </div>
+            
         </div>
       </div>
       <?php else: ?>
@@ -54,11 +69,10 @@
 <nav class="bg-navyblue text-white py-2">
   <div class="container-fluid">
     <div class="d-flex flex-wrap align-items-center gap-3">
-        <div class="dropdown">
+      <div class="dropdown">
         <a href="#" class="text-decoration-none text-white dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-grid"></i> Kategori
         </a>
-
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="#">Top Up Game</a></li>
           <li><a class="dropdown-item" href="#">Joki</a></li>

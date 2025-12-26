@@ -17,7 +17,6 @@
                 </div>
             </div>
             <hr>
-            {{--  --}}
         </div>
         <div class="col-md-10 my-4">
             @error('username')
@@ -46,37 +45,10 @@
             @endif
             <div class="card">
                 <div class="card-header bg-white">
-                    <h4 class="fw-bold">Profil Saya</h4>
+                    <h4 class="fw-bold">Profile Saya</h4>
                     <p class="text-secondary">Kelola Dan Amankan Akun Anda</p>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('change-username') }}" method="post">
-                        @csrf
-                        <label>Username</label>
-                        <input type="text" name="username" id="username" value="{{ $user->username }}" class="form-control" placeholder="Username Baru" required>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-outline-success my-3"><i class="bi bi-floppy-fill"></i> Simpan Username</button>
-                        </div>
-                    </form>
-                    <form action="{{ route('verify.store') }}" method="post">
-                        @csrf
-                        <label>Alamat Email</label>
-                        <input type="hidden" name="type" value="change_email">
-                        <input type="email" name="email" id="email" value="{{ $user->email }}" placeholder="Email Baru" class="form-control" required>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-outline-success mt-3"><i class="bi bi-floppy-fill"></i> Simpan Email</button>
-                        </div>
-                    </form>
-                    <form action="{{ route('verify.store') }}" method="post">
-                        @csrf
-                        <label>Ganti Password</label>
-                        <input type="hidden" name="type" value="reset_password">
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-outline-success rounded-5 mb-3">
-                                <i class="bi bi-key-fill"></i> Kirimkan Link Ganti Password
-                            </button>
-                        </div>
-                    </form>
                     @if ($user->role == 'seller')
                     <form action="{{ route('change-shop-name') }}" method="post">
                         @csrf
@@ -86,9 +58,36 @@
                             <button type="submit" class="btn btn-outline-success mt-3"><i class="bi bi-floppy-fill"></i> Simpan Nama Toko</button>
                         </div>
                     </form>
-                    @else
+                    @endif
+                    <form action="{{ route('change-username') }}" method="post">
+                        @csrf
+                        <label>Username</label>
+                        <input type="text" name="username" id="username" value="{{ $user->username }}" class="form-control" placeholder="Username Baru" required>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-outline-dark my-3"><i class="bi bi-floppy-fill"></i> Simpan Username</button>
+                        </div>
+                    </form>
+                    <form action="{{ route('verify.store') }}" method="post">
+                        @csrf
+                        <label>Alamat Email</label>
+                        <input type="hidden" name="type" value="change_email">
+                        <input type="email" name="email" id="email" value="{{ $user->email }}" placeholder="Email Baru" class="form-control" required>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-outline-dark mt-3"><i class="bi bi-floppy-fill"></i> Simpan Email</button>
+                        </div>
+                    </form>
+                    <form action="{{ route('verify.store') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="type" value="reset_password">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-success rounded-5 my-3">
+                                <i class="bi bi-key-fill"></i> Kirimkan Link Ganti Password
+                            </button>
+                        </div>
+                    </form>
+                    @if ($user->role != 'seller')
                     <div class="d-grid">
-                        <button type="button" class="btn btn-outline-primary rounded-5 my-3" data-bs-toggle="modal" data-bs-target="#modalNamaToko">
+                        <button type="button" class="btn btn-outline-primary rounded-5 my-2" data-bs-toggle="modal" data-bs-target="#modalNamaToko">
                             <i class="bi bi-bag-fill"></i> Mulai Berjualan Di LelangGame
                         </button>
                     </div>
@@ -124,10 +123,9 @@
                 </div>
             @enderror
             <label>Nama Toko</label>
-            <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}" class="form-control" placeholder="Nama Toko Baru" required>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Kirim Nama Toko <i class="bi bi-caret-right-fill"></i></button>
-            </div>
+            <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}" class="form-control" placeholder="Nama Toko Baru" autocomplete="off" required>
+            <hr>
+            <button type="submit" class="btn btn-primary float-end mb-3">Kirim Nama Toko <i class="bi bi-caret-right-fill"></i></button>
         </div>
         </form>
     </div>

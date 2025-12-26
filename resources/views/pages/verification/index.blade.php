@@ -13,7 +13,7 @@
         <form action="{{ route('verify.store') }}" method="post">
             @csrf
             <input type="hidden" name="type" value="register">
-            <button type="submit" class="btn btn-outline-primary rounded-5 px-5 py-3 fs-5">
+            <button type="submit" class="btn btn-outline-primary rounded-5 px-5 py-3">
                 <i class="bi bi-envelope-at-fill"></i> Kirimkan Kode Verifikasi Ke Email Saya
             </button>
         </form>
