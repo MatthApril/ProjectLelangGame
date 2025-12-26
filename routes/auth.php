@@ -1,12 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OtpController;
 use App\Http\Controllers\VerificationController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Routing\RouteGroup;
 
 // Login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

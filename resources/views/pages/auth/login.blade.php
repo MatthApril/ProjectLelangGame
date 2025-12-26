@@ -31,9 +31,9 @@
                 @endif
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            @foreach ($errors->all() as $error)
-                                <i class="bi bi-exclamation-circle-fill"></i> {{ $error }} <br>
-                            @endforeach
+                        @foreach ($errors->all() as $error)
+                            <i class="bi bi-exclamation-circle-fill"></i> {{ $error }} <br>
+                        @endforeach
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
@@ -57,13 +57,14 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="password" id="password"
-                                    placeholder="Password" autocomplete="off" value="{{ old('password') }}" required>
+                                    placeholder="Password" autocomplete="off" required>
                             </div>
                             <label>Captcha : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <div class="captcha">
                                     <span>{!! captcha_img() !!}</span>
-                                    <button type="button" class="btn btn-danger" id="refresh-captcha"><i class="bi bi-arrow-clockwise"></i></button>
+                                    <button type="button" class="btn btn-danger" id="refresh-captcha"><i
+                                            class="bi bi-arrow-clockwise"></i></button>
                                 </div>
                             </div>
                             <div class="input-group flex-nowrap mb-3">
@@ -106,11 +107,11 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#refresh-captcha').click(function () {
+            $('#refresh-captcha').click(function() {
                 $.ajax({
                     type: 'GET',
                     url: '/reload-captcha',
-                    success: function (data) {
+                    success: function(data) {
                         $(".captcha img").attr('src', data.captcha);
                     }
                 });

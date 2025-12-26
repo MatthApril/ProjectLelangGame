@@ -74,15 +74,14 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="password" id="password"
-                                    placeholder="Password" autocomplete="off" value="{{ old('password') }}" required>
+                                    placeholder="Password" autocomplete="off" required>
                             </div>
                             <label>Konfirmasi Password : </label>
                             <div class="input-group flex-nowrap mb-3">
-                                <span class="input-group-text" id="addon-wrapping"><i
-                                        class="bi bi-key-fill"></i></span>
+                                <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
                                 <input type="password" class="form-control" name="confirm_password"
                                     id="confirm_password" placeholder="Konfirmasi Password" autocomplete="off"
-                                    value="{{ old('confirm_password') }}" required>
+                                    required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary rounded-5 my-3">Daftar</button>
