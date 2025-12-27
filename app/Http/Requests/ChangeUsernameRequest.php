@@ -30,7 +30,7 @@ class ChangeUsernameRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'username.required' => 'Username wajib diisi',
+            'username.required' => 'Username Wajib Diisi!',
         ];
     }
 }

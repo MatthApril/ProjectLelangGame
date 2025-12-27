@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Game;
-use App\Models\Product;
-use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,22 +9,7 @@ class UserController extends Controller
 {
     // VIEW
     function showHome() {
-        $featuredGames = Game::withCount(['products' => function($query) {
-                $query->whereHas('shop', function($q) {
-                    $q->where('status', 'open');
-                });
-            }])->orderBy('products_count', 'desc')->take(6)->get();
-
-        $latestProducts = Product::with(['game', 'shop', 'category'])
-            ->whereHas('category', function($query) {
-                $query->whereNull('deleted_at');
-            })->whereHas('shop', function($query) {
-                $query->where('status', 'open');
-            })->where('stok', '>', 0)->latest()->take(12)->get();
-
-        $topShops = Shop::where('status', 'open')->orderBy('shop_rating', 'desc')->take(6)->get();
-
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops'));
+        return view('pages.user.home');
     }
 
      public function showGames(Request $request)

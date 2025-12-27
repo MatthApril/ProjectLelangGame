@@ -1,5 +1,6 @@
 <div>
-    <form action="{{ route('change-pwd') }}" method="post">
+
+    <form action="{{ route('forgot-pwd.update') }}" method="post">
         @csrf
         New Password:
         <input type="password" name="password" id="password"> <br>
@@ -17,4 +18,5 @@
             Change Password
         </button>
     </form>
+
 </div>

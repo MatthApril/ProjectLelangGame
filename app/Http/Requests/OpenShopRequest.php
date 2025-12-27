@@ -28,7 +28,7 @@ class OpenShopRequest extends FormRequest
             'shop_name' => ['required', 'string', new ShopNameExist],
             'shop_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'open_hour' => 'required|date_format:H:i',
-            'close_hour' => 'required|date_format:H:i|after:open_hour', 
+            'close_hour' => 'required|date_format:H:i|after:open_hour',
         ];
     }
 

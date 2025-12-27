@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 80vh">
         <div class="row">
-            <form action="{{ route('verify.uid', $unique_id) }}" method="post">
+            <form action="{{ route('forgot-pwd.verify.uid', $unique_id) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="col-md-12 d-flex gap-2 text-nowrap">
@@ -16,7 +16,7 @@
                 </div>
             </form>
 
-            <form action="{{ route('verify.store') }}" method="post">
+            <form action="{{ route('forgot-pwd.resend') }}" method="post">
                 @csrf
                 <div class="col-md-12 mt-3 d-grid">
                     <input type="hidden" name="type" value="{{ $type }}">
@@ -27,4 +27,7 @@
             </form>
         </div>
     </div>
+
+
+    </html>
 @endsection

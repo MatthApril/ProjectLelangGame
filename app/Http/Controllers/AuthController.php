@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ChangeShopNameRequest;
 use App\Http\Requests\ChangeUsernameRequest;
 use App\Http\Requests\LoginRequest;
@@ -53,8 +52,6 @@ class AuthController extends Controller
 
     public function doLogin(LoginRequest $req)
     {
-        $req->validated();
-
         if (Auth::attempt($req->only('email', 'password'), $req->filled('remember'))) {
 
             if (Auth::user()->role == 'admin') {
@@ -68,7 +65,7 @@ class AuthController extends Controller
             return redirect()->route('user.home');
         }
 
-        return back()->with('error', 'Email atau Password salah');
+        return back()->with('error', 'Email Atau Password Salah!');
     }
 
     public function doRegister(RegisterRequest $req)
@@ -78,7 +75,7 @@ class AuthController extends Controller
         $req['status'] = 'verify';
         $user = User::create([
             'username' => $req->username,
-            'password' => $req->password,
+            'password' => bcrypt($req->password),
             'email' => $req->email,
             'role' => 'user',
             'balance' => 0
@@ -113,7 +110,7 @@ class AuthController extends Controller
             'shop_balance' => 0
         ]);
 
-        return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat');
+        return redirect()->route('seller.dashboard')->with('success', 'Toko Berhasil Dibuat!');
     }
 
     function changeUsername(ChangeUsernameRequest $req) {
@@ -136,22 +133,6 @@ class AuthController extends Controller
         ]);
 
         return back()->with('success', 'Nama Toko berhasil diubah');
-    }
-
-    function changePassword(ChangePasswordRequest $req) {
-        $req->validated();
-        $user = Auth::user();
-
-        $user->update([
-            'password' => $req->password
-        ]);
-
-        Verification::where('user_id', $user->user_id)
-            ->where('type', 'reset_password')
-            ->where('status', 'valid')
-            ->update(['status' => 'invalid']);
-
-        return redirect()->route('profile')->with('success', 'Password berhasil diubah');
     }
 
 }

@@ -1,4 +1,5 @@
 <div>
+
     <form action="{{ route('change-pwd') }}" method="post">
         @csrf
         New Password:
@@ -17,4 +18,5 @@
             Change Password
         </button>
     </form>
+
 </div>

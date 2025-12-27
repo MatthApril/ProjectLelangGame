@@ -1,5 +1,7 @@
 @extends('layouts.template')
 
+@section('title', 'Beranda | LelangGame')
+
 @section('content')
 <div>
     <form action="{{ route('products.index') }}" method="GET">

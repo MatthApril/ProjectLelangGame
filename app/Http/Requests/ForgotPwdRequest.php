@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckForgotPwdEmail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ForgotPwdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,21 +23,14 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'captcha' => 'required|captcha'
+            'email' => ['required', 'email', new CheckForgotPwdEmail],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'email.required' => 'Email Wajib Diisi!',
-            'email.email' => 'Format Email Tidak Valid!',
-            'password.required' => 'Password Wajib Diisi!',
-            'captcha.required' => 'Captcha Wajib Diisi!',
-            'captcha.captcha' => 'Captcha Tidak Valid!',
+            'email.required' => 'Email wajib diisi',
         ];
     }
-
 }

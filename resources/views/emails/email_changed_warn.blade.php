@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name') }}</title>
+    <title>LelangGame</title>
 </head>
+<body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, Helvetica, sans-serif;">
+    <div style="max-width:600px; margin:40px auto; background:#ffffff; padding:30px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <!-- Header -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:25px;">
+            <img src="https://res.cloudinary.com/ds4kbzrdd/image/upload/v1766537270/LogoWarna-RemoveBg_atsck7.png" alt="LelangGame Logo" height="56" style="display:block; vertical-align:middle;">
+            <h1 style="margin:0; font-size:30px; font-weight:800; line-height:56px; color:#1e293b; vertical-align:middle;">
+                LelangGame
+            </h1>
+        </div>
 
-<body>
-    <p>Email akun anda telah berhasil diubah. Jika bukan anda yang melakukan perubahan ini, segera hubungi
-        administrator.</p>
+        <!-- Content -->
+        <h4 style="margin:0 0 10px; font-size:18px; color:#334155;">
+            Hai User!
+        </h4>
+
+        <p style="font-size:15px; color:#475569; line-height:1.6; margin-bottom:20px;">
+            Email anda berhasil di ubah. Jika anda tidak melakukan perubahan ini, segera hubungi admin LelangGame melalui email di <i>testinggdg12345@gmail.com</i>
+        </p>
+    </div>
 </body>
-
 </html>

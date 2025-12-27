@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.templatepolosan')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+@section('title', 'Verifikasi | LelangGame')
 
-<body>
-
+@section('content')
     @if (session('login_failed'))
-        <p>{{ session('login_failed') }}</p>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ session('login_failed') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
-
-    <form action="{{ route('verify.store') }}" method="post">
-        @csrf
-        <input type="hidden" name="type" value="register">
-        <button type="submit">
-            Send OTP to your email
-        </button>
-    </form>
-
-</body>
-
-</html>
+    <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 80vh">
+        <form action="{{ route('verify.store') }}" method="post">
+            @csrf
+            <input type="hidden" name="type" value="register">
+            <button type="submit" class="btn btn-outline-primary rounded-5 px-5 py-3">
+                <i class="bi bi-envelope-at-fill"></i> Kirimkan Kode Verifikasi Ke Email Saya
+            </button>
+        </form>
+    </div>
+@endsection
