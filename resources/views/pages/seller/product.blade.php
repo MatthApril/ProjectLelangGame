@@ -2,8 +2,8 @@
 @extends('layouts.template')
 
 @section('content')
-<div>
-    <h1>Daftar Produk</h1>
+<div class="px-5 my-3">
+    <h5 class="fw-semibold text-dark">Daftar Produk</h5><hr>
 
     @if(session('success'))
         <div>
@@ -15,19 +15,24 @@
     <div>
         <form action="{{ route('seller.products.index') }}" method="GET">
             <!-- Filter Kategori -->
-            <select name="category_id" onchange="this.form.submit()">
-                <option value="">Semua Kategori</option>
+            <select name="category_id" onchange="this.form.submit()" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;">
+                <option value="" style="padding: 5px;">Semua Kategori</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->category_id }}"
                             {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
                         {{ $category->category_name }}
                     </option>
                 @endforeach
-            </select>
+            </select><br><br>
             <!-- Search Nama Produk -->
-            <input type="text" name="search" placeholder="Cari nama produk" value="{{ request('search') }}">
+            <div class="input-group" style="width: 500px; border: 1px solid gray; border-radius: 5px;">
+                <input type="search" class="form-control" placeholder="Cari nama produk" value="{{ request('search') }}" aria-label="Search" autofocus>
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+            </div><br>
 
-            <button type="submit">Cari</button>
+            {{-- <button type="submit">Cari</button> --}}
 
             @if(request('category_id') || request('search'))
                 <a href="{{ route('seller.products.index') }}">Reset Filter</a>
@@ -35,8 +40,8 @@
         </form>
 
         <a href="{{ route('seller.products.create') }}">
-            <button>Tambah Produk Baru</button>
-        </a>
+            <button style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;">Tambah Produk Baru</button>
+        </a><br><br>
     </div>
 
     <div>
@@ -69,7 +74,7 @@
                 </div>
             </div>
         @empty
-            <p>Belum ada produk. <a href="{{ route('seller.products.create') }}">Tambah produk pertama</a></p>
+            <p>Belum ada produk. <br><a href="{{ route('seller.products.create') }}" class="text-decoration-none link-footer">Tambah produk pertama</a></p>
         @endforelse
     </div>
 

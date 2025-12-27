@@ -3,8 +3,8 @@
 @section('title', 'Beranda | LelangGame')
 
 @section('content')
-    <div>
-        <h1>Dashboard Seller - {{ $shop->shop_name }}</h1>
+    <div class="px-5 my-3">
+        <h5 class="fw-semibold text-dark">Dashboard Seller - {{ $shop->shop_name }}</h5><hr>
 
         @if (session('success'))
             <div>
@@ -14,67 +14,67 @@
 
         <hr>
 
-        <h2>Keuangan Toko</h2>
+        <h6 class="fw-bold">Keuangan Toko</h6>
         <table border="1" cellpadding="10">
             <tr>
-                <td><strong>Saldo Toko</strong></td>
-                <td><strong>Transaksi Berjalan</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Saldo Toko</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Transaksi Berjalan</strong></td>
             </tr>
             <tr>
-                <td>Rp {{ number_format($shopBalance, 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($runningTransactions, 0, ',', '.') }}</td>
+                <td style="border: 1px solid gray; padding: 5px;">Rp {{ number_format($shopBalance, 0, ',', '.') }}</td>
+                <td style="border: 1px solid gray; padding: 5px;">Rp {{ number_format($runningTransactions, 0, ',', '.') }}</td>
             </tr>
         </table>
 
         <br>
 
-        <h2>Statistik Produk</h2>
+        <h6 class="fw-bold">Statistik Produk</h6>
         <table border="1" cellpadding="10">
             <tr>
-                <td><strong>Total Produk</strong></td>
-                <td>{{ $totalProducts }}</td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Total Produk</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;">{{ $totalProducts }}</td>
             </tr>
             <tr>
-                <td><strong>Produk Tersedia</strong></td>
-                <td>{{ $activeProducts }}</td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Produk Tersedia</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;">{{ $activeProducts }}</td>
             </tr>
             <tr>
-                <td><strong>Total Pesanan</strong></td>
-                <td>{{ $totalOrders }}</td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Total Pesanan</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;">{{ $totalOrders }}</td>
             </tr>
         </table>
 
         <br>
 
-        <h2>Informasi Toko</h2>
+        <h6 class="fw-bold">Informasi Toko</h6>
         <table border="1" cellpadding="10">
             <tr>
-                <td><strong>Status Toko</strong></td>
-                <td>{{ ucfirst($shop->status) }}</td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Status Toko</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;">{{ ucfirst($shop->status) }}</td>
             </tr>
             <tr>
-                <td><strong>Rating</strong></td>
-                <td>{{ number_format($shop->shop_rating, 1) }} / 5.0</td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Rating</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;">{{ number_format($shop->shop_rating, 1) }} / 5.0</td>
             </tr>
             <tr>
-                <td><strong>Jam Operasional</strong></td>
-                <td>{{ $shop->open_hour }} - {{ $shop->close_hour }}</td>
+                <td style="border: 1px solid gray; padding: 5px;"><strong>Jam Operasional</strong></td>
+                <td style="border: 1px solid gray; padding: 5px;">{{ $shop->open_hour }} - {{ $shop->close_hour }}</td>
             </tr>
         </table>
 
         @if ($shop->shop_img)
             <br>
-            <h3>Gambar Toko</h3>
+            <h6 class="fw-bold">Gambar Toko</h6>
             <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="Shop Image" width="300">
         @endif
 
         <br><br>
 
-        <h2>Menu Cepat</h2>
+        <h6 class="fw-bold">Menu Cepat</h6>
         <p>
-            <a href="{{ route('seller.products.index') }}">Kelola Produk</a> |
-            <a href="{{ route('seller.products.create') }}">Tambah Produk</a> |
-            <a href="{{ route('profile') }}">Profile</a>
+            <a href="{{ route('seller.products.index') }}" class="text-decoration-none link-footer">Kelola Produk</a> |
+            <a href="{{ route('seller.products.create') }}" class="text-decoration-none link-footer">Tambah Produk</a> |
+            <a href="{{ route('profile') }}" class="text-decoration-none link-footer">Profile</a>
         </p>
     </div>
 @endsection
