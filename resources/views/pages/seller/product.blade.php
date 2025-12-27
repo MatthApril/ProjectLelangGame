@@ -11,7 +11,6 @@
         </div>
     @endif
 
-    <!-- Filter dan Tombol Create -->
     <div>
         <form action="{{ route('seller.products.index') }}" method="GET">
             <!-- Filter Kategori -->
@@ -24,7 +23,6 @@
                     </option>
                 @endforeach
             </select>
-            <!-- Search Nama Produk -->
             <input type="text" name="search" placeholder="Cari nama produk" value="{{ request('search') }}">
 
             <button type="submit">Cari</button>
