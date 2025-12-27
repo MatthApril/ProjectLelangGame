@@ -107,7 +107,7 @@ class AuthController extends Controller
             'shop_img' => $imagePath,
             'open_hour' => $validated['open_hour'],
             'close_hour' => $validated['close_hour'],
-            'status' => 'closed',
+            'status' => 'open',
             'shop_rating' => 0,
             'running_transactions' => 0,
             'shop_balance' => 0

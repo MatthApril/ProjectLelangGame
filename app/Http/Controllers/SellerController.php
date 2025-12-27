@@ -124,7 +124,7 @@ class SellerController extends Controller
 
     public function getCategoriesByGame($gameId)
     {
-        $categories = Game::findOrFail($gameId)->gamesCategories()->whereHas('category', function($query) {    $query->whereNull('deleted_at'); })->with('category')->get()->pluck('category')->filter(); 
+        $categories = Game::findOrFail($gameId)->gamesCategories()->whereHas('category', function($query) {    $query->whereNull('deleted_at'); })->with('category')->get()->pluck('category')->filter();
 
         return response()->json($categories);
     }
