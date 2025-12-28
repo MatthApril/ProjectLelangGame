@@ -12,6 +12,26 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     // VIEW
+    public function showCart()
+    {
+        $user = Auth::user();
+        $user_cart = $user->cart()->first();
+        $cartItems = $user_cart ? $user_cart->cartItems()->with('product')->get() : collect();
+
+        return view('pages.user.cart', compact('cartItems'));
+    }
+
+    public function showCartPartial()
+    {
+        $user = Auth::user();
+        $user_cart = $user->cart()->first();
+        $cartItems = $user_cart ? $user_cart->cartItems()->with('product')->get() : collect();
+
+        $html = view('pages.user.cart', compact('cartItems'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
     function showHome() {
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
@@ -31,7 +51,7 @@ class UserController extends Controller
         return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops'));
     }
 
-     public function showGames(Request $request)
+    public function showGames(Request $request)
     {
         $query = Game::withCount('products');
 
@@ -116,6 +136,7 @@ class UserController extends Controller
         return view('pages.user.products', compact('products', 'games', 'categories'));
     }
 
+
     public function showProductDetail($id)
     {
         $product = Product::with(['game', 'shop', 'category', 'comments.user'])->findOrFail($id);
@@ -143,5 +164,74 @@ class UserController extends Controller
         return view('pages.user.shop_detail', compact('shop', 'products'));
     }
 
+    public function addToCart(Request $req, $productId)
+    {
+        $user = Auth::user();
+
+        $cart = $user->cart()->firstOrCreate([]);
+
+        $qty = $req->quantity;
+
+        $cartItem = $cart->cartItems()
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            $cartItem->increment('quantity', $qty);
+        } else {
+            $cart->cartItems()->create([
+                'product_id' => $productId,
+                'quantity'   => $qty,
+            ]);
+        }
+
+        return redirect()->route('user.cart')->with('success', 'Product added to cart.');
+    }
+
+    public function updateCart(Request $req)
+    {
+         $req->validate([
+            'cart_item_id' => 'required|exists:cart_items,cart_items_id',
+            'quantity'     => 'required|integer',
+        ]);
+
+        $user = Auth::user();
+        $cart = $user->cart()->first();
+
+        if (!$cart) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cart not found'
+            ], 404);
+        }
+
+        $cartItem = $cart->cartItems()
+            ->where('cart_items_id', $req->cart_item_id)
+            ->first();
+
+        if (!$cartItem) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cart item not found'
+            ], 404);
+        }
+
+        if ($req->quantity <= 0) {
+            $cartItem->delete();
+
+            return response()->json([
+                'success' => true,
+                'removed' => true
+            ]);
+        }
+
+        $cartItem->quantity = $req->quantity;
+        $cartItem->save();
+
+        return response()->json([
+            'success'  => true,
+            'quantity' => $cartItem->quantity
+        ]);
+    }
 
 }

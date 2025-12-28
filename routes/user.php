@@ -4,7 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 //gk perlu login
-Route::get('/', [UserController::class, 'showHome'])->name('user.home');
+Route::get('/home', [UserController::class, 'showHome'])->name('user.home');
 Route::get('/games', [UserController::class, 'showGames'])->name('games.index');
 Route::get('/games/{id}', [UserController::class, 'showGameDetail'])->name('games.detail');
 Route::get('/products', [UserController::class, 'showProducts'])->name('products.index');
@@ -13,7 +13,8 @@ Route::get('/shops/{id}', [UserController::class, 'showShop'])->name('shops.deta
 
 Route::prefix('user')->as('user.')->middleware(['auth', 'check_status'])->group(function() {
     Route::get('/cart', [UserController::class, 'showCart'])->name('cart');
+    Route::get('/cart/partial', [UserController::class, 'showCartPartial'])->name('cart.partial');
+    Route::post('/cart/update', [UserController::class, 'updateCart'])->name('cart.update');
     Route::post('/cart/add/{productId}', [UserController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/remove/{cartItemId}', [UserController::class, 'removeFromCart'])->name('cart.remove');
-    Route::put('/cart/update/{cartItemId}', [UserController::class, 'updateCartQuantity'])->name('cart.update');
 });
