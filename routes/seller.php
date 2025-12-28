@@ -9,7 +9,6 @@ Route::prefix('seller')->as('seller.')
     ->group(function() {
         Route::controller(SellerController::class)->group(function() {
             Route::get('/', 'showDashboard')->name('dashboard');
-
             Route::get('/products', 'index')->name('products.index');
             Route::get('/products/create', 'create')->name('products.create');
             Route::post('/products', 'store')->name('products.store');

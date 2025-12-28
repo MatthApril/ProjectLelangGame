@@ -3,9 +3,7 @@
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->as('admin.')
-    ->middleware(['auth', 'check_role:admin'])
-    ->group(function() {
+Route::prefix('admin')->as('admin.')->middleware(['auth', 'check_role:admin'])->group(function() {
         Route::get('/', [AdminController::class, 'showDashboard'])->name('dashboard');
 
         Route::get('/categories', [AdminController::class, 'showCategories'])->name('categories.index');
