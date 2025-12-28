@@ -7,10 +7,12 @@ use App\Http\Requests\ChangeUsernameRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OpenShopRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateShopRequest;
 use App\Models\User;
 use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -34,7 +36,16 @@ class AuthController extends Controller
         return view('pages.auth.open_shop');
     }
 
-    // POST
+    function showEditShop() {
+        $shop = Auth::user()->shop;
+
+        if (!$shop) {
+            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko');
+        }
+
+        return view('pages.auth.open_shop', compact('shop'));
+    }
+
     function showProfile() {
         $user = Auth::user();
         $param['user'] = $user;
@@ -111,6 +122,34 @@ class AuthController extends Controller
         ]);
 
         return redirect()->route('seller.dashboard')->with('success', 'Toko Berhasil Dibuat!');
+    }
+
+    function doUpdateShop(UpdateShopRequest $req) {
+        $validated = $req->validated();
+
+        $shop = Auth::user()->shop;
+
+        if (!$shop) {
+            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko');
+        }
+
+        if ($req->hasFile('shop_img')) {
+            if ($shop->shop_img) {
+                Storage::disk('public')->delete($shop->shop_img);
+            }
+
+            $userId = Auth::user()->user_id;
+            $validated['shop_img'] = $req->file('shop_img')->store("shops/{$userId}", 'public');
+        }
+
+        $shop->update([
+            'shop_name' => $validated['shop_name'],
+            'shop_img' => $validated['shop_img'] ?? $shop->shop_img,
+            'open_hour' => $validated['open_hour'],
+            'close_hour' => $validated['close_hour'],
+        ]);
+
+        return redirect()->route('profile')->with('success', 'Toko berhasil diupdate!');
     }
 
     function changeUsername(ChangeUsernameRequest $req) {
