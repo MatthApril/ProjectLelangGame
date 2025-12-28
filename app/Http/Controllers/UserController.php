@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddToCartRequest;
+use App\Models\Message;
+use App\Models\Product;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Game;
-use App\Models\Product;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,14 +28,17 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user_cart = $user->cart()->first();
-        $cartItems = $user_cart ? $user_cart->cartItems()->with('product')->get() : collect();
+        $cartItems = $user_cart
+            ? $user_cart->cartItems()->with('product')->get()
+            : collect();
 
-        $html = view('pages.user.cart', compact('cartItems'))->render();
-
-        return response()->json(['html' => $html]);
+        return response()->json([
+            'html' => view('pages.user.cart-partial', compact('cartItems'))->render()
+        ]);
     }
 
     function showHome() {
+        $owners = User::where('role', 'seller')->get();
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
                     $q->where('status', 'open');
@@ -48,7 +54,7 @@ class UserController extends Controller
 
         $topShops = Shop::where('status', 'open')->orderBy('shop_rating', 'desc')->take(6)->get();
 
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops'));
+        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners'));
     }
 
     public function showGames(Request $request)
@@ -164,8 +170,10 @@ class UserController extends Controller
         return view('pages.user.shop_detail', compact('shop', 'products'));
     }
 
-    public function addToCart(Request $req, $productId)
+    public function addToCart(AddToCartRequest $req, $productId)
     {
+        $req->validated();
+
         $user = Auth::user();
 
         $cart = $user->cart()->firstOrCreate([]);
@@ -232,6 +240,28 @@ class UserController extends Controller
             'success'  => true,
             'quantity' => $cartItem->quantity
         ]);
+    }
+
+    public function removeFromCart($cartItemId)
+    {
+        $user = Auth::user();
+        $cart = $user->cart()->first();
+
+        if (!$cart) {
+            return redirect()->route('user.cart')->with('error', 'Cart not found');
+        }
+
+        $cartItem = $cart->cartItems()
+            ->where('cart_items_id', $cartItemId)
+            ->first();
+
+        if (!$cartItem) {
+            return redirect()->route('user.cart')->with('error', 'Cart item not found');
+        }
+
+        $cartItem->delete();
+
+        return redirect()->route('user.cart')->with('success', 'Item removed from cart');
     }
 
 }

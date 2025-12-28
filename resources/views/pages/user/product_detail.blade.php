@@ -27,6 +27,9 @@
                     <label>Jumlah:</label>
                     <input type="number" name="quantity" value="1" min="1" max="{{ $product->stok }}">
                     <button type="submit">Tambah ke Keranjang</button>
+                    @error('quantity')
+                        <p>{{ $message }}</p>
+                    @enderror
                 </form>
             @else
                 <p><a href="{{ route('login') }}">Login</a> untuk membeli produk ini</p>
