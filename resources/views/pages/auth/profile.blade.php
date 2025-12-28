@@ -58,6 +58,11 @@
         </button>
     </form>
 
+    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
+
     @if (session('success'))
         {{ session('success') }}
     @endif

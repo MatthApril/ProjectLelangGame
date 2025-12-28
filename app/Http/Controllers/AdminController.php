@@ -139,4 +139,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
     }
+
+    
 }

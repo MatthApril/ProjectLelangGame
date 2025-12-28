@@ -12,6 +12,31 @@
 
     <hr>
 
+    <div class="container-fluid">
+        <h3>Owners</h3>
+        <table border="1" class="table table-striped">
+            <tr>
+                <th>No</th>
+                <th>Owner</th>
+                <th>Email</th>
+                <th>Aksi</th>
+            </tr>
+            @foreach ($users as $index => $user)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                        <a href="{{ route('seller.chat.show', ['userId' => $user->user_id]) }}">
+                            <button class="btn btn-primary">
+                                Chat
+                            </button>
+                        </a>
+                </tr>
+            @endforeach
+        </table>
+    </div>
+
     <h2>Keuangan Toko</h2>
     <table border="1" cellpadding="10">
         <tr>
