@@ -1,8 +1,8 @@
 @extends('layouts.template')
 
 @section('content')
-<div>
-    <h1>{{ $game ? 'Edit Game' : 'Tambah Game Baru' }}</h1>
+<div class="px-5 my-3">
+    <h5 class="fw-semibold text-dark">{{ $game ? 'Edit Game' : 'Tambah Game Baru' }}</h5>
 
     <form action="{{ $game ? route('admin.games.update', $game->game_id) : route('admin.games.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -11,8 +11,8 @@
         @endif
 
         <div>
-            <label for="game_name">Nama Game *</label>
-            <input type="text" id="game_name" name="game_name" value="{{ old('game_name', $game->game_name ?? '') }}" required>
+            <label for="game_name">Nama Game *</label><br>
+            <input type="text" id="game_name" name="game_name" value="{{ old('game_name', $game->game_name ?? '') }}" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" required>
             @error('game_name')
                 <span style="color: red;">{{ $message }}</span>
             @enderror
@@ -21,7 +21,7 @@
         <br>
 
         <div>
-            <label for="game_img">Gambar Game {{ $game ? '' : '*' }}</label>
+            <label for="game_img">Gambar Game {{ $game ? '' : '*' }}</label><br>
             <input type="file" id="game_img" name="game_img" accept="image/*" {{ $game ? '' : 'required' }}>
             <p>Format: JPG, PNG, JPEG. Max: 2MB</p>
             @error('game_img')
@@ -39,7 +39,7 @@
         <br>
 
         <div>
-            <label>Kategori Game * <a href="{{ route('admin.categories.index') }}">(Kelola Kategori)</a></label>
+            <label>Kategori Game *<br> <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">(Kelola Kategori)</a></label>
             <br>
             @php
                 $selectedCategories = $game ? $game->gamesCategories->pluck('category_id')->toArray() : old('categories', []);
@@ -51,7 +51,7 @@
                 </label>
                 <br>
             @empty
-                <p>Belum ada kategori. <a href="{{ route('admin.categories.index') }}">Tambah kategori terlebih dahulu</a></p>
+                <p>Belum ada kategori.<br> <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Tambah kategori terlebih dahulu</a></p>
             @endforelse
 
             @error('categories')
@@ -61,8 +61,8 @@
 
         <br>
 
-        <button type="submit">{{ $game ? 'Update Game' : 'Simpan Game' }}</button>
-        <a href="{{ route('admin.games.index') }}">Batal</a>
+        <button type="submit" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">{{ $game ? 'Update Game' : 'Simpan Game' }}</button>
+        <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Batal</a>
     </form>
 </div>
 @endsection
