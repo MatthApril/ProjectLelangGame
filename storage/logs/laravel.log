@@ -7251,3 +7251,323 @@
 #60 C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('...')
 #61 {main}
 "} 
+[2025-12-28 13:52:46] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:52:51] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:53:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:54:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:55:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:55:42] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:56:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:57:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:58:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 13:59:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:00:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:01:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:02:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:03:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:04:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:05:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:06:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:07:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:08:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:09:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:10:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:11:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:12:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:13:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:14:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:15:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:16:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:17:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:18:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:19:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:20:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:21:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:22:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:23:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:24:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:25:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:26:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:27:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:28:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:29:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:30:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:31:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:32:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:33:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:34:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:35:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:36:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:37:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:38:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:39:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:40:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:41:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:42:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:43:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:44:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:45:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:46:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:47:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:48:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:49:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:50:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:51:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:52:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:53:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:54:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:55:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:56:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:57:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:58:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 14:59:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:00:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:01:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:02:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:03:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:04:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:05:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:06:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:07:08] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:07:59] local.ERROR: syntax error, unexpected token "protected", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"protected\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-12-28 15:08:08] local.ERROR: syntax error, unexpected token "protected", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"protected\", expecting \",\" or \";\" at C:\\kuliah\\semester 3\\BWP\\project\\ProjectLelangGame\\app\\Models\\AuctionBid.php:13)
+[stacktrace]
+#0 {main}
+"} 
