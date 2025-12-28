@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 //gk perlu login
-Route::get('/', [UserController::class, 'showHome'])->name('user.home');
+Route::get('/home', [UserController::class, 'showHome'])->name('user.home');
 Route::get('/games', [UserController::class, 'showGames'])->name('games.index');
 Route::get('/games/{id}', [UserController::class, 'showGameDetail'])->name('games.detail');
 Route::get('/products', [UserController::class, 'showProducts'])->name('products.index');
