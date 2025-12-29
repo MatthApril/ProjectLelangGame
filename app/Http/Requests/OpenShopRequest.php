@@ -17,6 +17,21 @@ class OpenShopRequest extends FormRequest
         return true;
     }
 
+     protected function prepareForValidation()
+    {
+        if ($this->has('open_hour')) {
+            $this->merge([
+                'open_hour' => date('H:i', strtotime($this->open_hour))
+            ]);
+        }
+
+        if ($this->has('close_hour')) {
+            $this->merge([
+                'close_hour' => date('H:i', strtotime($this->close_hour))
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,7 +40,7 @@ class OpenShopRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shop_name' => ['required', 'string', new ShopNameExist],
+            'shop_name' => ['required', 'string','max:255', new ShopNameExist],
             'shop_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'open_hour' => 'required|date_format:H:i',
             'close_hour' => 'required|date_format:H:i|after:open_hour',

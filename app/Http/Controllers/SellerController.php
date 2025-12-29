@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -16,16 +17,17 @@ class SellerController extends Controller
 {
     function showDashboard() {
         $user = Auth::user();
+        $users = User::where('role', 'user')->get();
         $shop = $user->shop;
 
-        $totalProducts = $shop->products()->count();
-        $activeProducts = $shop->products()->where('stok', '>', 0)->count();
-        $totalOrders = $shop->orders()->count();
+        $totalProducts = $shop->products() ? $shop->products()->count() : 0;
+        $activeProducts = $shop->products() ? $shop->products()->where('stok', '>', 0)->count() : 0;
+        $totalOrders = $shop->orderItems() ? $shop->orderItems()->count() : 0;
 
         $runningTransactions = $shop->running_transactions; // Saldo yang masih dalam proses (belum bisa dicairkan)
         $shopBalance = $shop->shop_balance; // Saldo yang sudah bisa dicairkan
 
-        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance'));
+        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users'));
     }
 
     public function index(Request $request)
@@ -124,7 +126,7 @@ class SellerController extends Controller
 
     public function getCategoriesByGame($gameId)
     {
-        $categories = Game::findOrFail($gameId)->gamesCategories()->whereHas('category', function($query) {    $query->whereNull('deleted_at'); })->with('category')->get()->pluck('category')->filter(); 
+        $categories = Game::findOrFail($gameId)->gamesCategories()->whereHas('category', function($query) {    $query->whereNull('deleted_at'); })->with('category')->get()->pluck('category')->filter();
 
         return response()->json($categories);
     }

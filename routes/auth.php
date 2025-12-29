@@ -8,16 +8,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('do-login');
 
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Register User
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'doRegister'])->name('do-register');
 
-// Open Shop
-Route::get('/open-shop', [AuthController::class, 'showOpenShop'])->name('open-shop');
-Route::post('/open-shop', [AuthController::class, 'doOpenShop'])->name('do-open-shop');
+Route::group(['middleware' => ['auth']], function () {
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Open Shop
+    Route::get('/open-shop', [AuthController::class, 'showOpenShop'])->name('open-shop');
+    Route::post('/open-shop', [AuthController::class, 'doOpenShop'])->name('do-open-shop');
+
+    Route::get('/edit-shop', [AuthController::class, 'showEditShop'])->name('edit-shop');
+    Route::put('/update-shop', [AuthController::class, 'doUpdateShop'])->name('do-update-shop');
+});
 
 // Konfirmasi Ganti Profile
 Route::group(['middleware' => ['auth', 'check_role:user,seller,admin', 'check_status']], function() {
