@@ -19,9 +19,40 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user_cart = $user->cart()->first();
-        $cartItems = $user_cart ? $user_cart->cartItems()->with('product')->get() : collect();
+        $cartItems = $user_cart
+                ? $user_cart->cartItems()
+                    ->whereHas('product', function ($q) {
+                        $q->whereNull('deleted_at');
+                    })
+                    ->with('product')
+                    ->get()
+                : collect();
 
         return view('pages.user.cart', compact('cartItems'));
+    }
+
+    public function showOrders()
+    {
+        $user = Auth::user();
+        $orders = $user->orders()->with('shop')->get();
+
+        return view('pages.user.my_order', compact('orders'));
+    }
+
+    public function showOrderDetail($orderId)
+    {
+        $user = Auth::user();
+        $order = $user->orders()
+                ->with([
+                    'orderItems.product' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'shop'
+                ])
+                ->where('order_id', $orderId)
+                ->firstOrFail();
+
+        return view('pages.user.order_detail', compact('order'));
     }
 
     public function showCartPartial()

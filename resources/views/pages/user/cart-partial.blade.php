@@ -22,7 +22,7 @@
                                 alt="{{ $item->product->product_name }}" width="150px"></td>
                         <td>{{ $item->product->product_name }}</td>
                         <td>Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
-                        <td><input type="number" value="{{ $item->quantity }}" min="0"
+                        <td><input type="number" value="{{ $item->quantity }}" min="1"
                                 data-id="{{ $item->cart_items_id }}" class="qty-input" /></td>
                         <td>Rp {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</td>
                         <td>
@@ -51,7 +51,7 @@
     ) }}
 </p>
 
-<form action="" method="post">
+<form action="{{ route('payment.checkout') }}" method="post">
     @csrf
     <button type="submit">Checkout</button>
 </form>
