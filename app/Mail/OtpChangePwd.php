@@ -29,7 +29,7 @@ class OtpChangePwd extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'Otp - Change Password Verification',
+            subject: 'OTP - Change Password Verification',
         );
     }
 

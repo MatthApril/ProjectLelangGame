@@ -32,8 +32,8 @@ class AuthController extends Controller
     }
 
     function showOpenShop() {
-
-        return view('pages.auth.open_shop');
+        $shop = null;
+        return view('pages.auth.open_shop',compact('shop'));
     }
 
     function showEditShop() {

@@ -37,7 +37,7 @@ class VerificationController extends Controller
         $verify = Verification::whereUserId(Auth::user()->user_id)->whereUniqueId($unique_id)
                     ->whereStatus('active')->count();
 
-        if (!$verify) abort(404);
+        // if (!$verify) abort(404);
 
         $param['unique_id'] = $unique_id;
         $param['type'] = $req->type;
@@ -49,7 +49,10 @@ class VerificationController extends Controller
         $verify = Verification::whereUserId(Auth::user()->user_id)->where('unique_id', $unique_id)
                     ->where('status', 'active')->first();
 
-        if (!$verify) abort(404);
+        // if (!$verify) abort(404);
+            if (!$verify) {
+        return redirect()->route('profile')->with('error', 'Verifikasi tidak ditemukan atau sudah tidak valid.');
+    }
 
         if (md5($req->otp) != $verify->otp || now()->greaterThan($verify->expires_at)) {
             $verify->update(['status' => 'invalid']);
@@ -64,7 +67,10 @@ class VerificationController extends Controller
         }
 
         if ($verify->type == 'reset_password') {
-            $verify->update(['status' => 'valid']);
+            $verify->update([
+                'status' => 'valid',
+                'expires_at' => now()->addMinutes(5)
+            ]);
             return redirect()->route('change-pwd-view');
         }
 
@@ -101,12 +107,12 @@ class VerificationController extends Controller
             'unique_id' => uniqid(),
             'otp' => md5($otp),
             'type' => $req->type,
-            'expires_at' => now()->addMinute()
+            'expires_at' => now()->addMinutes(5)
         ]);
 
         if ($req->type == 'register') {
             Mail::to($user->email)->queue(new OtpEmail($otp));
-            return redirect()->route('verify.update-uid', ['unique_id' => $verify->unique_id, 'type' => $req->type]);
+            return redirect()->route('verify.uid', ['unique_id' => $verify->unique_id, 'type' => $req->type]);
         }
 
         if ($req->type == 'reset_password') {
@@ -136,7 +142,7 @@ class VerificationController extends Controller
 
         $user = User::where('email', $req->email)->first();
         if (!$user) {
-            return back()->with('error', 'Email tidak terdaftar');
+            return back()->with('error', 'Email Tidak Terdaftar!');
         }
 
         $otp = rand(100000, 999999);
@@ -145,7 +151,7 @@ class VerificationController extends Controller
             'unique_id' => uniqid(),
             'otp' => md5($otp),
             'type' => 'forgot_password',
-            'expires_at' => now()->addMinute()
+            'expires_at' => now()->addMinutes(5)
         ]);
 
         Mail::to($user->email)->queue(new OtpForgotPwd($otp));
@@ -155,7 +161,7 @@ class VerificationController extends Controller
     function resendOTP() {
         $user = User::where('email', session('forgot_pwd_email'))->first();
         if (!$user) {
-            return back()->with('error', 'Email tidak terdaftar');
+            return back()->with('error', 'Email Tidak Terdaftar!');
         }
 
         $otp = rand(100000, 999999);
@@ -177,7 +183,7 @@ class VerificationController extends Controller
                     ->whereUniqueId($unique_id)
                     ->whereStatus('active')->count();
 
-        if (!$verify) abort(404);
+        // if (!$verify) abort(404);
 
         $param['unique_id'] = $unique_id;
         $param['type'] = $req->type;
@@ -189,15 +195,20 @@ class VerificationController extends Controller
                     ->where('unique_id', $unique_id)
                     ->where('status', 'active')->first();
 
-        if (!$verify) abort(404);
+        // if (!$verify) abort(404);
 
         if (md5($req->otp) != $verify->otp || now()->greaterThan($verify->expires_at)) {
             $verify->update(['status' => 'invalid']);
 
-            return redirect()->route('forgot-pwd-email-view')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan coba lagi.');
+            return redirect()->route('forgot-pwd-email-view')->with('error', 'OTP Tidak Valid Atau Sudah Kadaluarsa. Silakan Coba Lagi.');
         }
 
-        $verify->update(['status' => 'valid']);
+        $verify->update(
+            [
+                'status' => 'valid',
+                'expires_at' => now()->addMinutes(5)
+            ]
+        );
         return redirect()->route('forgot-pwd-view');
     }
 
