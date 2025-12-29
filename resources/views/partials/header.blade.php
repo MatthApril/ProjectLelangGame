@@ -96,6 +96,7 @@
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-gem"></i> Diamond MLBB</a>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a>
         </div>
+    </div>
 </nav>
 
 {{-- <div class="container-fluid py-2 bg-darkblue">

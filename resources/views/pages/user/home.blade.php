@@ -73,7 +73,7 @@
         </section>
     </div>
 
-    <div class="container-fluid">
+    <div class="w-100">
         <h3>Owners</h3>
         <table border="1" class="table table-striped">
             <tr>
