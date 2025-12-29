@@ -8,6 +8,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class ShopNameExist implements ValidationRule
 {
+    protected $ignoreShopId;
+    public function __construct($ignoreShopId = null)
+    {
+        $this->ignoreShopId = $ignoreShopId;
+    }
     /**
      * Run the validation rule.
      *
@@ -15,8 +20,13 @@ class ShopNameExist implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (Shop::where('shop_name', $value)->exists()) {
-            $fail('Nama Toko sudah digunakan!', null);
+        $query = Shop::whereNull('deleted_at')->where('shop_name', $value);
+        if ($this->ignoreShopId) {
+            $query->where('shop_id', '!=', $this->ignoreShopId);
+        }
+
+        if ($query->exists()) {
+            $fail('Nama toko sudah digunakan',null);
         }
     }
 }

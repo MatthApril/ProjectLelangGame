@@ -37,9 +37,9 @@ class Shop extends Model
         return $this->hasMany(Product::class, 'shop_id');
     }
 
-    public function orders()
+    public function orderItems()
     {
-        return $this->hasMany(Order::class, 'shop_id');
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 
     public function appeals()

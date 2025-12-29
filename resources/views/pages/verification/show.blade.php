@@ -9,7 +9,7 @@
                 @csrf
                 @method('PUT')
                 <div class="col-md-12 d-flex gap-2 text-nowrap">
-                    <input type="number" class="form-control" name="otp" id="otp" placeholder="OTP!" required>
+                    <input type="number" class="form-control" name="otp" id="otp" placeholder="Kode OTP" autofocus required>
                     <button type="submit" class="btn btn-success">
                         Kirim <i class="bi bi-send-fill"></i>
                     </button>

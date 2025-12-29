@@ -20,9 +20,9 @@ class SellerController extends Controller
         $users = User::where('role', 'user')->get();
         $shop = $user->shop;
 
-        $totalProducts = $shop->products()->count();
-        $activeProducts = $shop->products()->where('stok', '>', 0)->count();
-        $totalOrders = $shop->orders()->count();
+        $totalProducts = $shop->products() ? $shop->products()->count() : 0;
+        $activeProducts = $shop->products() ? $shop->products()->where('stok', '>', 0)->count() : 0;
+        $totalOrders = $shop->orderItems() ? $shop->orderItems()->count() : 0;
 
         $runningTransactions = $shop->running_transactions; // Saldo yang masih dalam proses (belum bisa dicairkan)
         $shopBalance = $shop->shop_balance; // Saldo yang sudah bisa dicairkan
