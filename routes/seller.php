@@ -1,18 +1,27 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('seller')->as('seller.')->middleware(['auth', 'check_role:seller', 'check_status'])->group(function() {
-        Route::get('/', [SellerController::class, 'showDashboard'])->name('dashboard');
+Route::prefix('seller')->as('seller.')
+    ->middleware(['auth', 'check_role:seller', 'check_status'])
+    ->group(function() {
+        Route::controller(SellerController::class)->group(function() {
+            Route::get('/', 'showDashboard')->name('dashboard');
+            Route::get('/products', 'index')->name('products.index');
+            Route::get('/products/create', 'create')->name('products.create');
+            Route::post('/products', 'store')->name('products.store');
+            Route::get('/products/{id}/edit', 'edit')->name('products.edit');
+            Route::put('/products/{id}', 'update')->name('products.update');
+            Route::delete('/products/{id}', 'destroy')->name('products.destroy');
 
-        Route::get('/products', [SellerController::class, 'index'])->name('products.index');
-        Route::get('/products/create', [SellerController::class, 'create'])->name('products.create');
-        Route::post('/products', [SellerController::class, 'store'])->name('products.store');
-        Route::get('/products/{id}/edit', [SellerController::class, 'edit'])->name('products.edit');
-        Route::put('/products/{id}', [SellerController::class, 'update'])->name('products.update');
-        Route::delete('/products/{id}', [SellerController::class, 'destroy'])->name('products.destroy');
+            Route::get('/games/{game}/categories', 'getCategoriesByGame')->name('games.categories');
+        });
 
-        Route::get('/games/{game}/categories', [SellerController::class, 'getCategoriesByGame'])->name('games.categories');
-});
+        Route::controller(ChatController::class)->group(function() {
+            Route::get('/chat/{userId}', 'show')->name('chat.show');
+            Route::post('/chat/{userId}', 'store')->name('chat.store');
+        });
+    });
 
