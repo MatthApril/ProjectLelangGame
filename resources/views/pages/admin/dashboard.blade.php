@@ -7,34 +7,34 @@
     <hr>
 
     <h6 class="fw-bold">Statistik Sistem</h6>
-    <table border="1" cellpadding="10">
+    <table border="1" class="table table-striped">
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Users</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalUsers }}</td>
+            <td><strong>Total Users</strong></td>
+            <td>{{ $totalUsers }}</td>
         </tr>
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Sellers</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalSellers }}</td>
+            <td><strong>Total Sellers</strong></td>
+            <td>{{ $totalSellers }}</td>
         </tr>
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Toko</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalShops }}</td>
+            <td><strong>Total Toko</strong></td>
+            <td>{{ $totalShops }}</td>
         </tr>
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Produk</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalProducts }}</td>
+            <td><strong>Total Produk</strong></td>
+            <td>{{ $totalProducts }}</td>
         </tr>
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Pesanan</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalOrders }}</td>
+            <td><strong>Total Pesanan</strong></td>
+            <td>{{ $totalOrders }}</td>
         </tr>
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Kategori</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalCategories }}</td>
+            <td><strong>Total Kategori</strong></td>
+            <td>{{ $totalCategories }}</td>
         </tr>
         <tr>
-            <td style="border: 1px solid gray; padding: 5px;"><strong>Total Game</strong></td>
-            <td style="border: 1px solid gray; padding: 5px;">{{ $totalGames }}</td>
+            <td><strong>Total Game</strong></td>
+            <td>{{ $totalGames }}</td>
         </tr>
     </table>
 

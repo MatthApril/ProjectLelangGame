@@ -17,29 +17,29 @@
 
     <br><br>
 
-    <table border="1" cellpadding="10">
+    <table border="1" class="table table-striped">
         <thead>
             <tr>
-                <th style="border: 1px solid gray; padding: 5px;">No</th>
-                <th style="border: 1px solid gray; padding: 5px;">Gambar</th>
-                <th style="border: 1px solid gray; padding: 5px;">Nama Game</th>
-                <th style="border: 1px solid gray; padding: 5px;">Kategori Tersedia</th>
-                <th style="border: 1px solid gray; padding: 5px;">Aksi</th>
+                <th>No</th>
+                <th>Gambar</th>
+                <th>Nama Game</th>
+                <th>Kategori Tersedia</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @forelse($games as $game)
             <tr>
-                <td style="border: 1px solid gray; padding: 5px;">{{ ($games->currentPage() - 1) * $games->perPage() + $loop->iteration }}</td>
-                <td style="border: 1px solid gray; padding: 5px;">
+                <td>{{ ($games->currentPage() - 1) * $games->perPage() + $loop->iteration }}</td>
+                <td>
                     @if($game->game_img)
                         <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="100">
                     @else
                         <span>No Image</span>
                     @endif
                 </td>
-                <td style="border: 1px solid gray; padding: 5px;">{{ $game->game_name }}</td>
-                <td style="border: 1px solid gray; padding: 5px;">
+                <td>{{ $game->game_name }}</td>
+                <td>
                    @forelse($game->gamesCategories as $gc)
                         @if($gc->category)
                             <span style="{{ $gc->category->deleted_at ? 'color: red; text-decoration: line-through;' : '' }}">
@@ -54,7 +54,7 @@
                         <span style="color: orange;">Tidak ada kategori</span>
                     @endforelse
                 </td>
-                <td style="border: 1px solid gray; padding: 5px;">
+                <td>
                     <a href="{{ route('admin.games.edit', $game->game_id) }}" class="text-decoration-none link-footer">Edit</a>
 
                     <form action="{{ route('admin.games.destroy', $game->game_id) }}" method="POST" style="display:inline;">
@@ -66,7 +66,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="border: 1px solid gray; padding: 5px;">Belum ada game</td>
+                <td colspan="5">Belum ada game</td>
             </tr>
             @endforelse
         </tbody>

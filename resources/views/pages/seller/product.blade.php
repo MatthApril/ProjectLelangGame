@@ -22,8 +22,8 @@
                         {{ $category->category_name }}
                     </option>
                 @endforeach
-            </select>
-            <input type="text" name="search" placeholder="Cari nama produk" value="{{ request('search') }}">
+            </select><br><br>
+            <input type="text" name="search" placeholder="Cari nama produk" value="{{ request('search') }}" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;"><br><br>
 
             {{-- <button type="submit">Cari</button> --}}
 

@@ -46,20 +46,20 @@
 
     <h6 class="fw-bold">Daftar Kategori (Total: {{ $categories->count() }})</h6>
 
-    <table border="1" cellpadding="10">
+    <table border="1" class="table table-striped">
         <thead>
             <tr>
-                <th style="border: 1px solid gray; padding: 5px;">No</th>
-                <th style="border: 1px solid gray; padding: 5px;">Nama Kategori</th>
-                <th style="border: 1px solid gray; padding: 5px;">Aksi</th>
+                <th>No</th>
+                <th>Nama Kategori</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @forelse($categories as $category)
             <tr>
-                <td style="border: 1px solid gray; padding: 5px;">{{ $loop->iteration }}</td>
-                <td style="border: 1px solid gray; padding: 5px;">{{ $category->category_name }}</td>
-                <td style="border: 1px solid gray; padding: 5px;">
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $category->category_name }}</td>
+                <td>
                     <a href="{{ route('admin.categories.edit', $category->category_id) }}" class="text-decoration-none link-footer">Edit</a>
 
                     <form action="{{ route('admin.categories.destroy', $category->category_id) }}" method="POST" style="display:inline;">
