@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\EmailRegisteredRule;
 use App\Rules\ShopNameExist;
-use App\Rules\UsernameExistRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class OpenShopRequest extends FormRequest
+class UpdateShopRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,8 +15,7 @@ class OpenShopRequest extends FormRequest
     {
         return true;
     }
-
-     protected function prepareForValidation()
+    protected function prepareForValidation()
     {
         if ($this->has('open_hour')) {
             $this->merge([
@@ -39,9 +37,10 @@ class OpenShopRequest extends FormRequest
      */
     public function rules(): array
     {
+        $shop = Auth::user()->shop;
         return [
-            'shop_name' => ['required', 'string','max:255', new ShopNameExist],
-            'shop_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'shop_name' => ['required','string','max:255',new ShopNameExist($shop->shop_id)],
+            'shop_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'open_hour' => 'required|date_format:H:i',
             'close_hour' => 'required|date_format:H:i|after:open_hour',
         ];
@@ -52,7 +51,6 @@ class OpenShopRequest extends FormRequest
         return [
             'shop_name.required' => 'Nama Toko wajib diisi',
             'shop_name.max' => 'Nama Toko maksimal 255 karakter',
-            'shop_img.required' => 'Gambar Toko wajib diupload',
             'shop_img.image' => 'File harus berupa gambar',
             'shop_img.mimes' => 'Format gambar harus: jpeg, png, atau jpg',
             'shop_img.max' => 'Ukuran gambar maksimal 2MB',
@@ -63,5 +61,4 @@ class OpenShopRequest extends FormRequest
             'close_hour.after' => 'Jam tutup harus lebih lambat dari jam buka',
         ];
     }
-
 }

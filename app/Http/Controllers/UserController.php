@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
-use App\Models\Message;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\Shop;
@@ -69,28 +67,46 @@ class UserController extends Controller
     }
 
     function showHome() {
-        $owners = User::where('role', 'seller')->get();
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
                     $q->where('status', 'open');
                 });
+                if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+                    $query->where('shop_id', '!=', Auth::user()->shop->shop_id);
+                }
             }])->orderBy('products_count', 'desc')->take(6)->get();
 
-        $latestProducts = Product::with(['game', 'shop', 'category'])
+        $latestProductsQuery = Product::with(['game', 'shop', 'category'])
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
             })->whereHas('shop', function($query) {
                 $query->where('status', 'open');
-            })->where('stok', '>', 0)->latest()->take(12)->get();
+            })->where('stok', '>', 0);
+            if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+                $latestProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
+            }
+        $latestProducts = $latestProductsQuery->latest()->take(12)->get();
+        $topShopsQuery = Shop::where('status', 'open');
 
-        $topShops = Shop::where('status', 'open')->orderBy('shop_rating', 'desc')->take(6)->get();
+        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+            $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
+        }
+        $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
 
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners'));
+        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops'));
     }
 
     public function showGames(Request $request)
     {
-        $query = Game::withCount('products');
+        $query = Game::withCount(['products'=> function($q){
+            $q->whereHas('shop',function($query){
+                $query->where('status','open');
+            });
+            if(Auth::check()&&Auth::user()->role === 'seller'&&Auth::user()->shop){
+                $q->where('shop_id','!=',Auth::user()->shop->shop_id);
+            }
+        }]);
+
 
         if ($request->filled('search')) {
             $query->where('game_name', 'LIKE', '%' . $request->search . '%');
@@ -112,11 +128,15 @@ class UserController extends Controller
                 $query->whereNull('deleted_at');
             })->with('category')->get()->pluck('category')->filter();
 
-        $products = Product::where('game_id', $game->game_id)->with(['shop', 'category'])
+        $productsQuery = Product::where('game_id', $game->game_id)->with(['shop', 'category'])
             ->whereHas('shop', function($query) {
                 $query->where('status', 'open');
             })
-            ->where('stok', '>', 0)->latest()->paginate(12);
+            ->where('stok', '>', 0);
+        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+            $productsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
+        }
+        $products=$productsQuery->latest()->paginate(12);
 
         return view('pages.user.game_detail', compact('game', 'categories', 'products'));
     }
@@ -129,6 +149,9 @@ class UserController extends Controller
             })
             ->where('stok', '>', 0);
 
+        if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+            $query->where('shop_id','!=',Auth::user()->shop->shop_id);
+        }
         if ($request->filled('search')) {
             $query->where('product_name', 'LIKE', '%' . $request->search . '%');
         }
@@ -178,12 +201,15 @@ class UserController extends Controller
     {
         $product = Product::with(['game', 'shop', 'category', 'comments.user'])->findOrFail($id);
 
-        $relatedProducts = Product::where('game_id', $product->game_id)
+        $relatedProductsQuery = Product::where('game_id', $product->game_id)
             ->where('category_id', $product->category_id)
             ->where('product_id', '!=', $product->product_id)
-            ->where('stok', '>', 0)
-            ->take(12)
-            ->get();
+            ->where('stok', '>', 0);
+
+        if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop) {
+            $relatedProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
+        }
+        $relatedProducts = $relatedProductsQuery->take(12)->get();
 
         return view('pages.user.product_detail', compact('product', 'relatedProducts'));
     }

@@ -24,7 +24,6 @@ class CategoryNameUnique implements ValidationRule
         $query = Category::whereNull('deleted_at')
             ->where('category_name', $value);
 
-        // Jika ada ID yang di-ignore (untuk update)
         if ($this->ignoreId) {
             $query->where('category_id', '!=', $this->ignoreId);
         }

@@ -54,4 +54,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductComment::class, 'product_id', 'product_id');
     }
+
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class, 'product_id', 'product_id');
+    }
 }
