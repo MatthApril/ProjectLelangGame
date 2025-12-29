@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id('order_id');
+            $table->string('order_id', 255)->primary();
             $table->foreignId('user_id')->constrained('users', 'user_id');
-            $table->foreignId('shop_id')->constrained('shops', 'shop_id');
+            $table->enum('status', ['unpaid', 'paid', 'completed', 'cancelled']);
             $table->integer('total_prices');
-            $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled']);
             $table->timestamps();
         });
     }

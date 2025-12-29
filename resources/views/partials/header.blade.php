@@ -97,7 +97,7 @@
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a>
         </div>
 </nav>
-{{--  --}}
+
 {{-- <div class="container-fluid py-2 bg-darkblue">
     @auth
         <h1 class="text-white"> Welcome {{ Auth::user()->username }}</h1>

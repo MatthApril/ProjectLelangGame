@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
-use App\Models\Message;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,9 +18,40 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user_cart = $user->cart()->first();
-        $cartItems = $user_cart ? $user_cart->cartItems()->with('product')->get() : collect();
+        $cartItems = $user_cart
+                ? $user_cart->cartItems()
+                    ->whereHas('product', function ($q) {
+                        $q->whereNull('deleted_at');
+                    })
+                    ->with('product')
+                    ->get()
+                : collect();
 
         return view('pages.user.cart', compact('cartItems'));
+    }
+
+    public function showOrders()
+    {
+        $user = Auth::user();
+        $orders = $user->orders()->with('shop')->get();
+
+        return view('pages.user.my_order', compact('orders'));
+    }
+
+    public function showOrderDetail($orderId)
+    {
+        $user = Auth::user();
+        $order = $user->orders()
+                ->with([
+                    'orderItems.product' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'shop'
+                ])
+                ->where('order_id', $orderId)
+                ->firstOrFail();
+
+        return view('pages.user.order_detail', compact('order'));
     }
 
     public function showCartPartial()
@@ -59,7 +89,7 @@ class UserController extends Controller
             }
         $latestProducts = $latestProductsQuery->latest()->take(12)->get();
         $topShopsQuery = Shop::where('status', 'open');
-        
+
         if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
@@ -120,7 +150,7 @@ class UserController extends Controller
                 $q->where('status', 'open');
             })
             ->where('stok', '>', 0);
-        
+
         if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $query->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
