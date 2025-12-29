@@ -4,33 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
 use App\Models\Message;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    function show($userId) {
+    public function show(Request $request, $userId) {
         $myId = Auth::user()->user_id;
         $otherUser = User::findOrFail($userId);
-        $otherUserId = $userId;
 
-        $messages = Message::where(function($query) use ($myId, $otherUserId) {
-            $query->where('sender_id', $myId)
-                  ->where('receiver_id', $otherUserId);
-        })->orWhere(function($query) use ($myId, $otherUserId) {
-            $query->where('sender_id', $otherUserId)
-                  ->where('receiver_id', $myId);
+        $product = null;
+        $autoMessage = '';
+
+        $messages = Message::where(function($query) use ($myId, $userId) {
+            $query->where('sender_id', $myId)->where('receiver_id', $userId);
+        })->orWhere(function($query) use ($myId, $userId) {
+            $query->where('sender_id', $userId)->where('receiver_id', $myId);
         })->orderBy('created_at', 'asc')->get();
 
-        $param['messages'] = $messages;
-        $param['otherUser'] = $otherUser;
-        
-        if (Auth::user()->role == 'seller') {
-            return view('pages.seller.chat', $param);
+        if ($request->has('product_id')) {
+            $product = Product::with('shop.owner')->find($request->input('product_id'));
+
+            if ($product){
+                $autoMessage = "Halo, saya tertarik dengan produk '{$product->product_name}' dalam toko '{$product->shop->shop_name}' dengan harga Rp " . number_format($product->price, 0, ',', '.') . ". Apakah masih tersedia?";
+            }
         }
 
-        return view('pages.user.chat', $param);
+        $viewName = (Auth::user()->role == 'seller') ? 'pages.seller.chat' : 'pages.user.chat';
+
+        return view($viewName, compact('messages', 'otherUser', 'product', 'autoMessage'));
     }
 
     public function store(Request $request, $receiverId)

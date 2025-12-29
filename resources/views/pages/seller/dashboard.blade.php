@@ -29,16 +29,18 @@
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        <a href="{{ route('seller.chat.show', ['userId' => $user->user_id]) }}">
-                            <button class="btn btn-primary">
+                        <form action="{{ route('user.chat.show', $user->user_id) }}" method="post">
+                            @csrf
+                            <button class="btn btn-primary" type="submit">
                                 Chat
                             </button>
-                        </a>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </table>
     </div>
-    
+
         <h2>Keuangan Toko</h2>
         <table border="1" cellpadding="10">
             <tr>

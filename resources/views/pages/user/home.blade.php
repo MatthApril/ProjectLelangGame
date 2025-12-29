@@ -73,7 +73,7 @@
         </section>
     </div>
 
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
         <h3>Owners</h3>
         <table border="1" class="table table-striped">
             <tr>
@@ -88,14 +88,15 @@
                     <td>{{ $owner->username }}</td>
                     <td>{{ $owner->email }}</td>
                     <td>
-                        <a href="{{ route('user.chat.show', ['userId' => $owner->user_id]) }}">
-                            <button class="btn btn-primary">
+                        <form action="{{ route('user.chat.show', $owner->user_id) }}" method="post">
+                            @csrf
+                            <button class="btn btn-primary" type="submit">
                                 Chat
                             </button>
-                        </a>
+                        </form>
                     </td>
                 </tr>
             @endforeach
         </table>
-    </div>
+    </div> --}}
 @endsection

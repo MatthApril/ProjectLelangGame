@@ -30,7 +30,7 @@ class UserController extends Controller
             })->where('stok', '>', 0)->latest()->take(12)->get();
 
         $topShops = Shop::where('status', 'open')->orderBy('shop_rating', 'desc')->take(6)->get();
-
+        
         return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners'));
     }
 
