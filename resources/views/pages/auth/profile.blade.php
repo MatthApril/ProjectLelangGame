@@ -50,12 +50,21 @@
                 </div>
                 <div class="card-body">
                     @if ($user->role == 'seller')
-                    <form action="{{ route('change-shop-name') }}" method="post">
+                    <form action="{{ route('change-shop-name') }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        <label>Gambar Toko Baru</label>
+                        {{-- <input type="text" name="shop_img" id="shop_img" value="{{ $user->shop?->shop_img }}" class="form-control mb-3"> --}}
+                        
                         <label>Nama Toko</label>
-                        <input type="text" name="shop_name" id="shop_name" value="{{ $user->shop?->shop_name }}" class="form-control" placeholder="Nama Toko Baru" required>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-outline-success mt-3"><i class="bi bi-floppy-fill"></i> Simpan Nama Toko</button>
+                        <input type="text" name="shop_name" id="shop_name" value="{{ $user->shop?->shop_name }}" class="form-control mb-3" placeholder="Nama Toko Baru" required>
+
+                        <label>Jam Buka</label>
+                        <input type="time" name="open_hour" id="open_hour" value="{{ $user->shop?->open_hour }}" class="form-control mb-3" required>
+
+                        <label>Jam Tutup</label>
+                        <input type="time" name="close_hour" id="close_hour" value="{{ $user->shop?->close_hour }}" class="form-control" required>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-dark rounded-5 my-3"><i class="bi bi-floppy-fill"></i> Simpan Seluruh Informasi Toko</button>
                         </div>
                     </form>
                     @endif
@@ -113,7 +122,7 @@
         <h1 class="modal-title fs-4 fw-bold" id="modalNamaTokoLabel"><i class="bi bi-bag-fill"></i> Mulai Berjualan</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="{{ route('do-open-shop') }}" method="post">
+        <form action="{{ route('do-open-shop') }}" method="post" enctype="multipart/form-data">
         <div class="modal-body">
             @csrf
             @error('shop_name')
@@ -122,8 +131,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @enderror
+            @error('shop_img')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @enderror
+            @error('open_hour')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @enderror
+            @error('close_hour')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @enderror
             <label>Nama Toko</label>
-            <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}" class="form-control" placeholder="Nama Toko Baru" autocomplete="off" required>
+            <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}" class="form-control mb-3" placeholder="Nama Toko Baru" autocomplete="off" required>
+            <label>Gambar Toko</label>
+            <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control" required>
+            <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
+            <label>Jam Buka</label>
+            <input type="time" name="open_hour" id="open_hour" value="{{ old('open_hour') }}" class="form-control mb-3" required>
+            <label>Jam Tutup</label>
+            <input type="time" name="close_hour" id="close_hour" value="{{ old('close_hour') }}" class="form-control mb-3" required>
             <hr>
             <button type="submit" class="btn btn-primary float-end mb-3">Kirim Nama Toko <i class="bi bi-caret-right-fill"></i></button>
         </div>
