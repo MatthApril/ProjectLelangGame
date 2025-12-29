@@ -60,9 +60,9 @@
                 <td style="border: 1px solid gray; padding: 5px;">{{ $loop->iteration }}</td>
                 <td style="border: 1px solid gray; padding: 5px;">{{ $category->category_name }}</td>
                 <td style="border: 1px solid gray; padding: 5px;">
-                    <a href="{{ route('admin.categories.edit', $category->category_id) }}">Edit</a>
+                    <a href="{{ route('admin.categories.edit', $category->category_id) }}" class="text-decoration-none link-footer">Edit</a>
 
-                    <form action="{{ route('admin.categories.destroy', $category->category_id) }}" method="POST">
+                    <form action="{{ route('admin.categories.destroy', $category->category_id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" onclick="return confirm('Yakin ingin menghapus kategori ini?')" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
