@@ -51,7 +51,7 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <div class="captcha">
                                     <span>{!! captcha_img() !!}</span>
-                                    <button type="button" class="btn btn-danger" id="refresh-captcha"><i
+                                    <button type="button" class="btn btn-danger my-2" id="refresh-captcha"><i
                                             class="bi bi-arrow-clockwise"></i></button>
                                 </div>
                             </div>

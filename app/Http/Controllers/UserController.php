@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,6 +68,7 @@ class UserController extends Controller
     }
 
     function showHome() {
+        $owners = User::where('role', 'seller')->get();
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
                     $q->where('status', 'open');
@@ -93,7 +95,7 @@ class UserController extends Controller
         }
         $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
 
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops'));
+        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners'));
     }
 
     public function showGames(Request $request)

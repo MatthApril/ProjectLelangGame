@@ -5,7 +5,7 @@
 @section('content')
     <div>
         <form action="{{ route('products.index') }}" method="GET">
-            <input type="text" name="search" placeholder="Cari produk...">
+            <input type="text" name="search" placeholder="Cari Produk" autofocus>
             <button type="submit">Cari</button>
         </form>
 

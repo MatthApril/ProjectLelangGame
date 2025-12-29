@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->string('order_id', 255)->primary();
             $table->foreignId('user_id')->constrained('users', 'user_id');
+            $table->enum('status', ['unpaid', 'paid', 'completed', 'cancelled']);
             $table->integer('total_prices');
             $table->timestamps();
         });
