@@ -20,7 +20,7 @@
         </h4>
 
         <p style="font-size:15px; color:#475569; line-height:1.6; margin-bottom:20px;">
-            Email anda berhasil di ubah. Jika anda tidak melakukan perubahan ini, segera hubungi admin LelangGame melalui email di <i>testinggdg12345@gmail.com</i>
+            Email anda berhasil di ubah. Jika anda tidak melakukan perubahan ini, segera hubungi admin LelangGame melalui email di <i>lelanggameofficial@gmail.com</i>
         </p>
     </div>
 </body>

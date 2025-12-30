@@ -13,6 +13,11 @@ use Illuminate\Support\Str;
 class PaymentController extends Controller
 {
 
+    public function showCheckout()
+    {
+        return view('pages.payments.checkout');
+    }
+
     public function checkout(Request $req)
     {
         $user = Auth::user();
@@ -43,7 +48,7 @@ class PaymentController extends Controller
                 'order_id' => $orderId,
                 'user_id' => $user->user_id,
                 'shop_id' => $cart->cartItems->first()->product->shop_id,
-                'status' => 'pending',
+                'status' => 'unpaid',
                 'total_prices' => 0,
             ]);
 
@@ -96,6 +101,9 @@ class PaymentController extends Controller
                 'name' => $user->username,
                 'email' => $user->email,
             ],
+            'callbacks' => [
+                'finish' => route('payment.midtrans.callback'),
+            ],
         ];
 
         \Illuminate\Support\Facades\Log::info('MIDTRANS PARAMS', $params);
@@ -106,14 +114,27 @@ class PaymentController extends Controller
 
     public function callback (Request $req)
     {
-        $server_key = config('midtrans.server_key');
-        $hashed = hash("sha512", $req->order_id . $req->status_code . $req->gross_amount . $server_key);
-        if ($hashed == $req->signature_key) {
+        if ($req->transaction_status == 'capture') {
             $order = Order::where('order_id', $req->order_id)->first();
             if ($order) {
+                $order->update(['status' => 'paid']);
+                foreach ($order->orderItems as $item) {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $product->decrement('stok', $item->quantity);
+                    }
+                    $item->update(['status' => 'shipped']);
+                }
 
+                $user = Auth::user();
+                $cart = $user->cart->first();
+                $cart->cartItems()->delete();
+
+                return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }
         }
+
+        return redirect()->route('user.home')->with('error', 'Pembayaran gagal atau dibatalkan.');
     }
 
 }

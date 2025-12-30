@@ -4,8 +4,14 @@
 
 @section('content')
 <div class="container-fluid">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb mt-3">
+        <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profile</li>
+    </ol>
+    </nav>
     <div class="row">
-        <div class="col-md-2 my-2">
+        <div class="col-md-2">
             <hr>
             <div class="d-flex align-items-center justify-content-center gap-4">
                 <div>
@@ -18,7 +24,7 @@
             </div>
             <hr>
         </div>
-        <div class="col-md-10 my-4">
+        <div class="col-md-10 mt-3">
             @error('username')
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
@@ -50,13 +56,21 @@
                 </div>
                 <div class="card-body">
                     @if ($user->role == 'seller')
-                    <form action="{{ route('change-shop-name') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        {{-- @if($shop)
+                            @method('PUT')
+                        @endif --}}
                         <label>Gambar Toko Baru</label>
-                        {{-- <input type="text" name="shop_img" id="shop_img" value="{{ $user->shop?->shop_img }}" class="form-control mb-3"> --}}
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-secondary rounded-5 my-2" data-bs-toggle="modal" data-bs-target="#modalEditFotoToko">
+                                <i class="bi bi-image-fill"></i> Ganti Foto Profile Toko
+                            </button>
+                        </div>
+                        {{-- <input type="hidden" name="shop_img" id="shop_img" value="{{ $user->shop?->shop_img }}" class="form-control mb-3"> --}}
                         
                         <label>Nama Toko</label>
-                        <input type="text" name="shop_name" id="shop_name" value="{{ $user->shop?->shop_name }}" class="form-control mb-3" placeholder="Nama Toko Baru" required>
+                        <input type="text" name="shop_name" id="shop_name" value="{{ $user->shop?->shop_name }}" class="form-control mb-3" placeholder="Nama Toko Baru" autocomplete="off" required>
 
                         <label>Jam Buka</label>
                         <input type="time" name="open_hour" id="open_hour" value="{{ $user->shop?->open_hour }}" class="form-control mb-3" required>
@@ -64,7 +78,7 @@
                         <label>Jam Tutup</label>
                         <input type="time" name="close_hour" id="close_hour" value="{{ $user->shop?->close_hour }}" class="form-control" required>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-outline-dark rounded-5 my-3"><i class="bi bi-floppy-fill"></i> Simpan Seluruh Informasi Toko</button>
+                            <button type="submit" class="btn btn-outline-dark rounded-5 my-3"><i class="bi bi-floppy-fill"></i> Simpan Informasi Toko</button>
                         </div>
                     </form>
                     @endif
@@ -152,7 +166,7 @@
             <label>Nama Toko</label>
             <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}" class="form-control mb-3" placeholder="Nama Toko Baru" autocomplete="off" required>
             <label>Gambar Toko</label>
-            <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control" required>
+            <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
             <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
             <label>Jam Buka</label>
             <input type="time" name="open_hour" id="open_hour" value="{{ old('open_hour') }}" class="form-control mb-3" required>
@@ -160,6 +174,36 @@
             <input type="time" name="close_hour" id="close_hour" value="{{ old('close_hour') }}" class="form-control mb-3" required>
             <hr>
             <button type="submit" class="btn btn-primary float-end mb-3">Kirim Nama Toko <i class="bi bi-caret-right-fill"></i></button>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+{{-- ModalEditFotoToko --}}
+<div class="modal fade" id="modalEditFotoToko" tabindex="-1" aria-labelledby="modalEditFotoTokoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4 fw-bold" id="modalEditFotoTokoLabel"><i class="bi bi-image-fill"></i> Edit Foto Toko</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            @csrf
+            {{-- @if($shop)
+                @method('PUT')
+            @endif --}}
+            @error('shop_img')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @enderror
+            <label>Gambar Toko</label>
+            <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control" required>
+            <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
+            <hr>
+            <button type="submit" class="btn btn-primary float-end mb-3">Kirim Foto Toko Baru <i class="bi bi-caret-right-fill"></i></button>
         </div>
         </form>
     </div>

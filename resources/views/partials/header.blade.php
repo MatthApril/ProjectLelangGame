@@ -8,18 +8,18 @@
                 </a>
             </div>
             @auth
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <form>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-search"></i>
                             </span>
-                            <input type="search" class="form-control" placeholder="Coba Cari Game" aria-label="Search"
+                            <input type="search" class="form-control" placeholder="Coba Cari Game" aria-label="Search" autocomplete="off"
                                 autofocus>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3 py-2">
+                <div class="col-md-4 py-2">
                     <div class="d-flex align-items-center justify-content-end gap-3">
                         <a href="#" class="text-decoration-none text-white"><i class="bi bi-envelope"
                                 style="font-size: 1.5rem;"></i></a>
@@ -42,7 +42,7 @@
                                 </li>
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
-                                    <li><button type="submit" class="dropdown-item text-danger fw-semibold"
+                                    <li><button type="submit" class="dropdown-item text-danger"
                                             href="{{ route('logout') }}"><i class="bi bi-box-arrow-left"></i>
                                             Logout</button></li>
                                 </form>
@@ -96,6 +96,7 @@
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-gem"></i> Diamond MLBB</a>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a>
         </div>
+    </div>
 </nav>
 
 {{-- <div class="container-fluid py-2 bg-darkblue">

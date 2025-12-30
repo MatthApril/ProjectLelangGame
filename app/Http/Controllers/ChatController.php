@@ -25,7 +25,7 @@ class ChatController extends Controller
 
         $param['messages'] = $messages;
         $param['otherUser'] = $otherUser;
-        
+
         if (Auth::user()->role == 'seller') {
             return view('pages.seller.chat', $param);
         }
