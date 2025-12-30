@@ -29,7 +29,7 @@ class OtpForgotPwd extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'OTP - Forgot Password',
+            subject: 'OTP - Verifikasi Lupa Password',
         );
     }
 

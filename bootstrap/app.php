@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check_status' => \App\Http\Middleware\CheckStatus::class,
             'check_change_pwd_status' => \App\Http\Middleware\CheckChangePwdStatus::class,
             'check_forgot_pwd_status' => \App\Http\Middleware\CheckForgotPwdStatus::class,
+            'check_expire_payment' => \App\Http\Middleware\CheckExpirePayment::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

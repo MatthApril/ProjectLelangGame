@@ -1,12 +1,10 @@
 @extends('layouts.template')
 
 @section('content')
-<div>
-    <h1>Dashboard Admin</h1>
-
+<div class="container-fluid mt-2">
+    <h1 class="fw-semibold">Dashboard Admin</h1>
     <hr>
-
-    <h2>Statistik Sistem</h2>
+    <h3 class="fw-semibold">Statistik Sistem</h3>
     <table border="1" cellpadding="10">
         <tr>
             <td><strong>Total Users</strong></td>

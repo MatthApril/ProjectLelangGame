@@ -86,10 +86,9 @@
                     <i class="bi bi-grid"></i> Kategori
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Top Up Game</a></li>
-                    <li><a class="dropdown-item" href="#">Joki</a></li>
-                    <li><a class="dropdown-item" href="#">Akun</a></li>
-                    <li><a class="dropdown-item" href="#">Item</a></li>
+                    @foreach($categories as $category)
+                        <li><a class="dropdown-item" href="#">{{ $category->category_name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-steam"></i> Steam Gift Cards</a>

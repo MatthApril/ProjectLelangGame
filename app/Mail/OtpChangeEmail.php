@@ -29,7 +29,7 @@ class OtpChangeEmail extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'OTP - Change Email Verification',
+            subject: 'OTP - Verifikasi Ganti Email',
         );
     }
 
