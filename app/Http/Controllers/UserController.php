@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
+use App\Http\Requests\InputProductCommentRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\OrderItem;
+use App\Models\ProductComment;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -52,6 +55,59 @@ class UserController extends Controller
                 ->firstOrFail();
 
         return view('pages.user.order_detail', compact('order'));
+    }
+    public function storeReview(InputProductCommentRequest $request, $orderItemId)
+    {
+        try {
+            $validated = $request->validated();
+            
+            $user = Auth::user();
+            
+            $orderItem = OrderItem::with(['order', 'product'])
+                ->where('order_item_id', $orderItemId)
+                ->whereHas('order', function($q) use ($user) {
+                    $q->where('user_id', $user->user_id);
+                })
+                ->firstOrFail();
+
+            if ($orderItem->status !== 'completed') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hanya bisa review produk yang sudah completed'
+                ], 400);
+            }
+
+            if ($orderItem->hasReview()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Produk ini sudah direview'
+                ], 400);
+            }
+
+            $comment = ProductComment::create([
+                'product_id' => $orderItem->product_id,
+                'user_id' => $user->user_id,
+                'order_item_id' => $orderItem->order_item_id,
+                'rating' => $validated['rating'],
+                'comment' => $validated['comment'] ?? null,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Review berhasil ditambahkan',
+                'data' => [
+                    'rating' => $comment->rating,
+                    'comment' => $comment->comment,
+                    'created_at' => $comment->created_at->format('d M Y H:i')
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function showCartPartial()
