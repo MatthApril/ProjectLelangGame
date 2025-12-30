@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users', 'user_id');
             $table->enum('status', ['unpaid', 'paid', 'completed', 'cancelled']);
             $table->integer('total_prices');
+            $table->string('snap_token')->nullable();
             $table->timestamps();
         });
     }
