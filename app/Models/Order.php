@@ -18,6 +18,7 @@ class Order extends Model
         'user_id',
         'status',
         'snap_token',
+        'expire_payment_at',
         'total_prices',
     ];
 

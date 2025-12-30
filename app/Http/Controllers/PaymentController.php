@@ -120,8 +120,12 @@ class PaymentController extends Controller
 
     public function showPayment(Request $req)
     {
-        $snapToken = $req->snap_token;
+        $req->validate([
+            'order_id' => 'required|string',
+        ]);
+
         $order = Order::where('order_id', $req->order_id)->first();
+        $snapToken = $order->snap_token;
         return view('pages.payments.checkout', compact('snapToken', 'order'));
     }
 
@@ -156,6 +160,7 @@ class PaymentController extends Controller
                 'user_id' => $user->user_id,
                 'shop_id' => $cart->cartItems->first()->product->shop_id,
                 'status' => 'unpaid',
+                'expire_payment_at' => now()->addMinutes(5),
                 'total_prices' => 0,
             ]);
 
@@ -243,7 +248,14 @@ class PaymentController extends Controller
             }
         }
 
-        return redirect()->route('user.home')->with('error', 'Pembayaran gagal atau dibatalkan.');
+        if ($req->transaction_status == 'expire') {
+            $order = Order::where('order_id', $req->order_id)->first();
+            if ($order) {
+                $order->update(['status' => 'expire']);
+            }
+        }
+
+        return redirect()->route('user.orders')->with('error', 'Pembayaran gagal atau dibatalkan.');
     }
 
 }

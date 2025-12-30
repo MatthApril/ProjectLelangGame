@@ -9,9 +9,8 @@ Route::prefix('payment')->as('payment.')
 ->group(function() {
     Route::get('/checkout', [PaymentController::class, 'showCheckout'])->name('checkout.form');
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
-    Route::post('/payment', [PaymentController::class, 'showPayment'])->name('show.payment');
+    Route::post('/payment', [PaymentController::class, 'showPayment'])->middleware('check_expire_payment')->name('show.payment');
     Route::get('/midtrans-callback', [PaymentController::class, 'callback'])->name('midtrans.callback');
-    Route::get('/finish', [PaymentController::class, 'finish'])->name('finish');
 });
 
 // XENDIT PAYMENT
