@@ -2,7 +2,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="px-5 my-3">
+<div class="my-3">
     <h5 class="fw-semibold text-dark">Manajemen Kategori</h5>
 
     @if(session('success'))
@@ -13,7 +13,7 @@
         <p style="color: red;">{{ session('error') }}</p>
     @endif
 
-    <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a>
+    {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
 
     <hr>
 

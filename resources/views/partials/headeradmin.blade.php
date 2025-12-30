@@ -48,6 +48,16 @@
         </div>
     </div>
 </nav>
+{{-- navbar 2 --}}
+{{-- <nav class="bg-navyblue text-white py-2">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center gap-3">
+            <a href="{{ route('admin.categories.index') }}" class="text-decoration-none text-white link-footer">Manage Kategori</a>
+            <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white link-footer">Manage Game</a>
+            <a href="{{ route('admin.games.create') }}" class="text-decoration-none text-white link-footer">Tambah Game Baru</a>
+        </div>
+    </div>
+</nav> --}}
 {{-- <div class="container-fluid py-2 bg-darkblue">
     @auth
         <h1 class="text-white"> Welcome {{ Auth::user()->username }}</h1>

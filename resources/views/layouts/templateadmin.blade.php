@@ -18,7 +18,68 @@
 
 <body>
     @include('partials.headeradmin')
-    @yield('content')
+    {{-- navbar --}}
+    <div class="d-flex">
+        <div class="bg-navyblue text-white py-3 me-3" style="width: 220px; min-height: 100vh;">
+            <div class="container-fluid">
+                <h6 class="fw-bold">Menu Manajemen</h6>
+                
+                <a href="{{ route('admin.categories.index') }}" class="text-decoration-none text-white link-navbar {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Manage Kategori</a>
+                
+                <br>
+
+                <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white link-navbar {{ Route::is('admin.games.index') ? 'menu-active' : '' }}">Manage Game</a>
+
+                <br><br>
+
+                <h6 class="fw-bold">Lainnya</h6>
+                <a href="{{ route('admin.games.create') }}" class="text-decoration-none text-white link-navbar {{ Route::is('admin.games.create') ? 'menu-active' : '' }}">Tambah Game Baru</a>
+            </div>
+        </div>
+        <div class="content" style="flex-grow: 1; padding-right: 20px;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    @if(!Route::is('admin.dashboard'))
+                        <li class="breadcrumb-item mt-3"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Dashboard</a></li>
+                    @endif
+                    @if(Route::is('admin.categories.*'))
+                        <li class="breadcrumb-item active mt-3">Kategori</li>
+                    @elseif(Route::is('admin.games.*'))
+                        <li class="breadcrumb-item active mt-3">Game</li>
+                    @endif
+                    
+                    @if(Route::is('*.create'))
+                        <li class="breadcrumb-item active mt-3" aria-current="page">Tambah Game Baru</li>
+                    @elseif(Route::is('*.edit'))
+                        <li class="breadcrumb-item active mt-3" aria-current="page">Edit</li>
+                    @endif
+                </ol>
+            </nav>
+            @yield('content')
+        </div>
+    </div>
+    {{-- navbar 2 cuma pake breadcrumbs --}}
+    {{-- <div class="content" style="flex-grow: 1; padding-right: 20px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                @if(!Route::is('admin.dashboard'))
+                    <li class="breadcrumb-item mt-3"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Dashboard</a></li>
+                @endif
+                @if(Route::is('admin.categories.*'))
+                    <li class="breadcrumb-item active mt-3">Kategori</li>
+                @elseif(Route::is('admin.games.*'))
+                    <li class="breadcrumb-item active mt-3">Game</li>
+                @endif
+                
+                @if(Route::is('*.create'))
+                    <li class="breadcrumb-item active mt-3" aria-current="page">Tambah Game Baru</li>
+                @elseif(Route::is('*.edit'))
+                    <li class="breadcrumb-item active mt-3" aria-current="page">Edit</li>
+                @endif
+            </ol>
+        </nav>
+        @yield('content')
+    </div> --}}
     @include('partials.footeradmin')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

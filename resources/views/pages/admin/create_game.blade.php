@@ -1,8 +1,10 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="px-5 my-3">
+<div class="my-3">
     <h5 class="fw-semibold text-dark">{{ $game ? 'Edit Game' : 'Tambah Game Baru' }}</h5>
+
+    <hr>
 
     <form action="{{ $game ? route('admin.games.update', $game->game_id) : route('admin.games.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -39,7 +41,9 @@
         <br>
 
         <div>
-            <label>Kategori Game *<br> <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">(Kelola Kategori)</a></label>
+            <label>Kategori Game *<br> 
+                {{-- <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">(Kelola Kategori)</a> --}}
+            </label>
             <br>
             @php
                 $selectedCategories = $game ? $game->gamesCategories->pluck('category_id')->toArray() : old('categories', []);

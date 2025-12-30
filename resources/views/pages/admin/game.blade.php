@@ -1,7 +1,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="px-5 my-3">
+<div class="my-3">
     <h5 class="fw-semibold text-dark">Daftar Game</h5>
 
     @if(session('success'))
@@ -12,10 +12,10 @@
         <p style="color: red;">{{ session('error') }}</p>
     @endif
 
-    <a href="{{ route('admin.games.create') }}" class="text-decoration-none link-footer">Tambah Game Baru</a> |
-    <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a>
+    <a href="{{ route('admin.games.create') }}" class="text-decoration-none link-footer">Tambah Game Baru</a>
+    {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
 
-    <br><br>
+    <hr>
 
     <table border="1" class="table table-striped">
         <thead>

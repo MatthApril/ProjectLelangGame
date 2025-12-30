@@ -1,7 +1,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="px-5 my-3">
+<div class="my-3">
     <h5 class="fw-semibold text-dark">Dashboard Admin</h5>
 
     <hr>
@@ -38,12 +38,10 @@
         </tr>
     </table>
 
-    <br>
-
-    <h6 class="fw-bold">Menu Manajemen</h6>
+    {{-- <h6 class="fw-bold">Menu Manajemen</h6>
     <p>
         <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Manage Kategori</a> |
         <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Manage Game</a>
-    </p>
+    </p> --}}
 </div>
 @endsection

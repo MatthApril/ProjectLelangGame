@@ -40,4 +40,25 @@ a.link-footer:hover {
     text-align: center;
     font-weight: 500;
     line-height: 1.2;
-}   
+}
+
+.menu-active {
+    background-color: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    width: 100%;
+    font-weight: bold;
+}
+
+.link-navbar {
+    padding: 5px 10px;
+    display: inline-block;
+}
+
+.link-navbar:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
