@@ -38,7 +38,7 @@
         </tr>
     </table>
 
-    <br><br>
+    <br>
 
     <h6 class="fw-bold">Menu Manajemen</h6>
     <p>

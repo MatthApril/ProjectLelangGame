@@ -86,10 +86,10 @@
                     <i class="bi bi-grid"></i> Kategori
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Top Up Game</a></li>
-                    <li><a class="dropdown-item" href="#">Joki</a></li>
-                    <li><a class="dropdown-item" href="#">Akun</a></li>
-                    <li><a class="dropdown-item" href="#">Item</a></li>
+                    <li><a class="dropdown-item" href="{{ route('user.topUp') }}">Top Up Game</a></li>
+                    <li><a class="dropdown-item" href="{{ route('user.joki') }}">Joki</a></li>
+                    <li><a class="dropdown-item" href="{{ route('user.akun') }}">Akun</a></li>
+                    <li><a class="dropdown-item" href="{{ route('user.item') }}">Item</a></li>
                 </ul>
             </div>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-steam"></i> Steam Gift Cards</a>

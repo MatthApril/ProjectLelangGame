@@ -72,7 +72,6 @@
         </tbody>
     </table>
 
-    <br>
     {{ $games->links() }}
 </div>
 @endsection
