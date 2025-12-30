@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts.templateadmin')
 
 @section('content')
 <div class="px-5 my-3">

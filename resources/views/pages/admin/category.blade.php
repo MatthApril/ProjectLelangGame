@@ -1,5 +1,5 @@
 {{-- filepath: c:\kuliah\semester 3\BWP\project\ProjectLelangGame\resources\views\pages\admin\category.blade.php --}}
-@extends('layouts.template')
+@extends('layouts.templateadmin')
 
 @section('content')
 <div class="px-5 my-3">

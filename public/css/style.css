@@ -22,6 +22,9 @@ a.link-footer:hover {
 
 .img-body {
     overflow: hidden;
+    width: 70px;
+    height: 70px;
+    clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
 }
 
 .card img:hover {
@@ -29,5 +32,12 @@ a.link-footer:hover {
 }
 
 .col {
-    width: 200px;
+    width: 98px;
 }
+
+.card-title{
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.2;
+}   
