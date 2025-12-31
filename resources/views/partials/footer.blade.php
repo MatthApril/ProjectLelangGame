@@ -1,4 +1,4 @@
-<footer class="my-3">
+<footer class="my-5">
     <div class="container-fluid">
         <hr>
         <div class="row px-5">

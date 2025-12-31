@@ -13,10 +13,14 @@
         <div class="row">
             <div class="col-md-2">
                 <hr>
-                <div class="d-flex align-items-center justify-content-center gap-4">
+                <div class="d-flex align-items-center justify-content-center gap-2">
+                    @if ($user->shop && $user->shop->shop_img)
+                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" height="70" class="rounded-5">
+                    @else
                     <div>
                         <i class="bi bi-person-circle fs-1"></i>
                     </div>
+                    @endif
                     <div>
                         <div class="fw-bold">{{ Auth::user()->username }}</div>
                         <a href="{{ route('profile') }}" class="text-decoration-none text-secondary"><i
@@ -26,7 +30,7 @@
                 <hr>
             </div>
             <div class="col-md-10 mt-3">
-                @error('username')
+                {{-- @error('username')
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -37,7 +41,7 @@
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @enderror
+                @enderror --}}
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
@@ -59,16 +63,16 @@
                         @if ($user->role == 'seller')
                             <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                {{-- @if ($shop)
-                            @method('PUT')
-                        @endif --}}
+                                @method('PUT')
                                 <label>Gambar Toko Baru</label>
-                                <div class="d-grid">
+                                <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
+                                <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
+                                {{-- <div class="d-grid">
                                     <button type="button" class="btn btn-outline-secondary rounded-5 my-2"
                                         data-bs-toggle="modal" data-bs-target="#modalEditFotoToko">
                                         <i class="bi bi-image-fill"></i> Ganti Foto Profile Toko
                                     </button>
-                                </div>
+                                </div> --}}
                                 {{-- <input type="hidden" name="shop_img" id="shop_img" value="{{ $user->shop?->shop_img }}" class="form-control mb-3"> --}}
 
                                 <label>Nama Toko</label>
@@ -151,6 +155,7 @@
                 <form action="{{ route('do-open-shop') }}" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
+
                         @error('shop_name')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
@@ -200,7 +205,7 @@
         </div>
     </div>
     {{-- ModalEditFotoToko --}}
-    <div class="modal fade" id="modalEditFotoToko" tabindex="-1" aria-labelledby="modalEditFotoTokoLabel"
+    {{-- <div class="modal fade" id="modalEditFotoToko" tabindex="-1" aria-labelledby="modalEditFotoTokoLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -212,9 +217,8 @@
                 <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
-                        {{-- @if ($shop)
-                @method('PUT')
-            @endif --}}
+                        @method('PUT')
+
                         @error('shop_img')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
@@ -233,7 +237,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     {{--  --}}
     {{-- <h1>Profile Page</h1>
     <br>

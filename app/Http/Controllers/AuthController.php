@@ -9,7 +9,6 @@ use App\Http\Requests\OpenShopRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateShopRequest;
 use App\Models\User;
-use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -32,8 +31,8 @@ class AuthController extends Controller
     }
 
     function showOpenShop() {
-
-        return view('pages.auth.open_shop');
+        $shop = null;
+        return view('pages.auth.open_shop',compact('shop'));
     }
 
     function showEditShop() {

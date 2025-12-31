@@ -1,87 +1,105 @@
 @extends('layouts.template')
 
+@section('title', 'Produk | LelangGame')
+
 @section('content')
-<div>
-    <h1>Daftar Produk</h1>
-
+<div class="container-fluid">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Daftar Produk</li>
+        </ol>
+    </nav>
+    <h2 class="fw-semibold">Daftar Produk</h2>
+    <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
     <form method="GET" action="{{ route('products.index') }}">
-        <div>
-            <input type="text" name="search" placeholder="Cari produk..." value="{{ request('search') }}">
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                <label>Game :</label>
+                <select name="game_id" class="form-select">
+                    <option value="">Semua Game</option>
+                    @foreach($games as $game)
+                        <option value="{{ $game->game_id }}" {{ request('game_id') == $game->game_id ? 'selected' : '' }}>
+                            {{ $game->game_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>Kategori :</label>
+                <select name="category_id" class="form-select">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->category_id }}" {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
+                            {{ $category->category_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-
-        <br>
-
-        <div>
-            <label>Game:</label>
-            <select name="game_id">
-                <option value="">Semua Game</option>
-                @foreach($games as $game)
-                    <option value="{{ $game->game_id }}" {{ request('game_id') == $game->game_id ? 'selected' : '' }}>
-                        {{ $game->game_name }}
-                    </option>
-                @endforeach
-            </select>
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                <label>Harga Min :</label>
+                <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="0" class="form-control">
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>Harga Max :</label>
+                <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="1000000" class="form-control">
+            </div>
         </div>
-
-        <div>
-            <label>Kategori:</label>
-            <select name="category_id">
-                <option value="">Semua Kategori</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->category_id }}" {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <br>
-
-        <div>
-            <label>Harga Min:</label>
-            <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="0">
-
-            <label>Harga Max:</label>
-            <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="1000000">
-        </div>
-
-        <br>
-
-        <div>
-            <label>Urutkan:</label>
-            <select name="sort">
-                <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Terbaru</option>
-                <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Harga Terendah</option>
-                <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Harga Tertinggi</option>
-                <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Rating Tertinggi</option>
-            </select>
-        </div>
-
-        <br>
-
-        <button type="submit">Filter</button>
-        <a href="{{ route('products.index') }}">Reset</a>
+            <div class="mt-3">
+                <label>Urutkan :</label>
+                <select name="sort" class="form-select">
+                    <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Terbaru</option>
+                    <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Harga Terendah</option>
+                    <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Harga Tertinggi</option>
+                    <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Rating Tertinggi</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mt-3">
+                    <div class="d-grid">
+                        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary rounded-5"><i class="bi bi-arrow-clockwise"></i> Reset</a>
+                    </div>
+                </div>
+                <div class="col-md-9 mt-3">
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary rounded-5"><i class="bi bi-funnel"></i> Filter</button>
+                    </div>
+                </div>
+            </div>
     </form>
-
-    <br><br>
-
-    <div>
+    <hr>
+    <div class="row">
         @forelse($products as $product)
-        <div>
-            @if($product->product_img)
-                <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="200">
-            @endif
-            <h4>{{ $product->product_name }}</h4>
-            <p>Game: {{ $product->game->game_name }}</p>
-            <p>Kategori: {{ $product->category->category_name }}</p>
-            <p><strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong></p>
-            <p>Stok: {{ $product->stok }} | Rating: {{ number_format($product->rating, 1) }} ⭐</p>
-            <p>Toko: <a href="{{ route('shops.detail', $product->shop->shop_id) }}">{{ $product->shop->shop_name }}</a></p>
-            <a href="{{ route('products.detail', $product->product_id) }}">Lihat Detail</a>
+        <div class="col-md-3 mt-5">
+            <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark">
+                <div class="card shadow">
+                    @if($product->product_img)
+                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="200" class="card-img-top" alt="{{ $product->product_name }}">
+                    @endif
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold">{{ $product->product_name }}</h6>
+                        <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
+                        <p class="text-secondary">
+                            <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
+                            <i class="bi bi-controller"></i> Game : {{ $product->game->game_name }}
+                        </p>
+                        <div class="d-flex justify-content-between text-secondary">
+                            <div>
+                                <i class="bi bi-box-seam"></i> Stok {{ $product->stok }}
+                            </div>
+                            <div>
+                                <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
+                            </div>
+                        </div>
+                        {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p> --}}
+                    </div>
+                </div>
+            </a>
         </div>
-        <br>
         @empty
-        <p>Tidak ada produk ditemukan</p>
+        <h4 class="fw-semibold mt-5 text-center">Tidak Ada Produk Ditemukan</h4>
         @endforelse
     </div>
 

@@ -25,9 +25,8 @@
         </h4>
 
         <p style="font-size:15px; color:#475569; line-height:1.6; margin-bottom:20px;">
-            Terima kasih telah mendaftar di <strong>LelangGame</strong>.
-            Untuk menyelesaikan proses pendaftaran, silakan gunakan kode OTP berikut untuk memverifikasi alamat email
-            Anda.
+            Anda telah meminta untuk mengubah password di <strong>LelangGame</strong>.
+            Untuk menyelesaikan proses perubahan password, silakan gunakan kode OTP berikut untuk memverifikasi perubahan Anda.
         </p>
 
         <!-- OTP -->

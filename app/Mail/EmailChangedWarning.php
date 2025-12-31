@@ -29,7 +29,7 @@ class EmailChangedWarning extends Mailable implements ShouldQueue
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'Email Akun anda Telah Berubah',
+            subject: 'Email Akun Telah Berubah!',
         );
     }
 
