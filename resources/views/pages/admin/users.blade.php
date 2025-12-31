@@ -28,7 +28,7 @@
                 @forelse ($users as $user)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->username }}</td>
                         <td>{{ ucfirst($user->role) }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->shop ? $user->shop->shop_name : 'N/A' }}</td>

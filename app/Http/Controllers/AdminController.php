@@ -161,6 +161,11 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
+        $shop = Shop::where('owner_id', $user->user_id)->first();
+        if ($shop) {
+            $shop->products()->delete();
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
     }
 

@@ -87,6 +87,8 @@ class UserController extends Controller
                 $query->whereNull('deleted_at');
             })->whereHas('shop', function($query) {
                 $query->where('status', 'open')->whereHas('owner');
+            })->whereHas('game', function($query) {
+                $query->whereNull('deleted_at');
             })->where('stok', '>', 0);
             if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
                 $latestProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
@@ -131,6 +133,10 @@ class UserController extends Controller
                 $query->whereNull('deleted_at');
             }])->findOrFail($id);
 
+        if (!$game) {
+            return redirect()->route('user.home')->with('error', 'Game tidak ditemukan.');
+        }
+
         $categories = $game->gamesCategories()
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
@@ -140,6 +146,7 @@ class UserController extends Controller
             ->whereHas('shop', function($query) {
                 $query->where('status', 'open');
             })
+            ->whereHas('game')
             ->where('stok', '>', 0);
         if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $productsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
@@ -156,6 +163,7 @@ class UserController extends Controller
             ->whereHas('shop', function($q) {
                 $q->where('status', 'open')->whereHas('owner');
             })
+            ->whereHas('game')
             ->where('stok', '>', 0);
 
         if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
@@ -208,7 +216,7 @@ class UserController extends Controller
 
     public function showProductDetail($id)
     {
-        $product = Product::with(['game', 'shop', 'category', 'comments.user'])->findOrFail($id);
+        $product = Product::with(['game', 'shop', 'category', 'comments.user'])->whereHas('game')->findOrFail($id);
 
         $relatedProductsQuery = Product::where('game_id', $product->game_id)
             ->where('category_id', $product->category_id)
@@ -228,8 +236,13 @@ class UserController extends Controller
     {
         $shop = Shop::with('owner')->findOrFail($id);
 
+        if (!$shop->owner) {
+            return redirect()->route('user.home')->with('error', 'Toko tidak ditemukan.');
+        }
+
         $products = Product::where('shop_id', $shop->shop_id)
             ->with(['game', 'category'])
+            ->whereHas('game')
             ->where('stok', '>', 0)
             ->latest()
             ->paginate(12);
@@ -241,6 +254,21 @@ class UserController extends Controller
     public function addToCart(AddToCartRequest $req, $productId)
     {
         $req->validated();
+
+        $owner = Product::findOrFail($productId)->shop->owner;
+
+        if (!$owner) {
+            return redirect()->back()->with('error', 'Anda tidak dapat menambahkan produk dari penjual yang dibanned ke keranjang.');
+        }
+
+        $game = Product::findOrFail($productId)->game;
+        if (!$game) {
+            return redirect()->route('user.home')->with('error', 'Produk tidak tersedia karena game terkait telah dihapus.');
+        }
+
+        if (Shop::where('shop_id', Product::findOrFail($productId)->shop_id)->first()->owner->user_id == Auth::id()) {
+            return redirect()->back()->with('error', 'Anda tidak dapat menambahkan produk dari toko Anda sendiri ke keranjang.');
+        }
 
         $user = Auth::user();
 
