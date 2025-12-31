@@ -63,9 +63,9 @@ class UserController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             $user = Auth::user();
-            
+
             $orderItem = OrderItem::with(['order', 'product'])
                 ->where('order_item_id', $orderItemId)
                 ->whereHas('order', function($q) use ($user) {
@@ -273,6 +273,8 @@ class UserController extends Controller
     public function showProductDetail($id)
     {
         $product = Product::with(['game', 'shop', 'category', 'comments.user'])->whereHas('game')->findOrFail($id);
+
+        if (!$product) return redirect()->route('user.home')->with('error', 'Produk tidak ditemukan.');
 
         $relatedProductsQuery = Product::where('game_id', $product->game_id)
             ->where('category_id', $product->category_id)
