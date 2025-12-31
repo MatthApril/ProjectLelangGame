@@ -13,7 +13,7 @@ Route::get('/products/{id}', [UserController::class, 'showProductDetail'])->name
 Route::get('/shops/{id}', [UserController::class, 'showShop'])->name('shops.detail');
 
 Route::prefix('user')->as('user.')
-->middleware(['auth', 'check_role:user,seller', 'check_status', 'check_banned'])
+->middleware(['auth', 'check_role:user,seller', 'check_status', 'check_banned', 'throttle:api'])
 ->group(function() {
     Route::get('/cart', [UserController::class, 'showCart'])->name('cart');
     Route::get('/orders', [UserController::class, 'showOrders'])->name('orders');
@@ -22,11 +22,12 @@ Route::prefix('user')->as('user.')
     Route::post('/cart/add/{productId}', [UserController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove/{cartItemId}', [UserController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/orders/{orderId}', [UserController::class, 'showOrderDetail'])->name('orders.detail');
-    Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
-        Route::get('/topup', [UserController::class, 'topUp'])->name('topUp');
+    Route::get('/topup', [UserController::class, 'topUp'])->name('topUp');
     Route::get('/joki', [UserController::class, 'joki'])->name('joki');
     Route::get('/akun', [UserController::class, 'akun'])->name('akun');
     Route::get('/item', [UserController::class, 'item'])->name('item');
+
+    Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
 
     Route::controller(ChatController::class)->group(function() {
         Route::get('/chat/{userId}', 'show')->name('chat.show');

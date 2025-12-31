@@ -51,9 +51,15 @@
         <table border="1" cellpadding="10">
         <h4 class="fw-bold">Menu Cepat</h4>
         <div class="d-flex gap-2 mb-3">
-            <a href="{{ route('seller.products.index') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-box-seam"></i> Kelola Produk</a>
-            <a href="{{ route('seller.products.create') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-plus-lg"></i> Tambah Produk</a>
-            <a href="{{ route('profile') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-person-fill"></i> Profile</a>
+            <a href="{{ route('seller.products.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-box-seam"></i> Kelola Produk</a>
+            <a href="{{ route('seller.products.create') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Tambah Produk</a>
+            <a href="{{ route('profile') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-person-fill"></i> Profile</a>
         </div>
         <hr>
         <div>

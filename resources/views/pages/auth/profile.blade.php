@@ -15,11 +15,12 @@
                 <hr>
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     @if ($user->shop && $user->shop->shop_img)
-                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" height="70" class="rounded-5">
+                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70"
+                            height="70" class="rounded-5">
                     @else
-                    <div>
-                        <i class="bi bi-person-circle fs-1"></i>
-                    </div>
+                        <div>
+                            <i class="bi bi-person-circle fs-1"></i>
+                        </div>
                     @endif
                     <div>
                         <div class="fw-bold">{{ Auth::user()->username }}</div>
@@ -30,8 +31,12 @@
                 <hr>
                 @if ($user->role == 'seller')
                     <div class="ms-3">
-                        <a href="{{ route('seller.dashboard') }}" class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-speedometer2"></i> Dashboard Seller</a>
-                        <a href="{{ route('seller.products.index') }}" class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-box-seam"></i> Kelola Produk</a>
+                        <a href="{{ route('seller.dashboard') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i
+                                class="bi bi-speedometer2"></i> Dashboard Seller</a>
+                        <a href="{{ route('seller.products.index') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i
+                                class="bi bi-box-seam"></i> Kelola Produk</a>
                     </div>
                     <hr>
                 @endif
