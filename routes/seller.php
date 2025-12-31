@@ -15,6 +15,7 @@ Route::prefix('seller')->as('seller.')
             Route::get('/products/{id}/edit', 'edit')->name('products.edit');
             Route::put('/products/{id}', 'update')->name('products.update');
             Route::delete('/products/{id}', 'destroy')->name('products.destroy');
+            Route::post('/products/{id}/restore', 'restore')->name('products.restore');
 
             Route::get('/games/{game}/categories', 'getCategoriesByGame')->name('games.categories');
             Route::get('/reviews', 'showReviews')->name('reviews.index');

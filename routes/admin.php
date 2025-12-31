@@ -11,6 +11,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'check_role:admin', 't
         Route::get('/categories/{category}/edit', [AdminController::class, 'showEditCategory'])->name('categories.edit');
         Route::put('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
         Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('categories.destroy');
+        Route::post('/categories/restore', [AdminController::class, 'restoreCategory'])->name('categories.restore');
 
         Route::get('/games', [AdminController::class, 'showGames'])->name('games.index');
         Route::get('/games/create', [AdminController::class, 'showCreateGame'])->name('games.create');
@@ -18,6 +19,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'check_role:admin', 't
         Route::get('/games/{game}/edit', [AdminController::class, 'showEditGame'])->name('games.edit');
         Route::put('/games/{game}', [AdminController::class, 'updateGame'])->name('games.update');
         Route::delete('/games/{game}', [AdminController::class, 'deleteGame'])->name('games.destroy');
+        Route::post('/games/restore', [AdminController::class, 'restoreGame'])->name('games.restore');
 
         Route::get('/users', [AdminController::class, 'showUsers'])->name('users.index');
         Route::post('/users/unban', [AdminController::class, 'unbanUser'])->name('users.unban');

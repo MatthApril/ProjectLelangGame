@@ -26,4 +26,30 @@ class Category extends Model
     {
         return $this->hasMany(GameCategory::class, 'category_id');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($category) {
+            $category->products()->whereNull('deleted_at')->each(function ($product) {
+                $product->delete();
+            });
+
+            $category->gamesCategories()->whereNull('deleted_at')->each(function ($gc) {
+                $gc->delete();
+            });
+        });
+
+        static::restoring(function ($category) {
+
+            $category->products()->onlyTrashed()->each(function ($product) {
+                if (!$product->game?->deleted_at) {
+                    $product->restore();
+                }
+            });
+
+            $category->gamesCategories()->onlyTrashed()->each(function ($gc) {
+                $gc->restore();
+            });
+        });
+    }
 }

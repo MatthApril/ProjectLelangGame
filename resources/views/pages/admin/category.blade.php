@@ -1,4 +1,3 @@
-{{-- filepath: c:\kuliah\semester 3\BWP\project\ProjectLelangGame\resources\views\pages\admin\category.blade.php --}}
 @extends('layouts.templateadmin')
 
 @section('content')
@@ -12,8 +11,6 @@
     @if(session('error'))
         <p style="color: red;">{{ session('error') }}</p>
     @endif
-
-    {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
 
     <hr>
 
@@ -35,7 +32,9 @@
 
         <br>
 
-        <button type="submit" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;">{{ $editCategory ? 'Update Kategori' : 'Simpan Kategori' }}</button>
+        <button type="submit" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;">
+            {{ $editCategory ? 'Update Kategori' : 'Simpan Kategori' }}
+        </button>
 
         @if($editCategory)
             <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Batal</a>
@@ -51,6 +50,7 @@
             <tr>
                 <th>No</th>
                 <th>Nama Kategori</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -58,20 +58,53 @@
             @forelse($categories as $category)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $category->category_name }}</td>
                 <td>
-                    <a href="{{ route('admin.categories.edit', $category->category_id) }}" class="text-decoration-none link-footer">Edit</a>
-
-                    <form action="{{ route('admin.categories.destroy', $category->category_id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin ingin menghapus kategori ini?')" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
-                    </form>
+                    {{ $category->category_name }}
+                    @if($category->deleted_at)
+                        <span style="color: red; font-weight: bold;">(Dihapus)</span>
+                    @endif
+                </td>
+                <td>
+                    @if($category->deleted_at)
+                        <span class="badge bg-danger">Nonaktif</span>
+                    @else
+                        <span class="badge bg-success">Aktif</span>
+                    @endif
+                </td>
+                <td>
+                    @if($category->deleted_at)
+                        <form action="{{ route('admin.categories.restore') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $category->category_id }}">
+                            <button type="submit" onclick="return confirm('Aktifkan kembali kategori ini?')" 
+                                    style="padding: 5px 10px; border: 1px solid green; background: green; color: white; border-radius: 5px; cursor: pointer;">
+                                Aktifkan Kembali
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('admin.categories.edit', $category->category_id) }}" 
+                           class="text-decoration-none link-footer">
+                            Edit
+                        </a>
+                        
+                        <form action="{{ route('admin.categories.destroy', $category->category_id) }}" 
+                              method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                    onclick="return confirm('Yakin ingin menonaktifkan kategori ini? Produk terkait akan ikut dinonaktifkan.')" 
+                                    style="padding: 5px 10px; border: 1px solid red; background: red; color: white; border-radius: 5px; cursor: pointer;">
+                                Nonaktifkan
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="3" style="border: 1px solid gray; padding: 5px;">Belum ada kategori</td>
+                <td colspan="4" style="border: 1px solid gray; padding: 5px; text-align: center;">
+                    Belum ada kategori
+                </td>
             </tr>
             @endforelse
         </tbody>

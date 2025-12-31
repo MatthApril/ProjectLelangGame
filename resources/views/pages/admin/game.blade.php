@@ -13,7 +13,6 @@
     @endif
 
     <a href="{{ route('admin.games.create') }}" class="text-decoration-none link-footer">Tambah Game Baru</a>
-    {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
 
     <hr>
 
@@ -24,6 +23,7 @@
                 <th>Gambar</th>
                 <th>Nama Game</th>
                 <th>Kategori Tersedia</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -38,9 +38,14 @@
                         <span>No Image</span>
                     @endif
                 </td>
-                <td>{{ $game->game_name }}</td>
                 <td>
-                   @forelse($game->gamesCategories as $gc)
+                    {{ $game->game_name }}
+                    @if($game->deleted_at)
+                        <span style="color: red; font-weight: bold;">(Dihapus)</span>
+                    @endif
+                </td>
+                <td>
+                    @forelse($game->gamesCategories as $gc)
                         @if($gc->category)
                             <span style="{{ $gc->category->deleted_at ? 'color: red; text-decoration: line-through;' : '' }}">
                                 {{ $gc->category->category_name }}
@@ -55,18 +60,45 @@
                     @endforelse
                 </td>
                 <td>
-                    <a href="{{ route('admin.games.edit', $game->game_id) }}" class="text-decoration-none link-footer">Edit</a>
+                    @if($game->deleted_at)
+                        <span class="badge bg-danger">Nonaktif</span>
+                    @else
+                        <span class="badge bg-success">Aktif</span>
+                    @endif
+                </td>
+                <td>
+                    @if($game->deleted_at)
+                        <form action="{{ route('admin.games.restore') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $game->game_id }}">
+                            <button type="submit" 
+                                    onclick="return confirm('Aktifkan kembali game ini? Produk terkait akan ikut diaktifkan.')" 
+                                    style="padding: 5px 10px; border: 1px solid green; background: green; color: white; border-radius: 5px; cursor: pointer;">
+                                Aktifkan Kembali
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('admin.games.edit', $game->game_id) }}" 
+                           class="text-decoration-none link-footer">
+                            Edit
+                        </a>
 
-                    <form action="{{ route('admin.games.destroy', $game->game_id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin ingin menghapus game ini?')" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
-                    </form>
+                        <form action="{{ route('admin.games.destroy', $game->game_id) }}" 
+                              method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                    onclick="return confirm('Yakin ingin menonaktifkan game ini? Produk terkait akan ikut dinonaktifkan.')" 
+                                    style="padding: 5px 10px; border: 1px solid red; background: red; color: white; border-radius: 5px; cursor: pointer;">
+                                Nonaktifkan
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="5">Belum ada game</td>
+                <td colspan="6" style="text-align: center;">Belum ada game</td>
             </tr>
             @endforelse
         </tbody>

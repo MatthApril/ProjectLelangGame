@@ -57,6 +57,7 @@
             <a href="{{ route('seller.products.create') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-plus-lg"></i> Tambah Produk</a>
+            <a href="{{ route('seller.reviews.index') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">Lihat Ulasan</a>
             <a href="{{ route('profile') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-person-fill"></i> Profile</a>

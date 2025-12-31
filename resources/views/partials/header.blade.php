@@ -87,11 +87,11 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-grid"></i> Berdasarkan Kategori
                 </a>
-                <ul class="dropdown-menu">
+                {{-- <ul class="dropdown-menu">
                     @foreach ($categories as $category)
                         <li><a class="dropdown-item" href="#">{{ $category->category_name }}</a></li>
                     @endforeach
-                </ul>
+                </ul> --}}
             </div>
             <a href="{{ route('games.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-controller"></i> Lihat Semua Game</a>

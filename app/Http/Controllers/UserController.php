@@ -21,6 +21,20 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user_cart = $user->cart()->first();
+
+        if ($user_cart) {
+            $user_cart->cartItems()
+                ->whereHas('product', function($q) {
+                    $q->whereNotNull('deleted_at')
+                    ->orWhereHas('category', function($query) {
+                        $query->whereNotNull('deleted_at');
+                    })
+                    ->orWhereHas('game', function($query) {
+                        $query->whereNotNull('deleted_at');
+                    });
+                })
+                ->delete();
+        }
         $cartItems = $user_cart
                 ? $user_cart->cartItems()
                     ->whereHas('product', function ($q) {
@@ -215,12 +229,12 @@ class UserController extends Controller
 
     public function showProducts(Request $request)
     {
-        $query = Product::with(['game', 'shop', 'category'])
-            ->whereHas('shop', function($q) {
-                $q->where('status', 'open')->whereHas('owner');
-            })
-            ->whereHas('game')
-            ->where('stok', '>', 0);
+       $query = Product::with(['game', 'shop', 'category'])
+        ->active()
+        ->whereHas('shop', function($q) {
+            $q->where('status', 'open')->whereHas('owner');
+        })
+        ->where('stok', '>', 0);
 
         if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $query->where('shop_id','!=',Auth::user()->shop->shop_id);

@@ -78,7 +78,7 @@ class AdminController extends Controller
         }
     }
     function showCategories() {
-        $categories = Category::orderBy('category_name', 'asc')->get();
+        $categories = Category::withTrashed()->orderBy('category_name', 'asc')->get();
         $editCategory = null;
 
         return view('pages.admin.category', compact('categories', 'editCategory'));
@@ -114,11 +114,20 @@ class AdminController extends Controller
 
     function deleteCategory($id) {
         $category = Category::findOrFail($id);
+        $affectedProductsCount = $category->products()->count();
+        
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus.");
     }
-
+    function restoreCategory(Request $request) {
+        $request->validate(['id' => 'required|exists:categories,category_id']);
+        
+        $category = Category::onlyTrashed()->findOrFail($request->id);
+        $category->restore(); 
+        
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori dan produk terkait berhasil dikembalikan.');
+    }
     function showGames() {
         $games = Game::with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
         return view('pages.admin.game', compact('games'));
@@ -184,15 +193,25 @@ class AdminController extends Controller
 
     function deleteGame($id) {
         $game = Game::findOrFail($id);
+        
+        $affectedProductsCount = $game->products()->count();
+        
         if ($game->game_img) {
             Storage::disk('public')->delete($game->game_img);
         }
 
-        $game->delete();
+        $game->delete(); 
 
-        return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
+        return redirect()->route('admin.games.index')->with('success', "Game berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus (soft delete).");
     }
-
+    function restoreGame(Request $request) {
+        $request->validate(['id' => 'required|exists:games,game_id']);
+        
+        $game = Game::onlyTrashed()->findOrFail($request->id);
+        $game->restore(); 
+        
+        return redirect()->route('admin.games.index')->with('success', 'Game dan produk terkait berhasil dikembalikan.');
+    }
     function banUser(Request $req) {
         $req->validate([
             'id' => 'required',
