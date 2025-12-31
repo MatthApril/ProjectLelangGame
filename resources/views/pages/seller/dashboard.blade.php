@@ -1,19 +1,31 @@
 @extends('layouts.template')
 
-@section('title', 'Beranda | LelangGame')
+@section('title', 'Dashboard Seller | LelangGame')
 
 @section('content')
-    <div class="px-5 my-3">
-        <h5 class="fw-semibold text-dark">Dashboard Seller - {{ $shop->shop_name }}</h5>
-
+    <div class="container-fluid mt-3">
+        <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb mt-3">
+                <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard Seller</li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold">Dashboard Seller - {{ $shop->shop_name }}</h2>
+        <hr>
         @if (session('success'))
-            <div>
-                <p>{{ session('success') }}</p>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
+        <h4 class="fw-bold">Menu Cepat</h4>
+        <div class="d-flex gap-2 mb-3">
+            <a href="{{ route('seller.products.index') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-box-seam"></i> Kelola Produk</a>
+            <a href="{{ route('seller.products.create') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-plus-lg"></i> Tambah Produk</a>
+            <a href="{{ route('profile') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-person-fill"></i> Profile</a>
+        </div>
         <hr>
-
         <div>
             <h6 class="fw-bold">Owners</h6>
             <table border="1" class="table table-striped">
@@ -34,6 +46,7 @@
                                     Chat
                                 </button>
                             </a>
+                        </td>
                     </tr>
                 @endforeach
             </table>
@@ -89,19 +102,10 @@
             </tr>
         </table>
 
-        @if ($shop->shop_img)
+        {{-- @if ($shop->shop_img)
             <br>
             <h6 class="fw-bold">Gambar Toko</h6>
             <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="Shop Image" width="300">
-        @endif
-
-        <br><br>
-
-        <h6 class="fw-bold">Menu Cepat</h6>
-        <p>
-            <a href="{{ route('seller.products.index') }}" class="text-decoration-none link-footer">Kelola Produk</a> |
-            <a href="{{ route('seller.products.create') }}" class="text-decoration-none link-footer">Tambah Produk</a> |
-            <a href="{{ route('profile') }}" class="text-decoration-none link-footer">Profile</a>
-        </p>
+        @endif --}}
     </div>
 @endsection

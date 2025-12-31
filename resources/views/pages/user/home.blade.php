@@ -3,23 +3,14 @@
 @section('title', 'Beranda | LelangGame')
 
 @section('content')
-    <div class="px-5 my-3">
-        <form action="{{ route('products.index') }}" method="GET">
-            <input type="text" name="search" placeholder="Cari Produk"
-                style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" autofocus>
-            <button type="submit" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Cari</button>
-        </form>
-
-        <br>
-
+    <div class="container-fluid">
         <section>
             <h6 class="fw-bold">Game Populer</h6>
             <div>
                 @foreach ($featuredGames as $game)
                     <div>
                         @if ($game->game_img)
-                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}"
-                                width="200">
+                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="200">
                         @endif
                         <p>{{ $game->game_name }}</p>
                         <p>{{ $game->products_count }} Produk</p>

@@ -87,8 +87,9 @@ class SellerController extends Controller
     {
         $product = Product::where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
         $games = Game::all();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.create', compact('product', 'games'));
+        return view('pages.seller.create', compact('product', 'games', 'categories'));
     }
 
     public function update(UpdateProductRequest $request, $id)

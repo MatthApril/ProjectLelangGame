@@ -1,7 +1,7 @@
-<footer class="my-5">
+<footer class="my-4">
     <div class="container-fluid">
         <hr>
-        <div class="row px-5">
+        <div class="row px-4">
             <div class="col-md-3 my-3">
                 <h6 class="fw-bold">Bantuan</h6>
                 <a href="#" class="text-decoration-none text-secondary link-footer">Pusat Bantuan</a>

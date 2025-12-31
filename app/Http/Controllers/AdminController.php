@@ -13,7 +13,10 @@ use App\Http\Requests\InsertCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\InputGameRequest;
 use App\Http\Requests\UpdateGameRequest;
+use App\Mail\AccountBanned;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -157,6 +160,14 @@ class AdminController extends Controller
             'id' => 'required',
         ]);
 
+        if ($req->input('id') == Auth::user()->user_id) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat memban diri sendiri.');
+        }
+
+        if ($req->input('id') == 1) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat memban admin utama.');
+        }
+
         $id = $req->input('id');
         $user = User::findOrFail($id);
         $user->delete();
@@ -165,6 +176,8 @@ class AdminController extends Controller
         if ($shop) {
             $shop->products()->delete();
         }
+
+        Mail::to($user->email)->queue(new AccountBanned());
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
     }
