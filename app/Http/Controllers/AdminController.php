@@ -32,7 +32,7 @@ class AdminController extends Controller
     }
 
     function showUsers() {
-        $users = User::where('role','user')->get();
+        $users = User::withTrashed()->get();
         return view('pages.admin.users', compact('users'));
     }
 
@@ -152,5 +152,27 @@ class AdminController extends Controller
         return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
     }
 
+    function banUser(Request $req) {
+        $req->validate([
+            'id' => 'required',
+        ]);
 
+        $id = $req->input('id');
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
+    }
+
+    function unbanUser(Request $req) {
+        $req->validate([
+            'id' => 'required',
+        ]);
+
+        $id = $req->input('id');
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
+    }
 }

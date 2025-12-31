@@ -86,13 +86,13 @@ class UserController extends Controller
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
             })->whereHas('shop', function($query) {
-                $query->where('status', 'open');
+                $query->where('status', 'open')->whereHas('owner');
             })->where('stok', '>', 0);
             if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
                 $latestProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
             }
         $latestProducts = $latestProductsQuery->latest()->take(12)->get();
-        $topShopsQuery = Shop::where('status', 'open');
+        $topShopsQuery = Shop::where('status', 'open')->whereHas('owner');
 
         if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);

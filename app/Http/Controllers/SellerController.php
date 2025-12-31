@@ -26,8 +26,9 @@ class SellerController extends Controller
 
         $runningTransactions = $shop->running_transactions; // Saldo yang masih dalam proses (belum bisa dicairkan)
         $shopBalance = $shop->shop_balance; // Saldo yang sudah bisa dicairkan
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users'));
+        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
     }
 
     public function index(Request $request)
@@ -43,7 +44,7 @@ class SellerController extends Controller
         }
 
         $products = $query->latest()->get();
-        $categories = Category::all();
+        $categories = Category::orderBy('category_name')->get();
 
         return view('pages.seller.product', compact('products', 'categories'));
     }
@@ -52,8 +53,9 @@ class SellerController extends Controller
     {
         $games = Game::all();
         $product = null;
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.create', compact( 'games', 'product'));
+        return view('pages.seller.create', compact( 'games', 'product', 'categories'));
     }
 
     public function store(InsertProductRequest $request)
