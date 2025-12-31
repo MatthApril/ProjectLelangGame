@@ -9,7 +9,7 @@
             </div>
             @auth
                 <div class="col-md-5">
-                    
+
                 </div>
                 <div class="col-md-4 py-2">
                     <div class="d-flex align-items-center justify-content-end gap-3">
@@ -20,16 +20,23 @@
                             </button>
 
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person-fill"></i>
-                                        Profile</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('profile') }}">
+                                        <i class="bi bi-person-fill"></i>
+                                        Profile
+                                    </a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
-                                    <li><button type="submit" class="dropdown-item text-danger"
+                                    <li>
+                                        <button type="submit" class="dropdown-item text-danger"
                                             href="{{ route('logout') }}"><i class="bi bi-box-arrow-left"></i>
-                                            Logout</button></li>
+                                            Logout
+                                        </button>
+                                    </li>
                                 </form>
                             </ul>
                         </div>

@@ -30,7 +30,7 @@ class CheckForgotPwdStatus
             ->first();
 
         // dd($verify->expires_at);
-        if (now()->lessThan($verify->expires_at)) {
+        if (now()->lessThanOrEqualTo($verify->expires_at)) {
             return $next($request);
         }
 

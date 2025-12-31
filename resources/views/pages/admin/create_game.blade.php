@@ -1,7 +1,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="my-3">
+<div class="container my-3">
     <h5 class="fw-semibold text-dark">{{ $game ? 'Edit Game' : 'Tambah Game Baru' }}</h5>
 
     <hr>
@@ -14,7 +14,7 @@
 
         <div>
             <label for="game_name">Nama Game *</label><br>
-            <input type="text" id="game_name" name="game_name" value="{{ old('game_name', $game->game_name ?? '') }}" style="padding: 5px; width: 331px; border: 1px solid gray; border-radius: 5px;" required>
+            <input type="text" id="game_name" name="game_name" value="{{ old('game_name', $game->game_name ?? '') }}" style="padding: 5px; width: 303px; border: 1px solid gray; border-radius: 5px;" required>
             @error('game_name')
                 <span style="color: red;">{{ $message }}</span>
             @enderror
@@ -38,7 +38,7 @@
             @endif
         </div>
 
-        <br>
+        {{-- <br> --}}
 
         <div>
             <label>Kategori Game *<br> 
@@ -55,7 +55,9 @@
                 </label>
                 <br>
             @empty
-                <p>Belum ada kategori.<br> <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Tambah kategori terlebih dahulu</a></p>
+                <p>Belum ada kategori.<br> 
+                    {{-- <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Tambah kategori terlebih dahulu</a> --}}
+                </p>
             @endforelse
 
             @error('categories')
@@ -63,7 +65,7 @@
             @enderror
         </div>
 
-        <br>
+        {{-- <br> --}}
 
         <button type="submit" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">{{ $game ? 'Update Game' : 'Simpan Game' }}</button>
         <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Batal</a>

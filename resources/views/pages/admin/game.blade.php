@@ -1,7 +1,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="my-3">
+<div class="container my-3">
     <h5 class="fw-semibold text-dark">Daftar Game</h5>
 
     @if(session('success'))

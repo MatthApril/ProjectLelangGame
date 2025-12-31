@@ -2,7 +2,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="my-3">
+<div class="container my-3">
     <h5 class="fw-semibold text-dark">Manajemen Kategori</h5>
 
     @if(session('success'))
@@ -27,7 +27,7 @@
 
         <div>
             <label for="category_name">Nama Kategori *</label><br>
-            <input type="text" id="category_name" name="category_name" value="{{ old('category_name', $editCategory->category_name ?? '') }}" style="padding: 5px; width: 331px; border: 1px solid gray; border-radius: 5px;" required>
+            <input type="text" id="category_name" name="category_name" value="{{ old('category_name', $editCategory->category_name ?? '') }}" style="padding: 5px; width: 303px; border: 1px solid gray; border-radius: 5px;" required>
             @error('category_name')
                 <span style="color: red;">{{ $message }}</span>
             @enderror
@@ -35,7 +35,7 @@
 
         <br>
 
-        <button type="submit" style="padding: 5px; width: 331px; border: 1px solid gray; border-radius: 5px;">{{ $editCategory ? 'Update Kategori' : 'Simpan Kategori' }}</button>
+        <button type="submit" style="padding: 5px; width: 303px; border: 1px solid gray; border-radius: 5px;">{{ $editCategory ? 'Update Kategori' : 'Simpan Kategori' }}</button>
 
         @if($editCategory)
             <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Batal</a>
@@ -71,7 +71,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="3" style="border: 1px solid gray; padding: 5px;">Belum ada kategori</td>
+                <td colspan="3" style="padding: 5px;">Belum ada kategori</td>
             </tr>
             @endforelse
         </tbody>

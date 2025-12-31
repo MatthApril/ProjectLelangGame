@@ -3,14 +3,7 @@
 @section('title', 'Beranda | LelangGame')
 
 @section('content')
-    <div class="px-5 my-3">
-        <form action="{{ route('products.index') }}" method="GET">
-            <input type="text" name="search" placeholder="Cari Produk" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" autofocus>
-            <button type="submit" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Cari</button>
-        </form>
-
-        <br>
-
+    <div class="container-fluid">
         <section>
             <h6 class="fw-bold">Game Populer</h6>
             <div>
@@ -21,7 +14,8 @@
                         @endif
                         <p>{{ $game->game_name }}</p>
                         <p>{{ $game->products_count }} Produk</p>
-                        <a href="{{ route('games.detail', $game->game_id) }}" class="text-decoration-none link-footer">Lihat Detail</a>
+                        <a href="{{ route('games.detail', $game->game_id) }}" class="text-decoration-none link-footer">Lihat
+                            Detail</a>
                     </div>
                     <br>
                 @endforeach
@@ -44,7 +38,8 @@
                         <p>{{ $product->game->game_name }} - {{ $product->category->category_name }}</p>
                         <p><strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong></p>
                         <p>Stok: {{ $product->stok }} | Rating: {{ number_format($product->rating, 1) }} ⭐</p>
-                        <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none link-footer">Lihat Detail</a>
+                        <a href="{{ route('products.detail', $product->product_id) }}"
+                            class="text-decoration-none link-footer">Lihat Detail</a>
                     </div>
                     <br>
                 @endforeach
@@ -59,7 +54,8 @@
                 <a href="{{ route('user.topUp') }}" class="text-decoration-none">
                     <div class="card">
                         <div class="img-body">
-                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202396/hwrs5aeqdh8axc6rqurhrl.svg" class="card-img-top" alt="Top Up Game">
+                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202396/hwrs5aeqdh8axc6rqurhrl.svg"
+                                class="card-img-top" alt="Top Up Game">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Top Up Game</h5>
@@ -71,7 +67,8 @@
                 <a href="{{ route('user.joki') }}" class="text-decoration-none">
                     <div class="card">
                         <div class="img-body">
-                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202516/ob8d56hujbmc54si9uyflf.svg" class="card-img-top" alt="Joki">
+                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202516/ob8d56hujbmc54si9uyflf.svg"
+                                class="card-img-top" alt="Joki">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Joki</h5>
@@ -83,7 +80,8 @@
                 <a href="{{ route('user.akun') }}" class="text-decoration-none">
                     <div class="card">
                         <div class="img-body">
-                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202396/dg5frlof3qo30u8st1gcs.svg" class="card-img-top" alt="Akun">
+                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202396/dg5frlof3qo30u8st1gcs.svg"
+                                class="card-img-top" alt="Akun">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Akun</h5>
@@ -95,7 +93,8 @@
                 <a href="{{ route('user.item') }}" class="text-decoration-none">
                     <div class="card">
                         <div class="img-body">
-                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202396/507fm72v5sn1th89seopsq.svg" class="card-img-top" alt="Item">
+                            <img src="https://d1x91p7vw3vuq8.cloudfront.net/game_category/202396/507fm72v5sn1th89seopsq.svg"
+                                class="card-img-top" alt="Item">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Item</h5>
@@ -118,12 +117,18 @@
                         @endif
                         <p>{{ $shop->shop_name }}</p>
                         <p>Rating: {{ number_format($shop->shop_rating, 1) }} ⭐</p>
-                        <a href="{{ route('shops.detail', $shop->shop_id) }}" class="text-decoration-none link-footer">Kunjungi Toko</a>
+                        <a href="{{ route('shops.detail', $shop->shop_id) }}"
+                            class="text-decoration-none link-footer">Kunjungi Toko</a>
                     </div>
                     <br>
                 @endforeach
             </div>
         </section>
+
+        <br>
+
+        <h6>Riwayat Transaksi</h6>
+        <a href="{{ route('user.orders') }}">Lihat Semua</a>
 
         <br>
 

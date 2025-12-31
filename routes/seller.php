@@ -5,7 +5,7 @@ use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('seller')->as('seller.')
-    ->middleware(['auth', 'check_role:seller', 'check_status'])
+    ->middleware(['auth', 'check_role:seller', 'check_status', 'check_banned', 'throttle:api'])
     ->group(function() {
         Route::controller(SellerController::class)->group(function() {
             Route::get('/', 'showDashboard')->name('dashboard');
@@ -17,6 +17,7 @@ Route::prefix('seller')->as('seller.')
             Route::delete('/products/{id}', 'destroy')->name('products.destroy');
 
             Route::get('/games/{game}/categories', 'getCategoriesByGame')->name('games.categories');
+            Route::get('/reviews', 'showReviews')->name('reviews.index');
         });
 
         Route::controller(ChatController::class)->group(function() {

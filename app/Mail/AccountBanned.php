@@ -10,14 +10,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OtpForgotPwd extends Mailable
+class AccountBanned extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $otp)
+    public function __construct()
     {
         //
     }
@@ -29,7 +29,7 @@ class OtpForgotPwd extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'OTP - Verifikasi Lupa Password',
+            subject: 'Akun Anda Telah Diblokir!',
         );
     }
 
@@ -39,8 +39,8 @@ class OtpForgotPwd extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.forgot_pwd',
-            with: ['otp' => $this->otp],
+            view: 'emails.account_banned',
+            with: []
         );
     }
 

@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -93,14 +94,18 @@ class User extends Authenticatable
 
     public function auctionBids()
     {
-        return $this->hasMany(AuctionBid::class, 'user_id');
+        return $this->hasMany(AuctionBid::class, 'user_id', 'user_id');
     }
 
     public function auctionWins()
     {
-        return $this->hasMany(AuctionWinner::class, 'user_id');
+        return $this->hasMany(AuctionWinner::class, 'user_id', 'user_id');
+    }
+    
+    public function comments(){
+        return $this->hasMany(ProductComment::class,'user_id','user_id');
     }
 
-    
+
 
 }

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\ProductComment;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -26,13 +27,60 @@ class SellerController extends Controller
 
         $runningTransactions = $shop->running_transactions; // Saldo yang masih dalam proses (belum bisa dicairkan)
         $shopBalance = $shop->shop_balance; // Saldo yang sudah bisa dicairkan
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users'));
+        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
+    }
+
+    function showReviews(Request $request)
+    {
+        $shop = Auth::user()->shop;
+
+        $query = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->with(['product', 'user', 'orderItem']);
+
+        if ($request->filled('rating')) {
+            $query->where('rating', $request->rating);
+        }
+
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        $comments = $query->latest('created_at')->paginate(20);
+
+        $products = $shop->products()->orderBy('product_name')->get();
+
+        $totalReviews = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->count();
+
+        $ratingDistribution = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $ratingDistribution[$i] = ProductComment::whereHas('product', function($q) use ($shop) {
+                $q->where('shop_id', $shop->shop_id);
+            })->where('rating', $i)->count();
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('partials.reviews_table', compact('comments'))->render(),
+                'pagination' => $comments->links()->render()
+            ]);
+        }
+
+        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
     }
 
     public function index(Request $request)
     {
-        $query = Product::where('shop_id', Auth::user()->shop->shop_id)->with(['game', 'category']);
+       $query = Product::where('shop_id', Auth::user()->shop->shop_id)
+            ->whereHas('game', function ($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->with(['game', 'category']);
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -43,7 +91,7 @@ class SellerController extends Controller
         }
 
         $products = $query->latest()->get();
-        $categories = Category::all();
+        $categories = Category::orderBy('category_name')->get();
 
         return view('pages.seller.product', compact('products', 'categories'));
     }
@@ -52,8 +100,9 @@ class SellerController extends Controller
     {
         $games = Game::all();
         $product = null;
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.create', compact( 'games', 'product'));
+        return view('pages.seller.create', compact( 'games', 'product', 'categories'));
     }
 
     public function store(InsertProductRequest $request)
@@ -85,8 +134,9 @@ class SellerController extends Controller
     {
         $product = Product::where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
         $games = Game::all();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.create', compact('product', 'games'));
+        return view('pages.seller.create', compact('product', 'games', 'categories'));
     }
 
     public function update(UpdateProductRequest $request, $id)
@@ -131,7 +181,7 @@ class SellerController extends Controller
         return response()->json($categories);
     }
 
-    public function trade(){
-        return view('pages.seller.trade');
-    }
+    // public function trade(){
+    //     return view('pages.seller.trade');
+    // }
 }

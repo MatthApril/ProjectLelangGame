@@ -1,12 +1,12 @@
-@extends('layouts.template')
+@extends('layouts.templatepolosan')
 
-@section('title', 'Lupa Password | LelangGame')
+@section('title', 'Ganti Password | LelangGame')
 
 @section('content')
     <div class="container-fluid">
-        <a href="{{ route('login') }}">
+        <a href="{{ route('profile') }}">
             <button type="submit" class="btn btn-outline-danger rounded-5 px-3 my-3">
-                <i class="bi bi-caret-left-fill"></i> Kembali Ke Masuk
+                <i class="bi bi-caret-left-fill"></i> Kembali Ke Profile
             </button>
         </a>
         <div class="row d-flex justify-content-center">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -148,6 +149,22 @@ class PaymentController extends Controller
             return redirect()->route('user.cart')->with('error', 'Keranjang kosong.');
         }
 
+        foreach ($cart_items as $item) {
+
+            $owner = $item->product->shop->owner;
+            if (!$owner) {
+                CartItem::where('product_id', $item->product_id)->delete();
+                return redirect()->route('user.cart')->with('error', 'Anda tidak dapat membeli produk dari penjual yang dibanned. Produk telah dihapus dari keranjang.');
+            }
+
+            $game = $item->product->game;
+            if (!$game) {
+                CartItem::where('product_id', $item->product_id)->delete();
+                return redirect()->route('user.cart')->with('error', 'Produk tidak tersedia karena game terkait telah dihapus. Produk telah dihapus dari keranjang.');
+            }
+
+        }
+
         DB::beginTransaction();
 
         try {
@@ -163,6 +180,7 @@ class PaymentController extends Controller
                 'expire_payment_at' => now()->addMinutes(5),
                 'total_prices' => 0,
             ]);
+
 
             foreach ($cart_items as $item) {
 

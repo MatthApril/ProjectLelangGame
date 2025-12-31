@@ -1,98 +1,124 @@
 {{-- filepath: c:\kuliah\semester 3\BWP\project\ProjectLelangGame\resources\views\pages\seller\create.blade.php --}}
 @extends('layouts.template')
 
-@section('content')
-<div class="px-5 my-3">
-    <h5 class="fw-semibold text-dark">{{ $product ? 'Edit Produk' : 'Tambah Produk Baru' }}</h5><hr>
+@section('title', $product ? 'Edit Produk | LelangGame' : 'Tambah Produk | LelangGame')
 
-    <form action="{{ $product ? route('seller.products.update', $product->product_id) : route('seller.products.store') }}"
-          method="POST"
-          enctype="multipart/form-data">
+@section('content')
+<div class="container-fluid mt-3">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('seller.products.index') }}">Produk</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ $product ? 'Edit Produk' : 'Tambah Produk' }}
+            </li>
+        </ol>
+    </nav>
+    <h2 class="fw-semibold">{{ $product ? 'Edit Produk' : 'Tambah Produk' }}</h2>
+    <hr>
+    @error('product_name')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
+    @error('game_id')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
+    @error('category_id')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
+    @error('description')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
+    @error('stok')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
+    @error('price')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
+    <form action="{{ $product ? route('seller.products.update', $product->product_id) : route('seller.products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if($product)
             @method('PUT')
         @endif
-
-        <div>
-            <label for="product_name" class="fw-semibold">Nama Produk *</label><br>
-            <input type="text" id="product_name" name="product_name" value="{{ old('product_name', $product->product_name ?? '') }}" placeholder="Masukkan nama item yang ingin kamu tambahkan" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" required><br><br>
-            @error('product_name')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                @if($product && $product->product_img)
+                    <div class="mb-3">
+                        <label>Gambar Saat Ini :</label><br>
+                        <img src="{{ asset('storage/' . $product->product_img) }}"alt="Gambar Produk" width="300" class="shadow rounded">
+                    </div>
+                @endif
+                <label>Gambar Produk {{ $product ? '' : '*' }}</label>
+                <input type="file" id="product_img" name="product_img" accept="image/*" {{ $product ? '' : 'required' }} class="form-control">
+                <i>Format: JPG, PNG, JPEG. Max: 2MB</i>
+                @error('product_img')
+                    <span style="color: red;">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-md-12 mb-3">
+                <label>Nama Produk *</label>
+                <br>
+                <input type="text" id="product_name" name="product_name" value="{{ old('product_name', $product->product_name ?? '') }}" placeholder="Nama Produk Yang Mau Ditambahkan" class="form-control" autocomplete="off" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Game *</label>
+                <select id="game_id" name="game_id" class="form-select" required>
+                    <option value="">Pilih Game</option>
+                    @foreach($games as $game)
+                        <option value="{{ $game->game_id }}"
+                                {{ old('game_id', $product->game_id ?? '') == $game->game_id ? 'selected' : '' }}>
+                            {{ $game->game_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Kategori *</label>
+                <select id="category_id" name="category_id" class="form-select" required disabled>
+                    <option value="">Pilih Game Terlebih Dahulu</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Stok *</label>
+                <input type="number" id="stok" name="stok" value="{{ old('stok', $product->stok ?? 1) }}" min="0" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Harga (Rp) *</label>
+                <input type="number" id="price" name="price" value="{{ old('price', $product->price ?? '') }}" min="0" class="form-control" placeholder="IDR 0" required>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label>Deskripsi</label><br>
+                <textarea id="description" name="description" class="form-control" placeholder="Tuliskan Deskripsi Produk Yang Ingin Di Jual">{{ old('description', $product->description ?? '') }}</textarea>
+            </div>
         </div>
 
-        <div>
-            <label for="game_id" class="fw-semibold">Game *</label><br>
-            <select id="game_id" name="game_id" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" required>
-                <option value="" style="padding: 5px;">Pilih Game</option>
-                @foreach($games as $game)
-                    <option value="{{ $game->game_id }}"
-                            {{ old('game_id', $product->game_id ?? '') == $game->game_id ? 'selected' : '' }}>
-                        {{ $game->game_name }}
-                    </option>
-                @endforeach
-            </select><br><br>
-            @error('game_id')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
-        </div>
-
-       <div>
-            <label for="category_id" class="fw-semibold">Kategori *</label><br>
-            <select id="category_id" name="category_id" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" required disabled>
-                <option value="" style="padding: 5px;">Pilih Game Terlebih Dahulu</option>
-            </select><br><br>
-            @error('category_id')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div>
-            <label for="description" class="fw-semibold">Deskripsi *</label><br>
-            <textarea id="description" name="description" rows="5" cols="62" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" placeholder="Tulis deskripsi yang jelas dan mudah dimengerti oleh calon pembeli" required>{{ old('description', $product->description ?? '') }}</textarea>
-            @error('description')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div>
-            <label for="stok" class="fw-semibold">Stok *</label><br>
-            <input type="number" id="stok" name="stok" value="{{ old('stok', $product->stok ?? 1) }}" min="0" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" required><br><br>
-            @error('stok')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div>
-            <label for="price" class="fw-semibold">Harga (Rp) *</label><br>
-            <input type="number" id="price" name="price" value="{{ old('price', $product->price ?? '') }}" min="0" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;" placeholder="IDR 0" required><br><br>
-             @error('price')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div>
-            <label for="product_img" class="fw-semibold">Gambar Produk {{ $product ? '' : '*' }}</label><br>
-            <input type="file" id="product_img"name="product_img" accept="image/*" {{ $product ? '' : 'required' }}>
-            <p>Format: JPG, PNG, JPEG. Max: 2MB</p>
-             @error('product_img')
-                <span style="color: red;">{{ $message }}</span>
-            @enderror
-            @if($product && $product->product_img)
-                <div>
-                    <p>Gambar saat ini:</p>
-                    <img src="{{ asset('storage/' . $product->product_img) }}"alt="Product Image" width="200">
-                </div>
-            @endif
-        </div>
-
-        <div>
-            <a href="{{ route('seller.products.index') }}" class="text-decoration-none link-footer">Batal</a>
-            <button type="submit" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">{{ $product ? 'Update Produk' : 'Simpan Produk' }}</button>
+        <div class="text-end mt-2">
+            <a href="{{ route('seller.products.index') }}" class="btn btn-danger"><i class="bi bi-x-lg"></i> Batal</a>
+            <button type="submit"
+                class="btn {{ $product ? 'btn-warning' : 'btn-primary' }}">
+                {!! $product ? '<i class="bi bi-pencil-square"></i> Ubah Produk' : '<i class="bi bi-plus-lg"></i> Tambah Produk' !!}
+            </button>
         </div>
     </form>
 </div>
-
 
 <script>
     const gameSelect = document.getElementById('game_id');
@@ -127,8 +153,8 @@
                 });
             })
             .catch(error => {
-                console.error('Error fetching categories:', error);
-                categorySelect.innerHTML = '<option value="">Error loading categories</option>';
+                console.error('Gagal Menemukan Kategori:', error);
+                categorySelect.innerHTML = '<option value="">Gagal Loading Kategori</option>';
             });
     });
 

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // MIDTRANS PAYMENT
 Route::prefix('payment')->as('payment.')
-->middleware(['auth', 'check_role:user,seller', 'check_status'])
+->middleware(['auth', 'check_role:user,seller', 'check_status', 'check_banned', 'throttle:api'])
 ->group(function() {
     Route::get('/checkout', [PaymentController::class, 'showCheckout'])->name('checkout.form');
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');

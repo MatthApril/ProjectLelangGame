@@ -29,7 +29,7 @@ class PasswordChangedWarning extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'Password Akun Anda Berubah',
+            subject: 'Password Akun Telah Berubah!',
         );
     }
 

@@ -34,7 +34,8 @@
             <div class="offcanvas-body flex-column py-4 px-4" style="min-height: 80vh;">
                 <h6 class="fw-bold">Manajemen</h6>
                 <a href="{{ route('admin.categories.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
-                <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.games.index') ? 'menu-active' : '' }}">Game</a>
+                <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.index') ? 'menu-active' : '' }}">Game</a>
+                <a href="{{ route('admin.comments.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.comments.index') ? 'menu-active' : '' }}">Comments</a>
                 <h6 class="fw-bold">Lainnya</h6>
                 <a href="{{ route('admin.games.create') }}" class="text-decoration-none text-white d-block {{ Route::is('admin.games.create') ? 'menu-active' : '' }}">Tambah Game Baru</a>
             </div>
@@ -45,10 +46,12 @@
                     @if(!Route::is('admin.dashboard'))
                         <li class="breadcrumb-item mt-3"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
                     @endif
-                    @if(Route::is('admin.categories.*'))
+                    @if (Route::is('admin.categories.*'))
                         <li class="breadcrumb-item active mt-3">Kategori</li>
                     @elseif(Route::is('admin.games.*'))
                         <li class="breadcrumb-item active mt-3">Game</li>
+                    @elseif(Route::is('admin.comments.*'))
+                        <li class="breadcrumb-item active mt-3">Comments</li>
                     @endif
                     
                     @if(Route::is('*.create'))
@@ -65,16 +68,16 @@
     {{-- <div class="content" style="flex-grow: 1; padding-right: 20px;">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                @if(!Route::is('admin.dashboard'))
+                @if (!Route::is('admin.dashboard'))
                     <li class="breadcrumb-item mt-3"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Dashboard</a></li>
                 @endif
-                @if(Route::is('admin.categories.*'))
+                @if (Route::is('admin.categories.*'))
                     <li class="breadcrumb-item active mt-3">Kategori</li>
                 @elseif(Route::is('admin.games.*'))
                     <li class="breadcrumb-item active mt-3">Game</li>
                 @endif
-                
-                @if(Route::is('*.create'))
+
+                @if (Route::is('*.create'))
                     <li class="breadcrumb-item active mt-3" aria-current="page">Tambah Game Baru</li>
                 @elseif(Route::is('*.edit'))
                     <li class="breadcrumb-item active mt-3" aria-current="page">Edit</li>
