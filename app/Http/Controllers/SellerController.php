@@ -31,6 +31,7 @@ class SellerController extends Controller
 
         return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
     }
+
     function showReviews(Request $request)
     {
         $shop = Auth::user()->shop;
@@ -72,9 +73,14 @@ class SellerController extends Controller
 
         return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
     }
+
     public function index(Request $request)
     {
-        $query = Product::where('shop_id', Auth::user()->shop->shop_id)->with(['game', 'category']);
+       $query = Product::where('shop_id', Auth::user()->shop->shop_id)
+            ->whereHas('game', function ($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->with(['game', 'category']);
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
