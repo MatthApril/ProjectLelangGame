@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OpenShopRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateShopRequest;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,10 @@ class AuthController extends Controller
 
     function showProfile() {
         $user = Auth::user();
+        $categories = Category::orderBy('category_name')->get();
         $param['user'] = $user;
+        $param['categories'] = $categories;
+
         return view('pages.auth.profile', $param);
     }
 

@@ -13,7 +13,7 @@ Route::get('/products/{id}', [UserController::class, 'showProductDetail'])->name
 Route::get('/shops/{id}', [UserController::class, 'showShop'])->name('shops.detail');
 
 Route::prefix('user')->as('user.')
-->middleware(['auth', 'check_role:user,seller', 'check_status'])
+->middleware(['auth', 'check_role:user,seller', 'check_status', 'check_banned'])
 ->group(function() {
     Route::get('/cart', [UserController::class, 'showCart'])->name('cart');
     Route::get('/orders', [UserController::class, 'showOrders'])->name('orders');

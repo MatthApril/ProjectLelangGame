@@ -75,7 +75,7 @@ class UserController extends Controller
         $owners = User::where('role', 'seller')->get();
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
-                    $q->where('status', 'open');
+                    $q->where('status', 'open')->whereHas('owner');
                 });
                 if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
                     $query->where('shop_id', '!=', Auth::user()->shop->shop_id);
@@ -154,7 +154,7 @@ class UserController extends Controller
     {
         $query = Product::with(['game', 'shop', 'category'])
             ->whereHas('shop', function($q) {
-                $q->where('status', 'open');
+                $q->where('status', 'open')->whereHas('owner');
             })
             ->where('stok', '>', 0);
 
