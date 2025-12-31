@@ -59,9 +59,7 @@
                         @if ($user->role == 'seller')
                             <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                {{-- @if ($shop)
-                            @method('PUT')
-                        @endif --}}
+                                 @method('PUT')
                                 <label>Gambar Toko Baru</label>
                                 <div class="d-grid">
                                     <button type="button" class="btn btn-outline-secondary rounded-5 my-2"
@@ -151,6 +149,7 @@
                 <form action="{{ route('do-open-shop') }}" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
+
                         @error('shop_name')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
@@ -212,9 +211,8 @@
                 <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
-                        {{-- @if ($shop)
-                @method('PUT')
-            @endif --}}
+                        @method('PUT')
+
                         @error('shop_img')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}

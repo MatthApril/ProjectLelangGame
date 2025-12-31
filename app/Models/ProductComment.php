@@ -18,7 +18,7 @@ class ProductComment extends Model
         'product_id',
         'user_id',
         'order_item_id',
-        'content',
+        'comment',
         'rating'
     ];
 

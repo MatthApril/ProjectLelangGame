@@ -38,7 +38,7 @@
             @endforeach
         </table>
     </div>
-    
+
         <h2>Keuangan Toko</h2>
         <table border="1" cellpadding="10">
             <tr>
@@ -99,6 +99,7 @@
         <p>
             <a href="{{ route('seller.products.index') }}">Kelola Produk</a> |
             <a href="{{ route('seller.products.create') }}">Tambah Produk</a> |
+            <a href="{{ route('seller.reviews.index') }}">Lihat Ulasan</a> |
             <a href="{{ route('profile') }}">Profile</a>
         </p>
     </div>

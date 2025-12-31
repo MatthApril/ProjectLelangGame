@@ -33,7 +33,7 @@ class SellerController extends Controller
     function showReviews(Request $request)
     {
         $shop = Auth::user()->shop;
-        
+
         $query = ProductComment::whereHas('product', function($q) use ($shop) {
             $q->where('shop_id', $shop->shop_id);
         })->with(['product', 'user', 'orderItem']);
@@ -64,7 +64,7 @@ class SellerController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'html' => view('pages.seller.reviews_table', compact('comments'))->render(),
+                'html' => view('partials.reviews_table', compact('comments'))->render(),
                 'pagination' => $comments->links()->render()
             ]);
         }

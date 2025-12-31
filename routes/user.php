@@ -22,7 +22,8 @@ Route::prefix('user')->as('user.')
     Route::post('/cart/add/{productId}', [UserController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove/{cartItemId}', [UserController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/orders/{orderId}', [UserController::class, 'showOrderDetail'])->name('orders.detail');
-
+    Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
+    
     Route::controller(ChatController::class)->group(function() {
         Route::get('/chat/{userId}', 'show')->name('chat.show');
         Route::post('/chat/{userId}', 'store')->name('chat.store');
