@@ -47,6 +47,8 @@ a.link-footer:hover {
     display: inline-block;
     width: 100%;
     font-weight: bold;
+    display: block;
+    padding: 5px 10px;
 }
 
 .link-navbar {
