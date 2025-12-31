@@ -27,6 +27,8 @@ Route::prefix('user')->as('user.')
     Route::get('/akun', [UserController::class, 'akun'])->name('akun');
     Route::get('/item', [UserController::class, 'item'])->name('item');
 
+    Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
+
     Route::controller(ChatController::class)->group(function() {
         Route::get('/chat/{userId}', 'show')->name('chat.show');
         Route::post('/chat/{userId}', 'store')->name('chat.store');

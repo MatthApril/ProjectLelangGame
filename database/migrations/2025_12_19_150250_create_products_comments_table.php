@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('products_comments', function (Blueprint $table) {
             $table->id('comment_id');
             $table->foreignId('product_id')->constrained('products', 'product_id')->cascadeOnDelete();
-            $table->text('content');
+            $table->foreignId('user_id')->constrained('users','user_id')->cascadeOnDelete();
+            $table->foreignId('order_item_id')->constrained('order_items','order_item_id')->cascadeOnDelete();
+            $table->text('comment')->nullable();
             $table->integer('rating');
             $table->timestamp('created_at')->useCurrent();
+            $table->unique('order_item_id');
+            $table->softDeletes();
         });
     }
 

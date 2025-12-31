@@ -104,9 +104,24 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $imagePath = null;
+        $imagePath = 'defaults/default-shop.png';
         if ($req->hasFile('shop_img')) {
             $imagePath = $req->file('shop_img')->store("shops/{$user->user_id}", 'public');
+        }else {
+
+            $defaultImagePath = public_path('images/defaults/default-shop.png');
+
+            if (file_exists($defaultImagePath)) {
+                $userShopDir = "shops/{$user->user_id}";
+                Storage::disk('public')->makeDirectory($userShopDir);
+
+                $newImagePath = "{$userShopDir}/default-shop.png";
+                Storage::disk('public')->put(
+                    $newImagePath,
+                    file_get_contents($defaultImagePath)
+                );
+                $imagePath = $newImagePath;
+            }
         }
 
         $user->update([

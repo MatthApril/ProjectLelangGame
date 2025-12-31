@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\InputGameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Mail\AccountBanned;
+use App\Models\ProductComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -39,6 +40,45 @@ class AdminController extends Controller
         return view('pages.admin.users', compact('users'));
     }
 
+    function showComments(Request $request)
+    {
+        $query = ProductComment::with(['product', 'user', 'orderItem']);
+
+
+        if ($request->filled('rating')) {
+            $query->where('rating', $request->rating);
+        }
+
+        $comments = $query->latest('created_at')->paginate(20);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('partials.comments_table', compact('comments'))->render(),
+                'pagination' => $comments->links()->toHtml()
+            ]);
+        }
+
+        return view('pages.admin.comments', compact('comments'));
+    }
+
+    function deleteComment($id)
+    {
+        try {
+            $comment = ProductComment::findOrFail($id);
+            $comment->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Komentar berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus komentar: ' . $e->getMessage()
+            ], 500);
+        }
+    }
     function showCategories() {
         $categories = Category::orderBy('category_name', 'asc')->get();
         $editCategory = null;
@@ -193,4 +233,5 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
     }
+
 }

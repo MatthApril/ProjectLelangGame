@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\ProductComment;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,47 @@ class SellerController extends Controller
 
         return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
     }
+    function showReviews(Request $request)
+    {
+        $shop = Auth::user()->shop;
 
+        $query = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->with(['product', 'user', 'orderItem']);
+
+        if ($request->filled('rating')) {
+            $query->where('rating', $request->rating);
+        }
+
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        $comments = $query->latest('created_at')->paginate(20);
+
+        $products = $shop->products()->orderBy('product_name')->get();
+
+        $totalReviews = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->count();
+
+        $ratingDistribution = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $ratingDistribution[$i] = ProductComment::whereHas('product', function($q) use ($shop) {
+                $q->where('shop_id', $shop->shop_id);
+            })->where('rating', $i)->count();
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('partials.reviews_table', compact('comments'))->render(),
+                'pagination' => $comments->links()->render()
+            ]);
+        }
+
+        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
+    }
     public function index(Request $request)
     {
         $query = Product::where('shop_id', Auth::user()->shop->shop_id)->with(['game', 'category']);

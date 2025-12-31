@@ -17,6 +17,7 @@ Route::prefix('seller')->as('seller.')
             Route::delete('/products/{id}', 'destroy')->name('products.destroy');
 
             Route::get('/games/{game}/categories', 'getCategoriesByGame')->name('games.categories');
+            Route::get('/reviews', 'showReviews')->name('reviews.index');
         });
 
         Route::controller(ChatController::class)->group(function() {
