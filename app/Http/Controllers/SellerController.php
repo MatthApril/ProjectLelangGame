@@ -130,4 +130,8 @@ class SellerController extends Controller
 
         return response()->json($categories);
     }
+
+    // public function trade(){
+    //     return view('pages.seller.trade');
+    // }
 }

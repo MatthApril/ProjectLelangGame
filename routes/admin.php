@@ -18,4 +18,6 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'check_role:admin'])->
         Route::get('/games/{game}/edit', [AdminController::class, 'showEditGame'])->name('games.edit');
         Route::put('/games/{game}', [AdminController::class, 'updateGame'])->name('games.update');
         Route::delete('/games/{game}', [AdminController::class, 'deleteGame'])->name('games.destroy');
+
+        Route::get('/users', [AdminController::class, 'showUsers'])->name('users.index');
 });

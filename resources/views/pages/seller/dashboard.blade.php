@@ -3,8 +3,8 @@
 @section('title', 'Beranda | LelangGame')
 
 @section('content')
-    <div>
-        <h1>Dashboard Seller - {{ $shop->shop_name }}</h1>
+    <div class="px-5 my-3">
+        <h5 class="fw-semibold text-dark">Dashboard Seller - {{ $shop->shop_name }}</h5>
 
         @if (session('success'))
             <div>
@@ -14,33 +14,35 @@
 
         <hr>
 
-    <div class="container-fluid">
-        <h3>Owners</h3>
-        <table border="1" class="table table-striped">
-            <tr>
-                <th>No</th>
-                <th>Owner</th>
-                <th>Email</th>
-                <th>Aksi</th>
-            </tr>
-            @foreach ($users as $index => $user)
+        <div>
+            <h6 class="fw-bold">Owners</h6>
+            <table border="1" class="table table-striped">
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <a href="{{ route('seller.chat.show', ['userId' => $user->user_id]) }}">
-                            <button class="btn btn-primary">
-                                Chat
-                            </button>
-                        </a>
+                    <th>No</th>
+                    <th>Owner</th>
+                    <th>Email</th>
+                    <th>Aksi</th>
                 </tr>
-            @endforeach
-        </table>
-    </div>
+                @foreach ($users as $index => $user)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            <a href="{{ route('seller.chat.show', ['userId' => $user->user_id]) }}">
+                                <button class="btn btn-primary">
+                                    Chat
+                                </button>
+                            </a>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
     
-        <h2>Keuangan Toko</h2>
-        <table border="1" cellpadding="10">
+        <br>
+        
+        <h6 class="fw-bold">Keuangan Toko</h2>
+        <table border="1" class="table table-striped">
             <tr>
                 <td><strong>Saldo Toko</strong></td>
                 <td><strong>Transaksi Berjalan</strong></td>
@@ -53,8 +55,8 @@
 
         <br>
 
-        <h2>Statistik Produk</h2>
-        <table border="1" cellpadding="10">
+        <h6 class="fw-bold">Statistik Produk</h6>
+        <table border="1" class="table table-striped">
             <tr>
                 <td><strong>Total Produk</strong></td>
                 <td>{{ $totalProducts }}</td>
@@ -71,8 +73,8 @@
 
         <br>
 
-        <h2>Informasi Toko</h2>
-        <table border="1" cellpadding="10">
+        <h6 class="fw-bold">Informasi Toko</h6>
+        <table border="1" class="table table-striped">
             <tr>
                 <td><strong>Status Toko</strong></td>
                 <td>{{ ucfirst($shop->status) }}</td>
@@ -89,17 +91,17 @@
 
         @if ($shop->shop_img)
             <br>
-            <h3>Gambar Toko</h3>
+            <h6 class="fw-bold">Gambar Toko</h6>
             <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="Shop Image" width="300">
         @endif
 
         <br><br>
 
-        <h2>Menu Cepat</h2>
+        <h6 class="fw-bold">Menu Cepat</h6>
         <p>
-            <a href="{{ route('seller.products.index') }}">Kelola Produk</a> |
-            <a href="{{ route('seller.products.create') }}">Tambah Produk</a> |
-            <a href="{{ route('profile') }}">Profile</a>
+            <a href="{{ route('seller.products.index') }}" class="text-decoration-none link-footer">Kelola Produk</a> |
+            <a href="{{ route('seller.products.create') }}" class="text-decoration-none link-footer">Tambah Produk</a> |
+            <a href="{{ route('profile') }}" class="text-decoration-none link-footer">Profile</a>
         </p>
     </div>
 @endsection

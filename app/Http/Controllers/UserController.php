@@ -332,4 +332,23 @@ class UserController extends Controller
         return redirect()->route('user.cart')->with('success', 'Item removed from cart');
     }
 
+    public function topup()
+    {
+        return view('pages.user.topup');
+    }
+
+    public function joki()
+    {
+        return view('pages.user.joki');
+    }
+
+    public function akun()
+    {
+        return view('pages.user.akun');
+    }
+
+    public function item()
+    {
+        return view('pages.user.item');
+    }
 }
