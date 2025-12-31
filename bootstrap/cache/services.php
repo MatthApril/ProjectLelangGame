@@ -34,7 +34,8 @@
     30 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     31 => 'Termwind\\Laravel\\TermwindServiceProvider',
     32 => 'App\\Providers\\AppServiceProvider',
-    33 => 'Mews\\Captcha\\CaptchaServiceProvider',
+    33 => 'App\\Providers\\RouteServiceProvider',
+    34 => 'Mews\\Captcha\\CaptchaServiceProvider',
   ),
   'eager' => 
   array (
@@ -55,7 +56,8 @@
     14 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     15 => 'Termwind\\Laravel\\TermwindServiceProvider',
     16 => 'App\\Providers\\AppServiceProvider',
-    17 => 'Mews\\Captcha\\CaptchaServiceProvider',
+    17 => 'App\\Providers\\RouteServiceProvider',
+    18 => 'Mews\\Captcha\\CaptchaServiceProvider',
   ),
   'deferred' => 
   array (

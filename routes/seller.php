@@ -5,7 +5,7 @@ use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('seller')->as('seller.')
-    ->middleware(['auth', 'check_role:seller', 'check_status', 'check_banned'])
+    ->middleware(['auth', 'check_role:seller', 'check_status', 'check_banned', 'throttle:api'])
     ->group(function() {
         Route::controller(SellerController::class)->group(function() {
             Route::get('/', 'showDashboard')->name('dashboard');
