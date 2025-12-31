@@ -37,7 +37,7 @@ class VerificationController extends Controller
         $verify = Verification::whereUserId(Auth::user()->user_id)->whereUniqueId($unique_id)
                     ->whereStatus('active')->count();
 
-        // if (!$verify) abort(404);
+        if (!$verify) return redirect()->route('user.home')->with('error', 'Verifikasi tidak ditemukan atau sudah tidak valid.');
 
         $param['unique_id'] = $unique_id;
         $param['type'] = $req->type;
@@ -183,7 +183,7 @@ class VerificationController extends Controller
                     ->whereUniqueId($unique_id)
                     ->whereStatus('active')->count();
 
-        // if (!$verify) abort(404);
+        if (!$verify) return redirect()->route('user.home')->with('error', 'Verifikasi tidak ditemukan atau sudah tidak valid.');
 
         $param['unique_id'] = $unique_id;
         $param['type'] = $req->type;
@@ -195,7 +195,7 @@ class VerificationController extends Controller
                     ->where('unique_id', $unique_id)
                     ->where('status', 'active')->first();
 
-        // if (!$verify) abort(404);
+        if (!$verify) return redirect()->route('user.home')->with('error', 'Verifikasi tidak ditemukan atau sudah tidak valid.');
 
         if (md5($req->otp) != $verify->otp || now()->greaterThan($verify->expires_at)) {
             $verify->update(['status' => 'invalid']);

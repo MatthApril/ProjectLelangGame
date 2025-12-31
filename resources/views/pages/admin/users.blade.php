@@ -34,18 +34,22 @@
                         <td>{{ $user->shop ? $user->shop->shop_name : 'N/A' }}</td>
                         <td>{{ $user->created_at->format('d-m-Y') }}</td>
                         <td>
-                            @if ($user->deleted_at)
-                                <form action="{{ route('admin.users.unban') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $user->user_id }}">
-                                    <button type="submit" class="btn btn-sm btn-success">Unban</button>
-                                </form>
+                            @if ($user->username != 'lelanggameofficial')
+                                @if ($user->deleted_at)
+                                    <form action="{{ route('admin.users.unban') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $user->user_id }}">
+                                        <button type="submit" class="btn btn-sm btn-success">Unban</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('admin.users.ban') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $user->user_id }}">
+                                        <button type="submit" class="btn btn-sm btn-danger">Ban</button>
+                                    </form>
+                                @endif
                             @else
-                                <form action="{{ route('admin.users.ban') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $user->user_id }}">
-                                    <button type="submit" class="btn btn-sm btn-danger">Ban</button>
-                                </form>
+                                <span>N/A</span>
                             @endif
                         </td>
                     </tr>
