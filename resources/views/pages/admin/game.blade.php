@@ -1,8 +1,8 @@
-@extends('layouts.template')
+@extends('layouts.templateadmin')
 
 @section('content')
-<div>
-    <h1>Daftar Game</h1>
+<div class="my-3">
+    <h5 class="fw-semibold text-dark">Daftar Game</h5>
 
     @if(session('success'))
         <p style="color: green;">{{ session('success') }}</p>
@@ -12,12 +12,12 @@
         <p style="color: red;">{{ session('error') }}</p>
     @endif
 
-    <a href="{{ route('admin.games.create') }}">Tambah Game Baru</a>
-    <a href="{{ route('admin.dashboard') }}">Kembali ke Dashboard</a>
+    <a href="{{ route('admin.games.create') }}" class="text-decoration-none link-footer">Tambah Game Baru</a>
+    {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
 
-    <br><br>
+    <hr>
 
-    <table border="1" cellpadding="10">
+    <table border="1" class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
@@ -55,12 +55,12 @@
                     @endforelse
                 </td>
                 <td>
-                    <a href="{{ route('admin.games.edit', $game->game_id) }}">Edit</a>
+                    <a href="{{ route('admin.games.edit', $game->game_id) }}" class="text-decoration-none link-footer">Edit</a>
 
                     <form action="{{ route('admin.games.destroy', $game->game_id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin ingin menghapus game ini?')">Hapus</button>
+                        <button type="submit" onclick="return confirm('Yakin ingin menghapus game ini?')" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
                     </form>
                 </td>
             </tr>
@@ -72,7 +72,6 @@
         </tbody>
     </table>
 
-    <br>
     {{ $games->links() }}
 </div>
 @endsection

@@ -1,12 +1,8 @@
 @extends('layouts.template')
 
 @section('content')
-
-    <div>
+    <div class="containe">
         <a href="{{ route('products.index') }}">← Kembali ke Daftar Produk</a>
-
-        <br>
-        <br>
 
         <div>
             @if ($product->product_img)

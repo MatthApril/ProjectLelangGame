@@ -13,10 +13,14 @@
         <div class="row">
             <div class="col-md-2">
                 <hr>
-                <div class="d-flex align-items-center justify-content-center gap-4">
+                <div class="d-flex align-items-center justify-content-center gap-2">
+                    @if ($user->shop && $user->shop->shop_img)
+                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" height="70" class="rounded-5">
+                    @else
                     <div>
                         <i class="bi bi-person-circle fs-1"></i>
                     </div>
+                    @endif
                     <div>
                         <div class="fw-bold">{{ Auth::user()->username }}</div>
                         <a href="{{ route('profile') }}" class="text-decoration-none text-secondary"><i
@@ -24,9 +28,16 @@
                     </div>
                 </div>
                 <hr>
+                @if ($user->role == 'seller')
+                    <div class="ms-3">
+                        <a href="{{ route('seller.dashboard') }}" class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-speedometer2"></i> Dashboard Seller</a>
+                        <a href="{{ route('seller.products.index') }}" class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-box-seam"></i> Kelola Produk</a>
+                    </div>
+                    <hr>
+                @endif
             </div>
             <div class="col-md-10 mt-3">
-                @error('username')
+                {{-- @error('username')
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -37,7 +48,7 @@
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @enderror
+                @enderror --}}
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
@@ -59,14 +70,16 @@
                         @if ($user->role == 'seller')
                             <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                 @method('PUT')
+                                @method('PUT')
                                 <label>Gambar Toko Baru</label>
-                                <div class="d-grid">
+                                <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
+                                <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
+                                {{-- <div class="d-grid">
                                     <button type="button" class="btn btn-outline-secondary rounded-5 my-2"
                                         data-bs-toggle="modal" data-bs-target="#modalEditFotoToko">
                                         <i class="bi bi-image-fill"></i> Ganti Foto Profile Toko
                                     </button>
-                                </div>
+                                </div> --}}
                                 {{-- <input type="hidden" name="shop_img" id="shop_img" value="{{ $user->shop?->shop_img }}" class="form-control mb-3"> --}}
 
                                 <label>Nama Toko</label>
@@ -111,14 +124,14 @@
                             @csrf
                             <input type="hidden" name="type" value="reset_password">
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-outline-success rounded-5 my-3">
+                                <button type="submit" class="btn btn-outline-success rounded-5 mt-3">
                                     <i class="bi bi-key-fill"></i> Kirimkan Link Ganti Password
                                 </button>
                             </div>
                         </form>
                         @if ($user->role != 'seller')
                             <div class="d-grid">
-                                <button type="button" class="btn btn-outline-primary rounded-5 my-2"
+                                <button type="button" class="btn btn-outline-primary rounded-5 mt-3"
                                     data-bs-toggle="modal" data-bs-target="#modalNamaToko">
                                     <i class="bi bi-bag-fill"></i> Mulai Berjualan Di LelangGame
                                 </button>
@@ -127,7 +140,7 @@
                         <form action="{{ route('logout') }}" method="post">
                             <div class="d-grid">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-danger rounded-5 my-3">
+                                <button type="submit" class="btn btn-outline-danger rounded-5 mt-3">
                                     <i class="bi bi-box-arrow-left"></i> Keluar Dari Akun
                                 </button>
                             </div>
@@ -199,7 +212,7 @@
         </div>
     </div>
     {{-- ModalEditFotoToko --}}
-    <div class="modal fade" id="modalEditFotoToko" tabindex="-1" aria-labelledby="modalEditFotoTokoLabel"
+    {{-- <div class="modal fade" id="modalEditFotoToko" tabindex="-1" aria-labelledby="modalEditFotoTokoLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -231,7 +244,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     {{--  --}}
     {{-- <h1>Profile Page</h1>
     <br>

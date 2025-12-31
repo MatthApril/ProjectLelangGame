@@ -19,6 +19,10 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'check_role:admin'])->
         Route::put('/games/{game}', [AdminController::class, 'updateGame'])->name('games.update');
         Route::delete('/games/{game}', [AdminController::class, 'deleteGame'])->name('games.destroy');
 
+        Route::get('/users', [AdminController::class, 'showUsers'])->name('users.index');
+        Route::post('/users/unban', [AdminController::class, 'unbanUser'])->name('users.unban');
+        Route::post('/users/ban', [AdminController::class, 'banUser'])->name('users.ban');
+
         Route::get('/comments', [AdminController::class, 'showComments'])->name('comments.index');
         Route::delete('/comments/{comment}', [AdminController::class, 'deleteComment'])->name('comments.destroy');
 });
