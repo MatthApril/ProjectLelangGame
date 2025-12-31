@@ -28,6 +28,13 @@
                     </div>
                 </div>
                 <hr>
+                @if ($user->role == 'seller')
+                    <div class="ms-3">
+                        <a href="{{ route('seller.dashboard') }}" class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-speedometer2"></i> Dashboard Seller</a>
+                        <a href="{{ route('seller.products.index') }}" class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-box-seam"></i> Kelola Produk</a>
+                    </div>
+                    <hr>
+                @endif
             </div>
             <div class="col-md-10 mt-3">
                 {{-- @error('username')
@@ -117,14 +124,14 @@
                             @csrf
                             <input type="hidden" name="type" value="reset_password">
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-outline-success rounded-5 my-3">
+                                <button type="submit" class="btn btn-outline-success rounded-5 mt-3">
                                     <i class="bi bi-key-fill"></i> Kirimkan Link Ganti Password
                                 </button>
                             </div>
                         </form>
                         @if ($user->role != 'seller')
                             <div class="d-grid">
-                                <button type="button" class="btn btn-outline-primary rounded-5 my-2"
+                                <button type="button" class="btn btn-outline-primary rounded-5 mt-3"
                                     data-bs-toggle="modal" data-bs-target="#modalNamaToko">
                                     <i class="bi bi-bag-fill"></i> Mulai Berjualan Di LelangGame
                                 </button>
@@ -133,7 +140,7 @@
                         <form action="{{ route('logout') }}" method="post">
                             <div class="d-grid">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-danger rounded-5 my-3">
+                                <button type="submit" class="btn btn-outline-danger rounded-5 mt-3">
                                     <i class="bi bi-box-arrow-left"></i> Keluar Dari Akun
                                 </button>
                             </div>

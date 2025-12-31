@@ -31,12 +31,18 @@ class AdminController extends Controller
         return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames'));
     }
 
+    function showUsers() {
+        $users = User::withTrashed()->get();
+        return view('pages.admin.users', compact('users'));
+    }
+
     function showCategories() {
         $categories = Category::orderBy('category_name', 'asc')->get();
         $editCategory = null;
 
         return view('pages.admin.category', compact('categories', 'editCategory'));
     }
+
     function storeCategory(InsertCategoryRequest $request) {
         $validated = $request->validated();
 
@@ -46,7 +52,8 @@ class AdminController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
-     function showEditCategory($id) {
+
+    function showEditCategory($id) {
         $categories = Category::orderBy('category_name', 'asc')->get();
         $editCategory = Category::findOrFail($id);
 
@@ -63,6 +70,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');
     }
+
     function deleteCategory($id) {
         $category = Category::findOrFail($id);
         $category->delete();
@@ -74,11 +82,13 @@ class AdminController extends Controller
         $games = Game::with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
         return view('pages.admin.game', compact('games'));
     }
+
     function showCreateGame() {
         $game = null;
         $categories = Category::all();
         return view('pages.admin.create_game', compact('game', 'categories'));
     }
+
     function storeGame(InputGameRequest $request) {
         $validated = $request->validated();
 
@@ -98,11 +108,13 @@ class AdminController extends Controller
 
         return redirect()->route('admin.games.index')->with('success', 'Game berhasil ditambahkan');
     }
+
     function showEditGame($id) {
         $game = Game::with(['gamesCategories' => function($query) {$query->whereHas('category', function($q) {$q->whereNull('deleted_at');})->with('category');}])->findOrFail($id);
         $categories = Category::all();
         return view('pages.admin.create_game', compact('game', 'categories'));
     }
+
     function updateGame(UpdateGameRequest $request, $id) {
         $game = Game::findOrFail($id);
         $validated = $request->validated();
@@ -140,5 +152,27 @@ class AdminController extends Controller
         return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
     }
 
-    
+    function banUser(Request $req) {
+        $req->validate([
+            'id' => 'required',
+        ]);
+
+        $id = $req->input('id');
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
+    }
+
+    function unbanUser(Request $req) {
+        $req->validate([
+            'id' => 'required',
+        ]);
+
+        $id = $req->input('id');
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
+    }
 }

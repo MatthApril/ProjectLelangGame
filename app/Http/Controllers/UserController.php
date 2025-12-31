@@ -26,16 +26,18 @@ class UserController extends Controller
                     ->with('product')
                     ->get()
                 : collect();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.cart', compact('cartItems'));
+        return view('pages.user.cart', compact('cartItems', 'categories'));
     }
 
     public function showOrders()
     {
         $user = Auth::user();
         $orders = $user->orders()->with('shop')->get();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.my_order', compact('orders'));
+        return view('pages.user.my_order', compact('orders', 'categories'));
     }
 
     public function showOrderDetail($orderId)
@@ -50,8 +52,9 @@ class UserController extends Controller
                 ])
                 ->where('order_id', $orderId)
                 ->firstOrFail();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.order_detail', compact('order'));
+        return view('pages.user.order_detail', compact('order', 'categories'));
     }
 
     public function showCartPartial()
@@ -61,9 +64,10 @@ class UserController extends Controller
         $cartItems = $user_cart
             ? $user_cart->cartItems()->with('product')->get()
             : collect();
+        $categories = Category::orderBy('category_name')->get();
 
         return response()->json([
-            'html' => view('pages.user.cart-partial', compact('cartItems'))->render()
+            'html' => view('pages.user.cart-partial', compact('cartItems', 'categories'))->render()
         ]);
     }
 
@@ -82,20 +86,21 @@ class UserController extends Controller
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
             })->whereHas('shop', function($query) {
-                $query->where('status', 'open');
+                $query->where('status', 'open')->whereHas('owner');
             })->where('stok', '>', 0);
             if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
                 $latestProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
             }
         $latestProducts = $latestProductsQuery->latest()->take(12)->get();
-        $topShopsQuery = Shop::where('status', 'open');
+        $topShopsQuery = Shop::where('status', 'open')->whereHas('owner');
 
         if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
         $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners'));
+        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners', 'categories'));
     }
 
     public function showGames(Request $request)
@@ -115,8 +120,9 @@ class UserController extends Controller
         }
 
         $games = $query->orderBy('game_name', 'asc')->paginate(12);
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.games', compact('games'));
+        return view('pages.user.games', compact('games', 'categories'));
     }
 
     public function showGameDetail($id)
@@ -139,8 +145,9 @@ class UserController extends Controller
             $productsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
         $products=$productsQuery->latest()->paginate(12);
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.game_detail', compact('game', 'categories', 'products'));
+        return view('pages.user.game_detail', compact('game', 'categories', 'products', 'categories'));
     }
 
     public function showProducts(Request $request)
@@ -212,8 +219,9 @@ class UserController extends Controller
             $relatedProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
         }
         $relatedProducts = $relatedProductsQuery->take(12)->get();
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.product_detail', compact('product', 'relatedProducts'));
+        return view('pages.user.product_detail', compact('product', 'relatedProducts', 'categories'));
     }
 
     public function showShop($id)
@@ -225,8 +233,9 @@ class UserController extends Controller
             ->where('stok', '>', 0)
             ->latest()
             ->paginate(12);
+        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.shop_detail', compact('shop', 'products'));
+        return view('pages.user.shop_detail', compact('shop', 'products', 'categories'));
     }
 
     public function addToCart(AddToCartRequest $req, $productId)
@@ -323,4 +332,23 @@ class UserController extends Controller
         return redirect()->route('user.cart')->with('success', 'Item removed from cart');
     }
 
+    public function topup()
+    {
+        return view('pages.user.topup');
+    }
+
+    public function joki()
+    {
+        return view('pages.user.joki');
+    }
+
+    public function akun()
+    {
+        return view('pages.user.akun');
+    }
+
+    public function item()
+    {
+        return view('pages.user.item');
+    }
 }

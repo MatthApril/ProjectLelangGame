@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title', 'Produk | LelangGame')
+@section('title', 'Daftar Produk | LelangGame')
 
 @section('content')
 <div class="container-fluid">
@@ -11,6 +11,7 @@
         </ol>
     </nav>
     <h2 class="fw-semibold">Daftar Produk</h2>
+    <hr>
     <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
     <form method="GET" action="{{ route('products.index') }}">
         <div class="row">
@@ -72,14 +73,14 @@
     <hr>
     <div class="row">
         @forelse($products as $product)
-        <div class="col-md-3 mt-5">
+        <div class="col-md-3 mt-3">
             <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark">
-                <div class="card shadow">
+                <div class="card card-products">
                     @if($product->product_img)
-                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="200" class="card-img-top" alt="{{ $product->product_name }}">
+                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top">
                     @endif
                     <div class="card-body">
-                        <h6 class="card-title fw-bold">{{ $product->product_name }}</h6>
+                        <h5 class="fw-bold">{{ $product->product_name }}</h5>
                         <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                         <p class="text-secondary">
                             <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
