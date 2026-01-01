@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id('notification_id');
-            $table->string('title');
-            $table->text('message');
-            $table->enum('type', ['system', 'promo', 'order']);
-            $table->timestamp('created_at')->useCurrent();
+            $table->string('title'); // Snapshot of title at time of sending
+            $table->text('body'); // Snapshot of body at time of sending
+            $table->enum('category', ['system', 'promo', 'order']);
+            $table->timestamps();
         });
     }
 

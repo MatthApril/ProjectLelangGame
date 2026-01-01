@@ -15,3 +15,8 @@ a.link-footer:hover {
 .btn-hover:hover {
     border: 1px solid white;
 }
+
+th {
+    text-align: center;
+    vertical-align: middle;
+}

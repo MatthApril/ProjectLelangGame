@@ -43,7 +43,8 @@
     <h2>Menu Manajemen</h2>
     <p>
         <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |
-        <a href="{{ route('admin.games.index') }}">Manage Game</a>
+        <a href="{{ route('admin.games.index') }}">Manage Game</a> |
+        <a href="{{ route('admin.notifications.index') }}">Manage Notifikasi</a>
     </p>
 </div>
 @endsection

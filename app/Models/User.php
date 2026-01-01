@@ -81,9 +81,22 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'receiver_id', 'user_id');
     }
 
-    public function notificationRecipients()
+    public function inbox()
     {
-        return $this->hasMany(NotificationRecipient::class, 'user_id', 'user_id');
+        return $this->hasMany(NotificationRecipient::class, 'user_id')->latest();
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_recipients', 'user_id', 'notification_id')
+                    ->withPivot(['is_read', 'read_at', 'deleted_at'])
+                    ->withTimestamps()
+                    ->wherePivot('deleted_at', null); // Exclude soft deleted items automatically
+    }
+
+    public function unreadNotificationsCount()
+    {
+        return $this->inbox()->unread()->count();
     }
 
     public function auctions()
@@ -101,6 +114,6 @@ class User extends Authenticatable
         return $this->hasMany(AuctionWinner::class, 'user_id');
     }
 
-    
+
 
 }
