@@ -13,7 +13,7 @@ Route::get('/products/{id}', [UserController::class, 'showProductDetail'])->name
 Route::get('/shops/{id}', [UserController::class, 'showShop'])->name('shops.detail');
 
 Route::prefix('user')->as('user.')
-->middleware(['auth', 'check_role:user,seller', 'check_status', 'check_banned', 'throttle:api'])
+->middleware(['auth', 'check_role:user,seller', 'check_status', 'throttle:api', 'check_banned'])
 ->group(function() {
     Route::get('/cart', [UserController::class, 'showCart'])->name('cart');
     Route::get('/orders', [UserController::class, 'showOrders'])->name('orders');
@@ -27,6 +27,9 @@ Route::prefix('user')->as('user.')
     Route::get('/akun', [UserController::class, 'akun'])->name('akun');
     Route::get('/item', [UserController::class, 'item'])->name('item');
 
+    Route::get('/auctions', [UserController::class, 'showAuctions'])->name('auctions.index');
+    Route::get('/auctions/{auctionId}', [UserController::class, 'showAuctionDetail'])->name('auction.detail');
+    Route::post('/auctions/bid/{auctionId}', [UserController::class, 'placeBid'])->name('auctions.bid');
     Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
 
     Route::controller(ChatController::class)->group(function() {

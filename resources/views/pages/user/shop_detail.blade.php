@@ -15,6 +15,13 @@
         <p>Rating: {{ number_format($shop->shop_rating, 1) }} ⭐</p>
         <p>Pemilik: {{ $shop->owner->username }}</p>
         <p>jam operasional: {{ $shop->open_hour }} - {{ $shop->close_hour }}</p>
+        @auth
+            <form action="{{ route('user.chat.show', $shop->owner->user_id) }}" method="GET">
+                <button type="submit">Chat Pemilik Toko</button>
+            </form>
+        @else
+            <p><a href="{{ route('login') }}">Login</a> untuk chat dengan pemilik toko</p>
+        @endauth
     </div>
 
     <br><br>

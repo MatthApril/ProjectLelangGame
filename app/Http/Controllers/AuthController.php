@@ -8,6 +8,9 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OpenShopRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateShopRequest;
+use App\Models\Notification;
+use App\Models\Verification;
+use App\Services\NotificationService;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -94,6 +97,8 @@ class AuthController extends Controller
             'role' => 'user',
             'balance' => 0
         ]);
+
+        (new NotificationService())->send($user->user_id, 'welcome_user', ['username' => $user->username]);
 
         Auth::login($user);
         return redirect()->route('verify.index');

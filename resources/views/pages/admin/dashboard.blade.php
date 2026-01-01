@@ -38,10 +38,12 @@
             </tr>
         </table>
 
+    <br><br>
         {{-- <h6 class="fw-bold">Menu Manajemen</h6> --}}
         {{-- <p>
             <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |
             <a href="{{ route('admin.games.index') }}">Manage Game</a> |
+            <a href="{{ route('admin.notifications.index') }}">Manage Notifikasi</a> |
             <a href="{{ route('admin.comments.index') }}">Manage Comments</a>
         </p> --}}
     </div>

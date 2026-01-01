@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id('notif_recip_id');
             $table->foreignId('notification_id')->constrained('notifications', 'notification_id')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
+            $table->boolean('is_read')->default(false);
+            $table->softDeletes();
         });
     }
 

@@ -15,9 +15,14 @@ Route::prefix('seller')->as('seller.')
             Route::get('/products/{id}/edit', 'edit')->name('products.edit');
             Route::put('/products/{id}', 'update')->name('products.update');
             Route::delete('/products/{id}', 'destroy')->name('products.destroy');
-
             Route::get('/games/{game}/categories', 'getCategoriesByGame')->name('games.categories');
             Route::get('/reviews', 'showReviews')->name('reviews.index');
+
+            Route::get('/incoming_orders', 'showIncomingOrders')->name('incoming_orders.index');
+
+            Route::get('/auctions', 'showSellerAuctions')->name('auctions.index');
+            Route::get('/auctions/create', 'showCreateAuctionForm')->name('auctions.create.form');
+            Route::post('/auctions/create', 'createAuction')->name('auctions.create');
         });
 
         Route::controller(ChatController::class)->group(function() {
