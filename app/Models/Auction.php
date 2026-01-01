@@ -44,4 +44,10 @@ class Auction extends Model
     {
         return $this->hasOne(AuctionWinner::class, 'auction_id');
     }
+
+    public function highestBid()
+    {
+        return $this->hasOne(AuctionBid::class, 'auction_id')
+                    ->orderByDesc('bid_price');
+    }
 }

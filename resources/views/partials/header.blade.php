@@ -97,8 +97,9 @@
                     class="bi bi-controller"></i> Lihat Semua Game</a>
             <a href="{{ route('products.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-box-seam"></i> Lihat Semua Produk</a>
-            {{-- <a href="#" class="text-decoration-none text-white"><i class="bi bi-steam"></i> Steam Gift Cards</a>
-            <a href="#" class="text-decoration-none text-white"><i class="bi bi-gem"></i> Diamond MLBB</a>
+            <a href="{{ route('user.auctions.index') }}" class="text-decoration-none text-white"><i
+                    class="bi bi-steam"></i> Lihat Semua Lelang</a>
+            {{-- <a href="#" class="text-decoration-none text-white"><i class="bi bi-gem"></i> Diamond MLBB</a>
             <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a> --}}
         </div>
     </div>

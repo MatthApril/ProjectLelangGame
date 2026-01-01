@@ -271,8 +271,9 @@ class SellerController extends Controller
                 'current_price' => $req->price,
                 'start_time' => $req->start_time,
                 'end_time' => $req->end_time,
-                'status' => 'running',
+                'status' => 'pending',
             ]);
+            
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal membuat lelang: ' . $e->getMessage())->withInput();
