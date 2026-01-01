@@ -1,8 +1,8 @@
-@extends('layouts.template')
+@extends('layouts.templateadmin')
 
 @section('content')
-<div class="container mt-4">
-    <h1 class="fw-bold">Template Notifikasi</h1>
+<div class="container my-3 text-dark">
+    <h5 class="fw-semibold text-dark">Template Notifikasi</h5>
 
     <hr>
 
@@ -14,54 +14,56 @@
             </form>
         </div>
         <div>
-            <a href="{{ route('admin.notifications.create') }}" class="btn btn-primary btn-hover" role="button">+ Tambah</a>
+            <a href="{{ route('admin.notifications.create') }}" class="btn btn-primary btn-hover" role="button">+Tambah</a>
         </div>
     </div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Template ID</th>
-                <th>Kode Tag</th>
-                <th>Judul</th>
-                <th>Pesan</th>
-                <th>Tipe</th>
-                <th>Kategori</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($templates as $template)
-            <tr>
-                <td class="text-center align-middle">{{ $template->notif_temp_id }}</td>
-                <td>{{ $template->code_tag }}</td>
-                <td>{{ $template->subject }}</td>
-                <td style="white-space: pre-wrap;">{{ $template->body }}</td>
-                <td>{{ ucfirst($template->trigger_type) }}</td>
-                <td>{{ ucfirst($template->category) }}</td>
-                <td>
-                    <a href="{{ route('admin.notifications.edit', $template->notif_temp_id) }}" class="btn btn-sm btn-warning btn-hover">Edit</a>
-                    @if ($template->trigger_type === 'broadcast')
-                        <button type="button" class="btn btn-sm btn-danger btn-hover"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal"
-                            data-id="{{ $template->notif_temp_id }}"
-                            data-name="{{ $template->code_tag }}">
-                            Hapus
-                        </button>
-                        <button type="button" class="btn btn-sm btn-success btn-hover mb-1"
-                            data-bs-toggle="modal"
-                            data-bs-target="#broadcastModal"
-                            data-id="{{ $template->notif_temp_id }}"
-                            data-name="{{ $template->code_tag }}">
-                            Broadcast
-                        </button>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table border="1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Template ID</th>
+                    <th>Kode Tag</th>
+                    <th>Judul</th>
+                    <th>Pesan</th>
+                    <th>Tipe</th>
+                    <th>Kategori</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($templates as $template)
+                <tr>
+                    <td class="text-center align-middle">{{ $template->notif_temp_id }}</td>
+                    <td>{{ $template->code_tag }}</td>
+                    <td>{{ $template->subject }}</td>
+                    <td style="white-space: pre-wrap;">{{ $template->body }}</td>
+                    <td>{{ ucfirst($template->trigger_type) }}</td>
+                    <td>{{ ucfirst($template->category) }}</td>
+                    <td>
+                        <a href="{{ route('admin.notifications.edit', $template->notif_temp_id) }}" class="btn btn-sm btn-warning btn-hover">Edit</a>
+                        @if ($template->trigger_type === 'broadcast')
+                            <button type="button" class="btn btn-sm btn-danger btn-hover"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-id="{{ $template->notif_temp_id }}"
+                                data-name="{{ $template->code_tag }}">
+                                Hapus
+                            </button>
+                            <button type="button" class="btn btn-sm btn-success btn-hover mb-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#broadcastModal"
+                                data-id="{{ $template->notif_temp_id }}"
+                                data-name="{{ $template->code_tag }}">
+                                Broadcast
+                            </button>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <div class="d-flex justify-content-between align-items-center">
         <p class="text-muted">

@@ -1,7 +1,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-<div class="container my-3">
+<div class="container my-3 text-dark">
     <h5 class="fw-semibold text-dark">Daftar Game</h5>
 
     @if(session('success'))
@@ -18,7 +18,7 @@
     <hr>
 
     <div class="table-responsive">
-        <table border="1" class="table table-striped">
+        <table border="1" class="table table-bordered">
             <thead>
                 <tr>
                     <th>No</th>

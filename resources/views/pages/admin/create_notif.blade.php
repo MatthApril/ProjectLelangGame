@@ -1,8 +1,8 @@
-@extends('layouts.template')
+@extends('layouts.templateadmin')
 
 @section('content')
-<div class="container mt-4">
-    <h1 class="fw-bold">Buat Template Notifikasi Baru</h1>
+<div class="container my-3 text-dark">
+    <h5 class="fw-semibold text-dark">Buat Template Notifikasi Baru</h5>
 
     <hr>
 

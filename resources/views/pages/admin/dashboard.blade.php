@@ -1,7 +1,7 @@
 @extends('layouts.templateadmin')
 
 @section('content')
-    <div class="container my-3">
+    <div class="container my-3 text-dark">
         <h5 class="fw-semibold text-dark">Dashboard Admin</h5>
 
         <hr>

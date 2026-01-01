@@ -35,9 +35,11 @@
                 <h6 class="fw-bold">Manajemen</h6>
                 <a href="{{ route('admin.categories.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
                 <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.index') ? 'menu-active' : '' }}">Game</a>
-                <a href="{{ route('admin.comments.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.comments.index') ? 'menu-active' : '' }}">Comments</a>
+                <a href="{{ route('admin.comments.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.index') ? 'menu-active' : '' }}">Komentar</a>
+                <a href="{{ route('admin.notifications.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.notifications.index') ? 'menu-active' : '' }}">Notifikasi</a>
                 <h6 class="fw-bold">Lainnya</h6>
-                <a href="{{ route('admin.games.create') }}" class="text-decoration-none text-white d-block {{ Route::is('admin.games.create') ? 'menu-active' : '' }}">Tambah Game Baru</a>
+                <a href="{{ route('admin.games.create') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.create') ? 'menu-active' : '' }}">Tambah Game Baru</a>
+                <a href="{{ route('admin.notifications.create') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.notifications.create') ? 'menu-active' : '' }}">Tambah Notifikasi Baru</a>
             </div>
         </div>
         <div class="content px-4 py-2" style="flex-grow: 1; width: 100%;">                                        
@@ -51,11 +53,15 @@
                     @elseif(Route::is('admin.games.*'))
                         <li class="breadcrumb-item active mt-3">Game</li>
                     @elseif(Route::is('admin.comments.*'))
-                        <li class="breadcrumb-item active mt-3">Comments</li>
+                        <li class="breadcrumb-item active mt-3">Komentar</li>
+                    @elseif(Route::is('admin.notifications.*'))
+                        <li class="breadcrumb-item active mt-3">Notifikasi</li>
                     @endif
                     
-                    @if(Route::is('*.create'))
+                    @if(Route::is('*admin.games.create'))
                         <li class="breadcrumb-item active mt-3">Tambah Game Baru</li>
+                    @elseif(Route::is('*admin.notifications.create'))
+                        <li class="breadcrumb-item active mt-3">Tambah Notifikasi Baru</li>
                     @elseif(Route::is('*.edit'))
                         <li class="breadcrumb-item active mt-3">Edit</li>
                     @endif

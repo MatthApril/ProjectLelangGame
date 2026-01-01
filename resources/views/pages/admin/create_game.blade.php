@@ -14,7 +14,7 @@
 
         <div>
             <label for="game_name">Nama Game *</label><br>
-            <input type="text" id="game_name" name="game_name" value="{{ old('game_name', $game->game_name ?? '') }}" style="padding: 5px; width: 303px; border: 1px solid gray; border-radius: 5px;" required>
+            <input type="text" id="game_name" name="game_name" value="{{ old('game_name', $game->game_name ?? '') }}" class="form-control" required>
             @error('game_name')
                 <span style="color: red;">{{ $message }}</span>
             @enderror
@@ -67,7 +67,7 @@
 
         {{-- <br> --}}
 
-        <button type="submit" style="padding: 5px; border: 1px solid gray; border-radius: 5px;">{{ $game ? 'Update Game' : 'Simpan Game' }}</button>
+        <button type="submit" class="btn btn-primary">{{ $game ? 'Update Game' : 'Simpan Game' }}</button>
         <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Batal</a>
     </form>
 </div>
