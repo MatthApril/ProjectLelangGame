@@ -20,3 +20,53 @@ th {
     text-align: center;
     vertical-align: middle;
 }
+/* .card {
+    border: none;
+} */
+
+.img-body {
+    overflow: hidden;
+    width: 70px;
+    height: 70px;
+    clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+}
+
+/* .card img:hover {
+    transform: scale(1.1);
+} */
+
+.card-title{
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.card-products:hover {
+    box-shadow: 5px 10px 18px #888888;
+}
+
+.col {
+    width: 100px;
+}
+
+.menu-active {
+    background-color: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    width: 100%;
+    font-weight: bold;
+}
+
+.link-navbar {
+    padding: 5px 10px;
+    display: inline-block;
+}
+
+.link-navbar:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}

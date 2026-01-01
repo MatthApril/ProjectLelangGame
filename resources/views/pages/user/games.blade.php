@@ -1,15 +1,30 @@
 @extends('layouts.template')
 
+@section('title', 'Games | LelangGame')
+
 @section('content')
-<div>
-    <h1>Daftar Game</h1>
+<div class="container-fluid my-4">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Games</li>
+    </ol>
+    </nav>
+    <h3 class="fw-semibold">Eksplor Game Di LelangGame</h3>
 
     <form method="GET" action="{{ route('games.index') }}">
-        <input type="text" name="search" placeholder="Cari game..." value="{{ request('search') }}">
-        <button type="submit">Cari</button>
-        @if(request('search'))
-            <a href="{{ route('games.index') }}">Reset</a>
-        @endif
+        <div class="d-flex align-items-center justify-content-center gap-2">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="search" name="search" placeholder="Cari Nama Game" value="{{ request('search') }}" aria-label="Search" class="form-control" autocomplete="off" autofocus>
+            </div>
+            <button type="submit" class="btn btn-success">Cari</button>
+            {{-- @if(request('search'))
+                <a href="{{ route('games.index') }}" class="btn btn-secondary">Reset</a>
+            @endif --}}
+        </div>
     </form>
 
     <br><br>
@@ -20,7 +35,7 @@
             @if($game->game_img)
                 <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="200">
             @else
-                <p>[No Image]</p>
+                <p>[ No Image ]</p>
             @endif
             <h3>{{ $game->game_name }}</h3>
             <p>{{ $game->products_count }} Produk Tersedia</p>
@@ -28,7 +43,7 @@
         </div>
         <br>
         @empty
-        <p>Tidak ada game ditemukan</p>
+        <h5 class="text-center fw-semibold">Tidak Ada Game Ditemukan</h5>
         @endforelse
     </div>
 

@@ -23,6 +23,12 @@ Route::prefix('admin')->as('admin.')
             Route::put('/games/{game}', 'updateGame')->name('games.update');
             Route::delete('/games/{game}', 'deleteGame')->name('games.destroy');
 
+            Route::get('/users', 'showUsers')->name('users.index');
+            Route::post('/users/unban', 'unbanUser')->name('users.unban');
+            Route::post('/users/ban', 'banUser')->name('users.ban');
+            Route::get('/comments', 'showComments')->name('comments.index');
+            Route::delete('/comments/{comment}', 'deleteComment')->name('comments.destroy');
+            
             Route::get('/templates', 'showNotificationMaster')->name('notifications.index');
             Route::get('/templates/create', 'showCreateNotificationTemplate')->name('notifications.create');
             Route::post('/templates', 'storeNotificationTemplate')->name('notifications.store');

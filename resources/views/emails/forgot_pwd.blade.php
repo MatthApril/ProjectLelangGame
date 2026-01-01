@@ -25,9 +25,8 @@
         </h4>
 
         <p style="font-size:15px; color:#475569; line-height:1.6; margin-bottom:20px;">
-            Terima kasih telah mendaftar di <strong>LelangGame</strong>.
-            Untuk menyelesaikan proses pendaftaran, silakan gunakan kode OTP berikut untuk memverifikasi alamat email
-            Anda.
+            Anda telah meminta untuk mengubah password di <strong>LelangGame</strong>.
+            Untuk menyelesaikan proses perubahan password, silakan gunakan kode OTP berikut untuk memverifikasi perubahan Anda.
         </p>
 
         <!-- OTP -->
@@ -35,13 +34,12 @@
             <span
                 style="display:inline-block; background:#2563eb; color:#ffffff; font-size:32px; font-weight:bold; letter-spacing:6px; padding:15px 30px; border-radius:8px;">
                 <?php echo e($otp); ?>
-
             </span>
         </div>
 
         <p style="font-size:14px; color:#64748b;">
             Jangan berikan kode ini kepada siapapun, termasuk admin dari LelangGame. Jika terjadi masalah, segera
-            hubungi admin LelangGame melalui email di <i>testinggdg12345@gmail.com</i>
+            hubungi admin LelangGame melalui email di <i>lelanggameofficial@gmail.com</i>
         </p>
     </div>
 </body>

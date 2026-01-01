@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
+use App\Models\Category;
 use App\Models\Message;
 use App\Models\Product;
 use App\Models\User;
@@ -14,6 +15,8 @@ class ChatController extends Controller
     public function show(Request $request, $userId) {
         $myId = Auth::user()->user_id;
         $otherUser = User::findOrFail($userId);
+        $otherUserId = $userId;
+        $categories = Category::orderBy('category_name')->get();
 
         $product = null;
         $autoMessage = '';
@@ -30,6 +33,13 @@ class ChatController extends Controller
             if ($product){
                 $autoMessage = "Halo, saya tertarik dengan produk '{$product->product_name}' dalam toko '{$product->shop->shop_name}' dengan harga Rp " . number_format($product->price, 0, ',', '.') . ". Apakah masih tersedia?";
             }
+        }
+        $param['messages'] = $messages;
+        $param['otherUser'] = $otherUser;
+        $param['categories'] = $categories;
+
+        if (Auth::user()->role == 'seller') {
+            return view('pages.seller.chat', $param);
         }
 
         $viewName = (Auth::user()->role == 'seller') ? 'pages.seller.chat' : 'pages.user.chat';

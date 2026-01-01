@@ -19,6 +19,12 @@ class Auction extends Model
         'end_time',
         'status',
     ];
+
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
@@ -37,5 +43,11 @@ class Auction extends Model
     public function winner()
     {
         return $this->hasOne(AuctionWinner::class, 'auction_id');
+    }
+
+    public function highestBid()
+    {
+        return $this->hasOne(AuctionBid::class, 'auction_id')
+                    ->orderByDesc('bid_price');
     }
 }

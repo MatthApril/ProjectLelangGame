@@ -17,7 +17,11 @@ use App\Http\Requests\UpdateGameRequest;
 use App\Http\Requests\UpdateTemplateRequest;
 use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
+use App\Mail\AccountBanned;
+use App\Models\ProductComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -35,12 +39,57 @@ class AdminController extends Controller
         return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames'));
     }
 
+    function showUsers() {
+        $users = User::withTrashed()->get();
+        return view('pages.admin.users', compact('users'));
+    }
+
+    function showComments(Request $request)
+    {
+        $query = ProductComment::with(['product', 'user', 'orderItem']);
+
+
+        if ($request->filled('rating')) {
+            $query->where('rating', $request->rating);
+        }
+
+        $comments = $query->latest('created_at')->paginate(20);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('partials.comments_table', compact('comments'))->render(),
+                'pagination' => $comments->links()->toHtml()
+            ]);
+        }
+
+        return view('pages.admin.comments', compact('comments'));
+    }
+
+    function deleteComment($id)
+    {
+        try {
+            $comment = ProductComment::findOrFail($id);
+            $comment->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Komentar berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus komentar: ' . $e->getMessage()
+            ], 500);
+        }
+    }
     function showCategories() {
         $categories = Category::orderBy('category_name', 'asc')->get();
         $editCategory = null;
 
         return view('pages.admin.category', compact('categories', 'editCategory'));
     }
+
     function storeCategory(InsertCategoryRequest $request) {
         $validated = $request->validated();
 
@@ -50,7 +99,8 @@ class AdminController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
-     function showEditCategory($id) {
+
+    function showEditCategory($id) {
         $categories = Category::orderBy('category_name', 'asc')->get();
         $editCategory = Category::findOrFail($id);
 
@@ -67,6 +117,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');
     }
+
     function deleteCategory($id) {
         $category = Category::findOrFail($id);
         $category->delete();
@@ -78,11 +129,13 @@ class AdminController extends Controller
         $games = Game::with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
         return view('pages.admin.game', compact('games'));
     }
+
     function showCreateGame() {
         $game = null;
         $categories = Category::all();
         return view('pages.admin.create_game', compact('game', 'categories'));
     }
+
     function storeGame(InputGameRequest $request) {
         $validated = $request->validated();
 
@@ -102,11 +155,13 @@ class AdminController extends Controller
 
         return redirect()->route('admin.games.index')->with('success', 'Game berhasil ditambahkan');
     }
+
     function showEditGame($id) {
         $game = Game::with(['gamesCategories' => function($query) {$query->whereHas('category', function($q) {$q->whereNull('deleted_at');})->with('category');}])->findOrFail($id);
         $categories = Category::all();
         return view('pages.admin.create_game', compact('game', 'categories'));
     }
+
     function updateGame(UpdateGameRequest $request, $id) {
         $game = Game::findOrFail($id);
         $validated = $request->validated();
@@ -197,4 +252,43 @@ class AdminController extends Controller
 
         return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag);
     }
+    function banUser(Request $req) {
+        $req->validate([
+            'id' => 'required',
+        ]);
+
+        if ($req->input('id') == Auth::user()->user_id) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat memban diri sendiri.');
+        }
+
+        if ($req->input('id') == 1) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat memban admin utama.');
+        }
+
+        $id = $req->input('id');
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        $shop = Shop::where('owner_id', $user->user_id)->first();
+        if ($shop) {
+            $shop->products()->delete();
+        }
+
+        Mail::to($user->email)->queue(new AccountBanned());
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
+    }
+
+    function unbanUser(Request $req) {
+        $req->validate([
+            'id' => 'required',
+        ]);
+
+        $id = $req->input('id');
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
+    }
+
 }

@@ -9,9 +9,10 @@ use App\Http\Requests\OpenShopRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateShopRequest;
 use App\Models\Notification;
-use App\Models\User;
 use App\Models\Verification;
 use App\Services\NotificationService;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -34,8 +35,8 @@ class AuthController extends Controller
     }
 
     function showOpenShop() {
-
-        return view('pages.auth.open_shop');
+        $shop = null;
+        return view('pages.auth.open_shop',compact('shop'));
     }
 
     function showEditShop() {
@@ -50,7 +51,10 @@ class AuthController extends Controller
 
     function showProfile() {
         $user = Auth::user();
+        $categories = Category::orderBy('category_name')->get();
         $param['user'] = $user;
+        $param['categories'] = $categories;
+
         return view('pages.auth.profile', $param);
     }
 
@@ -93,7 +97,7 @@ class AuthController extends Controller
             'role' => 'user',
             'balance' => 0
         ]);
-        
+
         (new NotificationService())->send($user->user_id, 'welcome_user', ['username' => $user->username]);
 
         Auth::login($user);
@@ -105,9 +109,24 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $imagePath = null;
+        $imagePath = 'defaults/default-shop.png';
         if ($req->hasFile('shop_img')) {
             $imagePath = $req->file('shop_img')->store("shops/{$user->user_id}", 'public');
+        }else {
+
+            $defaultImagePath = public_path('images/defaults/default-shop.png');
+
+            if (file_exists($defaultImagePath)) {
+                $userShopDir = "shops/{$user->user_id}";
+                Storage::disk('public')->makeDirectory($userShopDir);
+
+                $newImagePath = "{$userShopDir}/default-shop.png";
+                Storage::disk('public')->put(
+                    $newImagePath,
+                    file_get_contents($defaultImagePath)
+                );
+                $imagePath = $newImagePath;
+            }
         }
 
         $user->update([
