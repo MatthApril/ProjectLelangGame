@@ -27,6 +27,15 @@
             <a href="{{ route('seller.products.create') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-plus-lg"></i> Tambah Produk</a>
+            <a href="{{ route('seller.auctions.create.form') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Buat Lelang</a>
+            <a href="{{ route('seller.auctions.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Daftar Lelang</a>
+            <a href="{{ route('seller.incoming_orders.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Daftar Pesanan Masuk</a>
             <a href="{{ route('profile') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-person-fill"></i> Profile</a>

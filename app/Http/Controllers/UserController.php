@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\InputProductCommentRequest;
+use App\Models\Auction;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
@@ -59,6 +60,7 @@ class UserController extends Controller
 
         return view('pages.user.order_detail', compact('order', 'categories'));
     }
+
     public function storeReview(InputProductCommentRequest $request, $orderItemId)
     {
         try {
@@ -155,10 +157,20 @@ class UserController extends Controller
         if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
+
+        $auctions = Auction::with(['product.shop.owner'])
+            ->whereHas('product', function($q) {
+                $q->where('stok', '>', 0);
+            })
+            ->whereHas('product.shop.owner')
+            ->whereIn('status', ['running'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
         $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners', 'categories'));
+        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners', 'categories', 'auctions'));
     }
 
     public function showGames(Request $request)

@@ -3,16 +3,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InsertAuctionRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Auction;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SellerController extends Controller
 {
@@ -30,6 +35,27 @@ class SellerController extends Controller
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
+    }
+
+    function showSellerAuctions()
+    {
+        $auctions = Auction::where('seller_id', Auth::user()->user_id)
+            ->with(['product' => function ($q) {
+                $q->withTrashed()
+                ->with([
+                    'shop'     => fn ($q) => $q->withTrashed(),
+                    'category' => fn ($q) => $q->withTrashed(),
+                    'game'     => fn ($q) => $q->withTrashed(),
+                ]);
+            }])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $categories = Category::orderBy('category_name')->get();
+        $shop = Auth::user()->shop;
+
+        // dd($auctions);
+
+        return view('pages.seller.auctions', compact('auctions', 'categories', 'shop'));
     }
 
     function showReviews(Request $request)
@@ -72,6 +98,45 @@ class SellerController extends Controller
         }
 
         return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
+    }
+
+    function showIncomingOrders()
+    {
+        $categories = Category::orderBy('category_name')->get();
+        $user = Auth::user();
+        $orders = OrderItem::query()
+            ->leftJoin('orders', 'orders.order_id', '=', 'order_items.order_id')
+            ->leftJoin('products', 'products.product_id', '=', 'order_items.product_id')
+            ->leftJoin('shops', 'shops.shop_id', '=', 'products.shop_id')
+            ->where(function ($q) {
+                $q->where('shops.owner_id', Auth::id())   // PEMILIK TOKO
+                ->orWhereNull('products.product_id');  // product hard delete
+            })
+            ->whereIn('order_items.status', ['pending', 'processing', 'shipped'])
+            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
+            ->select('order_items.*')
+            ->with([
+                'order.account',
+                'product' => function ($q) {
+                    $q->withTrashed()
+                    ->with([
+                        'shop'     => fn ($q) => $q->withTrashed(),
+                        'category' => fn ($q) => $q->withTrashed(),
+                        'game'     => fn ($q) => $q->withTrashed(),
+                    ]);
+                }
+            ])
+            ->get();
+
+        return view('pages.seller.orders', compact('categories', 'orders'));
+    }
+
+    public function showCreateAuctionForm()
+    {
+        $categories = Category::orderBy('category_name')->get();
+        $games = Game::all();
+        $product = null;
+        return view('pages.seller.create_auction', compact('categories', 'games', 'product'));
     }
 
     public function index(Request $request)
@@ -172,6 +237,50 @@ class SellerController extends Controller
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dihapus!');
+    }
+
+    public function createAuction(InsertAuctionRequest $req)
+    {
+        $req->validated();
+
+        $imagePath = null;
+        if ($req->hasFile('product_img')) {
+            $sellerId = Auth::user()->shop->shop_id;
+            $imagePath = $req->file('product_img')->store("seller/{$sellerId}/products", 'public');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $product = Product::create([
+                'shop_id' => Auth::user()->shop->shop_id,
+                'product_name' => $req->product_name,
+                'description' => $req->description,
+                'product_img' => $imagePath,
+                'stok' => $req->stok,
+                'price' => $req->price,
+                'category_id' => $req->category_id,
+                'game_id' => $req->game_id,
+                'rating' => 0,
+            ]);
+
+            $auction = Auction::create([
+                'product_id' => $product->product_id,
+                'seller_id' => Auth::user()->user_id,
+                'start_price' => $req->price,
+                'current_price' => $req->price,
+                'start_time' => $req->start_time,
+                'end_time' => $req->end_time,
+                'status' => 'running',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal membuat lelang: ' . $e->getMessage())->withInput();
+        }
+
+        DB::commit();
+
+        return redirect()->route('seller.auctions.index')->with('success', 'Lelang berhasil dibuat!');
     }
 
     public function getCategoriesByGame($gameId)

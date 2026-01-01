@@ -19,6 +19,12 @@ class Auction extends Model
         'end_time',
         'status',
     ];
+
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

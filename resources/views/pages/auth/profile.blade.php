@@ -37,6 +37,9 @@
                         <a href="{{ route('seller.products.index') }}"
                             class="text-decoration-none text-secondary nav-link link-footer mt-2"><i
                                 class="bi bi-box-seam"></i> Kelola Produk</a>
+                        <a href="{{ route('seller.auctions.create.form') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i
+                                class="bi bi-gavel"></i> Lelang Produk</a>
                     </div>
                     <hr>
                 @endif
@@ -134,7 +137,7 @@
                                 </button>
                             </div>
                         </form>
-                        @if ($user->role != 'seller')
+                        @if ($user->role != 'seller' && $user->role != 'admin')
                             <div class="d-grid">
                                 <button type="button" class="btn btn-outline-primary rounded-5 mt-3"
                                     data-bs-toggle="modal" data-bs-target="#modalNamaToko">
