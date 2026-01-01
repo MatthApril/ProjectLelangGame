@@ -113,6 +113,7 @@ class SellerController extends Controller
                 ->orWhereNull('products.product_id');  // product hard delete
             })
             ->whereIn('order_items.status', ['pending', 'processing', 'shipped'])
+            ->where('orders.status', '=', 'paid')
             ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
             ->select('order_items.*')
             ->with([
@@ -273,7 +274,7 @@ class SellerController extends Controller
                 'end_time' => $req->end_time,
                 'status' => 'pending',
             ]);
-            
+
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal membuat lelang: ' . $e->getMessage())->withInput();

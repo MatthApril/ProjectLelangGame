@@ -177,7 +177,7 @@ class PaymentController extends Controller
                 'user_id' => $user->user_id,
                 'shop_id' => $cart->cartItems->first()->product->shop_id,
                 'status' => 'unpaid',
-                'expire_payment_at' => now()->addMinutes(5),
+                'expire_payment_at' => now()->addHours(1),
                 'total_prices' => 0,
             ]);
 
@@ -246,6 +246,7 @@ class PaymentController extends Controller
 
     public function callback (Request $req)
     {
+        // dd($req->all());
         if ($req->transaction_status == 'capture') {
             $order = Order::where('order_id', $req->order_id)->first();
             if ($order) {

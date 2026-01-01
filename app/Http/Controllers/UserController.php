@@ -7,6 +7,7 @@ use App\Http\Requests\BiddingRequests;
 use App\Http\Requests\InputProductCommentRequest;
 use App\Models\Auction;
 use App\Models\AuctionBid;
+use App\Models\AuctionWinner;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
@@ -357,6 +358,11 @@ class UserController extends Controller
             return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
         }
 
+        if ($auction->end_time <= now()) {
+            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
+        }
+
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.auction_detail', compact('auction', 'categories'));
@@ -381,6 +387,11 @@ class UserController extends Controller
 
         if (!$auction) {
             return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
+        }
+
+        if ($auction->end_time <= now()) {
+            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
         }
 
         if ($req->bid_price < $auction->current_price + 1000) {
