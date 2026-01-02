@@ -3,7 +3,7 @@
 @section('title', 'Beranda | LelangGame')
 
 @section('content')
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
         <section>
             <h6 class="fw-bold">Game Populer</h6>
             <div>
@@ -192,5 +192,9 @@
                     @endforeach
                 </table>
             </div>
-        </div>
-    @endsection
+        </div> --}}
+
+<div class="container">
+
+</div>
+@endsection

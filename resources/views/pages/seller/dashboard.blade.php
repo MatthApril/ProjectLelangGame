@@ -3,7 +3,7 @@
 @section('title', 'Dashboard Seller | LelangGame')
 
 @section('content')
-    <div class="container-fluid mt-3">
+    <div class="container mt-3">
         <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
@@ -24,21 +24,16 @@
             <a href="{{ route('seller.products.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-box-seam"></i> Kelola Produk</a>
-            <a href="{{ route('seller.products.create') }}"
+            {{-- <a href="{{ route('seller.products.create') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-plus-lg"></i> Tambah Produk</a>
-            <a href="{{ route('seller.auctions.create.form') }}"
+                    class="bi bi-plus-lg"></i> Tambah Produk</a> --}}
+            {{-- <a href="{{ route('seller.auctions.create.form') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-plus-lg"></i> Buat Lelang</a>
+                    class="bi bi-plus-lg"></i> Buat Lelang</a> --}}
             <a href="{{ route('seller.auctions.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-plus-lg"></i> Daftar Lelang</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Daftar Lelang</a>
             <a href="{{ route('seller.incoming_orders.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-plus-lg"></i> Daftar Pesanan Masuk</a>
-            <a href="{{ route('profile') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-person-fill"></i> Profile</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-clipboard2"></i> Daftar Pesanan Masuk</a>
         </div>
         <hr>
         <div>
@@ -117,20 +112,20 @@
                 </tr>
             </table>
 
-            @if ($shop->shop_img)
+            {{-- @if ($shop->shop_img)
                 <br>
                 <h6 class="fw-bold">Gambar Toko</h6>
                 <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="Shop Image" width="300">
-            @endif
+            @endif --}}
 
-            <br><br>
+            {{-- <br><br> --}}
 
-            <h2>Menu Cepat</h2>
+            {{-- <h2>Menu Cepat</h2>
             <p>
                 <a href="{{ route('seller.products.index') }}">Kelola Produk</a> |
                 <a href="{{ route('seller.products.create') }}">Tambah Produk</a> |
                 <a href="{{ route('seller.reviews.index') }}">Lihat Ulasan</a> |
                 <a href="{{ route('profile') }}">Profile</a>
-            </p>
+            </p> --}}
     </div>
 @endsection

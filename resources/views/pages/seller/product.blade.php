@@ -4,11 +4,12 @@
 @section('title', 'Kelola Produk | LelangGame')
 
 @section('content')
-<div class="container-fluid mt-3">
+<div class="container mt-3">
     <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard Seller</a></li>
             <li class="breadcrumb-item active" aria-current="page">Kelola Produk</li>
         </ol>
     </nav>
@@ -45,8 +46,8 @@
                     {{-- <span class="input-group-text">
                         <i class="bi bi-search"></i>
                     </span> --}}
-                    <input type="search" class="form-control" name="search" placeholder="Cari Nama Produk Yang Dimiliki" aria-label="Search" autocomplete="off" value="{{ request('search') }}" autofocus>
-                    <button type="submit" class="btn btn-light"><i class="bi bi-search"></i> Cari</button>
+                    <input type="search" class="form-control" name="search" placeholder="Cari Nama Produk" aria-label="Search" autocomplete="off" value="{{ request('search') }}" autofocus>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
                 </div>
             </div>
             <div class="text-end">

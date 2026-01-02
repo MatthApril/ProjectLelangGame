@@ -3,7 +3,7 @@
 @section('title', 'Profile | LelangGame')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
@@ -15,8 +15,7 @@
                 <hr>
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     @if ($user->shop && $user->shop->shop_img)
-                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70"
-                            height="70" class="rounded-5">
+                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" class="rounded-5">
                     @else
                         <div>
                             <i class="bi bi-person-circle fs-1"></i>
@@ -32,14 +31,14 @@
                 @if ($user->role == 'seller')
                     <div class="ms-3">
                         <a href="{{ route('seller.dashboard') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer"><i
-                                class="bi bi-speedometer2"></i> Dashboard Seller</a>
-                        <a href="{{ route('seller.products.index') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag-fill"></i> Dashboard Seller</a>
+                        {{-- <a href="{{ route('seller.products.index') }}"
                             class="text-decoration-none text-secondary nav-link link-footer mt-2"><i
                                 class="bi bi-box-seam"></i> Kelola Produk</a>
-                        <a href="{{ route('seller.auctions.create.form') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i
-                                class="bi bi-gavel"></i> Lelang Produk</a>
+                        <a href="{{ route('seller.auctions.index') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-graph-up"></i> Lelang Produk</a> --}}
+                        {{-- <a href="{{ route('seller.auctions.create.form') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-graph-up"></i> Lelang Produk</a> --}}
                     </div>
                     <hr>
                 @endif

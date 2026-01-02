@@ -31,12 +31,12 @@ a.link-footer:hover {
     transform: scale(1.1);
 } */
 
-.card-title{
+/* .card-title{
     font-size: 12px;
     text-align: center;
     font-weight: 500;
     line-height: 1.2;
-}
+} */
 
 .card-products:hover {
     box-shadow: 5px 10px 18px #888888;

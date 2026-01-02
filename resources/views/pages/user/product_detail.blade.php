@@ -1,41 +1,317 @@
 @extends('layouts.template')
 
+@section('title', 'Detail Produk | LelangGame')
+
 @section('content')
-    <div class="containe">
-        <a href="{{ route('products.index') }}">← Kembali ke Daftar Produk</a>
+<div class="container">
 
-        <div>
-            @if ($product->product_img)
-                <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="300">
-            @endif
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+            <li class="breadcrumb-item">
+                <a href="{{ route('user.home') }}">Beranda</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ route('products.index') }}">Semua Produk</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Detail Produk
+            </li>
+        </ol>
+    </nav>
 
-            <h1>{{ $product->product_name }}</h1>
-            <p>Game: {{ $product->game->game_name }}</p>
-            <p>Kategori: {{ $product->category->category_name }}</p>
-            <p><strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong></p>
-            <p>Stok: {{ $product->stok }}</p>
-            <p>Rating: {{ number_format($product->rating, 1) }} ⭐</p>
-            <p><a href="{{ route('shops.detail', $product->shop->shop_id) }}">{{ $product->shop->shop_name }}</a></p>
+    <h2 class="fw-semibold">{{ $product->product_name }}</h2>
 
+    <p class="text-secondary">
+        <i class="bi bi-grid"></i> {{ $product->category->category_name }} |
+        <i class="bi bi-controller"></i> {{ $product->game->game_name }}
+    </p>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8 my-3">
+            <div class="card p-3">
+                    <div class="row">
+
+                    <div class="col-md-5 text-center my-2">
+                        @if ($product->product_img)
+                            <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="300" class="rounded shadow">
+                        @endif
+                    </div>
+
+                    <div class="col-md-7 my-2">
+
+                        <div class="d-flex align-items-center gap-1">
+                            <h4 class="fw-bold text-primary mb-0">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                            </h4>
+                            <p class="text-secondary mb-0">
+                                / {{ $product->category->category_name }}
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <div class="row d-flex align-items-center">
+
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-1">
+
+                                    <div>
+                                        @if ($product->shop->shop_img)
+                                            <img src="{{ asset('storage/' . $product->shop->shop_img) }}" alt="Foto Toko" width="50" class="rounded-5">
+                                        @else
+                                            <i class="bi bi-person-circle fs-1"></i>
+                                        @endif
+                                    </div>
+
+                                    <div>
+                                        <p class="m-0 fw-semibold">
+                                            {{ $product->shop->shop_name }}
+                                        </p>
+                                        <p class="m-0">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            {{ number_format($product->rating, 1) }} / 5.0
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-6 text-end">
+                                <a href="{{ route('shops.detail', $product->shop->shop_id) }}" class="text-decoration-none fw-semibold">
+                                    Kunjungi <br> Toko
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                    </div>
+                </div>
+            </div>
+            <h4 class="fw-semibold mt-3">Deskripsi Produk</h4>
+            <hr>
+            <div class="card p-3">
+                <p>{{ $product->description }}</p>
+            </div>
+        </div>
+        <div class="col-md-4 my-3">
             @auth
-                <form action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
-                    @csrf
-                    <label>Jumlah:</label>
-                    <input type="number" name="quantity" value="1" min="1" max="{{ $product->stok }}">
-                    <button type="submit">Tambah ke Keranjang</button>
-                    @error('quantity')
-                        <p>{{ $message }}</p>
-                    @enderror
-                </form>
+            <form action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
+            @csrf
+            @error('quantity')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @enderror
+            <div class="card p-3">
+                <h5 class="fw-semibold">Informasi Pesanan</h5>
+                <hr>
+                {{-- <label>Catatan Untuk Penjual (Opsional)</label>
+                <textarea name="note" id="note" class="form-control"></textarea> --}}
+                <p class="m-0 fw-semibold">Stok : {{ $product->stok }}</p>
+                <input type="number" class="form-control" min="1" max="{{ $product->stok }}" value="1" id="quantity" name="quantity" required>
+                <hr>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="fw-bold">Subtotal :</h5>
+                    <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
+                </div>
+                <div class="alert alert-light my-2" role="alert">
+                    <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah Melakukan Pembelian!
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-outline-primary flex-fill text-center">
+                        <i class="bi bi-chat-left"></i>
+                    </a>
+                    <button type="submit" class="btn btn-outline-primary flex-fill text-center">
+                        <i class="bi bi-cart3"></i> Tambahkan Ke Keranjang
+                    </button>
+                </div>
+            </div>
+            </form>
             @else
-                <p><a href="{{ route('login') }}">Login</a> untuk membeli produk ini</p>
+            <div class="d-grid">
+                <p class="text-secondary">Maaf, Anda Tidak Bisa Membeli Produk Karena Belum Masuk Ke Dalam Akun, Silahkan Masuk Terlebih Dahulu!</p>
+                <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-5"><i class="bi bi-box-arrow-in-right"></i> Masuk Untuk Membeli Produk</a>
+            </div>
             @endauth
         </div>
+    </div>
+    
+    <div class="mt-3">
+        <h4 class="fw-semibold">
+            Review Produk ({{ $product->comments->count() }})
+        </h4>
 
-        <br><br>
+        @if ($product->comments->count() > 0)
 
-        <div class="mt-4">
-            <h3>Review Produk ({{ $product->comments->count() }})</h3>
+            <p>
+                Rating Rata-Rata:
+                <strong>{{ number_format($product->rating, 1) }}/5</strong> ⭐
+            </p>
+
+            <div class="mt-3">
+                @foreach ($product->comments as $comment)
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>{{ $comment->user->username }}</strong>
+                                    <span class="text-warning">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $comment->rating)
+                                                ⭐
+                                            @else
+                                                ☆
+                                            @endif
+                                        @endfor
+                                    </span>
+                                </div>
+
+                                <small class="text-secondary">
+                                    {{ $comment->created_at->format('d M Y') }}
+                                </small>
+                            </div>
+
+                            @if ($comment->comment)
+                                <p class="mt-2 mb-0">
+                                    {{ $comment->comment }}
+                                </p>
+                            @endif
+
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        @else
+            <p class="text-secondary">
+                Belum Ada Review Untuk Produk Ini
+            </p>
+        @endif
+    </div>
+
+    @if ($relatedProducts->count() > 0)
+        <div>
+            <h3>Produk Terkait</h3>
+
+            @foreach ($relatedProducts as $related)
+                <div>
+                    @if ($related->product_img)
+                        <img
+                            src="{{ asset('storage/' . $related->product_img) }}"
+                            alt="{{ $related->product_name }}"
+                            width="150"
+                        >
+                    @endif
+
+                    <h4>{{ $related->product_name }}</h4>
+                    <p>
+                        Rp {{ number_format($related->price, 0, ',', '.') }}
+                    </p>
+
+                    <a href="{{ route('products.detail', $related->product_id) }}">
+                        Lihat Detail
+                    </a>
+                </div>
+                <br>
+            @endforeach
+        </div>
+    @endif
+
+</div>
+@endsection
+
+{{-- @extends('layouts.template')
+
+@section('title', 'Detail Produk | LelangGame')
+
+@section('content')
+    <div class="container">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Semua Produk</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detail Produk</li>
+        </ol>
+    </nav>
+        <a href="{{ route('products.index') }}">← Kembali ke Daftar Produk</a>
+
+    <h2 class="fw-semibold">{{ $product->product_name }}</h2>
+    <p class="text-secondary"><i class="bi bi-grid"></i> {{ $product->category->category_name }} | <i class="bi bi-controller"></i> {{ $product->game->game_name }}</p>
+    <hr>
+    <div class="row">
+        <div class="card p-3">
+                <div class="col-md-3 text-center my-2">
+                    @if ($product->product_img)
+                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="300" class="rounded shadow">
+                    @endif
+                </div>
+                <div class="col-md-9 my-2">
+                    <div class="d-flex align-items-center gap-1">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-0">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                            </h2>
+                        </div>
+                        <div>
+                            <p class="text-secondary mb-0">
+                                / {{ $product->category->category_name }}
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <div class="d-flex align-items-center gap-1">
+                                <div>
+                                    @if ($product->shop->shop_img)
+                                        <img src="{{ asset('storage/' . $product->shop->shop_img) }}" alt="Foto Toko" width="50" class="rounded-5">
+                                    @else
+                                        <div>
+                                            <i class="bi bi-person-circle fs-1"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="d-flex align-items-center gap-4">
+                                    <p class="m-0 fw-semibold">{{ $product->shop->shop_name }}</p>
+                                    <p class="m-0 fw-semibold"><i class="bi bi-star-fill text-warning"></i> {{ number_format($product->rating, 1) }} / 5.0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 text-end">
+                            <a href="{{ route('shops.detail', $product->shop->shop_id) }}" class="text-decoration-none fw-semibold">Kunjungi Toko</a>
+                            <p><a href="{{ route('shops.detail', $product->shop->shop_id) }}">{{ $product->shop->shop_name }}</a></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <p>Stok: {{ $product->stok }}</p>
+                    <p>Rating: {{ number_format($product->rating, 1) }} ⭐</p>
+                    <p><a href="{{ route('shops.detail', $product->shop->shop_id) }}">{{ $product->shop->shop_name }}</a></p>
+                    
+                    @auth
+                    <form action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
+                        @csrf
+                        <label>Jumlah:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="{{ $product->stok }}">
+                        <button type="submit">Tambah ke Keranjang</button>
+                        @error('quantity')
+                        <p>{{ $message }}</p>
+                        @enderror
+                    </form>
+                    @else
+                    <p><a href="{{ route('login') }}">Login</a> untuk membeli produk ini</p>
+                    @endauth
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <h4 class="fw-semibold">Review Produk ({{ $product->comments->count() }})</h4>
 
             @if($product->comments->count() > 0)
                 <p>Rating Rata-rata: <strong>{{ number_format($product->rating, 1) }}/5</strong> ⭐</p>
@@ -67,7 +343,7 @@
                     @endforeach
                 </div>
             @else
-                <p class="text-muted">Belum ada review untuk produk ini</p>
+                <p class="text-muted">Belum Ada Review Untuk Produk Ini</p>
             @endif
 
         </div>
@@ -88,6 +364,5 @@
                 @endforeach
             </div>
         @endif
-
     </div>
-@endsection
+@endsection --}}

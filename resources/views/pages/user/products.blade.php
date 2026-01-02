@@ -1,16 +1,16 @@
 @extends('layouts.template')
 
-@section('title', 'Daftar Produk | LelangGame')
+@section('title', 'Semua Produk | LelangGame')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Daftar Produk</li>
+            <li class="breadcrumb-item active" aria-current="page">Semua Produk</li>
         </ol>
     </nav>
-    <h2 class="fw-semibold">Daftar Produk</h2>
+    <h2 class="fw-semibold">Semua Produk</h2>
     <hr>
     <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
     <form method="GET" action="{{ route('products.index') }}">

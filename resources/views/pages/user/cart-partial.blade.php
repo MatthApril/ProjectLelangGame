@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container">
     <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
