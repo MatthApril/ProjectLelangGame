@@ -24,10 +24,4 @@ Route::prefix('seller')->as('seller.')
             Route::get('/auctions/create', 'showCreateAuctionForm')->name('auctions.create.form');
             Route::post('/auctions/create', 'createAuction')->name('auctions.create');
         });
-
-        Route::controller(ChatController::class)->group(function() {
-            Route::get('/chat/{userId}', 'show')->name('chat.show');
-            Route::post('/chat/{userId}', 'store')->name('chat.store');
-        });
-    });
-
+});

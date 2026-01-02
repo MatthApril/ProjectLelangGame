@@ -246,9 +246,9 @@ class AdminController extends Controller
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus');
     }
-    function broadcastNotification($id){
+    function broadcastNotification(Request $req, $id){
         $template = NotificationTemplate::findOrFail($id);
-        (new NotificationService())->broadcast($template->code_tag, 'both');
+        (new NotificationService())->broadcast($template->code_tag, $req->target_audience);
 
         return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag);
     }

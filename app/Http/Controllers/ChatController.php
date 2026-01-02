@@ -12,14 +12,33 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    public function show(Request $request, $userId) {
+    public function index(){
+        $myId = Auth::user()->user_id;
+        
+        $chatPartners = Message::where('sender_id', $myId)
+            ->orWhere('receiver_id', $myId)
+            ->get()
+            ->map(function ($message) use ($myId) {
+                return $message->sender_id === $myId ? $message->receiver_id : $message->sender_id;
+            })
+            ->unique()
+            ->values();
+
+        $users = User::whereIn('user_id', $chatPartners)->get();
+
+        return view('pages.chat.index', compact('users'));  // Use shared view
+    }
+
+    public function open(Request $request, $userId){
         $myId = Auth::user()->user_id;
         $otherUser = User::findOrFail($userId);
-        $otherUserId = $userId;
-        $categories = Category::orderBy('category_name')->get();
 
         $product = null;
         $autoMessage = '';
+        
+        // Capture where the user came from
+        $returnUrl = $request->input('return_url', route('chat.index'));
+        $returnLabel = $request->input('return_label', 'Daftar Chat');
 
         $messages = Message::where(function($query) use ($myId, $userId) {
             $query->where('sender_id', $myId)->where('receiver_id', $userId);
@@ -30,25 +49,15 @@ class ChatController extends Controller
         if ($request->has('product_id')) {
             $product = Product::with('shop.owner')->find($request->input('product_id'));
 
-            if ($product){
+            if ($product) {
                 $autoMessage = "Halo, saya tertarik dengan produk '{$product->product_name}' dalam toko '{$product->shop->shop_name}' dengan harga Rp " . number_format($product->price, 0, ',', '.') . ". Apakah masih tersedia?";
             }
         }
-        $param['messages'] = $messages;
-        $param['otherUser'] = $otherUser;
-        $param['categories'] = $categories;
 
-        if (Auth::user()->role == 'seller') {
-            return view('pages.seller.chat', $param);
-        }
-
-        $viewName = (Auth::user()->role == 'seller') ? 'pages.seller.chat' : 'pages.user.chat';
-
-        return view($viewName, compact('messages', 'otherUser', 'product', 'autoMessage'));
+        return view('pages.chat.show', compact('messages', 'otherUser', 'product', 'autoMessage', 'returnUrl', 'returnLabel'));
     }
 
-    public function store(Request $request, $receiverId)
-    {
+    public function store(Request $request, $receiverId){
         $validated = $request->validate([
             'content' => 'required|string',
         ]);
@@ -59,7 +68,19 @@ class ChatController extends Controller
             'content' => $validated['content'],
         ]);
 
-        broadcast(new MessageSent($message))->toOthers();
+        \Log::info('Message created', ['message_id' => $message->message_id]);
+        \Log::info('Broadcasting config', [
+            'driver' => config('broadcasting.default'),
+            'reverb_host' => config('broadcasting.connections.reverb.options.host'),
+            'reverb_port' => config('broadcasting.connections.reverb.options.port'),
+        ]);
+        
+        try {
+            $result = broadcast(new MessageSent($message))->toOthers();
+            \Log::info('Broadcast sent successfully', ['result' => $result]);
+        } catch (\Exception $e) {
+            \Log::error('Broadcast failed', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
 
         return response()->json([
             'status' => 'Message Sent!',

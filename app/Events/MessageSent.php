@@ -7,21 +7,31 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent implements ShouldBroadcast
+class MessageSent implements ShouldBroadcastNow
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
-    public $message;
+    public array $messageData;
+    public int $senderId;
+    public int $receiverId;
     /**
      * Create a new event instance.
      */
     public function __construct(Message $message)
     {
-        $this->message = $message;
+        $this->senderId = $message->sender_id;
+        $this->receiverId = $message->receiver_id;
+        $this->messageData = [
+            'message_id' => $message->message_id,
+            'sender_id' => $message->sender_id,
+            'receiver_id' => $message->receiver_id,
+            'content' => $message->content,
+            'created_at' => $message->created_at->toISOString(),
+        ];
     }
 
     /**
@@ -31,11 +41,8 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        $senderId   = $this->message->sender_id;
-        $receiverId = $this->message->receiver_id;
-
-        $smallerId = min($senderId, $receiverId);
-        $largerId  = max($senderId, $receiverId);
+        $smallerId = min($this->senderId, $this->receiverId);
+        $largerId  = max($this->senderId, $this->receiverId);
 
         return [
             new PrivateChannel('chat.' . $smallerId . '.' . $largerId),
@@ -45,13 +52,15 @@ class MessageSent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => [
-                'message_id' => $this->message->message_id,
-                'sender_id' => $this->message->sender_id,
-                'receiver_id' => $this->message->receiver_id,
-                'content' => $this->message->content,
-                'created_at' => $this->message->created_at->toISOString(),
-            ],
+            'message' => $this->messageData,
         ];
+    }
+
+    /**
+     * The event's broadcast name.
+     */
+    public function broadcastAs(): string
+    {
+        return 'MessageSent';
     }
 }

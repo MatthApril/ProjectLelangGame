@@ -22,9 +22,9 @@
                 </div>
                 <div class="col-md-4 py-3">
                     <div class="d-flex align-items-center justify-content-end gap-3">
-                        <a href="#" class="text-decoration-none text-white"><i class="bi bi-envelope"
+                        <a href="{{ route('chat.index') }}" class="text-decoration-none text-white"><i class="bi bi-envelope"
                                 style="font-size: 1.5rem;"></i></a>
-                        <a href="{{ route('notifications.') }}" class="text-decoration-none text-white"><i class="bi bi-bell"
+                        <a href="{{ route('notifications.index') }}" class="text-decoration-none text-white"><i class="bi bi-bell"
                                 style="font-size: 1.5rem;"></i></a>
                         <a href="{{ route('user.cart') }}" class="text-decoration-none text-white"><i class="bi bi-cart3"
                                 style="font-size: 1.5rem;"></i></a>
@@ -83,7 +83,7 @@
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center gap-3">
             <div class="dropdown">
-                <a href="#" class="text-decoration-none text-white dropdown-toggle" role="button"
+                {{-- <a href="#" class="text-decoration-none text-white dropdown-toggle" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-grid"></i> Berdasarkan Kategori
                 </a>
@@ -91,7 +91,7 @@
                     @foreach ($categories as $category)
                         <li><a class="dropdown-item" href="#">{{ $category->category_name }}</a></li>
                     @endforeach
-                </ul>
+                </ul> --}}
             </div>
             <a href="{{ route('games.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-controller"></i> Lihat Semua Game</a>

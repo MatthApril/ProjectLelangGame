@@ -41,31 +41,6 @@
                     class="bi bi-person-fill"></i> Profile</a>
         </div>
         <hr>
-        <div>
-            <h6 class="fw-bold">Owners</h6>
-            <table border="1" class="table table-striped">
-                <tr>
-                    <th>No</th>
-                    <th>Owner</th>
-                    <th>Email</th>
-                    <th>Aksi</th>
-                </tr>
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <form action="{{ route('user.chat.show', $user->user_id) }}" method="post">
-                            @csrf
-                            <button class="btn btn-primary" type="submit">
-                                Chat
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </table>
-    </div>
 
         <br>
 

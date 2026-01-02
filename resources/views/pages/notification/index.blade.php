@@ -14,11 +14,8 @@
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <h5 class="mb-1 text-dark">{{ $recipient->notification->title }}</h5>
-                        <p class="text-muted mb-1 text-truncate" style="max-width: 500px;">
-                            {{ Str::limit($recipient->notification->body, 100) }}
-                        </p>
                         <small class="text-muted">
-                            {{ $recipient->notification->created_at->locale('id')->diffForHumans() }}
+                            {{ $recipient->notification->created_at->diffForHumans() }}
                         </small>
                     </div>
 

@@ -16,7 +16,9 @@
         <p>Pemilik: {{ $shop->owner->username }}</p>
         <p>jam operasional: {{ $shop->open_hour }} - {{ $shop->close_hour }}</p>
         @auth
-            <form action="{{ route('user.chat.show', $shop->owner->user_id) }}" method="GET">
+            <form action="{{ route('chat.open', $shop->owner->user_id) }}" method="GET">
+                <input type="hidden" name="return_url" value="{{ route('shops.detail', $shop->shop_id) }}">
+                <input type="hidden" name="return_label" value="Kembali ke Toko">
                 <button type="submit">Chat Pemilik Toko</button>
             </form>
         @else

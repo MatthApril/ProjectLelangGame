@@ -16,12 +16,7 @@ class NotificationController extends Controller
             ->orderBy('notif_recip_id', 'desc')
             ->get();
 
-        $viewName = match(Auth::user()->role) {
-            'seller' => 'pages.seller.notifications',
-            default  => 'pages.user.notifications',
-        };
-
-        return view($viewName, compact('recipients'));
+        return view('pages.notification.index', compact('recipients'));
     }
 
     public function showDetail($id)
@@ -41,12 +36,7 @@ class NotificationController extends Controller
 
         $notification = $recipient->notification;
 
-        $viewName = match(Auth::user()->role) {
-            'seller' => 'pages.seller.notification_detail',
-            default  => 'pages.user.notification_detail',
-        };
-
-        return view($viewName, compact('notification', 'recipient'));
+        return view('pages.notification.detail', compact('notification', 'recipient'));
     }
 
     public function destroy($id)

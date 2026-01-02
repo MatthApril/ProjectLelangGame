@@ -24,6 +24,7 @@
                 <th>Template ID</th>
                 <th>Kode Tag</th>
                 <th>Judul</th>
+                <th>Subjek</th>
                 <th>Pesan</th>
                 <th>Tipe</th>
                 <th>Kategori</th>
@@ -35,6 +36,7 @@
             <tr>
                 <td class="text-center align-middle">{{ $template->notif_temp_id }}</td>
                 <td>{{ $template->code_tag }}</td>
+                <td>{{ $template->title }}</td>
                 <td>{{ $template->subject }}</td>
                 <td style="white-space: pre-wrap;">{{ $template->body }}</td>
                 <td>{{ ucfirst($template->trigger_type) }}</td>
@@ -98,20 +100,51 @@
 <div class="modal fade" id="broadcastModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Broadcast Template Notifikasi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-megaphone"></i> Broadcast Notifikasi
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin membroadcast <strong id="broadcastTemplateName"></strong>?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <form id="broadcastForm" method="POST" action="">
-                    @csrf
-                    <button type="submit" class="btn btn-success">Broadcast</button>
-                </form>
-            </div>
+
+            {{-- Form Action will be set via JS --}}
+            <form id="broadcastForm" method="POST" action="">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        Template: <strong id="broadcastTemplateName"></strong>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="targetAudience" class="form-label fw-bold">Target Audience</label>
+                        <select class="form-select" name="target_audience" id="targetAudience" required>
+                            <option value="" selected disabled>-- Pilih Target --</option>
+                            {{-- Values must match your NotificationService switch cases --}}
+                            <option value="both">Semua User (Pembeli & Penjual)</option>
+                            <option value="buyer">Hanya Pembeli (Buyers)</option>
+                            <option value="seller">Hanya Penjual (Sellers)</option>
+                        </select>
+                        <div class="form-text text-muted">
+                            Sistem akan mengirim notifikasi ke semua user yang cocok dengan kriteria ini.
+                        </div>
+                    </div>
+
+                    {{-- Safety Check --}}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="confirmBroadcast" required>
+                        <label class="form-check-label" for="confirmBroadcast">
+                            Saya yakin ingin mengirim pesan ini.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-send"></i> Kirim Broadcast
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -127,11 +160,15 @@
 
     document.getElementById('broadcastModal').addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
-        var id = button.getAttribute('data-id');
-        var name = button.getAttribute('data-name');
+        var id = button.getAttribute('data-id');      // e.g. 5
+        var name = button.getAttribute('data-name');  // e.g. promo_new_year
 
         document.getElementById('broadcastTemplateName').textContent = name;
-        document.getElementById('broadcastForm').action = '/admin/templates/broadcast/' + id;
+
+        var url = "{{ route('admin.notifications.broadcast', ':id') }}";
+        url = url.replace(':id', id);
+
+        document.getElementById('broadcastForm').action = url;
     });
 </script>
 @endsection

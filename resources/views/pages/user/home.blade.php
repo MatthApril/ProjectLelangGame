@@ -166,31 +166,5 @@
             <a href="{{ route('user.orders') }}">Lihat Semua</a>
 
             <br>
-
-            <div class="w-100">
-                <h6 class="fw-bold">Owners</h6>
-                <table border="1" class="table table-striped">
-                    <tr>
-                        <th>No</th>
-                        <th>Owner</th>
-                        <th>Email</th>
-                        <th>Aksi</th>
-                    </tr>
-                    @foreach ($owners as $index => $owner)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $owner->username }}</td>
-                            <td>{{ $owner->email }}</td>
-                            <td>
-                                <a href="{{ route('user.chat.show', ['userId' => $owner->user_id]) }}">
-                                    <button class="btn btn-primary">
-                                        Chat
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-            </div>
         </div>
     @endsection

@@ -33,8 +33,10 @@
         </div>
 
         @auth
-            <form action="{{ route('user.chat.show', $product->shop->owner->user_id) }}" method="GET">
+            <form action="{{ route('chat.open', $product->shop->owner->user_id) }}" method="GET">
                 <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                <input type="hidden" name="return_url" value="{{ route('products.detail', $product->product_id) }}">
                 <button type="submit">Chat Penjual</button>
             </form>
         @else
