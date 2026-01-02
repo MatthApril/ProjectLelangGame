@@ -26,7 +26,8 @@ class InsertTemplateRequest extends FormRequest
             'category' => 'required',
             'trigger_type' => 'required',
             'title' => 'required',
-            'message' => 'required',
+            'subject' => 'required',
+            'body' => 'required',
         ];
     }
 
@@ -38,7 +39,8 @@ class InsertTemplateRequest extends FormRequest
             'category.required' => 'Kategori wajib diisi',
             'trigger_type.required' => 'Tipe pemicu wajib diisi',
             'title.required' => 'Judul wajib diisi',
-            'message.required' => 'Pesan wajib diisi',
+            'subject.required' => 'Subjek wajib diisi',
+            'body.required' => 'Isi pesan wajib diisi',
         ];
     }
 }

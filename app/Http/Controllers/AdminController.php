@@ -18,6 +18,7 @@ use App\Http\Requests\UpdateTemplateRequest;
 use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
 use App\Mail\AccountBanned;
+use App\Models\NotificationLog;
 use App\Models\ProductComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,8 +36,9 @@ class AdminController extends Controller
         $totalOrders = Order::count();
         $totalCategories = Category::count();
         $totalGames = Game::count();
+        $totalRecipients = NotificationLog::sum('recipients_count');
 
-        return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames'));
+        return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
     }
 
     function showUsers() {
@@ -93,8 +95,11 @@ class AdminController extends Controller
     function storeCategory(InsertCategoryRequest $request) {
         $validated = $request->validated();
 
+        $imagePath = $request->file('category_img')->store('categories', 'public');
+
         Category::create([
-            'category_name' => $validated['category_name']
+            'category_name' => $validated['category_name'],
+            'category_img' => $imagePath
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
@@ -127,13 +132,11 @@ class AdminController extends Controller
 
     function showGames() {
         $games = Game::with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
-        return view('pages.admin.game', compact('games'));
-    }
-
-    function showCreateGame() {
         $game = null;
         $categories = Category::all();
-        return view('pages.admin.create_game', compact('game', 'categories'));
+        $editGame = null;
+
+        return view('pages.admin.game', compact('games', 'game', 'categories', 'editGame'));
     }
 
     function storeGame(InputGameRequest $request) {
@@ -159,7 +162,8 @@ class AdminController extends Controller
     function showEditGame($id) {
         $game = Game::with(['gamesCategories' => function($query) {$query->whereHas('category', function($q) {$q->whereNull('deleted_at');})->with('category');}])->findOrFail($id);
         $categories = Category::all();
-        return view('pages.admin.create_game', compact('game', 'categories'));
+        $editGame = Game::findOrFail($id);
+        return view('pages.admin.game', compact('game', 'categories', 'editGame'));
     }
 
     function updateGame(UpdateGameRequest $request, $id) {
@@ -204,23 +208,18 @@ class AdminController extends Controller
         ->when($request->search, function ($query, $search) {
             $query->where(function ($q) use ($search) {
                 $q->where('code_tag', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%")
-                  ->orWhere('trigger_type', 'like', "%{$search}%")
-                  ->orWhere('title', 'like', "%{$search}%");
+                ->orWhere('category', 'like', "%{$search}%")
+                ->orWhere('trigger_type', 'like', "%{$search}%")
+                ->orWhere('title', 'like', "%{$search}%");
             });
         })
-        ->paginate(5);
+        ->paginate(6);
         return view('pages.admin.notif_master', compact('templates'));
-    }
-
-    function showCreateNotificationTemplate(){
-        $template = null;
-        return view('pages.admin.create_notif', compact('template'));
     }
 
     function storeNotificationTemplate(InsertTemplateRequest $request){
         $validated = $request->validated();
-
+        
         NotificationTemplate::create($validated);
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil ditambahkan');
@@ -228,7 +227,8 @@ class AdminController extends Controller
 
     function showEditNotificationTemplate($id){
         $template = NotificationTemplate::findOrFail($id);
-        return view('pages.admin.create_notif', compact('template'));
+        $templates = NotificationTemplate::paginate(5);
+        return view('pages.admin.notif_master', compact('template', 'templates'));
     }
 
     function updateNotificationTemplate(UpdateTemplateRequest $request, $id){

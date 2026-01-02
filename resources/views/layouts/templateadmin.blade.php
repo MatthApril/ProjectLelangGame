@@ -27,22 +27,18 @@
         </div>
     </nav>
     <div class="d-flex">
-        <div class="offcanvas-md offcanvas-start bg-navyblue text-white shadow" tabindex="-1" id="sidebarAdmin" style="width: 244px; border: none;">
+        <div class="offcanvas-md offcanvas-start bg-navyblue text-white" tabindex="-1" id="sidebarAdmin" style="width: 270px; border: none; position: sticky; top: 66px; height: calc(100vh - 66px);">
             <div class="offcanvas-header d-md-none">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarAdmin"></button>
             </div>
             <div class="offcanvas-body flex-column py-4 px-4" style="min-height: 80vh;">
-                <h6 class="fw-bold">Manajemen</h6>
                 <a href="{{ route('admin.categories.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
-                <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.index') ? 'menu-active' : '' }}">Game</a>
-                <a href="{{ route('admin.comments.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.index') ? 'menu-active' : '' }}">Komentar</a>
-                <a href="{{ route('admin.notifications.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.notifications.index') ? 'menu-active' : '' }}">Notifikasi</a>
-                <h6 class="fw-bold">Lainnya</h6>
-                <a href="{{ route('admin.games.create') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.create') ? 'menu-active' : '' }}">Tambah Game Baru</a>
-                <a href="{{ route('admin.notifications.create') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.notifications.create') ? 'menu-active' : '' }}">Tambah Notifikasi Baru</a>
+                <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.*') ? 'menu-active' : '' }}">Game</a>
+                <a href="{{ route('admin.comments.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.*') ? 'menu-active' : '' }}">Komentar</a>
+                <a href="{{ route('admin.notifications.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">Template Notifikasi</a>
             </div>
         </div>
-        <div class="content px-4 py-2" style="flex-grow: 1; width: 100%;">                                        
+        <div class="content px-4 py-2" style="width: 100%;">                                        
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     @if(!Route::is('admin.dashboard'))
@@ -55,19 +51,16 @@
                     @elseif(Route::is('admin.comments.*'))
                         <li class="breadcrumb-item active mt-3">Komentar</li>
                     @elseif(Route::is('admin.notifications.*'))
-                        <li class="breadcrumb-item active mt-3">Notifikasi</li>
+                        <li class="breadcrumb-item active mt-3">Template Notifikasi</li>
                     @endif
                     
-                    @if(Route::is('*admin.games.create'))
-                        <li class="breadcrumb-item active mt-3">Tambah Game Baru</li>
-                    @elseif(Route::is('*admin.notifications.create'))
-                        <li class="breadcrumb-item active mt-3">Tambah Notifikasi Baru</li>
-                    @elseif(Route::is('*.edit'))
+                    @if(Route::is('*.edit'))
                         <li class="breadcrumb-item active mt-3">Edit</li>
                     @endif
                 </ol>
             </nav>
             @yield('content')
+            @include('partials.footeradmin')
         </div>
     </div>
     {{-- navbar 2 cuma pake breadcrumbs --}}
@@ -92,7 +85,6 @@
         </nav>
         @yield('content')
     </div> --}}
-    @include('partials.footeradmin')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">

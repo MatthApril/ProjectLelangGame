@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container my-3">
-    <h5 class="fw-semibold text-dark">Manajemen Komentar</h5>
+    <h5 class="fw-semibold text-dark">Komentar</h5>
 
     <div id="alert-container"></div>
 
@@ -38,6 +38,8 @@
             </div>
         </div>
     </form>
+
+    <h6 class="fw-bold">Daftar Komentar (Total: {{ $comments->count() }})</h6>
 
     <div id="comments-container">
         @include('partials.comments_table', ['comments' => $comments])

@@ -7,7 +7,7 @@
         <hr>
 
         <h6 class="fw-bold">Statistik Sistem</h6>
-        <table border="1" class="table table-striped">
+        <table border="1" class="table table-bordered">
             <tr>
                 <td><strong>Total Users</strong></td>
                 <td>{{ $totalUsers }}</td>
@@ -36,9 +36,13 @@
                 <td><strong>Total Game</strong></td>
                 <td>{{ $totalGames }}</td>
             </tr>
+            <tr>
+                <td><strong>Total Notifikasi Terkirim</strong></td>
+                <td>{{ $totalRecipients }}</td>
+            </tr>
         </table>
 
-    <br><br>
+        <br><br>
         {{-- <h6 class="fw-bold">Menu Manajemen</h6> --}}
         {{-- <p>
             <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |

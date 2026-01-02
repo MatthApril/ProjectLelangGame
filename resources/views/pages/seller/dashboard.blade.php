@@ -50,20 +50,21 @@
                     <th>Email</th>
                     <th>Aksi</th>
                 </tr>
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <form action="{{ route('user.chat.show', $user->user_id) }}" method="post">
-                            @csrf
-                            <button class="btn btn-primary" type="submit">
-                                Chat
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+                @foreach ($users as $index => $user)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            <form action="{{ route('user.chat.show', $user->user_id) }}" method="post">
+                                @csrf
+                                <button class="btn btn-primary" type="submit">
+                                    Chat
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
         </table>
     </div>
 
