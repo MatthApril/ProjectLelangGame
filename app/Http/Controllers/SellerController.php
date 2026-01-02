@@ -114,7 +114,6 @@ class SellerController extends Controller
             })
             ->whereIn('order_items.status', ['pending', 'processing', 'shipped'])
             ->where('orders.status', '=', 'paid')
-            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
             ->select('order_items.*')
             ->with([
                 'order.account',
@@ -126,7 +125,8 @@ class SellerController extends Controller
                         'game'     => fn ($q) => $q->withTrashed(),
                     ]);
                 }
-            ])
+                ])
+            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
             ->get();
 
         return view('pages.seller.orders', compact('categories', 'orders'));

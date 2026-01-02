@@ -156,6 +156,7 @@ class UserController extends Controller
             })->whereHas('game', function($query) {
                 $query->whereNull('deleted_at');
             })->where('stok', '>', 0);
+
         $latestProducts = $latestProductsQuery->latest()->take(12)->get();
         $topShopsQuery = Shop::where('status', 'open')->whereHas('owner');
 
@@ -163,8 +164,12 @@ class UserController extends Controller
             ->whereHas('product', function($q) {
                 $q->where('stok', '>', 0);
             })
+            ->whereHas('product.shop.owner')
             ->where('end_time', '>', now())
             ->whereHas('product.shop.owner')
+            ->whereHas('product.category', function($q) {
+                $q->whereNull('deleted_at');
+            })
             ->whereIn('status', ['running'])
             ->orderBy('created_at', 'desc')
             ->get();
