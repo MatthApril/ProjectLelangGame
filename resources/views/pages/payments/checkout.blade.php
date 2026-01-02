@@ -1,46 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.template')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="{{ config('midtrans.client_key') }}"></script>
-    <title>Document</title>
-</head>
+@section('title', 'Checkout | LelangGame')
 
-<body>
-
-    <div>
-        <h1>Detail Pesanan</h1>
-        <p>Order ID: {{ $order->order_id }}</p>
-        <p>Status: {{ ucfirst($order->status) }}</p>
-        <p>Total Harga: Rp {{ number_format($order->total_prices, 0, ',', '.') }}</p>
-
-        @foreach ($order->orderItems as $item)
-            <div>
-                <h3>{{ $item->product->product_name }}</h3>
-                <img src="{{ asset('storage/' . $item->product->product_img) }}" alt="{{ $item->product->product_name }}"
-                    width="200">
-                <p>Toko: {{ $item->product->shop->shop_name }}</p>
-                <p>Harga: Rp {{ number_format($item->product->price, 0, ',', '.') }}</p>
-                <p>Jumlah: {{ $item->quantity }}</p>
-                <p>Subtotal: Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
-            </div>
-            <br>
-        @endforeach
-
+@section('content')
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-white">
+                        <h1 class="fw-bold">Detail Pesanan</h1>
+                        <p class="text-secondary">
+                            Order ID : {{ $order->order_id }} <br>
+                            Status :
+                            @if (ucfirst($order->status) == 'Unpaid')
+                                <span class="badge bg-danger">{{ ucfirst($order->status) }}</span>
+                            @else
+                                <span class="badge bg-success">{{ ucfirst($order->status) }}</span>
+                            @endif
+                            <br>
+                            Total Harga : Rp {{ number_format($order->total_prices, 0, ',', '.') }} <br>
+                        </p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <div id="snap-container">
+                    
+                        </div>
+                    </div>
+                    {{-- @foreach ($order->orderItems as $item)
+                        <div>
+                            <h3>{{ $item->product->product_name }}</h3>
+                            <img src="{{ asset('storage/' . $item->product->product_img) }}" alt="{{ $item->product->product_name }}"
+                                width="200">
+                            <p>Toko: {{ $item->product->shop->shop_name }}</p>
+                            <p>Harga: Rp {{ number_format($item->product->price, 0, ',', '.') }}</p>
+                            <p>Jumlah: {{ $item->quantity }}</p>
+                            <p>Subtotal: Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                        </div>
+                        <br>
+                    @endforeach --}}
+                </div>
+                </div>
+                <div class="col-md-3"></div>
+        </div>
     </div>
-
-    <div id="snap-container"></div>
-
-    <script type="text/javascript">
-        window.snap.embed('{{ $snapToken }}', {
-            embedId: 'snap-container'
-        });
-    </script>
-
-</body>
-
-</html>
+    @endsection
