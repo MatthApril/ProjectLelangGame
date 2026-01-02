@@ -14,11 +14,16 @@ class Notification extends Model
 
     protected $fillable = [
         'title',
-        'message',
-        'type'
+        'body',
+        'category'
     ];
 
-    public function notificationRecipients()
+    public function template()
+    {
+        return $this->belongsTo(NotificationTemplate::class, 'template_id');
+    }
+
+    public function recipients()
     {
         return $this->hasMany(NotificationRecipient::class, 'notification_id');
     }

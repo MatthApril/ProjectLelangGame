@@ -31,6 +31,12 @@ class UpdateAuctionStatus extends Command
             $auctions = Auction::with(['highestBid.user', 'product'])
                 ->where('status', 'running')
                 ->where('end_time', '<=', $now)
+                ->whereHas('highestBid')
+                ->whereHas('product', function($q) {
+                    $q->whereHas('shop', function($query) {
+                        $query->where('status', 'open')->whereHas('owner');
+                    });
+                })
                 ->lockForUpdate()
                 ->get();
 

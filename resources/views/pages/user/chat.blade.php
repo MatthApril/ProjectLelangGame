@@ -29,7 +29,7 @@
             <form id="chat-form" action="{{ route('user.chat.store', ['userId' => $otherUser->user_id]) }}" method="POST">
                 @csrf
                 <div class="input-group">
-                    <input type="text" id="message-input" class="form-control" placeholder="Type a message..." autocomplete="off">
+                    <input type="text" id="message-input" class="form-control" placeholder="Type a message..." value="{{ $autoMessage }}" autocomplete="off">
                     <button type="submit" id="send-button" class="btn btn-primary">Send</button>
                 </div>
             </form>
@@ -60,6 +60,14 @@ document.addEventListener('DOMContentLoaded', function() {
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        function sendButtonHandler() {
+            sendButton.disabled = !messageInput.value.trim();
+        }
+
+        sendButtonHandler();
+
+        messageInput.addEventListener('input', sendButtonHandler);
+
         scrollToBottom();
 
         const smallerId = Math.min(myId, partnerId);
@@ -68,15 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log("Joining channel:", channelName); // Debugging
 
-        sendButton.disabled = true;
-
-        messageInput.addEventListener('input', function() {
-            if (this.value.trim() === "") {
-                sendButton.disabled = true;
-            } else {
-                sendButton.disabled = false;
-            }
-        });
 
         window.Echo.private(channelName)
             .listen('MessageSent', (e) => {

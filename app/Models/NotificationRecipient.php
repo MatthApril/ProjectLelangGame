@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class NotificationRecipient extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'notification_recipients';
     protected $primaryKey = 'notif_recip_id';
     public $timestamps = false;
@@ -13,7 +16,8 @@ class NotificationRecipient extends Model
 
     protected $fillable = [
         'notification_id',
-        'user_id'
+        'user_id',
+        'is_read',
     ];
 
     public function notification()
@@ -21,8 +25,13 @@ class NotificationRecipient extends Model
         return $this->belongsTo(Notification::class, 'notification_id');
     }
 
-    public function account()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeUnread($query)
+    {
+        return $query->where('is_read', false);
     }
 }

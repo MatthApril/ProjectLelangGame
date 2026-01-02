@@ -11,7 +11,32 @@
         </a>
         <div class="row d-flex justify-content-center">
             <div class="col-md-6">
-                @error('username')
+                {{-- Session Error Messages --}}
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                {{-- Session Success Messages --}}
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                {{-- Validation Errors --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @foreach ($errors->all() as $error)
+                            <i class="bi bi-exclamation-circle-fill"></i> {{ $error }} <br>
+                        @endforeach
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                {{-- @error('username')
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -34,7 +59,7 @@
                         <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @enderror
+                @enderror --}}
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="d-flex justify-content-center align-items-center">

@@ -16,7 +16,11 @@ a.link-footer:hover {
     border: 1px solid white;
 }
 
-/* .card { 
+th {
+    text-align: center;
+    vertical-align: middle;
+}
+/* .card {
     border: none;
 } */
 

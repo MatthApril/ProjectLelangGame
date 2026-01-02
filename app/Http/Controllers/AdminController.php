@@ -12,7 +12,11 @@ use App\Models\Order;
 use App\Http\Requests\InsertCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\InputGameRequest;
+use App\Http\Requests\InsertTemplateRequest;
 use App\Http\Requests\UpdateGameRequest;
+use App\Http\Requests\UpdateTemplateRequest;
+use App\Models\NotificationTemplate;
+use App\Services\NotificationService;
 use App\Mail\AccountBanned;
 use App\Models\ProductComment;
 use Illuminate\Http\Request;
@@ -195,6 +199,59 @@ class AdminController extends Controller
         return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
     }
 
+    function showNotificationMaster(Request $request){
+        $templates = NotificationTemplate::query()
+        ->when($request->search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('code_tag', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%")
+                  ->orWhere('trigger_type', 'like', "%{$search}%")
+                  ->orWhere('title', 'like', "%{$search}%");
+            });
+        })
+        ->paginate(5);
+        return view('pages.admin.notif_master', compact('templates'));
+    }
+
+    function showCreateNotificationTemplate(){
+        $template = null;
+        return view('pages.admin.create_notif', compact('template'));
+    }
+
+    function storeNotificationTemplate(InsertTemplateRequest $request){
+        $validated = $request->validated();
+
+        NotificationTemplate::create($validated);
+
+        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil ditambahkan');
+    }
+
+    function showEditNotificationTemplate($id){
+        $template = NotificationTemplate::findOrFail($id);
+        return view('pages.admin.create_notif', compact('template'));
+    }
+
+    function updateNotificationTemplate(UpdateTemplateRequest $request, $id){
+        $template = NotificationTemplate::findOrFail($id);
+        $validated = $request->validated();
+
+        $template->update($validated);
+
+        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil diupdate');
+    }
+
+    function deleteNotificationTemplate($id){
+        $template = NotificationTemplate::findOrFail($id);
+        $template->delete();
+
+        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus');
+    }
+    function broadcastNotification($id){
+        $template = NotificationTemplate::findOrFail($id);
+        (new NotificationService())->broadcast($template->code_tag, 'both');
+
+        return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag);
+    }
     function banUser(Request $req) {
         $req->validate([
             'id' => 'required',

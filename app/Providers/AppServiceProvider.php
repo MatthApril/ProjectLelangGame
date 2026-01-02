@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Carbon::setLocale('id');
+        Paginator::useBootstrapFive();
         // Kalau di host jangan lupa uncomment ini
         // URL::forceScheme('https');
     }

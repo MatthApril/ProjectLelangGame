@@ -1,7 +1,13 @@
 @extends('layouts.template')
 
 @section('content')
-    <div class="containe">
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="container">
         <a href="{{ route('products.index') }}">← Kembali ke Daftar Produk</a>
 
         <div>
@@ -32,38 +38,47 @@
             @endauth
         </div>
 
+        @auth
+            <form action="{{ route('user.chat.show', $product->shop->owner->user_id) }}" method="GET">
+                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                <button type="submit">Chat Penjual</button>
+            </form>
+        @else
+            <p><a href="{{ route('login') }}">Login</a> untuk chat dengan penjual</p>
+        @endauth
+
         <br><br>
 
         <div class="mt-4">
             <h3>Review Produk ({{ $product->comments->count() }})</h3>
 
-            @if($product->comments->count() > 0)
+            @if ($product->comments->count() > 0)
                 <p>Rating Rata-rata: <strong>{{ number_format($product->rating, 1) }}/5</strong> ⭐</p>
 
                 <div class="mt-3">
-                    @foreach($product->comments as $comment)
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <strong>{{ $comment->user->username }}</strong>
-                                    <span class="text-warning">
-                                        @for($i = 1; $i <= 5; $i++)
-                                            @if($i <= $comment->rating)
-                                                ⭐
-                                            @else
-                                                ☆
-                                            @endif
-                                        @endfor
-                                    </span>
+                    @foreach ($product->comments as $comment)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>{{ $comment->user->username }}</strong>
+                                        <span class="text-warning">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $comment->rating)
+                                                    ⭐
+                                                @else
+                                                    ☆
+                                                @endif
+                                            @endfor
+                                        </span>
+                                    </div>
+                                    <small class="text-muted">{{ $comment->created_at->format('d M Y') }}</small>
                                 </div>
-                                <small class="text-muted">{{ $comment->created_at->format('d M Y') }}</small>
+                                @if ($comment->comment)
+                                    <p class="mt-2 mb-0">{{ $comment->comment }}</p>
+                                @endif
                             </div>
-                            @if($comment->comment)
-                                <p class="mt-2 mb-0">{{ $comment->comment }}</p>
-                            @endif
                         </div>
-                    </div>
                     @endforeach
                 </div>
             @else
@@ -89,5 +104,6 @@
             </div>
         @endif
 
+    </div>
     </div>
 @endsection

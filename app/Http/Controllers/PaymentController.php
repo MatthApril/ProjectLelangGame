@@ -260,6 +260,7 @@ class PaymentController extends Controller
                 }
 
                 $user = Auth::user();
+                // dd($user->cart);
                 $cart = $user->cart->first();
                 $cart->cartItems()->delete();
 

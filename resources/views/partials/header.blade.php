@@ -24,7 +24,7 @@
                     <div class="d-flex align-items-center justify-content-end gap-3">
                         <a href="#" class="text-decoration-none text-white"><i class="bi bi-envelope"
                                 style="font-size: 1.5rem;"></i></a>
-                        <a href="#" class="text-decoration-none text-white"><i class="bi bi-bell"
+                        <a href="{{ route('notifications.') }}" class="text-decoration-none text-white"><i class="bi bi-bell"
                                 style="font-size: 1.5rem;"></i></a>
                         <a href="{{ route('user.cart') }}" class="text-decoration-none text-white"><i class="bi bi-cart3"
                                 style="font-size: 1.5rem;"></i></a>

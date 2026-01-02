@@ -10,3 +10,9 @@ Artisan::command('inspire', function () {
 
 Schedule::command('auction:update-status')
     ->everyMinute();
+
+Schedule::command('shop:update-open-shop-status')
+    ->everyMinute();
+
+Schedule::command('payment:update-payment-status')
+    ->everyMinute();

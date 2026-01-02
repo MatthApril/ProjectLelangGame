@@ -156,7 +156,7 @@ class SellerController extends Controller
             $query->where('product_name', 'LIKE', '%' . $request->search . '%');
         }
 
-        $products = $query->latest()->get();
+        $products = $query->where('type', 'normal')->latest()->get();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.seller.product', compact('products', 'categories'));
@@ -263,6 +263,7 @@ class SellerController extends Controller
                 'category_id' => $req->category_id,
                 'game_id' => $req->game_id,
                 'rating' => 0,
+                'type' => 'auction',
             ]);
 
             $auction = Auction::create([
@@ -292,7 +293,4 @@ class SellerController extends Controller
         return response()->json($categories);
     }
 
-    // public function trade(){
-    //     return view('pages.seller.trade');
-    // }
 }
