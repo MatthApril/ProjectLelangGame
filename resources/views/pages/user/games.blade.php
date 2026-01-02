@@ -39,7 +39,7 @@
             </div>
         </div>
         @empty
-        <h5 class="text-center fw-semibold">Tidak Ada Game Ditemukan</h5>
+        <h5 class="text-center fw-semibold">Tidak ada game ditemukan.</h5>
         @endforelse
     </div>
 

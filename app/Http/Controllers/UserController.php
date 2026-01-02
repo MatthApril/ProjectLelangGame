@@ -81,14 +81,14 @@ class UserController extends Controller
             if ($orderItem->status !== 'completed') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Hanya bisa review produk yang sudah completed'
+                    'message' => 'Hanya bisa review produk yang sudah berhasil dibeli.'
                 ], 400);
             }
 
             if ($orderItem->hasReview()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Produk ini sudah direview'
+                    'message' => 'Produk ini sudah direview.'
                 ], 400);
             }
 
@@ -328,7 +328,7 @@ class UserController extends Controller
     {
         $product = Product::with(['game', 'shop', 'category', 'comments.user'])->whereHas('game')->findOrFail($id);
 
-        if (!$product) return redirect()->route('user.home')->with('error', 'Produk Tidak Ditemukan');
+        if (!$product) return redirect()->route('user.home')->with('error', 'Produk tidak ditemukan.');
 
         $relatedProductsQuery = Product::where('game_id', $product->game_id)
             ->where('category_id', $product->category_id)
@@ -488,7 +488,7 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->route('user.cart')->with('success', 'Product added to cart.');
+        return redirect()->route('user.cart')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
     public function updateCart(Request $req)
@@ -504,7 +504,7 @@ class UserController extends Controller
         if (!$cart) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cart not found'
+                'message' => 'Keranjang tidak ditemukan'
             ], 404);
         }
 
@@ -515,7 +515,7 @@ class UserController extends Controller
         if (!$cartItem) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cart item not found'
+                'message' => 'Item keranjang tidak ditemukan'
             ], 404);
         }
 
@@ -543,7 +543,7 @@ class UserController extends Controller
         $cart = $user->cart()->first();
 
         if (!$cart) {
-            return redirect()->route('user.cart')->with('error', 'Cart not found');
+            return redirect()->route('user.cart')->with('error', 'Keranjang tidak ditemukan');
         }
 
         $cartItem = $cart->cartItems()
@@ -551,12 +551,12 @@ class UserController extends Controller
             ->first();
 
         if (!$cartItem) {
-            return redirect()->route('user.cart')->with('error', 'Cart item not found');
+            return redirect()->route('user.cart')->with('error', 'Item keranjang tidak ditemukan');
         }
 
         $cartItem->delete();
 
-        return redirect()->route('user.cart')->with('success', 'Item removed from cart');
+        return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang');
     }
 
     public function topup()

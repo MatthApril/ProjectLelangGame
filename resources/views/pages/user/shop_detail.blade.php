@@ -40,7 +40,7 @@
     <br>
     {{ $products->links() }}
     @else
-    <p>Toko ini belum memiliki produk</p>
+    <p>Toko ini belum memiliki produk.</p>
     @endif
 </div>
 @endsection

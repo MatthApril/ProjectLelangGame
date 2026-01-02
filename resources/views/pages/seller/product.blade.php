@@ -56,12 +56,12 @@
         <hr>
     </div>
 
-    <div>
+    <div class="row">
         @forelse($products as $product)
             <div class="col-md-3 mt-3">
                     <div class="card">
                         @if($product->product_img)
-                            <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top">
+                            <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top" height="170">
                         @endif
                         <div class="card-body">
                             <h5 class="fw-bold">{{ $product->product_name }}</h5>
@@ -98,8 +98,8 @@
                     <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
                 </div>
                 <div>
-                    <h5 class="fw-semibold">Wah Produk Tidak Ditemukan!</h5>
-                    <p>Mau Jual Apa? Tambahkan Produk Sekarang.</p>
+                    <h5 class="fw-semibold">Wah produk Ttidak ditemukan!</h5>
+                    <p>Mau jual apa? Tambahkan produk sekarang.</p>
                     <a href="{{ route('seller.products.create') }}" class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambahkan Produk</a>
                 </div>
             </div>

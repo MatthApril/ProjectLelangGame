@@ -77,7 +77,7 @@
             {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
                     @if($product->product_img)
-                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top">
+                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top" height="170">
                     @endif
                     <div class="card-body">
                         <h5 class="fw-bold">{{ $product->product_name }}</h5>
@@ -100,11 +100,9 @@
             {{-- </a> --}}
         </div>
         @empty
-        <h4 class="fw-semibold mt-5 text-center">Tidak Ada Produk Ditemukan</h4>
+        <h4 class="fw-semibold mt-5 text-center">Tidak ada produk ditemukan.</h4>
         @endforelse
     </div>
-
-    <br>
     {{ $products->links() }}
 </div>
 @endsection

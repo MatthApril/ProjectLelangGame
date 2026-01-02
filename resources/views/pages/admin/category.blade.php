@@ -71,7 +71,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="3" style="border: 1px solid gray; padding: 5px;">Belum ada kategori</td>
+                <td colspan="3" style="border: 1px solid gray; padding: 5px;">Belum ada kategori.</td>
             </tr>
             @endforelse
         </tbody>

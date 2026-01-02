@@ -120,9 +120,9 @@
                 <div class="alert alert-light my-2" role="alert">
                     <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah Melakukan Pembelian!
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 mt-2">
                     <a href="#" class="btn btn-outline-primary flex-fill text-center">
-                        <i class="bi bi-chat-left"></i>
+                        <i class="bi bi-chat-left"></i> 
                     </a>
                     <button type="submit" class="btn btn-outline-primary flex-fill text-center">
                         <i class="bi bi-cart3"></i> Tambahkan Ke Keranjang
@@ -132,17 +132,18 @@
             </form>
             @else
             <div class="d-grid">
-                <p class="text-secondary">Maaf, Anda Tidak Bisa Membeli Produk Karena Belum Masuk Ke Dalam Akun, Silahkan Masuk Terlebih Dahulu!</p>
+                <p class="text-secondary">Maaf, anda tidak bisa membeli produk karena belum masuk ke dalam akun, silahkan masuk terlebih dahulu!</p>
                 <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-5"><i class="bi bi-box-arrow-in-right"></i> Masuk Untuk Membeli Produk</a>
             </div>
             @endauth
         </div>
     </div>
     
-    <div class="mt-3">
+    <div class="my-4">
         <h4 class="fw-semibold">
             Review Produk ({{ $product->comments->count() }})
         </h4>
+        <hr>
 
         @if ($product->comments->count() > 0)
 
@@ -188,17 +189,48 @@
 
         @else
             <p class="text-secondary">
-                Belum Ada Review Untuk Produk Ini
+                Belum ada review untuk produk ini.
             </p>
         @endif
     </div>
 
     @if ($relatedProducts->count() > 0)
         <div>
-            <h3>Produk Terkait</h3>
+            <h4 class="fw-semibold">Produk Terkait</h4>
+            <hr>
 
             @foreach ($relatedProducts as $related)
-                <div>
+                <div class="col-md-3 mt-2">
+                    {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
+                        <div class="card">
+                            @if($related->product_img)
+                                <img src="{{ asset('storage/' . $related->product_img) }}" alt="{{ $related->product_name }}" class="card-img-top" height="170">
+                            @endif
+                            <div class="card-body">
+                                <h5 class="fw-bold">{{ $related->product_name }}</h5>
+                                <h5 class="text-primary fw-semibold">Rp{{ number_format($related->price, 0, ',', '.') }}</h5>
+                                <p class="text-secondary">
+                                    <i class="bi bi-grid"></i> Kategori : {{ $related->category->category_name }} <br>
+                                    <i class="bi bi-controller"></i> Game : {{ $related->game->game_name }}
+                                </p>
+                                <div class="d-flex justify-content-between text-secondary">
+                                    <div>
+                                        <i class="bi bi-box-seam"></i> Stok {{ $related->stok }}
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-star"></i> Rating {{ number_format($related->rating, 1) }}
+                                    </div>
+                                </div>
+                                <a href="{{ route('products.detail', $related->product_id) }}" class="btn btn-primary btn-sm float-end mt-2">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
+                            </div>
+                        </div>
+                    {{-- </a> --}}
+                </div>
+                {{-- @empty --}}
+                {{-- <h4 class="fw-semibold mt-4 text-center">Tidak Ada Produk Ditemukan</h4> --}}
+                {{-- @endforelse
+                {{ $products->links() }} --}}
+                {{-- <div>
                     @if ($related->product_img)
                         <img
                             src="{{ asset('storage/' . $related->product_img) }}"
@@ -216,7 +248,7 @@
                         Lihat Detail
                     </a>
                 </div>
-                <br>
+                <br> --}}
             @endforeach
         </div>
     @endif
