@@ -31,10 +31,15 @@
                 @if ($user->role == 'seller')
                     <div class="ms-3">
                         <a href="{{ route('seller.dashboard') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag-fill"></i> Dashboard Seller</a>
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i> Dashboard Seller</a>
                     </div>
                     <hr>
                 @endif
+                <div class="ms-3">
+                    <a href="{{ route('user.orders') }}"
+                    class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-clipboard2"></i> Riwayat Pesanan</a>
+                </div>
+                <hr>
             </div>
             <div class="col-md-10 mt-3">
                 @if (session('error'))

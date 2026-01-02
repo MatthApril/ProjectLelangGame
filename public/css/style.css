@@ -66,3 +66,7 @@ a.link-footer:hover {
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
 }
+
+.table-wrapper {
+    overflow-x: auto;
+}

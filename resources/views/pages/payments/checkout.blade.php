@@ -44,4 +44,9 @@
                 <div class="col-md-3"></div>
         </div>
     </div>
+    <script type="text/javascript">
+        window.snap.embed('{{ $snapToken }}', {
+        embedId: 'snap-container'
+    });
+        </script>
     @endsection
