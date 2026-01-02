@@ -68,19 +68,7 @@ class ChatController extends Controller
             'content' => $validated['content'],
         ]);
 
-        \Log::info('Message created', ['message_id' => $message->message_id]);
-        \Log::info('Broadcasting config', [
-            'driver' => config('broadcasting.default'),
-            'reverb_host' => config('broadcasting.connections.reverb.options.host'),
-            'reverb_port' => config('broadcasting.connections.reverb.options.port'),
-        ]);
-        
-        try {
-            $result = broadcast(new MessageSent($message))->toOthers();
-            \Log::info('Broadcast sent successfully', ['result' => $result]);
-        } catch (\Exception $e) {
-            \Log::error('Broadcast failed', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-        }
+        broadcast(new MessageSent($message))->toOthers();
 
         return response()->json([
             'status' => 'Message Sent!',
