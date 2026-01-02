@@ -24,12 +24,6 @@
             <a href="{{ route('seller.products.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-box-seam"></i> Kelola Produk</a>
-            {{-- <a href="{{ route('seller.products.create') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-plus-lg"></i> Tambah Produk</a> --}}
-            {{-- <a href="{{ route('seller.auctions.create.form') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-plus-lg"></i> Buat Lelang</a> --}}
             <a href="{{ route('seller.auctions.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Daftar Lelang</a>
             <a href="{{ route('seller.incoming_orders.index') }}"
@@ -111,21 +105,5 @@
                     <td>{{ $shop->open_hour }} - {{ $shop->close_hour }}</td>
                 </tr>
             </table>
-
-            {{-- @if ($shop->shop_img)
-                <br>
-                <h6 class="fw-bold">Gambar Toko</h6>
-                <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="Shop Image" width="300">
-            @endif --}}
-
-            {{-- <br><br> --}}
-
-            {{-- <h2>Menu Cepat</h2>
-            <p>
-                <a href="{{ route('seller.products.index') }}">Kelola Produk</a> |
-                <a href="{{ route('seller.products.create') }}">Tambah Produk</a> |
-                <a href="{{ route('seller.reviews.index') }}">Lihat Ulasan</a> |
-                <a href="{{ route('profile') }}">Profile</a>
-            </p> --}}
     </div>
 @endsection

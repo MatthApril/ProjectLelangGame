@@ -15,9 +15,6 @@
     <form method="GET" action="{{ route('games.index') }}">
         <div class="d-flex align-items-center justify-content-center gap-2">
             <div class="input-group">
-                {{-- <span class="input-group-text">
-                    <i class="bi bi-search"></i>
-                </span> --}}
                 <input type="search" name="search" placeholder="Cari Nama Game" value="{{ request('search') }}" aria-label="Search" class="form-control" autocomplete="off" autofocus>
                 <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
             </div>

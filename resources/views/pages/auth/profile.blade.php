@@ -32,30 +32,11 @@
                     <div class="ms-3">
                         <a href="{{ route('seller.dashboard') }}"
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag-fill"></i> Dashboard Seller</a>
-                        {{-- <a href="{{ route('seller.products.index') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i
-                                class="bi bi-box-seam"></i> Kelola Produk</a>
-                        <a href="{{ route('seller.auctions.index') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-graph-up"></i> Lelang Produk</a> --}}
-                        {{-- <a href="{{ route('seller.auctions.create.form') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer mt-2"><i class="bi bi-graph-up"></i> Lelang Produk</a> --}}
                     </div>
                     <hr>
                 @endif
             </div>
             <div class="col-md-10 mt-3">
-                {{-- @error('username')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror
-                @error('email')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror --}}
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
@@ -81,13 +62,6 @@
                                 <label>Gambar Toko Baru</label>
                                 <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
                                 <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
-                                {{-- <div class="d-grid">
-                                    <button type="button" class="btn btn-outline-secondary rounded-5 my-2"
-                                        data-bs-toggle="modal" data-bs-target="#modalEditFotoToko">
-                                        <i class="bi bi-image-fill"></i> Ganti Foto Profile Toko
-                                    </button>
-                                </div> --}}
-                                {{-- <input type="hidden" name="shop_img" id="shop_img" value="{{ $user->shop?->shop_img }}" class="form-control mb-3"> --}}
 
                                 <label>Nama Toko</label>
                                 <input type="text" name="shop_name" id="shop_name" value="{{ $user->shop?->shop_name }}"
@@ -218,94 +192,4 @@
             </div>
         </div>
     </div>
-    {{-- ModalEditFotoToko --}}
-    {{-- <div class="modal fade" id="modalEditFotoToko" tabindex="-1" aria-labelledby="modalEditFotoTokoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-4 fw-bold" id="modalEditFotoTokoLabel"><i class="bi bi-image-fill"></i>
-                        Edit Foto Toko</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        @csrf
-                        @method('PUT')
-
-                        @error('shop_img')
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        @enderror
-                        <label>Gambar Toko</label>
-                        <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control"
-                            required>
-                        <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
-                        <hr>
-                        <button type="submit" class="btn btn-primary float-end mb-3">Kirim Foto Toko Baru <i
-                                class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
-    {{--  --}}
-    {{-- <h1>Profile Page</h1>
-    <br>
-
-    @if ($user->role == 'seller')
-        <form action="{{ route('change-shop-name') }}" method="post">
-            @csrf
-            Nama Toko:
-            <input type="text" name="shop_name" id="shop_name" value="{{ $user->shop?->shop_name }}">
-            <button type="submit">Save</button>
-        </form>
-        <br>
-    @else
-        <a href="{{ route('open-shop') }}">
-            <button class="btn btn-primary">
-                Buka Toko
-            </button>
-        </a>
-        <br>
-    @endif
-
-    <form action="{{ route('verify.store') }}" method="post">
-        @csrf
-        Email:
-        <input type="hidden" name="type" value="change_email">
-        <input type="email" name="email" id="email" value="{{ $user->email }}"
-            placeholder="Masukkan email baru">
-        <button type="submit">
-            Ganti Email Anda
-        </button>
-        @error('email')
-            {{ $message }}
-        @enderror
-    </form>
-
-    <h4>Ganti Password</h4>
-    <form action="{{ route('verify.store') }}" method="post">
-        @csrf
-        <input type="hidden" name="type" value="reset_password">
-        <button type="submit">
-            Ganti Password
-        </button>
-    </form>
-
-    <form action="{{ route('logout') }}" method="post">
-        @csrf
-        <button type="submit" class="btn btn-danger">Logout</button>
-    </form>
-
-    @if (session('success'))
-        {{ session('success') }}
-    @endif
-
-    @if (session('error'))
-        {{ session('error') }}
-    @endif --}}
 @endsection

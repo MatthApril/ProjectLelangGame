@@ -1,4 +1,3 @@
-{{-- filepath: c:\kuliah\semester 3\BWP\project\ProjectLelangGame\resources\views\pages\seller\product.blade.php --}}
 @extends('layouts.template')
 
 @section('title', 'Kelola Produk | LelangGame')
@@ -43,9 +42,6 @@
             </div>
             <div class="col-md-8 mb-3">
                 <div class="input-group">
-                    {{-- <span class="input-group-text">
-                        <i class="bi bi-search"></i>
-                    </span> --}}
                     <input type="search" class="form-control" name="search" placeholder="Cari Nama Produk" aria-label="Search" autocomplete="off" value="{{ request('search') }}" autofocus>
                     <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
                 </div>
@@ -58,15 +54,11 @@
         </div>
         </form>
         <hr>
-        {{-- <a href="{{ route('seller.products.create') }}">
-            <button style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;">Tambah Produk Baru</button>
-        </a> --}}
     </div>
 
     <div>
         @forelse($products as $product)
             <div class="col-md-3 mt-3">
-                {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                     <div class="card">
                         @if($product->product_img)
                             <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top">
@@ -96,38 +88,10 @@
                                     <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i> Hapus</button>
                                 </form>
                             </div>
-                            {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p> --}}
                         </div>
                     </div>
-                {{-- </a> --}}
             </div>
-            {{-- <div>
-                @if($product->product_img)
-                    <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="200" height="200">
-                @else
-                    <div>No Image</div>
-                @endif
 
-                <div>
-                    <h3>{{ $product->product_name }}</h3>
-                    <p>Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                    <p>Stok: {{ $product->stok }}</p>
-                    <p>Kategori: {{ $product->category->category_name ?? '-' }}</p>
-                    <p>Game: {{ $product->game->game_name ?? '-' }}</p>
-                    <p>Rating: {{ $product->rating }}</p>
-                </div>
-
-                <div>
-                    <a href="{{ route('seller.products.edit', $product->product_id) }}">
-                        <button>Edit</button>
-                    </a>
-                    <form action="{{ route('seller.products.destroy', $product->product_id) }}" method="POST" onsubmit="return confirm('Yakin Ingin Menghapus Produk Ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Hapus</button>
-                    </form>
-                </div>
-            </div> --}}
         @empty
             <div class="text-center mb-5">
                 <div>

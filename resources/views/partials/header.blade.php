@@ -11,9 +11,6 @@
                 <div class="col-md-5">
                     <form action="{{ route('products.index') }}" method="GET">
                         <div class="input-group">
-                            {{-- <span class="input-group-text">
-                                <i class="bi bi-search"></i>
-                            </span> --}}
                             <input type="search" class="form-control" name="search" placeholder="Coba Cari Semua Produk"
                                 aria-label="Search" autocomplete="off" value="{{ request('search') }}" required>
                             <button type="submit" class="btn btn-light"><i class="bi bi-search"></i> Cari</button>
@@ -48,16 +45,12 @@
                                 </form>
                             </ul>
                         </div>
-                        {{-- <a href="{{ route('profile') }}" class="btn btn-outline-light text-decoration-none text-wrap"><i class="bi bi-person-circle"></i> {{ Auth::user()->username }}</a> --}}
                     </div>
                 </div>
             @else
                 <div class="col-md-6">
                     <form action="{{ route('products.index') }}" method="GET">
                         <div class="input-group">
-                            {{-- <span class="input-group-text">
-                                <i class="bi bi-search"></i>
-                            </span> --}}
                             <input type="search" class="form-control" name="search" placeholder="Coba Cari Produk"
                                 aria-label="Search" autocomplete="off" value="{{ request('search') }}" autofocus required>
                             <button type="submit" class="btn btn-light"><i class="bi bi-search"></i> Cari</button>
@@ -81,45 +74,11 @@
 <nav class="bg-navyblue text-white py-2">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center gap-3">
-            {{-- <div class="dropdown">
-                <a href="#" class="text-decoration-none text-white dropdown-toggle" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-grid"></i> Berdasarkan Kategori
-                </a>
-                <ul class="dropdown-menu">
-                    @foreach ($categories as $category)
-                        <li><a class="dropdown-item" href="#">{{ $category->category_name }}</a></li>
-                    @endforeach
-                </ul>
-            </div> --}}
             <a href="{{ route('games.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-controller"></i> Semua Game</a>
             <a href="{{ route('products.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-box-seam"></i> Semua Produk</a>
             <a href="{{ route('user.auctions.index') }}" class="text-decoration-none text-white"><i class="bi bi-graph-up"></i> Semua Lelang</a>
-            {{-- <a href="#" class="text-decoration-none text-white"><i class="bi bi-gem"></i> Diamond MLBB</a>
-            <a href="#" class="text-decoration-none text-white"><i class="bi bi-person-fill"></i> Akun Roblox</a> --}}
         </div>
     </div>
 </nav>
-
-{{-- <div class="container-fluid py-2 bg-darkblue">
-    @auth
-        <h1 class="text-white"> Welcome {{ Auth::user()->username }}</h1>
-        <a href="{{ route('profile') }}">
-            <button class="btn btn-success" type="submit">
-                Profile
-            </button>
-        </a>
-        <form action="{{ route('logout') }}" method="post">
-            @csrf
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    @else
-        <a href="{{ route('login') }}">
-            <button class="btn btn-primary" type="submit">
-                Login
-            </button>
-        </a>
-    @endauth
-</div> --}}

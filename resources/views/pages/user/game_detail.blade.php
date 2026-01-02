@@ -34,20 +34,6 @@
     <hr>
     @if($products->count() > 0)
     <div class="row">
-        {{-- @foreach($products as $product)
-        <div>
-            @if($product->product_img)
-                <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" width="200">
-            @endif
-            <h4>{{ $product->product_name }}</h4>
-            <p>Kategori: {{ $product->category->category_name }}</p>
-            <p><strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong></p>
-            <p>Stok: {{ $product->stok }}</p>
-            <p>Toko: {{ $product->shop->shop_name }}</p>
-            <a href="{{ route('products.detail', $product->product_id) }}">Lihat Detail</a>
-        </div>
-        <br>
-        @endforeach --}}
         @forelse($products as $product)
         <div class="col-md-3 mt-2">
             <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark">
@@ -70,7 +56,6 @@
                                 <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
                             </div>
                         </div>
-                        {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p> --}}
                     </div>
                 </div>
             </a>
