@@ -202,8 +202,8 @@ class UserController extends Controller
     public function showGameDetail($id)
     {
         $game = Game::with(['gamesCategories.category' => function($query) {
-                $query->whereNull('deleted_at');
-            }])->findOrFail($id);
+            $query->whereNull('deleted_at');
+        }])->findOrFail($id);
 
         if (!$game) {
             return redirect()->route('user.home')->with('error', 'Game tidak ditemukan.');
@@ -212,21 +212,59 @@ class UserController extends Controller
         $categories = $game->gamesCategories()
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
-            })->with('category')->get()->pluck('category')->filter();
+            })
+            ->with('category')
+            ->get()
+            ->pluck('category')
+            ->filter();
 
-        $productsQuery = Product::where('game_id', $game->game_id)->with(['shop', 'category'])
+        $productsQuery = Product::where('game_id', $game->game_id)
+            ->with(['shop', 'category'])
             ->whereHas('shop', function($query) {
                 $query->where('status', 'open');
             })
             ->whereHas('game')
             ->where('stok', '>', 0);
-        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-            $productsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
-        }
-        $products=$productsQuery->latest()->paginate(12);
-        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.game_detail', compact('game', 'categories', 'products', 'categories'));
+        // Jika user adalah seller, exclude produk dari toko sendiri
+        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+            $productsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
+        }
+
+        if(request('category_id')) {
+            $productsQuery->where('category_id', request('category_id'));
+        }
+
+        if(request('min_price')) {
+            $productsQuery->where('price', '>=', request('min_price'));
+        }
+
+        if(request('max_price')) {
+            $productsQuery->where('price', '<=', request('max_price'));
+        }
+
+        if(request('search')) {
+            $productsQuery->where('product_name', 'like', '%' . request('search') . '%');
+        }
+
+        switch(request('sort')) {
+            case 'price_low':
+                $productsQuery->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $productsQuery->orderBy('price', 'desc');
+                break;
+            case 'rating':
+                $productsQuery->orderBy('rating', 'desc');
+                break;
+            default:
+                $productsQuery->latest();
+                break;
+        }
+
+        $products = $productsQuery->paginate(12);
+
+        return view('pages.user.game_detail', compact('game', 'categories', 'products'));
     }
 
     public function showProducts(Request $request)
@@ -290,7 +328,7 @@ class UserController extends Controller
     {
         $product = Product::with(['game', 'shop', 'category', 'comments.user'])->whereHas('game')->findOrFail($id);
 
-        if (!$product) return redirect()->route('user.home')->with('error', 'Produk tidak ditemukan.');
+        if (!$product) return redirect()->route('user.home')->with('error', 'Produk Tidak Ditemukan');
 
         $relatedProductsQuery = Product::where('game_id', $product->game_id)
             ->where('category_id', $product->category_id)

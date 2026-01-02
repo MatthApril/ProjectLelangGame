@@ -41,11 +41,11 @@
         <div class="row">
             <div class="col-md-6 mt-3">
                 <label>Harga Min :</label>
-                <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="0" class="form-control">
+                <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="IDR 0" class="form-control">
             </div>
             <div class="col-md-6 mt-3">
                 <label>Harga Max :</label>
-                <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="1000000" class="form-control">
+                <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="IDR 1000000" class="form-control">
             </div>
         </div>
             <div class="mt-3">
@@ -74,8 +74,8 @@
     <div class="row">
         @forelse($products as $product)
         <div class="col-md-3 mt-3">
-            <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark">
-                <div class="card card-products">
+            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
+                <div class="card">
                     @if($product->product_img)
                         <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top">
                     @endif
@@ -94,9 +94,10 @@
                                 <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
                             </div>
                         </div>
+                        <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-2">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                     </div>
                 </div>
-            </a>
+            {{-- </a> --}}
         </div>
         @empty
         <h4 class="fw-semibold mt-5 text-center">Tidak Ada Produk Ditemukan</h4>
