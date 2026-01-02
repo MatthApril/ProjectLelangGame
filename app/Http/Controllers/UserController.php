@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
+use App\Http\Requests\BiddingRequests;
 use App\Http\Requests\InputProductCommentRequest;
+use App\Models\Auction;
+use App\Models\AuctionBid;
+use App\Models\AuctionWinner;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
@@ -73,6 +77,7 @@ class UserController extends Controller
 
         return view('pages.user.order_detail', compact('order', 'categories'));
     }
+
     public function storeReview(InputProductCommentRequest $request, $orderItemId)
     {
         try {
@@ -169,10 +174,21 @@ class UserController extends Controller
         if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
             $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
+
+        $auctions = Auction::with(['product.shop.owner'])
+            ->whereHas('product', function($q) {
+                $q->where('stok', '>', 0);
+            })
+            ->where('end_time', '>', now())
+            ->whereHas('product.shop.owner')
+            ->whereIn('status', ['running'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
         $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners', 'categories'));
+        return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners', 'categories', 'auctions'));
     }
 
     public function showGames(Request $request)
@@ -321,6 +337,93 @@ class UserController extends Controller
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.shop_detail', compact('shop', 'products', 'categories'));
+    }
+
+    public function showAuctions() {
+        $auctions = Auction::with(['product.shop.owner', 'highestBid.user'])
+            ->whereHas('product', function($q) {
+                $q->where('stok', '>', 0);
+            })
+            ->whereHas('product.shop.owner')
+            ->where('end_time', '>', now())
+            ->whereHas('product.shop.owner')
+            ->whereIn('status', ['running'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.user.auctions', compact('auctions', 'categories'));
+    }
+
+    public function showAuctionDetail($auctionId) {
+        $auction = Auction::with(['product.shop.owner', 'highestBid.user'])
+            ->whereHas('product', function($q) {
+                $q->where('stok', '>', 0);
+            })
+            ->whereHas('product.shop.owner')
+            ->where('auction_id', $auctionId)
+            ->where('end_time', '>', now())
+            ->whereHas('product.shop.owner')
+            ->whereIn('status', ['running'])
+            ->first();
+
+        if (!$auction) {
+            return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
+        }
+
+        if ($auction->end_time <= now()) {
+            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
+        }
+
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.user.auction_detail', compact('auction', 'categories'));
+    }
+
+    public function placeBid(Request $req, $auctionId) {
+
+        $req->validate([
+            'bid_price' => 'required|numeric',
+        ]);
+
+        $auction = Auction::with(['product.shop.owner', 'highestBid.user'])
+            ->whereHas('product', function($q) {
+                $q->where('stok', '>', 0);
+            })
+            ->whereHas('product.shop.owner')
+            ->where('auction_id', $auctionId)
+            ->where('end_time', '>', now())
+            ->whereHas('product.shop.owner')
+            ->whereIn('status', ['running'])
+            ->first();
+
+        if (!$auction) {
+            return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
+        }
+
+        if ($auction->end_time <= now()) {
+            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
+        }
+
+        if ($req->bid_price < $auction->current_price + 1000) {
+            return redirect()->back()->with('error', 'Penawaran harus lebih tinggi dari harga saat ini.');
+        }
+
+        AuctionBid::create([
+            'auction_id' => $auction->auction_id,
+            'user_id' => Auth::id(),
+            'bid_price' => $req->bid_price,
+        ]);
+
+        Auction::where('auction_id', $auction->auction_id)
+            ->update(['current_price' => $req->bid_price]);
+
+        // Logic to record the bid would go here
+
+        return redirect()->back()->with('success', 'Penawaran berhasil ditempatkan.');
     }
 
     public function addToCart(AddToCartRequest $req, $productId)

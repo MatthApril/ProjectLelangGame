@@ -32,6 +32,15 @@
             @endauth
         </div>
 
+        @auth
+            <form action="{{ route('user.chat.show', $product->shop->owner->user_id) }}" method="GET">
+                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                <button type="submit">Chat Penjual</button>
+            </form>
+        @else
+            <p><a href="{{ route('login') }}">Login</a> untuk chat dengan penjual</p>
+        @endauth
+
         <br><br>
 
         <div class="mt-4">
@@ -90,4 +99,5 @@
         @endif
 
     </div>
+</div>
 @endsection

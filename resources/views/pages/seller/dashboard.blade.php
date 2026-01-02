@@ -58,6 +58,15 @@
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-plus-lg"></i> Tambah Produk</a>
             <a href="{{ route('seller.reviews.index') }}" class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">Lihat Ulasan</a>
+            <a href="{{ route('seller.auctions.create.form') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Buat Lelang</a>
+            <a href="{{ route('seller.auctions.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Daftar Lelang</a>
+            <a href="{{ route('seller.incoming_orders.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Daftar Pesanan Masuk</a>
             <a href="{{ route('profile') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-person-fill"></i> Profile</a>
@@ -72,22 +81,22 @@
                     <th>Email</th>
                     <th>Aksi</th>
                 </tr>
-                @foreach ($users as $index => $user)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $user->username }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            <a href="{{ route('seller.chat.show', ['userId' => $user->user_id]) }}">
-                                <button class="btn btn-primary">
-                                    Chat
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-        </div>
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                        <form action="{{ route('user.chat.show', $user->user_id) }}" method="post">
+                            @csrf
+                            <button class="btn btn-primary" type="submit">
+                                Chat
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    </div>
 
         <br>
 

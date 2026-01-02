@@ -20,6 +20,7 @@ class AuctionBid extends Model
     {
         return $this->belongsTo(Auction::class, 'auction_id', 'auction_id');
     }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');

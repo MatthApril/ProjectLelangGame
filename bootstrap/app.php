@@ -25,6 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'check_banned' => \App\Http\Middleware\CheckIsBanned::class,
         ]);
     })
+    ->withCommands([
+        App\Console\Commands\UpdateAuctionStatus::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
