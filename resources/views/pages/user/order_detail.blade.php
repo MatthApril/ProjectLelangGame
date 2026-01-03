@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title', 'Detail Pesanan | LelangGame')
+@section('title', 'Detail Transaksi | LelangGame')
 
 @section('content')
     <div class="container">
@@ -8,20 +8,20 @@
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('user.orders') }}">Pesanan</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Detail Pesanan</li>
+                <li class="breadcrumb-item"><a href="{{ route('user.orders') }}">Transaksi</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detail Transaksi</li>
             </ol>
         </nav>
-        <h5 class="fw-semibold">Detail Pesanan #{{ $order->order_id }}</h5>
+        <h5 class="fw-semibold">Detail Transaksi #{{ $order->order_id }}</h5>
         <hr>
         <div id="alert-container"></div>
         <div>
             <div class="card p-3">
                 <p class="m-0">Total Harga : <strong>Rp{{ number_format($order->total_prices, 0, ',', '.') }}</strong></p>
-                <p class="m-0">Tanggal Pesanan : <strong>{{ $order->created_at->format('d-m-Y H:i') }}</strong></p>
+                <p class="m-0">Tanggal Transaksi : <strong>{{ $order->created_at->format('d-m-Y H:i') }}</strong></p>
             </div>
 
-            <h5 class="fw-semibold mt-4">Produk Dalam Pesanan</h5>
+            <h5 class="fw-semibold mt-4">Produk Dalam Transaksi</h5>
             <hr>
             @if ($order->orderItems->isEmpty())
                 <div class="text-center">
@@ -29,7 +29,7 @@
                         <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
                     </div>
                     <div>
-                        <h5 class="fw-semibold">Produk tidak ditemukan dalam pesanan ini.</h5>
+                        <h5 class="fw-semibold">Produk tidak ditemukan dalam transaksi ini.</h5>
                         <p>Silahkan hubungi admin untuk informasi lebih lanjut di <i>lelanggameofficial@gmail.com</i>.</p>
                     </div>
                 </div>

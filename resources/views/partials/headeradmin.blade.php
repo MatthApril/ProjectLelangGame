@@ -1,8 +1,8 @@
-<nav class="bg-darkblue text-white">
+<nav class="bg-darkblue text-white sticky-top">
     <div class="container-fluid">
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-3 py-2">
-                <a href="{{ route('user.home') }}" class="d-flex align-items-center text-white text-decoration-none">
+                <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-white text-decoration-none">
                     <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50">
                     <h5 class="fw-semibold">LelangGame</h5>
                 </a>

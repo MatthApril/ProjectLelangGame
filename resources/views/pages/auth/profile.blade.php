@@ -42,7 +42,7 @@
                 @endif
                 <div class="ms-3">
                     <a href="{{ route('user.orders') }}"
-                    class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-clipboard2"></i> Riwayat Pesanan</a>
+                    class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-cash-coin"></i> Transaksi</a>
                 </div>
                 <hr>
             </div>

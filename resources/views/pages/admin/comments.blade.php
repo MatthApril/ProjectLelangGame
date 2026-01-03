@@ -1,14 +1,14 @@
-@extends('layouts.template')
+@extends('layouts.templateadmin')
 
 @section('content')
-<div class="container">
-    <h1>Manajemen Komentar</h1>
+<div class="container my-3">
+    <h5 class="fw-semibold text-dark">Komentar</h5>
 
     <div id="alert-container"></div>
 
-    <div class="mb-3">
+    {{-- <div class="mb-3">
         <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
-    </div>
+    </div> --}}
 
     <hr>
 
@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-6">
                 <label><strong>Filter Berdasarkan Rating:</strong></label>
-                <div class="btn-group" role="group">
+                <div class="d-flex flex-wrap gap-2" role="group" aria-label="Filter Rating">
                     <input type="radio" class="btn-check" name="rating" id="rating-all" value="" {{ !request('rating') ? 'checked' : '' }}>
                     <label class="btn btn-outline-primary" for="rating-all">Semua</label>
 
@@ -38,6 +38,8 @@
             </div>
         </div>
     </form>
+
+    <h6 class="fw-bold">Daftar Komentar (Total: {{ $comments->count() }})</h6>
 
     <div id="comments-container">
         @include('partials.comments_table', ['comments' => $comments])

@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title', 'Pesanan | LelangGame')
+@section('title', 'Transaksi | LelangGame')
 
 @section('content')
     <div class="container">
@@ -8,10 +8,10 @@
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Pesanan</li>
+                <li class="breadcrumb-item active" aria-current="page">Transaksi</li>
             </ol>
         </nav>
-        <h2 class="fw-semibold">Pesanan</h2>
+        <h2 class="fw-semibold">Transaksi</h2>
         <hr>
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -32,8 +32,8 @@
                 <img src="{{ asset('images/order-empty.png') }}" alt="Order Empty" width="300">
             </div>
             <div>
-                <h5 class="fw-semibold">Anda belum memiliki pesanan.</h5>
-                <p>Belum ada pesanan, silahkan lakukan pemesanan terlebih dahulu.</p>
+                <h5 class="fw-semibold">Anda belum memiliki transaksi.</h5>
+                <p>Belum ada transaksi, silahkan lakukan pemesanan terlebih dahulu.</p>
             </div>
         </div>
         @else
@@ -47,8 +47,8 @@
                     <div class="card p-3 mb-3 border-success border-3">
                     @endif
                 @endif
-                    <h6 class="fw-semibold">ID Pesanan : #{{ $order->order_id }}</h6>
-                    <span>Tanggal Pesanan : {{ $order->created_at->format('d-m-Y H:i') }}</span>
+                    <h6 class="fw-semibold">ID Transaksi : #{{ $order->order_id }}</h6>
+                    <span>Tanggal Transaksi : {{ $order->created_at->format('d-m-Y H:i') }}</span>
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-semibold m-0">Total Harga : Rp {{ number_format($order->total_prices, 0, ',', '.') }}</h6>
