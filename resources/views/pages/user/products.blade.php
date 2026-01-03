@@ -1,16 +1,16 @@
 @extends('layouts.template')
 
-@section('title', 'Daftar Produk | LelangGame')
+@section('title', 'Semua Produk | LelangGame')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Daftar Produk</li>
+            <li class="breadcrumb-item active" aria-current="page">Semua Produk</li>
         </ol>
     </nav>
-    <h2 class="fw-semibold">Daftar Produk</h2>
+    <h2 class="fw-semibold">Semua Produk</h2>
     <hr>
     <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
     <form method="GET" action="{{ route('products.index') }}">
@@ -41,11 +41,11 @@
         <div class="row">
             <div class="col-md-6 mt-3">
                 <label>Harga Min :</label>
-                <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="0" class="form-control">
+                <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="IDR 0" class="form-control">
             </div>
             <div class="col-md-6 mt-3">
                 <label>Harga Max :</label>
-                <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="1000000" class="form-control">
+                <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="IDR 1000000" class="form-control">
             </div>
         </div>
             <div class="mt-3">
@@ -74,10 +74,10 @@
     <div class="row">
         @forelse($products as $product)
         <div class="col-md-3 mt-3">
-            <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark">
-                <div class="card card-products">
+            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
+                <div class="card">
                     @if($product->product_img)
-                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top">
+                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top" height="170">
                     @endif
                     <div class="card-body">
                         <h5 class="fw-bold">{{ $product->product_name }}</h5>
@@ -94,17 +94,15 @@
                                 <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
                             </div>
                         </div>
-                        {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p> --}}
+                        <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-2">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                     </div>
                 </div>
-            </a>
+            {{-- </a> --}}
         </div>
         @empty
-        <h4 class="fw-semibold mt-5 text-center">Tidak Ada Produk Ditemukan</h4>
+        <h4 class="fw-semibold mt-5 text-center">Tidak ada produk ditemukan.</h4>
         @endforelse
     </div>
-
-    <br>
     {{ $products->links() }}
 </div>
 @endsection

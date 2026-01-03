@@ -29,7 +29,7 @@ class OtpEmail extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('app.name')),
-            subject: 'OTP - Verifikasi Email Baru',
+            subject: 'OTP - Verifikasi Akun Baru',
         );
     }
 

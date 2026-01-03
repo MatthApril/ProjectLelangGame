@@ -3,7 +3,7 @@
 @section('title', 'Lupa Password | LelangGame')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <a href="{{ route('login') }}">
             <button type="submit" class="btn btn-outline-danger rounded-5 px-3 my-3">
                 <i class="bi bi-caret-left-fill"></i> Kembali Ke Masuk
@@ -78,18 +78,3 @@
 
     </html>
 @endsection
-{{-- <div>
-    <form action="{{ route('forgot-pwd.store') }}" method="post">
-        @csrf
-        <input type="hidden" name="type" value="forgot_password">
-        Email:
-        <input type="email" name="email" id="email" value="{{ old('email') }}"> <br>
-        @error('email')
-            {{ $message }}
-        @enderror
-        <br>
-        <button type="submit">
-            Berikutnya
-        </button>
-    </form>
-</div> --}}

@@ -60,10 +60,10 @@ class VerificationController extends Controller
             if ($verify->type == 'register') {
                 Auth::logout();
 
-                return redirect()->route('register')->with('error', 'OTP Tidak Valid Atau Sudah Kadaluarsa. Silakan Daftar Ulang!');
+                return redirect()->route('register')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan daftar ulang!');
             }
 
-            return redirect()->route('profile')->with('error', 'OTP Tidak Valid Atau Sudah Kadaluarsa. Silakan Coba Lagi.');
+            return redirect()->route('profile')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan coba lagi.');
         }
 
         if ($verify->type == 'reset_password') {
@@ -84,7 +84,7 @@ class VerificationController extends Controller
                 ->whereType('change_email')
                 ->whereStatus('active')
                 ->update(['status' => 'invalid']);
-            return redirect()->route('profile')->with('success', 'Email Berhasil Diubah!');
+            return redirect()->route('profile')->with('success', 'Email berhasil diubah!');
         }
 
         if ($verify->type == 'register') {
@@ -124,8 +124,8 @@ class VerificationController extends Controller
             $req->validate([
                 'email' => ['required', 'email', new EmailRegisteredRule]
             ], [
-                'email.required' => 'Email Baru Wajib Diisi!',
-                'email.email' => 'Format Email Tidak Valid!',
+                'email.required' => 'Email baru wajib diisi!',
+                'email.email' => 'Format email tidak valid!',
             ]);
 
             session(['new_email' => $req->email]);
@@ -142,7 +142,7 @@ class VerificationController extends Controller
 
         $user = User::where('email', $req->email)->first();
         if (!$user) {
-            return back()->with('error', 'Email Tidak Terdaftar!');
+            return back()->with('error', 'Email tidak terdaftar!');
         }
 
         $otp = rand(100000, 999999);
@@ -161,7 +161,7 @@ class VerificationController extends Controller
     function resendOTP() {
         $user = User::where('email', session('forgot_pwd_email'))->first();
         if (!$user) {
-            return back()->with('error', 'Email Tidak Terdaftar!');
+            return back()->with('error', 'Email tidak terdaftar!');
         }
 
         $otp = rand(100000, 999999);
@@ -200,7 +200,7 @@ class VerificationController extends Controller
         if (md5($req->otp) != $verify->otp || now()->greaterThan($verify->expires_at)) {
             $verify->update(['status' => 'invalid']);
 
-            return redirect()->route('forgot-pwd-email-view')->with('error', 'OTP Tidak Valid Atau Sudah Kadaluarsa. Silakan Coba Lagi.');
+            return redirect()->route('forgot-pwd-email-view')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan coba lagi.');
         }
 
         $verify->update(

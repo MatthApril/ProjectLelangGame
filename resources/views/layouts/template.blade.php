@@ -15,6 +15,8 @@
     @vite(['resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/palette.css') }}">
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('midtrans.client_key') }}"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
