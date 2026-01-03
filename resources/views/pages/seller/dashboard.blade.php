@@ -27,20 +27,18 @@
             </div>
         @endif
 
-        <hr>
-
         <div class="card mb-4">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="mb-0">Status Toko:
+                        <h5 class="mb-0 fw-semibold">Status Toko
                             @if ($shop->status === 'open')
                                 <span class="badge bg-success">Buka</span>
                             @else
                                 <span class="badge bg-danger">Tutup</span>
                             @endif
                         </h5>
-                        <small class="text-muted">Jam Operasional: {{ $shop->open_hour }} - {{ $shop->close_hour }}</small>
+                        <small class="text-muted">Jam Operasional {{ $shop->open_hour }} - {{ $shop->close_hour }}</small>
                     </div>
                     <div>
                         <form action="{{ route('seller.shop.toggle-status') }}" method="POST">
@@ -60,28 +58,20 @@
             </div>
         </div>
 
-
-        <table border="1" cellpadding="10">
-            <h4 class="fw-bold">Menu Cepat</h4>
+        <h4 class="fw-bold">Menu Cepat</h4>
             <div class="d-flex gap-2 mb-3">
                 <a href="{{ route('seller.products.index') }}"
                     class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                         class="bi bi-box-seam"></i> Kelola Produk</a>
-                <a href="{{ route('seller.products.create') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                        class="bi bi-plus-lg"></i> Tambah Produk</a>
                 <a href="{{ route('seller.reviews.index') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">Lihat
-                    Ulasan</a>
-                <a href="{{ route('seller.auctions.create.form') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                        class="bi bi-plus-lg"></i> Buat Lelang</a>
+                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-star"></i> Lihat
+                    Review</a>
                 <a href="{{ route('seller.auctions.index') }}"
                     class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                         class="bi bi-graph-up"></i> Daftar Lelang</a>
                 <a href="{{ route('seller.incoming_orders.index') }}"
                     class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                        class="bi bi-clipboard2"></i> Daftar Pesanan Masuk</a>
+                        class="bi bi-clipboard2"></i> Daftar Pesanan</a>
             </div>
             <hr>
 
@@ -171,6 +161,5 @@
                         </tr>
                     </table>
                 @endif
-        </table>
     </div>
 @endsection

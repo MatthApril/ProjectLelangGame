@@ -73,7 +73,7 @@
                         <img src="{{ asset('storage/' . $product->product_img) }}"alt="Gambar Produk" width="300" class="shadow rounded">
                     </div>
                 @endif
-                <label>Gambar Produk {{ $product ? '' : '*' }}</label>
+                <label>Gambar Produk {{ $product ? '' : '*' }} <span class="text-secondary">(Disarankan Ukuran Gambar 16 : 9)</span></label>
                 <input type="file" id="product_img" name="product_img" accept="image/*" {{ $product ? '' : 'required' }} class="form-control">
                 <i>Format: JPG, PNG, JPEG. Max: 2MB</i>
             </div>

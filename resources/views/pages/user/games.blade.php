@@ -39,7 +39,15 @@
             </div>
         </div>
         @empty
-        <h5 class="text-center fw-semibold">Tidak ada game ditemukan.</h5>
+        <div class="text-center">
+            <div>
+                <img src="{{ asset('images/game-empty.png') }}" alt="Game Empty" width="300">
+            </div>
+            <div>
+                <h5 class="fw-semibold">Wah game tidak ditemukan.</h5>
+                <p>Belum ada game, silahkan hubungi administrator di <i>lelanggameofficial@gmail.com</i>.</p>
+            </div>
+        </div>
         @endforelse
     </div>
 

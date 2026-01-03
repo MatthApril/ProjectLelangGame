@@ -1,34 +1,41 @@
 @extends('layouts.template')
 
-@section('title', 'Riwayat Pesanan | LelangGame')
+@section('title', 'Transaksi | LelangGame')
 
 @section('content')
-    @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-
     <div class="container">
         <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Riwayat Pesanan</li>
+                <li class="breadcrumb-item active" aria-current="page">Transaksi</li>
             </ol>
         </nav>
-        <h2 class="fw-semibold">Riwayat Pesanan</h2>
+        <h2 class="fw-semibold">Transaksi</h2>
         <hr>
-        <h6 class="mb-4">Border Hijau : <span class="text-success fw-semibold">Sudah Bayar</span> | Border Merah : <span class="text-danger fw-semibold">Belum Bayar</span> | Border Abu-abu : <span class="text-secondary fw-semibold">Kadaluarsa</span></h6>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <h6 class="mb-5">Border Hijau : <span class="text-success fw-semibold">Sudah Bayar</span> | Border Merah : <span class="text-danger fw-semibold">Belum Bayar</span> | Border Abu-abu : <span class="text-secondary fw-semibold">Kadaluarsa</span></h6>
         @if ($orders->isEmpty())
-            <h4 class="fw-semibold mt-5 text-center">Anda belum memiliki pesanan.</h4>
+            <div class="text-center">
+            <div>
+                <img src="{{ asset('images/order-empty.png') }}" alt="Order Empty" width="300">
+            </div>
+            <div>
+                <h5 class="fw-semibold">Anda belum memiliki transaksi.</h5>
+                <p>Belum ada transaksi, silahkan lakukan pemesanan terlebih dahulu.</p>
+            </div>
+        </div>
         @else
             @foreach ($orders as $order)
                 @if ($order->status == 'unpaid' && !now()->lessThan($order->expire_payment_at))
@@ -40,8 +47,8 @@
                     <div class="card p-3 mb-3 border-success border-3">
                     @endif
                 @endif
-                    <h6 class="fw-semibold">ID Pesanan : #{{ $order->order_id }}</h6>
-                    <span>Tanggal Pesanan : {{ $order->created_at->format('d-m-Y H:i') }}</span>
+                    <h6 class="fw-semibold">ID Transaksi : #{{ $order->order_id }}</h6>
+                    <span>Tanggal Transaksi : {{ $order->created_at->format('d-m-Y H:i') }}</span>
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-semibold m-0">Total Harga : Rp {{ number_format($order->total_prices, 0, ',', '.') }}</h6>

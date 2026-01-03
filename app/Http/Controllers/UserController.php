@@ -471,43 +471,45 @@ class UserController extends Controller
 
     public function addToCart(AddToCartRequest $req, $productId)
     {
-        $req->validated();
-
-        $owner = Product::findOrFail($productId)->shop->owner;
-
-        if (!$owner) {
-            return redirect()->back()->with('error', 'Anda tidak dapat menambahkan produk dari penjual yang dibanned ke keranjang.');
-        }
-
-        $game = Product::findOrFail($productId)->game;
-        if (!$game) {
-            return redirect()->route('user.home')->with('error', 'Produk tidak tersedia karena game terkait telah dihapus.');
-        }
-
-        if (Shop::where('shop_id', Product::findOrFail($productId)->shop_id)->first()->owner->user_id == Auth::id()) {
-            return redirect()->back()->with('error', 'Anda tidak dapat menambahkan produk dari toko Anda sendiri ke keranjang.');
-        }
-
         $user = Auth::user();
-
-        $cart = $user->cart()->firstOrCreate([]);
-
-        $qty = $req->quantity;
-
-        $cartItem = $cart->cartItems()
-            ->where('product_id', $productId)
-            ->first();
-
-        if ($cartItem) {
-            $cartItem->increment('quantity', $qty);
-        } else {
-            $cart->cartItems()->create([
-                'product_id' => $productId,
-                'quantity'   => $qty,
-            ]);
+        $product = Product::findOrFail($productId);
+        
+        if ($product->stok < 1) {
+            return back()->with('error', 'Produk tidak tersedia (stok habis).');
         }
 
-        return redirect()->route('user.cart')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
+        $cart = $user->cart;
+        
+        $existingCartItem = $cart->cartItems()->where('product_id', $productId)->first();
+        
+        $requestedQty = $req->quantity;
+        $currentQtyInCart = $existingCartItem ? $existingCartItem->quantity : 0;
+        $totalQty = $currentQtyInCart + $requestedQty;
+        
+        if ($totalQty > $product->stok) {
+            $availableQty = $product->stok - $currentQtyInCart;
+            
+            if ($availableQty <= 0) {
+                return back()->with('error', "Gagal menambahkan ke keranjang. Anda sudah memiliki {$currentQtyInCart} item di keranjang (stok maksimal: {$product->stok}).");
+            }
+            
+            return back()->with('error', "Gagal menambahkan ke keranjang. Stok tidak cukup! Anda sudah memiliki {$currentQtyInCart} di keranjang. Maksimal hanya bisa menambah {$availableQty} lagi (total stok: {$product->stok}).");
+        }
+
+        if ($existingCartItem) {
+            $existingCartItem->update([
+                'quantity' => $totalQty
+            ]);
+            
+            return back()->with('success', "Berhasil memperbarui jumlah {$product->product_name} di keranjang menjadi {$totalQty} item.");
+        }
+        
+        $cart->cartItems()->create([
+            'product_id' => $productId,
+            'quantity' => $requestedQty
+        ]);
+
+        return back()->with('success', "Berhasil menambahkan {$requestedQty} {$product->product_name} ke keranjang.");
     }
 
     public function updateCart(Request $req)

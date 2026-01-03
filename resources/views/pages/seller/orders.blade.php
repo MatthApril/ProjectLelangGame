@@ -8,7 +8,7 @@
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Pesanan Masuk</li>
+            <li class="breadcrumb-item active" aria-current="page">Pesanan</li>
         </ol>
     </nav>
     <h2>Daftar Pesanan</h2>

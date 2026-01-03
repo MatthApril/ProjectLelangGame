@@ -70,6 +70,20 @@ th {
     overflow-x: auto;
 }
 
+.product-img-16x9 {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+.shop-avatar {
+    width: 70px;
+    height: 70px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
 .card-custom {
     border: none;
     border-radius: 15px;
