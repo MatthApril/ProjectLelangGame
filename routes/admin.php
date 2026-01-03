@@ -17,7 +17,6 @@ Route::prefix('admin')->as('admin.')
             Route::delete('/categories/{category}', 'deleteCategory')->name('categories.destroy');
 
             Route::get('/games', 'showGames')->name('games.index');
-            Route::get('/games/create', 'showCreateGame')->name('games.create');
             Route::post('/games', 'storeGame')->name('games.store');
             Route::get('/games/{game}/edit', 'showEditGame')->name('games.edit');
             Route::put('/games/{game}', 'updateGame')->name('games.update');
@@ -30,7 +29,6 @@ Route::prefix('admin')->as('admin.')
             Route::delete('/comments/{comment}', 'deleteComment')->name('comments.destroy');
             
             Route::get('/templates', 'showNotificationMaster')->name('notifications.index');
-            Route::get('/templates/create', 'showCreateNotificationTemplate')->name('notifications.create');
             Route::post('/templates', 'storeNotificationTemplate')->name('notifications.store');
             Route::get('/templates/edit/{template}', 'showEditNotificationTemplate')->name('notifications.edit');
             Route::put('/templates/{template}', 'updateNotificationTemplate')->name('notifications.update');

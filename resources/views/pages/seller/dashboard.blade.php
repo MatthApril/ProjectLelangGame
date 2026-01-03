@@ -25,11 +25,39 @@
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-box-seam"></i> Kelola Produk</a>
             <a href="{{ route('seller.auctions.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Daftar Lelang</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-graph-up"></i> Daftar Lelang</a>
             <a href="{{ route('seller.incoming_orders.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-clipboard2"></i> Daftar Pesanan Masuk</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-clipboard2"></i> Daftar Pesanan Masuk</a>
         </div>
         <hr>
+        <div>
+            <h6 class="fw-bold">Owners</h6>
+            <table border="1" class="table table-striped">
+                <tr>
+                    <th>No</th>
+                    <th>Owner</th>
+                    <th>Email</th>
+                    <th>Aksi</th>
+                </tr>
+                @foreach ($users as $index => $user)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            <form action="{{ route('user.chat.show', $user->user_id) }}" method="post">
+                                @csrf
+                                <button class="btn btn-primary" type="submit">
+                                    Chat
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
 
         <br>
 
