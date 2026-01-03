@@ -31,6 +31,16 @@
                     <label for="game_name">Nama Game *</label><br>
                     <input type="text" id="game_name" name="game_name"
                         value="{{ old('game_name', $editGame->game_name ?? '') }}" class="form-control" required>
+                    @error('game_name')
+                        <span style="color: red;">{{ $message }}</span>
+                    @enderror
+                    <label for="game_img">Gambar Game {{ $game ? '' : '*' }}</label><br>
+                    <input type="file" id="game_img" name="game_img" accept="image/*" {{ $game ? '' : 'required' }}>
+                    <p>Format: JPG, PNG, JPEG. Max: 2MB</p>
+                    @error('game_img')
+                        <span style="color: red;">{{ $message }}</span>
+                    @enderror
+
                     @if ($game && $game->game_img)
                         <div>
                             <p>Gambar saat ini:</p>
@@ -38,7 +48,32 @@
                                 width="200">
                         </div>
                     @endif
-                    @error('game_name')
+                </div>
+
+                <div>
+                    <label>Kategori Game *<br>
+                        {{-- <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">(Kelola Kategori)</a> --}}
+                    </label>
+                    <br>
+                    @php
+                        $selectedCategories = $game
+                            ? $game->gamesCategories->pluck('category_id')->toArray()
+                            : old('categories', []);
+                    @endphp
+
+                    @forelse($categories as $category)
+                        <label>
+                            <input type="checkbox"name="categories[]" value="{{ $category->category_id }}"
+                                {{ in_array($category->category_id, $selectedCategories) ? 'checked' : '' }}>
+                            {{ $category->category_name }}
+                        </label>
+                        <br>
+                    @empty
+                        <p>Belum ada kategori.<br> <a href="{{ route('admin.categories.index') }}"
+                                class="text-decoration-none link-footer">Tambah kategori terlebih dahulu</a></p>
+                    @endforelse
+
+                    @error('categories')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
                 </div>
@@ -117,9 +152,11 @@
                     </tbody>
                 </table>
             </div>
+
             {{ $games->links() }}
         @endif
     </div>
+
     <div class="modal" tabindex="-1" id="modalTambahGame">
         <div class="modal-dialog">
             <div class="modal-content">
