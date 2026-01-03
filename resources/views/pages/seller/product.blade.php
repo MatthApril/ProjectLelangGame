@@ -61,7 +61,11 @@
             <div class="col-md-3 mt-3">
                     <div class="card">
                         @if($product->product_img)
-                            <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top" height="170">
+                        <img 
+                            src="{{ asset('storage/' . $product->product_img) }}" 
+                            alt="{{ $product->product_name }}" 
+                            class="card-img-top product-img-16x9"
+                        >
                         @endif
                         <div class="card-body">
                             <h5 class="fw-bold">{{ $product->product_name }}</h5>
@@ -78,8 +82,8 @@
                                     <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end gap-2 mt-2">
-                                <a href="{{ route('seller.products.edit', $product->product_id) }}" class="rounded btn btn-warning">
+                            <div class="d-flex justify-content-end gap-2 mt-3">
+                                <a href="{{ route('seller.products.edit', $product->product_id) }}" class="btn btn-warning">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
                                 <form action="{{ route('seller.products.destroy', $product->product_id) }}" method="POST" onsubmit="return confirm('Yakin Ingin Menghapus Produk Ini?')">
@@ -98,7 +102,7 @@
                     <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
                 </div>
                 <div>
-                    <h5 class="fw-semibold">Wah produk Ttidak ditemukan!</h5>
+                    <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>
                     <p>Mau jual apa? Tambahkan produk sekarang.</p>
                     <a href="{{ route('seller.products.create') }}" class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambahkan Produk</a>
                 </div>
