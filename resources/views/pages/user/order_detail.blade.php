@@ -3,15 +3,83 @@
 @section('content')
     <div class="container">
         <h1>Detail Pesanan #{{ $order->order_id }}</h1>
-
+        <hr>
         <div id="alert-container"></div>
+         @if(session('success'))
+            <div style="padding: 10px; background: green; color: white; margin: 10px 0;">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    <div>
-        <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
-        <p><strong>Tanggal:</strong> {{ $order->created_at->format('d M Y H:i') }}</p>
-        <p><strong>Total:</strong> Rp {{ number_format($order->total_prices, 0, ',', '.') }}</p>
+        @if(session('error'))
+            <div style="padding: 10px; background: red; color: white; margin: 10px 0;">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div>
+            <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
+            <p><strong>Tanggal:</strong> {{ $order->created_at->format('d M Y H:i') }}</p>
+            <p><strong>Total:</strong> Rp {{ number_format($order->total_prices, 0, ',', '.') }}</p>
+        </div>
+        <h3>Item Pesanan</h3>
+        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+            <tr style="background: #f0f0f0;">
+                <th>Produk</th>
+                <th>Toko</th>
+                <th>Qty</th>
+                <th>Harga</th>
+                <th>Subtotal</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+            @foreach($order->orderItems as $item)
+                <tr>
+                    <td>
+                        @if($item->product->product_img)
+                            <img src="{{ asset('storage/' . $item->product->product_img) }}" width="50" style="margin-right: 10px;">
+                        @endif
+                        {{ $item->product->product_name }}
+                    </td>
+                    <td>{{ $item->shop->shop_name }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>Rp {{ number_format($item->product_price, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                    <td>
+                        @if($item->status === 'paid')
+                            <span style="background: yellow; padding: 3px 8px; border-radius: 3px;">Menunggu Dikirim</span>
+                        @elseif($item->status === 'shipped')
+                            <span style="background: lightblue; padding: 3px 8px; border-radius: 3px;">Telah Dikirim</span>
+                        @elseif($item->status === 'completed')
+                            <span style="background: lightgreen; padding: 3px 8px; border-radius: 3px;">Selesai</span>
+                        @else
+                            <span style="background: lightcoral; padding: 3px 8px; border-radius: 3px;">Dibatalkan</span>
+                        @endif
+                    </td>
+                    <td id="review-section-{{ $item->order_item_id }}">
+                        @if($item->status === 'shipped')
+                            <form action="{{ route('user.orders.confirm', $item->order_item_id) }}" method="POST">
+                                @csrf
+                                <button type="submit" onclick="return confirm('Konfirmasi pesanan sudah diterima?')" style="padding: 5px 10px; background: green; color: white; border: none; cursor: pointer;">
+                                    Konfirmasi Terima
+                                </button>
+                            </form>
+                            <small style="color: gray; display: block; margin-top: 5px;">
+                                Auto-confirm: {{ $item->shipped_at->addDays(3)->diffForHumans() }}
+                            </small>
+                        @elseif($item->status === 'completed')
+                            @if(!$item->hasReview())
+                                <button onclick="showReviewModal({{ $item->order_item_id }})" style="padding: 5px 10px; background: blue; color: white; border: none; cursor: pointer;">
+                                    Beri Review
+                                </button>
+                            @else
+                                <span style="color: green;">Sudah di-review</span>
+                            @endif
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
+        </table>
     </div>
-
     <!-- Modal Review -->
     <div id="reviewModal"
         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 2px solid black; padding: 20px; z-index: 1000;">

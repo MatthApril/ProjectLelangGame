@@ -200,9 +200,9 @@ class AdminController extends Controller
 
         $affectedProductsCount = $game->products()->count();
 
-        if ($game->game_img) {
-            Storage::disk('public')->delete($game->game_img);
-        }
+        // if ($game->game_img) {
+        //     Storage::disk('public')->delete($game->game_img);
+        // }
 
         $game->delete();
 

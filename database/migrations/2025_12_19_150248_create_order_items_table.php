@@ -24,6 +24,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->integer('subtotal');
             $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled']);
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('shipped_at')->nullable();
         });
     }
 

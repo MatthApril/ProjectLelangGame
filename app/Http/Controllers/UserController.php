@@ -69,13 +69,33 @@ class UserController extends Controller
                     'orderItems.product' => function ($query) {
                         $query->withTrashed();
                     },
-                    'shop'
+                    'shop',
+                    'orderItems.comment'
                 ])
                 ->where('order_id', $orderId)
                 ->firstOrFail();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.order_detail', compact('order', 'categories'));
+    }
+
+     public function confirmOrder($orderItemId)
+    {
+        $orderItem = OrderItem::whereHas('order', function($q) {
+            $q->where('user_id', Auth::id());
+        })
+        ->where('order_item_id', $orderItemId)
+        ->where('status', 'shipped')
+        ->firstOrFail();
+
+        $orderItem->update([
+            'status' => 'completed'
+        ]);
+        $shop = $orderItem->shop;
+        $shop->decrement('running_transactions', $orderItem->subtotal);
+        $shop->increment('shop_balance', $orderItem->subtotal);
+        return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi!');
+
     }
 
     public function storeReview(InputProductCommentRequest $request, $orderItemId)
@@ -238,9 +258,8 @@ class UserController extends Controller
             $productsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
         }
         $products=$productsQuery->latest()->paginate(12);
-        $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.game_detail', compact('game', 'categories', 'products', 'categories'));
+        return view('pages.user.game_detail', compact('game', 'categories', 'products'));
     }
 
     public function showProducts(Request $request)
@@ -330,7 +349,7 @@ class UserController extends Controller
 
         $products = Product::where('shop_id', $shop->shop_id)
             ->with(['game', 'category'])
-            ->whereHas('game')
+            ->active()
             ->where('stok', '>', 0)
             ->latest()
             ->paginate(12);

@@ -37,6 +37,8 @@ class SellerController extends Controller
         return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
     }
 
+
+
     function showSellerAuctions()
     {
         $auctions = Auction::where('seller_id', Auth::user()->user_id)
@@ -56,6 +58,21 @@ class SellerController extends Controller
         // dd($auctions);
 
         return view('pages.seller.auctions', compact('auctions', 'categories', 'shop'));
+    }
+    public function toggleShopStatus()
+    {
+        $shop = Auth::user()->shop;
+
+        if (!$shop) {
+            return redirect()->route('seller.dashboard')->with('error', 'Toko tidak ditemukan');
+        }
+
+        $newStatus = $shop->status === 'open' ? 'closed' : 'open';
+        $shop->update(['status' => $newStatus]);
+
+        $message = $newStatus === 'open'? 'Toko berhasil dibuka!': 'Toko berhasil ditutup!';
+
+        return redirect()->route('seller.dashboard')->with('success', $message);
     }
 
     function showReviews(Request $request)
@@ -112,9 +129,9 @@ class SellerController extends Controller
                 $q->where('shops.owner_id', Auth::id())   // PEMILIK TOKO
                 ->orWhereNull('products.product_id');  // product hard delete
             })
-            ->whereIn('order_items.status', ['pending', 'processing', 'shipped'])
+            ->whereIn('order_items.status', ['paid', 'completed', 'cancelled','shipped'])
             ->where('orders.status', '=', 'paid')
-            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
+            ->orderBy('order_items.paid_at', 'desc')       // SORT BY ORDER
             ->select('order_items.*')
             ->with([
                 'order.account',
@@ -127,9 +144,46 @@ class SellerController extends Controller
                     ]);
                 }
             ])
-            ->get();
+            ->paginate(20);
 
         return view('pages.seller.orders', compact('categories', 'orders'));
+    }
+
+    public function shipOrder($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('shop_id', Auth::user()->shop->shop_id)
+            ->where('status', 'paid')
+            ->firstOrFail();
+
+        $orderItem->update([
+            'status' => 'shipped',
+            'shipped_at' => now(),
+        ]);
+
+        $shop = $orderItem->shop;
+        $shop->increment('running_transactions', $orderItem->subtotal);
+
+        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan berhasil dikirim!');
+
+    }
+
+    public function cancelOrder($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('shop_id', Auth::user()->shop->shop_id)
+            ->where('status', 'paid')
+            ->firstOrFail();
+
+        $orderItem->update([
+            'status' => 'cancelled',
+            'cancelled_at' => now()
+        ]);
+        $buyer = $orderItem->order->account;
+        $buyer->increment('balance', $orderItem->subtotal);
+        $orderItem->product->increment('stok', $orderItem->quantity);
+        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan!');
+
     }
 
     public function showCreateAuctionForm()
@@ -227,7 +281,7 @@ class SellerController extends Controller
         if ($product->trashed()) {
             $category = Category::find($validated['category_id']);
             $game = Game::find($validated['game_id']);
-            
+
             if ($category && $game) {
                 $product->restore();
             }
@@ -239,13 +293,13 @@ class SellerController extends Controller
     public function restore($id)
     {
         $product = Product::onlyTrashed()->where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
-        
+
         if ($product->category?->deleted_at || $product->game?->deleted_at) {
             return redirect()->route('seller.products.index')->with('error', 'Tidak bisa mengembalikan produk karena kategori atau game sudah dihapus. Silakan edit produk dan pilih kategori/game yang masih aktif.');
         }
 
         $product->restore();
-        
+
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dikembalikan!');
     }
 
@@ -253,9 +307,9 @@ class SellerController extends Controller
     {
         $product = Product::where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
 
-        if ($product->product_img) {
-            Storage::disk('public')->delete($product->product_img);
-        }
+        // if ($product->product_img) {
+        //     Storage::disk('public')->delete($product->product_img);
+        // }
 
         $product->delete();
 

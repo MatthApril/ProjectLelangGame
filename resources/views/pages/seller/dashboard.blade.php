@@ -20,34 +20,47 @@
             </div>
         @endif
 
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <hr>
 
-    <div class="container-fluid">
-        <h3>Owners</h3>
-        <table border="1" class="table table-striped">
-            <tr>
-                <th>No</th>
-                <th>Owner</th>
-                <th>Email</th>
-                <th>Aksi</th>
-            </tr>
-            @foreach ($users as $index => $user)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <a href="{{ route('seller.chat.show', ['userId' => $user->user_id]) }}">
-                            <button class="btn btn-primary">
-                                Chat
-                            </button>
-                        </a>
-                </tr>
-            @endforeach
-        </table>
-    </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">Status Toko:
+                            @if($shop->status === 'open')
+                                <span class="badge bg-success">Buka</span>
+                            @else
+                                <span class="badge bg-danger">Tutup</span>
+                            @endif
+                        </h5>
+                        <small class="text-muted">Jam Operasional: {{ $shop->open_hour }} - {{ $shop->close_hour }}</small>
+                    </div>
+                    <div>
+                        <form action="{{ route('seller.shop.toggle-status') }}" method="POST">
+                            @csrf
+                            @if($shop->status === 'open')
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menutup toko?')">
+                                    <i class="bi bi-x-circle"></i> Tutup Toko
+                                </button>
+                            @else
+                                <button type="submit" class="btn btn-success" onclick="return confirm('Yakin ingin membuka toko?')">
+                                    <i class="bi bi-check-circle"></i> Buka Toko
+                                </button>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <h2>Keuangan Toko</h2>
+       
         <table border="1" cellpadding="10">
         <h4 class="fw-bold">Menu Cepat</h4>
         <div class="d-flex gap-2 mb-3">
@@ -81,6 +94,7 @@
                     <th>Email</th>
                     <th>Aksi</th>
                 </tr>
+            @foreach( $users as $index => $user )
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $user->username }}</td>

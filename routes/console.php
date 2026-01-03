@@ -10,3 +10,7 @@ Artisan::command('inspire', function () {
 
 Schedule::command('auction:update-status')
     ->everyMinute();
+Schedule::command('shops:auto-toggle')
+    ->everyMinute();
+Schedule::command('orders:auto-complete')
+    ->hourly();

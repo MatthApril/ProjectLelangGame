@@ -9,6 +9,7 @@ Route::prefix('seller')->as('seller.')
     ->group(function() {
         Route::controller(SellerController::class)->group(function() {
             Route::get('/', 'showDashboard')->name('dashboard');
+            Route::post('/shop/toggle-status', 'toggleShopStatus')->name('shop.toggle-status');
             Route::get('/products', 'index')->name('products.index');
             Route::get('/products/create', 'create')->name('products.create');
             Route::post('/products', 'store')->name('products.store');
@@ -21,6 +22,8 @@ Route::prefix('seller')->as('seller.')
             Route::get('/reviews', 'showReviews')->name('reviews.index');
 
             Route::get('/incoming_orders', 'showIncomingOrders')->name('incoming_orders.index');
+            Route::post('/orders/{orderItemId}/ship','shipOrder')->name('orders.ship');
+            Route::post('/orders/{orderItemId}/cancel','cancelOrder')->name('orders.cancel');
 
             Route::get('/auctions', 'showSellerAuctions')->name('auctions.index');
             Route::get('/auctions/create', 'showCreateAuctionForm')->name('auctions.create.form');
