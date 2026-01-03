@@ -61,24 +61,25 @@
             <div class="col-md-3 mt-3">
                     <div class="card">
                         @if($product->product_img)
-                        <img 
-                            src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
-                            class="card-img-top product-img-16x9"
-                        >
+                        <div class="position-relative">
+                            <img 
+                                src="{{ asset('storage/' . $product->product_img) }}" 
+                                alt="{{ $product->product_name }}" 
+                                class="card-img-top product-img-16x9"
+                            >
+                            @if($product->deleted_at)
+                                <span class="badge bg-danger position-absolute top-0 end-0 m-2">Dihapus</span>
+                            @elseif($product->category?->deleted_at)
+                                <span class="badge bg-warning position-absolute top-0 end-0 m-2">Kategori Dihapus</span>
+                            @elseif($product->game?->deleted_at)
+                                <span class="badge bg-warning position-absolute top-0 end-0 m-2">Game Dihapus</span>
+                            @else
+                                <span class="badge bg-success position-absolute top-0 end-0 m-2">Aktif</span>
+                            @endif
+                        </div>
                         @endif
                         <div class="card-body">
                             <h5 class="fw-bold">{{ $product->product_name }}</h5>
-
-                            @if($product->deleted_at)
-                                <span class="badge bg-danger">Dihapus</span>
-                            @elseif($product->category?->deleted_at)
-                                <span class="badge bg-warning">Kategori Dihapus</span>
-                            @elseif($product->game?->deleted_at)
-                                <span class="badge bg-warning">Game Dihapus</span>
-                            @else
-                                <span class="badge bg-success">Aktif</span>
-                            @endif
                             <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                             <p class="text-secondary">
                                 <i class="bi bi-grid"></i> Kategori : <span class="{{ $product->category?->deleted_at ? 'text-danger text-decoration-line-through' : '' }}">

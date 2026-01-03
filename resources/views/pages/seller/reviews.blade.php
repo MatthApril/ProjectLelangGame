@@ -1,16 +1,20 @@
 @extends('layouts.template')
 
+@section('title', 'Review Produk Toko | LelangGame')
+
 @section('content')
 <div class="container">
-    <h1>Ulasan Produk Toko</h1>
-
-    <div id="alert-container"></div>
-
-    <div class="mb-3">
-        <a href="{{ route('seller.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
-    </div>
-
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard Seller</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Review Produk Toko</li>
+        </ol>
+    </nav>
+    <h2 class="fw-semibold">Review Produk Toko</h2>
     <hr>
+    <div id="alert-container"></div>
 
     <div class="row mb-4">
         <div class="col-md-12">

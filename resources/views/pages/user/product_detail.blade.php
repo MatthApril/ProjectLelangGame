@@ -46,7 +46,7 @@
                         <div class="col-md-5 text-center my-2">
                             @if ($product->product_img)
                                 <img src="{{ asset('storage/' . $product->product_img) }}"
-                                    alt="{{ $product->product_name }}" width="300" class="rounded shadow">
+                                    alt="{{ $product->product_name }}" class="rounded shadow" style="width: 100%">
                             @endif
                         </div>
 
