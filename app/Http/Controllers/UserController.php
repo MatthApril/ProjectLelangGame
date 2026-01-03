@@ -25,6 +25,20 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user_cart = $user->cart()->first();
+
+        if ($user_cart) {
+            $user_cart->cartItems()
+                ->whereHas('product', function($q) {
+                    $q->whereNotNull('deleted_at')
+                    ->orWhereHas('category', function($query) {
+                        $query->whereNotNull('deleted_at');
+                    })
+                    ->orWhereHas('game', function($query) {
+                        $query->whereNotNull('deleted_at');
+                    });
+                })
+                ->delete();
+        }
         $cartItems = $user_cart
                 ? $user_cart->cartItems()
                     ->whereHas('product', function ($q) {
@@ -55,13 +69,33 @@ class UserController extends Controller
                     'orderItems.product' => function ($query) {
                         $query->withTrashed();
                     },
-                    'shop'
+                    'shop',
+                    'orderItems.comment'
                 ])
                 ->where('order_id', $orderId)
                 ->firstOrFail();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.order_detail', compact('order', 'categories'));
+    }
+
+     public function confirmOrder($orderItemId)
+    {
+        $orderItem = OrderItem::whereHas('order', function($q) {
+            $q->where('user_id', Auth::id());
+        })
+        ->where('order_item_id', $orderItemId)
+        ->where('status', 'shipped')
+        ->firstOrFail();
+
+        $orderItem->update([
+            'status' => 'completed'
+        ]);
+        $shop = $orderItem->shop;
+        $shop->decrement('running_transactions', $orderItem->subtotal);
+        $shop->increment('shop_balance', $orderItem->subtotal);
+        return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi!');
+
     }
 
     public function storeReview(InputProductCommentRequest $request, $orderItemId)
@@ -241,63 +275,18 @@ class UserController extends Controller
             ->where('stok', '>', 0);
 
         $products=$productsQuery->latest()->paginate(12);
-        $categories = Category::orderBy('category_name')->get();
-
-        // Jika user adalah seller, exclude produk dari toko sendiri
-        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-            $productsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
-        }
-
-        if(request('category_id')) {
-            $productsQuery->where('category_id', request('category_id'));
-        }
-
-        if(request('min_price')) {
-            $productsQuery->where('price', '>=', request('min_price'));
-        }
-
-        if(request('max_price')) {
-            $productsQuery->where('price', '<=', request('max_price'));
-        }
-
-        if(request('search')) {
-            $productsQuery->where('product_name', 'like', '%' . request('search') . '%');
-        }
-
-        switch(request('sort')) {
-            case 'price_low':
-                $productsQuery->orderBy('price', 'asc');
-                break;
-            case 'price_high':
-                $productsQuery->orderBy('price', 'desc');
-                break;
-            case 'rating':
-                $productsQuery->orderBy('rating', 'desc');
-                break;
-            default:
-                $productsQuery->latest();
-                break;
-        }
-
-        $products = $productsQuery->paginate(12);
 
         return view('pages.user.game_detail', compact('game', 'categories', 'products'));
     }
 
     public function showProducts(Request $request)
     {
-        $query = Product::with(['game', 'shop', 'category'])
-            ->where('type', 'normal')
-            ->whereHas('category', function($query) {
-                $query->whereNull('deleted_at');
-            })
-            ->whereHas('shop', function($q) {
-                $q->where('status', 'open')->whereHas('owner');
-            })
-            ->whereHas('game', function($query) {
-                $query->whereNull('deleted_at');
-            })
-            ->where('stok', '>', 0);
+       $query = Product::with(['game', 'shop', 'category'])
+        ->active()
+        ->whereHas('shop', function($q) {
+            $q->where('status', 'open')->whereHas('owner');
+        })
+        ->where('stok', '>', 0);
 
         if ($request->filled('search')) {
             $query->where('product_name', 'LIKE', '%' . $request->search . '%');
@@ -380,7 +369,7 @@ class UserController extends Controller
 
         $products = Product::where('shop_id', $shop->shop_id)
             ->with(['game', 'category'])
-            ->whereHas('game')
+            ->active()
             ->where('stok', '>', 0)
             ->latest()
             ->paginate(12);

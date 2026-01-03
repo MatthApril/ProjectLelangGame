@@ -65,10 +65,25 @@
                         @endif
                         <div class="card-body">
                             <h5 class="fw-bold">{{ $product->product_name }}</h5>
+
+                            @if($product->deleted_at)
+                                <span class="badge bg-danger">Dihapus</span>
+                            @elseif($product->category?->deleted_at)
+                                <span class="badge bg-warning">Kategori Dihapus</span>
+                            @elseif($product->game?->deleted_at)
+                                <span class="badge bg-warning">Game Dihapus</span>
+                            @else
+                                <span class="badge bg-success">Aktif</span>
+                            @endif
                             <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                             <p class="text-secondary">
-                                <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
-                                <i class="bi bi-controller"></i> Game : {{ $product->game->game_name }}
+                                <i class="bi bi-grid"></i> Kategori : <span class="{{ $product->category?->deleted_at ? 'text-danger text-decoration-line-through' : '' }}">
+                                    {{ $product->category->category_name }}
+                                </span> 
+                                <br>
+                                <i class="bi bi-controller"></i> Game : <span class="{{ $product->game?->deleted_at ? 'text-danger text-decoration-line-through' : '' }}">
+                                    {{ $product->game->game_name }}
+                                </span>
                             </p>
                             <div class="d-flex justify-content-between text-secondary">
                                 <div>
@@ -79,6 +94,12 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end gap-2 mt-2">
+                                 @if($product->deleted_at)
+                                    <form action="{{ route('seller.products.restore', $product->product_id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm">Kembalikan</button>
+                                    </form>
+                                @else
                                 <a href="{{ route('seller.products.edit', $product->product_id) }}" class="rounded btn btn-warning">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
@@ -87,6 +108,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i> Hapus</button>
                                 </form>
+                                @endif
                             </div>
                         </div>
                     </div>

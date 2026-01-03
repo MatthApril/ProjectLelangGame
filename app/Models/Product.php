@@ -33,12 +33,12 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id', 'category_id')->withTrashed();
     }
 
     public function game()
     {
-        return $this->belongsTo(Game::class, 'game_id', 'game_id');
+        return $this->belongsTo(Game::class, 'game_id', 'game_id')->withTrashed();
     }
 
     public function cartItems()
@@ -59,5 +59,26 @@ class Product extends Model
     public function auctions()
     {
         return $this->hasMany(Auction::class, 'product_id', 'product_id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereNull('deleted_at')
+            ->whereHas('category', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->whereHas('game', function($q) {
+                $q->whereNull('deleted_at');
+            });
+    }
+
+    public function isAvailableForPurchase()
+    {
+        return !$this->deleted_at && !$this->category?->deleted_at && !$this->game?->deleted_at && $this->stok > 0;
+    }
+
+    public function isInactiveByRelation()
+    {
+        return !$this->deleted_at && ($this->category?->deleted_at || $this->game?->deleted_at);
     }
 }

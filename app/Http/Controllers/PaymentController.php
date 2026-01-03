@@ -202,6 +202,7 @@ class PaymentController extends Controller
                     'quantity' => $item->quantity,
                     'subtotal' => $subtotal,
                     'status' => 'pending',
+                    'paid_at'=> null,
                 ]);
 
             }
@@ -251,12 +252,18 @@ class PaymentController extends Controller
             $order = Order::where('order_id', $req->order_id)->first();
             if ($order) {
                 $order->update(['status' => 'paid']);
+
+                $order->orderItems()->update([
+                    'status' => 'paid',
+                    'paid_at' => now()
+                ]);
+                
                 foreach ($order->orderItems as $item) {
                     $product = Product::find($item->product_id);
                     if ($product) {
                         $product->decrement('stok', $item->quantity);
                     }
-                    $item->update(['status' => 'shipped']);
+                    
                 }
 
                 $user = Auth::user();

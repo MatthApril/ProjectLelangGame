@@ -50,7 +50,6 @@ class AdminController extends Controller
     {
         $query = ProductComment::with(['product', 'user', 'orderItem']);
 
-
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
         }
@@ -86,7 +85,7 @@ class AdminController extends Controller
         }
     }
     function showCategories() {
-        $categories = Category::orderBy('category_name', 'asc')->get();
+        $categories = Category::withTrashed()->orderBy('category_name', 'asc')->get();
         $editCategory = null;
 
         return view('pages.admin.category', compact('categories', 'editCategory'));
@@ -125,9 +124,20 @@ class AdminController extends Controller
 
     function deleteCategory($id) {
         $category = Category::findOrFail($id);
+        $affectedProductsCount = $category->products()->count();
+
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus.");
+    }
+
+    function restoreCategory(Request $request) {
+        $request->validate(['id' => 'required|exists:categories,category_id']);
+
+        $category = Category::onlyTrashed()->findOrFail($request->id);
+        $category->restore();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori dan produk terkait berhasil dikembalikan.');
     }
 
     function showGames() {
@@ -194,13 +204,23 @@ class AdminController extends Controller
 
     function deleteGame($id) {
         $game = Game::findOrFail($id);
-        if ($game->game_img) {
-            Storage::disk('public')->delete($game->game_img);
-        }
+
+        $affectedProductsCount = $game->products()->count();
+
+        // if ($game->game_img) {
+        //     Storage::disk('public')->delete($game->game_img);
+        // }
 
         $game->delete();
 
-        return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
+        return redirect()->route('admin.games.index')->with('success', "Game berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus (soft delete).");
+    }
+
+    function restoreGame(Request $request) {
+        $request->validate(['id' => 'required|exists:games,game_id']);
+
+        $game = Game::onlyTrashed()->findOrFail($request->id);
+        $game->restore();
     }
 
     function showNotificationMaster(Request $request){
@@ -219,7 +239,7 @@ class AdminController extends Controller
 
     function storeNotificationTemplate(InsertTemplateRequest $request){
         $validated = $request->validated();
-        
+
         NotificationTemplate::create($validated);
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil ditambahkan');
@@ -246,12 +266,14 @@ class AdminController extends Controller
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus');
     }
+
     function broadcastNotification($id){
         $template = NotificationTemplate::findOrFail($id);
         (new NotificationService())->broadcast($template->code_tag, 'both');
 
         return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag);
     }
+
     function banUser(Request $req) {
         $req->validate([
             'id' => 'required',
@@ -290,5 +312,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
     }
-
 }

@@ -104,7 +104,7 @@
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Yakin ingin menghapus game ini?')"
+                                        <button type="submit"
                                             style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
                                     </form>
                                 </td>
@@ -117,10 +117,8 @@
                     </tbody>
                 </table>
             </div>
-
             {{ $games->links() }}
         @endif
-
     </div>
     <div class="modal" tabindex="-1" id="modalTambahGame">
         <div class="modal-dialog">
