@@ -4,11 +4,12 @@
 @section('title', $product ? 'Edit Produk | LelangGame' : 'Tambah Produk | LelangGame')
 
 @section('content')
-<div class="container-fluid mt-3">
+<div class="container mt-3">
     <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard Seller</a></li>
             <li class="breadcrumb-item"><a href="{{ route('seller.products.index') }}">Produk</a></li>
             <li class="breadcrumb-item active" aria-current="page">
                 {{ $product ? 'Edit Produk' : 'Tambah Produk' }}
@@ -17,6 +18,12 @@
     </nav>
     <h2 class="fw-semibold">{{ $product ? 'Edit Produk' : 'Tambah Produk' }}</h2>
     <hr>
+    @error('product_img')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @enderror
     @error('product_name')
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
@@ -69,9 +76,6 @@
                 <label>Gambar Produk {{ $product ? '' : '*' }}</label>
                 <input type="file" id="product_img" name="product_img" accept="image/*" {{ $product ? '' : 'required' }} class="form-control">
                 <i>Format: JPG, PNG, JPEG. Max: 2MB</i>
-                @error('product_img')
-                    <span style="color: red;">{{ $message }}</span>
-                @enderror
             </div>
             <div class="col-md-12 mb-3">
                 <label>Nama Produk *</label>

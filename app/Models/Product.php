@@ -22,7 +22,8 @@ class Product extends Model
         'price',
         'rating',
         'category_id',
-        'game_id'
+        'game_id',
+        'type'
     ];
 
     public function shop()

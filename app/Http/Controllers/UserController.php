@@ -81,14 +81,14 @@ class UserController extends Controller
             if ($orderItem->status !== 'completed') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Hanya bisa review produk yang sudah completed'
+                    'message' => 'Hanya bisa review produk yang sudah berhasil dibeli.'
                 ], 400);
             }
 
             if ($orderItem->hasReview()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Produk ini sudah direview'
+                    'message' => 'Produk ini sudah direview.'
                 ], 400);
             }
 
@@ -137,13 +137,18 @@ class UserController extends Controller
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
                     $q->where('status', 'open')->whereHas('owner');
+                })
+                ->where('type', 'normal')
+                ->whereHas('game', function($q) {
+                    $q->whereNull('deleted_at');
+                })
+                ->whereHas('category', function($q) {
+                    $q->whereNull('deleted_at');
                 });
-                if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-                    $query->where('shop_id', '!=', Auth::user()->shop->shop_id);
-                }
             }])->orderBy('products_count', 'desc')->take(6)->get();
 
         $latestProductsQuery = Product::with(['game', 'shop', 'category'])
+            ->where('type', 'normal')
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
             })->whereHas('shop', function($query) {
@@ -151,25 +156,26 @@ class UserController extends Controller
             })->whereHas('game', function($query) {
                 $query->whereNull('deleted_at');
             })->where('stok', '>', 0);
-            if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-                $latestProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
-            }
+
         $latestProducts = $latestProductsQuery->latest()->take(12)->get();
         $topShopsQuery = Shop::where('status', 'open')->whereHas('owner');
-
-        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-            $topShopsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
-        }
 
         $auctions = Auction::with(['product.shop.owner'])
             ->whereHas('product', function($q) {
                 $q->where('stok', '>', 0);
             })
+            ->whereHas('product.shop.owner')
             ->where('end_time', '>', now())
             ->whereHas('product.shop.owner')
+            ->whereHas('product.category', function($q) {
+                $q->whereNull('deleted_at');
+            })
             ->whereIn('status', ['running'])
             ->orderBy('created_at', 'desc')
             ->get();
+            if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+                $auctions->where('shop_id', '!=', Auth::user()->shop->shop_id);
+            }
 
         $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
         $categories = Category::orderBy('category_name')->get();
@@ -180,12 +186,17 @@ class UserController extends Controller
     public function showGames(Request $request)
     {
         $query = Game::withCount(['products'=> function($q){
-            $q->whereHas('shop',function($query){
+            $q->where('type', 'normal')
+            ->whereHas('category',function($query){
+                $query->whereNull('deleted_at');
+            })
+            ->whereHas('game',function($query){
+                $query->whereNull('deleted_at');
+            })
+            ->where('stok','>',0)
+            ->whereHas('shop',function($query){
                 $query->where('status','open');
             });
-            if(Auth::check()&&Auth::user()->role === 'seller'&&Auth::user()->shop){
-                $q->where('shop_id','!=',Auth::user()->shop->shop_id);
-            }
         }]);
 
 
@@ -202,8 +213,8 @@ class UserController extends Controller
     public function showGameDetail($id)
     {
         $game = Game::with(['gamesCategories.category' => function($query) {
-                $query->whereNull('deleted_at');
-            }])->findOrFail($id);
+            $query->whereNull('deleted_at');
+        }])->findOrFail($id);
 
         if (!$game) {
             return redirect()->route('user.home')->with('error', 'Game tidak ditemukan.');
@@ -212,35 +223,82 @@ class UserController extends Controller
         $categories = $game->gamesCategories()
             ->whereHas('category', function($query) {
                 $query->whereNull('deleted_at');
-            })->with('category')->get()->pluck('category')->filter();
+            })
+            ->with('category')
+            ->get()
+            ->pluck('category')
+            ->filter();
 
         $productsQuery = Product::where('game_id', $game->game_id)->with(['shop', 'category'])
+            ->where('type', 'normal')
+            ->whereHas('category', function($query) {
+                $query->whereNull('deleted_at');
+            })
             ->whereHas('shop', function($query) {
                 $query->where('status', 'open');
             })
             ->whereHas('game')
             ->where('stok', '>', 0);
-        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-            $productsQuery->where('shop_id','!=',Auth::user()->shop->shop_id);
-        }
+
         $products=$productsQuery->latest()->paginate(12);
         $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.game_detail', compact('game', 'categories', 'products', 'categories'));
+        // Jika user adalah seller, exclude produk dari toko sendiri
+        if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
+            $productsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
+        }
+
+        if(request('category_id')) {
+            $productsQuery->where('category_id', request('category_id'));
+        }
+
+        if(request('min_price')) {
+            $productsQuery->where('price', '>=', request('min_price'));
+        }
+
+        if(request('max_price')) {
+            $productsQuery->where('price', '<=', request('max_price'));
+        }
+
+        if(request('search')) {
+            $productsQuery->where('product_name', 'like', '%' . request('search') . '%');
+        }
+
+        switch(request('sort')) {
+            case 'price_low':
+                $productsQuery->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $productsQuery->orderBy('price', 'desc');
+                break;
+            case 'rating':
+                $productsQuery->orderBy('rating', 'desc');
+                break;
+            default:
+                $productsQuery->latest();
+                break;
+        }
+
+        $products = $productsQuery->paginate(12);
+
+        return view('pages.user.game_detail', compact('game', 'categories', 'products'));
     }
 
     public function showProducts(Request $request)
     {
         $query = Product::with(['game', 'shop', 'category'])
+            ->where('type', 'normal')
+            ->whereHas('category', function($query) {
+                $query->whereNull('deleted_at');
+            })
             ->whereHas('shop', function($q) {
                 $q->where('status', 'open')->whereHas('owner');
             })
-            ->whereHas('game')
+            ->whereHas('game', function($query) {
+                $query->whereNull('deleted_at');
+            })
             ->where('stok', '>', 0);
 
-        if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-            $query->where('shop_id','!=',Auth::user()->shop->shop_id);
-        }
         if ($request->filled('search')) {
             $query->where('product_name', 'LIKE', '%' . $request->search . '%');
         }
@@ -293,13 +351,19 @@ class UserController extends Controller
         if (!$product) return redirect()->route('user.home')->with('error', 'Produk tidak ditemukan.');
 
         $relatedProductsQuery = Product::where('game_id', $product->game_id)
+            ->with(['game', 'shop', 'category'])
+            ->where('type', 'normal')
+            ->whereHas('category', function($query) {
+                $query->whereNull('deleted_at');
+            })->whereHas('shop', function($query) {
+                $query->where('status', 'open')->whereHas('owner');
+            })->whereHas('game', function($query) {
+                $query->whereNull('deleted_at');
+            })
             ->where('category_id', $product->category_id)
             ->where('product_id', '!=', $product->product_id)
             ->where('stok', '>', 0);
 
-        if (Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop) {
-            $relatedProductsQuery->where('shop_id', '!=', Auth::user()->shop->shop_id);
-        }
         $relatedProducts = $relatedProductsQuery->take(12)->get();
         $categories = Category::orderBy('category_name')->get();
 
@@ -389,6 +453,10 @@ class UserController extends Controller
             return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
         }
 
+        if ($auction->seller->user_id == Auth::id()) {
+            return redirect()->back()->with('error', 'Anda tidak dapat menawar di lelang milik Anda sendiri.');
+        }
+
         if ($auction->end_time <= now()) {
             Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
             return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
@@ -450,7 +518,7 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->route('user.cart')->with('success', 'Product added to cart.');
+        return redirect()->route('user.cart')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
     public function updateCart(Request $req)
@@ -466,7 +534,7 @@ class UserController extends Controller
         if (!$cart) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cart not found'
+                'message' => 'Keranjang tidak ditemukan'
             ], 404);
         }
 
@@ -477,7 +545,7 @@ class UserController extends Controller
         if (!$cartItem) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cart item not found'
+                'message' => 'Item keranjang tidak ditemukan'
             ], 404);
         }
 
@@ -505,7 +573,7 @@ class UserController extends Controller
         $cart = $user->cart()->first();
 
         if (!$cart) {
-            return redirect()->route('user.cart')->with('error', 'Cart not found');
+            return redirect()->route('user.cart')->with('error', 'Keranjang tidak ditemukan');
         }
 
         $cartItem = $cart->cartItems()
@@ -513,12 +581,12 @@ class UserController extends Controller
             ->first();
 
         if (!$cartItem) {
-            return redirect()->route('user.cart')->with('error', 'Cart item not found');
+            return redirect()->route('user.cart')->with('error', 'Item keranjang tidak ditemukan');
         }
 
         $cartItem->delete();
 
-        return redirect()->route('user.cart')->with('success', 'Item removed from cart');
+        return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang');
     }
 
     public function topup()

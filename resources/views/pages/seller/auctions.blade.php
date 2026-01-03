@@ -3,11 +3,12 @@
 @section('title', 'Lelang Seller | LelangGame')
 
 @section('content')
-    <div class="container-fluid mt-3">
+    <div class="container mt-3">
         <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard Seller</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Daftar Lelang</li>
             </ol>
         </nav>
@@ -28,6 +29,7 @@
                 <th>Waktu Mulai</th>
                 <th>Waktu Selesai</th>
                 <th>Status</th>
+                <th>Harga Pemenang</th>
             </tr>
             @foreach ($auctions as $index => $auction)
                 <tr>
@@ -38,6 +40,13 @@
                     <td>{{ optional($auction->start_time)->format('d M Y H:i') ?? '-' }}</td>
                     <td>{{ optional($auction->end_time)->format('d M Y H:i') ?? '-' }}</td>
                     <td>{{ ucfirst($auction->status) }}</td>
+                    <td>
+                        @if ($auction->highestBid)
+                            Rp {{ number_format($auction->highestBid->bid_price ?? 0, 0, ',', '.') }}
+                        @else
+                            Tidak ada yang menawar
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </table>

@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -89,14 +90,25 @@ class AuthController extends Controller
     {
         $req->validated();
 
-        $req['status'] = 'verify';
-        $user = User::create([
-            'username' => $req->username,
-            'password' => bcrypt($req->password),
-            'email' => $req->email,
-            'role' => 'user',
-            'balance' => 0
-        ]);
+        DB::beginTransaction();
+        $user = null;
+        try {
+            $req['status'] = 'verify';
+            $user = User::create([
+                'username' => $req->username,
+                'password' => bcrypt($req->password),
+                'email' => $req->email,
+                'role' => 'user',
+                'balance' => 0
+            ]);
+
+            $user->cart()->create([]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Pendaftaran Gagal. Silakan Coba Lagi.');
+        }
+        DB::commit();
 
         (new NotificationService())->send($user->user_id, 'welcome_user', ['username' => $user->username]);
 

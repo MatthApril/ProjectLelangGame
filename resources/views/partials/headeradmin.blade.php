@@ -40,7 +40,6 @@
                                 </form>
                             </ul>
                         </div>
-                        {{-- <a href="{{ route('profile') }}" class="btn btn-outline-light text-decoration-none text-wrap"><i class="bi bi-person-circle"></i> {{ Auth::user()->username }}</a> --}}
                     </div>
                 </div>
             @else
@@ -55,7 +54,7 @@
         </div>
     </div>
 </nav>
-{{-- navbar 2 --}}
+{{-- Navbar 2 --}}
 {{-- <nav class="bg-navyblue text-white py-2">
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center gap-3">

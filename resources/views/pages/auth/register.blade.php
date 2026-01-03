@@ -3,7 +3,7 @@
 @section('title', 'Daftar | LelangGame')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <a href="{{ route('user.home') }}">
             <button type="submit" class="btn btn-outline-danger rounded-5 px-3 my-3">
                 <i class="bi bi-caret-left-fill"></i> Kembali Ke Beranda

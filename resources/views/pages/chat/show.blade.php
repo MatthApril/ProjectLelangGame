@@ -1,5 +1,7 @@
 @extends('layouts.template')
 
+@section('title', 'Pesan | LelangGame')
+
 @section('content')
 <div class="container mt-4">
     <div class="card">

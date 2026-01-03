@@ -27,6 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withCommands([
         App\Console\Commands\UpdateAuctionStatus::class,
+        App\Console\Commands\UpdateOpenShopStatus::class,
+        App\Console\Commands\UpdatePaymentStatus::class,
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //

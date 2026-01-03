@@ -114,7 +114,6 @@ class SellerController extends Controller
             })
             ->whereIn('order_items.status', ['pending', 'processing', 'shipped'])
             ->where('orders.status', '=', 'paid')
-            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
             ->select('order_items.*')
             ->with([
                 'order.account',
@@ -126,7 +125,8 @@ class SellerController extends Controller
                         'game'     => fn ($q) => $q->withTrashed(),
                     ]);
                 }
-            ])
+                ])
+            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
             ->get();
 
         return view('pages.seller.orders', compact('categories', 'orders'));
@@ -156,7 +156,7 @@ class SellerController extends Controller
             $query->where('product_name', 'LIKE', '%' . $request->search . '%');
         }
 
-        $products = $query->latest()->get();
+        $products = $query->where('type', 'normal')->latest()->get();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.seller.product', compact('products', 'categories'));
@@ -263,6 +263,7 @@ class SellerController extends Controller
                 'category_id' => $req->category_id,
                 'game_id' => $req->game_id,
                 'rating' => 0,
+                'type' => 'auction',
             ]);
 
             $auction = Auction::create([
@@ -292,7 +293,4 @@ class SellerController extends Controller
         return response()->json($categories);
     }
 
-    // public function trade(){
-    //     return view('pages.seller.trade');
-    // }
 }

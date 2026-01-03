@@ -39,7 +39,7 @@
 
         <p style="font-size:14px; color:#64748b;">
             Jangan berikan kode ini kepada siapapun, termasuk admin dari LelangGame. Jika terjadi masalah, segera
-            hubungi admin LelangGame melalui email di <i>lelanggameofficial@gmail.com</i>
+            hubungi admin LelangGame melalui email di <i>lelanggameofficial@gmail.com</i>.
         </p>
     </div>
 </body>
