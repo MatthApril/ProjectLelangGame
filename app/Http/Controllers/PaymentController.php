@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Xendit\Configuration;
 use Xendit\Invoice\CreateInvoiceRequest;
@@ -249,7 +250,7 @@ class PaymentController extends Controller
     {
         // dd($req->all());
         if ($req->transaction_status == 'capture') {
-            $order = Order::where('order_id', $req->order_id)->first();
+            $order = Order::with(['account', 'orderItems.product'])->where('order_id', $req->order_id)->first();
             if ($order) {
                 $order->update(['status' => 'paid']);
 
@@ -271,6 +272,8 @@ class PaymentController extends Controller
                 $cart = $user->cart->first();
                 $cart->cartItems()->delete();
 
+                Mail::to($user->email)->queue(new \App\Mail\Invoice($order));
+                
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }
         }

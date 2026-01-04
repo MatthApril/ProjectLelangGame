@@ -20,16 +20,57 @@
         </h4>
 
         <p style="font-size:15px; color:#475569; line-height:1.6; margin-bottom:20px;">
-            Terima kasih telah membeli di <strong>LelangGame</strong>.
+            Terima kasih telah membeli di <strong>LelangGame</strong>. Berikut detail transaksimu:
         </p>
 
         <!-- Invoice -->
-        <div style="text-align:center; margin:30px 0;">
+        {{-- <div style="text-align:center; margin:30px 0;">
             <span style="display:inline-block; background:#2563eb; color:#ffffff; font-size:32px; font-weight:bold; letter-spacing:6px; padding:15px 30px; border-radius:8px;">
-                {{ $invoice->order_id }}
+                
             </span>
-        </div>
-
+        </div> --}}
+        <h5 style="font-size:17px; color:#334155;">Detail Transaksi</h5>
+        <table class="table table-bordered">
+            <tr>
+                <td style="color:#475569;">Order ID</td>
+                <td style="color:#334155;">{{ $invoice->order_id }}</td>
+            </tr>
+            <tr>
+                <td style="color:#475569;">Paid At</td>
+                <td style="color:#334155;">{{ $invoice->orderItems->first()->paid_at }}</td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <tr style="color:#475569;">
+                <td>Shop Name</td>
+                <td>Product Name</td>
+                <td>Product Price</td>
+                <td>Quantity</td>
+                <td>Subtotal</td>
+                <td>Game Name</td>
+                <td>Category Name</td>
+            </tr>
+            @foreach($invoice->orderItems as $item)
+                <tr style="color:#334155;">
+                    <td>{{ $item->shop->shop_name }}</td>
+                    <td>{{ $item->product->product_name }}</td>
+                    <td>Rp {{ number_format($item->product_price, 0, ',', '.') }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                    <td>{{ $item->product->game->game_name }}</td>
+                    <td>{{ $item->product->category->category_name }}</td>
+                </tr>
+            @endforeach
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <td style="color:#475569;">Total Prices</td>
+                <td style="color:#334155;">Rp {{ number_format($invoice->total_prices, 0, ',', '.') }}</td>
+            </tr>
+        </table>
+        <p style="font-size:15px; color:#475569; line-height:1.6; margin-bottom:20px;">
+            E-mail ini dibuat otomatis, mohon tidak membalas.
+        </p>
     </div>
 </body>
 </html>
