@@ -54,7 +54,7 @@
         <p><strong>Tanggal:</strong> {{ $complaint->created_at->format('d M Y H:i') }}</p>
         <p><strong>Deskripsi Masalah:</strong></p>
         <div>{{ $complaint->description }}</div>
-        
+
         <p><strong>Bukti Foto:</strong></p>
         <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="Bukti" onclick="window.open(this.src, '_blank')">
         <br><small>Klik gambar untuk memperbesar</small>
@@ -66,7 +66,7 @@
             <p><strong>Tanggal:</strong> {{ $complaint->response->created_at->format('d M Y H:i') }}</p>
             <p><strong>Pembelaan Seller:</strong></p>
             <div>{{ $complaint->response->message }}</div>
-            
+
             @if($complaint->response->attachment)
                 <p><strong>Lampiran:</strong></p>
                 <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank" >
@@ -82,12 +82,21 @@
 
     @if($complaint->status === 'resolved')
         <div>
-            <h4>⚖️ Keputusan Admin</h4>
+            <h4>⚖️ Keputusan {{ $complaint->is_auto_resolved ? 'Otomatis (Sistem)' : 'Admin' }}</h4>
+
+            @if($complaint->is_auto_resolved)
+                <p><strong>⚠️ Seller tidak merespons dalam 24 jam</strong></p>
+            @endif
+
             <p><strong>Tanggal:</strong> {{ $complaint->resolved_at->format('d M Y H:i') }}</p>
             <p>
                 @if($complaint->decision === 'refund')
                     <strong>✓ KOMPLAIN DISETUJUI - REFUND DIBERIKAN</strong>
                     <br><small>Saldo Anda telah ditambahkan sebesar Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</small>
+
+                    @if($complaint->is_auto_resolved)
+                        <br><small>📌 Refund otomatis karena seller tidak merespons</small>
+                    @endif
                 @else
                     <strong>✗ KOMPLAIN DITOLAK</strong>
                     <br><small>Setelah meninjau bukti dari kedua pihak, admin memutuskan komplain tidak dapat disetujui</small>

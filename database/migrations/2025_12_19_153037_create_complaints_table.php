@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('proof_img')->nullable();
             $table->enum('status',['waiting_seller','waiting_admin','resolved'])->default('waiting_seller');
             $table->enum('decision', ['refund', 'reject'])->nullable();
+            $table->boolean('is_auto_resolved')->default(false);
             $table->timestamp('resolved_at')->nullable();
             $table->timestamps();
         });

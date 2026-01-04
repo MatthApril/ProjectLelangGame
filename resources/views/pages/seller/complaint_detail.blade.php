@@ -86,6 +86,8 @@
                     <li>Lampirkan <strong>bukti pendukung</strong> jika ada (opsional)</li>
                     <li>Tanggapan Anda akan ditinjau oleh <strong>Admin</strong></li>
                     <li>Keputusan admin bersifat <strong>final</strong></li>
+                    <li>Batas waktu respons: {{ $complaint->created_at->addDay()->format('d M Y H:i') }}</li>
+                    <li><strong>Jika tidak respons dalam 24 jam, complaint otomatis DISETUJUI dan buyer akan DIREFUND!</strong></li>
                 </ul>
             </div>
 
@@ -139,14 +141,20 @@
 
     @if($complaint->status === 'resolved')
         <div>
-            <h4>⚖️ Keputusan Admin</h4>
-            <p><strong>Diputuskan oleh:</strong> {{ $complaint->resolver->username ?? 'Admin' }}</p>
+            <h4>⚖️ Keputusan {{ $complaint->is_auto_resolved ? 'Otomatis (Sistem)' : 'Admin' }}</h4>
+            @if($complaint->is_auto_resolved)
+                <p><strong>⚠️ ANDA TIDAK MERESPONS DALAM 24 JAM!</strong></p>
+            @endif
             <p><strong>Tanggal:</strong> {{ $complaint->resolved_at->format('d M Y H:i') }}</p>
             <p>
                 @if($complaint->decision === 'refund')
                     <strong>✗ KOMPLAIN DISETUJUI - BUYER DIREFUND</strong>
                     <br><small>Saldo buyer telah dikembalikan sebesar Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</small>
                     <br><small>⚠️ Uang akan dipotong dari running_transactions Anda</small>
+
+                    @if($complaint->is_auto_resolved)
+                        <br><small>📌 Refund otomatis karena Anda tidak merespons dalam 24 jam</small>
+                    @endif
                 @else
                     <strong>✓ KOMPLAIN DITOLAK - TIDAK ADA REFUND</strong>
                     <br><small>Setelah meninjau bukti dari kedua pihak, admin memutuskan komplain tidak dapat disetujui</small>

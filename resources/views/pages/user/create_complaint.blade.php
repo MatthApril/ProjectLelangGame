@@ -60,7 +60,7 @@
                 <ul>
                     <li>Komplain hanya bisa diajukan <strong>1 kali</strong> per produk</li>
                     <li>Pastikan deskripsi dan bukti <strong>jelas dan valid</strong></li>
-                    <li>Seller akan merespons paling lambat dalam <strong>3x24 jam</strong></li>
+                    <li>Seller akan merespons paling lambat dalam <strong>24 jam</strong></li>
                     <li>Admin akan memutuskan hasil akhir setelah meninjau bukti dari kedua pihak</li>
                 </ul>
             </div>
