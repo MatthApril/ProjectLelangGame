@@ -19,6 +19,7 @@ use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
 use App\Mail\AccountBanned;
 use App\Models\NotificationLog;
+use App\Models\Complaint;
 use App\Models\ProductComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,71 @@ class AdminController extends Controller
         $totalRecipients = NotificationLog::sum('recipients_count');
 
         return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
+    }
+
+    public function showComplaints(Request $request)
+    {
+        $query = Complaint::with(['orderItem.product', 'buyer', 'seller', 'response']);
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $complaints = $query->latest()->paginate(20);
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.admin.complaints', compact('complaints', 'categories'));
+    }
+
+    public function showComplaintDetail($complaintId)
+    {
+        $complaint = Complaint::where('complaint_id', $complaintId)
+            ->with(['orderItem.product.shop', 'buyer', 'seller', 'response'])
+            ->firstOrFail();
+
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.admin.complaint_detail', compact('complaint', 'categories'));
+    }
+
+    public function resolveComplaint(Request $request, $complaintId)
+    {
+        $request->validate([
+            'decision' => 'required|in:refund,reject'
+        ]);
+
+        $complaint = Complaint::where('complaint_id', $complaintId)
+            ->where('status', 'waiting_admin')
+            ->firstOrFail();
+
+        if ($request->decision === 'refund') {
+
+            $buyer = $complaint->buyer;
+            $buyer->increment('balance', $complaint->orderItem->subtotal);
+            $shop = $complaint->orderItem->shop;
+            $shop->decrement('running_transactions', $complaint->orderItem->subtotal);
+            $complaint->orderItem->update([
+                'status' => 'cancelled'
+            ]);
+
+        } else {
+            $orderItem = $complaint->orderItem;
+            if ($orderItem->status === 'shipped') {
+                $orderItem->update(['status' => 'completed']);
+
+                $shop = $orderItem->shop;
+                $shop->decrement('running_transactions', $orderItem->subtotal);
+                $shop->increment('shop_balance', $orderItem->subtotal);
+            }
+        }
+        $complaint->update([
+            'status' => 'resolved',
+            'decision' => $request->decision,
+            'resolved_at' => now()
+        ]);
+        $message = $request->decision === 'refund'
+            ? 'Komplain disetujui. Buyer telah di-refund.'
+            : 'Komplain ditolak.';
+        return redirect()->route('admin.complaints.index')->with('success', $message);
     }
 
     function showUsers() {

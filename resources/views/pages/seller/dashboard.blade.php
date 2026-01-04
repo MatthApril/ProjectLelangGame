@@ -59,35 +59,83 @@
         </div>
 
         <h4 class="fw-bold">Menu Cepat</h4>
-            <div class="d-flex gap-2 mb-3">
-                <a href="{{ route('seller.products.index') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                        class="bi bi-box-seam"></i> Kelola Produk</a>
-                <a href="{{ route('seller.reviews.index') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-star"></i> Lihat
-                    Review</a>
-                <a href="{{ route('seller.auctions.index') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                        class="bi bi-graph-up"></i> Daftar Lelang</a>
-                <a href="{{ route('seller.incoming_orders.index') }}"
-                    class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                        class="bi bi-clipboard2"></i> Daftar Pesanan</a>
-            </div>
-            <hr>
+        <div class="d-flex gap-2 mb-3">
+            <a href="{{ route('seller.products.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-box-seam"></i> Kelola Produk</a>
+            <a href="{{ route('seller.products.create') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Tambah Produk</a>
+            <a href="{{ route('seller.reviews.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">Lihat Ulasan</a>
+            <a href="{{ route('seller.auctions.create.form') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Buat Lelang</a>
+            <a href="{{ route('seller.auctions.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Daftar Lelang</a>
+            <a href="{{ route('seller.incoming_orders.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-plus-lg"></i> Daftar Pesanan Masuk</a>
+            <a href="{{ route('profile') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
+                    class="bi bi-person-fill"></i> Profile</a>
+            <a href="{{ route('seller.complaints.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
+                Kelola Complaints</a>
+        </div>
+        <hr>
 
-            <div>
-                <h6 class="fw-bold">Keuangan Toko</h6>
-                <table border="1" class="table table-striped">
-                    <tr>
-                        <td><strong>Saldo Toko</strong></td>
-                        <td><strong>Transaksi Berjalan</strong></td>
-                    </tr>
-                    <tr>
-                        <td>Rp {{ number_format($shopBalance, 0, ',', '.') }}</td>
-                        <td>Rp {{ number_format($runningTransactions, 0, ',', '.') }}</td>
-                    </tr>
-                </table>
+        <div>
+            <h6 class="fw-bold">Keuangan Toko</h6>
+            <table border="1" class="table table-striped">
+                <tr>
+                    <td><strong>Saldo Toko</strong></td>
+                    <td><strong>Transaksi Berjalan</strong></td>
+                </tr>
+                <tr>
+                    <td>Rp {{ number_format($shopBalance, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($runningTransactions, 0, ',', '.') }}</td>
+                </tr>
+            </table>
 
+            <br>
+
+            <h6 class="fw-bold">Statistik Produk</h6>
+            <table border="1" class="table table-striped">
+                <tr>
+                    <td><strong>Total Produk</strong></td>
+                    <td>{{ $totalProducts }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Produk Tersedia</strong></td>
+                    <td>{{ $activeProducts }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Pesanan</strong></td>
+                    <td>{{ $totalOrders }}</td>
+                </tr>
+            </table>
+
+            <br>
+
+            <h6 class="fw-bold">Informasi Toko</h6>
+            <table border="1" class="table table-striped">
+                <tr>
+                    <td><strong>Status Toko</strong></td>
+                    <td>{{ ucfirst($shop->status) }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Rating</strong></td>
+                    <td>{{ number_format($shop->shop_rating, 1) }} / 5.0</td>
+                </tr>
+                <tr>
+                    <td><strong>Jam Operasional</strong></td>
+                    <td>{{ $shop->open_hour }} - {{ $shop->close_hour }}</td>
+                </tr>
+            </table>
+
+            @if ($shop->shop_img)
                 <br>
 
                 <h6 class="fw-bold">Statistik Produk</h6>
@@ -123,43 +171,6 @@
                         <td>{{ $shop->open_hour }} - {{ $shop->close_hour }}</td>
                     </tr>
                 </table>
-
-                @if ($shop->shop_img)
-                    <br>
-
-                    <h6 class="fw-bold">Statistik Produk</h6>
-                    <table border="1" class="table table-striped">
-                        <tr>
-                            <td><strong>Total Produk</strong></td>
-                            <td>{{ $totalProducts }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Produk Tersedia</strong></td>
-                            <td>{{ $activeProducts }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Total Pesanan</strong></td>
-                            <td>{{ $totalOrders }}</td>
-                        </tr>
-                    </table>
-
-                    <br>
-
-                    <h6 class="fw-bold">Informasi Toko</h6>
-                    <table border="1" class="table table-striped">
-                        <tr>
-                            <td><strong>Status Toko</strong></td>
-                            <td>{{ ucfirst($shop->status) }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rating</strong></td>
-                            <td>{{ number_format($shop->shop_rating, 1) }} / 5.0</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Jam Operasional</strong></td>
-                            <td>{{ $shop->open_hour }} - {{ $shop->close_hour }}</td>
-                        </tr>
-                    </table>
-                @endif
-    </div>
-@endsection
+            @endif
+        </div>
+    @endsection

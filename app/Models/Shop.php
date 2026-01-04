@@ -42,8 +42,5 @@ class Shop extends Model
         return $this->hasMany(OrderItem::class, 'order_id');
     }
 
-    public function appeals()
-    {
-        return $this->hasMany(ShopAppeal::class, 'appeal_shop_id');
-    }
+    
 }

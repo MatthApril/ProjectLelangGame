@@ -52,6 +52,15 @@ class User extends Authenticatable
         ];
     }
 
+    public function buyerComplaints()
+    {
+        return $this->hasMany(Complaint::class, 'buyer_id', 'user_id');
+    }
+
+    public function sellerComplaints()
+    {
+        return $this->hasMany(Complaint::class, 'seller_id', 'user_id');
+    }
     public function cart()
     {
         return $this->hasOne(Cart::class, 'user_id', 'user_id');

@@ -26,6 +26,11 @@ class OrderItem extends Model
         'paid_at' => 'datetime',
         'shipped_at' => 'datetime',
     ];
+
+    public function complaint()
+    {
+        return $this->hasOne(Complaint::class, 'order_item_id', 'order_item_id');
+    }
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');

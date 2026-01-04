@@ -15,14 +15,14 @@ Route::prefix('admin')->as('admin.')
             Route::get('/categories/{category}/edit', 'showEditCategory')->name('categories.edit');
             Route::put('/categories/{category}', 'updateCategory')->name('categories.update');
             Route::delete('/categories/{category}', 'deleteCategory')->name('categories.destroy');
-        Route::post('/categories/restore', [AdminController::class, 'restoreCategory'])->name('categories.restore');
+            Route::post('/categories/restore','restoreCategory')->name('categories.restore');
 
             Route::get('/games', 'showGames')->name('games.index');
             Route::post('/games', 'storeGame')->name('games.store');
             Route::get('/games/{game}/edit', 'showEditGame')->name('games.edit');
             Route::put('/games/{game}', 'updateGame')->name('games.update');
             Route::delete('/games/{game}', 'deleteGame')->name('games.destroy');
-        Route::post('/games/restore', [AdminController::class, 'restoreGame'])->name('games.restore');
+            Route::post('/games/restore', 'restoreGame')->name('games.restore');
 
             Route::get('/users', 'showUsers')->name('users.index');
             Route::post('/users/unban', 'unbanUser')->name('users.unban');
@@ -36,6 +36,10 @@ Route::prefix('admin')->as('admin.')
             Route::put('/templates/{template}', 'updateNotificationTemplate')->name('notifications.update');
             Route::delete('/templates/{template}', 'deleteNotificationTemplate')->name('notifications.destroy');
             Route::post('/templates/broadcast/{template}', 'broadcastNotification')->name('notifications.broadcast');
+
+            Route::get('/complaints', 'showComplaints')->name('complaints.index');
+            Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');
+            Route::post('/complaints/{complaintId}/resolve', 'resolveComplaint')->name('complaints.resolve');
         });
 
         Route::controller(ChatController::class)->group(function() {
