@@ -112,6 +112,7 @@ class SellerController extends Controller
 
         return view('pages.seller.auctions', compact('auctions', 'categories', 'shop'));
     }
+
     public function toggleShopStatus()
     {
         $shop = Auth::user()->shop;
@@ -345,10 +346,28 @@ class SellerController extends Controller
 
     public function restore($id)
     {
-        $product = Product::onlyTrashed()->where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
 
-        if ($product->category?->deleted_at || $product->game?->deleted_at) {
-            return redirect()->route('seller.products.index')->with('error', 'Tidak bisa mengembalikan produk karena kategori atau game sudah dihapus. Silakan edit produk dan pilih kategori/game yang masih aktif.');
+        $product = Product::onlyTrashed()
+                ->with(['category', 'game'])
+                ->where('shop_id', Auth::user()->shop->shop_id)
+                ->findOrFail($id);
+
+        if (!$product->category || !$product->game) {
+            return redirect()
+                ->route('seller.products.index')
+                ->with(
+                    'error',
+                    'Tidak bisa mengembalikan produk karena kategori atau game tidak tersedia.'
+                );
+        }
+
+        if ($product->category->deleted_at || $product->game->deleted_at) {
+            return redirect()
+                ->route('seller.products.index')
+                ->with(
+                    'error',
+                    'Tidak bisa mengembalikan produk karena kategori atau game sudah dihapus.'
+                );
         }
 
         $product->restore();
@@ -358,6 +377,14 @@ class SellerController extends Controller
 
     public function destroy($id)
     {
+
+        $count_in_order_item = OrderItem::where('product_id', $id)
+                                ->whereNotIn('status', ['cancelled', 'completed'])
+                                ->count();
+        if ($count_in_order_item > 0) {
+            return redirect()->route('seller.products.index')->with('error', 'Produk tidak dapat dihapus karena ada di pesanan pengguna.');
+        }
+
         $product = Product::where('shop_id', Auth::user()->shop->shop_id)->findOrFail($id);
 
         // if ($product->product_img) {

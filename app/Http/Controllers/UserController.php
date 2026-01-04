@@ -102,25 +102,27 @@ class UserController extends Controller
 
         if ($user_cart) {
             $user_cart->cartItems()
-                ->whereHas('product', function($q) {
-                    $q->whereNotNull('deleted_at')
-                    ->orWhereHas('category', function($query) {
-                        $query->whereNotNull('deleted_at');
-                    })
-                    ->orWhereHas('game', function($query) {
-                        $query->whereNotNull('deleted_at');
-                    });
+                ->whereHas('product', function ($q) {
+                    $q->whereNotNull('deleted_at');
                 })
                 ->delete();
         }
+
         $cartItems = $user_cart
-                ? $user_cart->cartItems()
-                    ->whereHas('product', function ($q) {
-                        $q->whereNull('deleted_at');
-                    })
-                    ->with('product')
-                    ->get()
-                : collect();
+                    ? $user_cart->cartItems()
+                        ->whereHas('product', function ($q) {
+                            $q->whereNull('deleted_at');
+                        })
+                        ->with([
+                            'product' => function ($q) {
+                                $q->withTrashed()
+                                ->with(['category' => fn ($c) => $c->withTrashed(),
+                                        'game'     => fn ($g) => $g->withTrashed()]);
+                            }
+                        ])
+                        ->get()
+                    : collect();
+
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.cart', compact('cartItems', 'categories'));
@@ -153,7 +155,7 @@ class UserController extends Controller
         return view('pages.user.order_detail', compact('order', 'categories'));
     }
 
-     public function confirmOrder($orderItemId)
+    public function confirmOrder($orderItemId)
     {
         $orderItem = OrderItem::whereHas('order', function($q) {
             $q->where('user_id', Auth::id());
@@ -547,26 +549,32 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $product = Product::findOrFail($productId);
-        
+
+
         if ($product->stok < 1) {
             return back()->with('error', 'Produk tidak tersedia (stok habis).');
         }
 
+        $product_shop = $product->shop;
+        if ($product_shop->owner->user_id == $user->user_id) {
+            return back()->with('error', 'Anda tidak dapat menambahkan produk dari toko Anda sendiri ke keranjang.');
+        }
+
         $cart = $user->cart;
-        
+
         $existingCartItem = $cart->cartItems()->where('product_id', $productId)->first();
-        
+
         $requestedQty = $req->quantity;
         $currentQtyInCart = $existingCartItem ? $existingCartItem->quantity : 0;
         $totalQty = $currentQtyInCart + $requestedQty;
-        
+
         if ($totalQty > $product->stok) {
             $availableQty = $product->stok - $currentQtyInCart;
-            
+
             if ($availableQty <= 0) {
                 return back()->with('error', "Gagal menambahkan ke keranjang. Anda sudah memiliki {$currentQtyInCart} item di keranjang (stok maksimal: {$product->stok}).");
             }
-            
+
             return back()->with('error', "Gagal menambahkan ke keranjang. Stok tidak cukup! Anda sudah memiliki {$currentQtyInCart} di keranjang. Maksimal hanya bisa menambah {$availableQty} lagi (total stok: {$product->stok}).");
         }
 
@@ -574,10 +582,10 @@ class UserController extends Controller
             $existingCartItem->update([
                 'quantity' => $totalQty
             ]);
-            
+
             return back()->with('success', "Berhasil memperbarui jumlah {$product->product_name} di keranjang menjadi {$totalQty} item.");
         }
-        
+
         $cart->cartItems()->create([
             'product_id' => $productId,
             'quantity' => $requestedQty
@@ -654,23 +662,4 @@ class UserController extends Controller
         return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang');
     }
 
-    public function topup()
-    {
-        return view('pages.user.topup');
-    }
-
-    public function joki()
-    {
-        return view('pages.user.joki');
-    }
-
-    public function akun()
-    {
-        return view('pages.user.akun');
-    }
-
-    public function item()
-    {
-        return view('pages.user.item');
-    }
 }

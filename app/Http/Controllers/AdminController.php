@@ -150,6 +150,7 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
     function showCategories() {
         $categories = Category::withTrashed()->orderBy('category_name', 'asc')->get();
         $editCategory = null;
@@ -188,13 +189,13 @@ class AdminController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');
     }
 
-    function deleteCategory($id) {
-        $category = Category::findOrFail($id);
-        $affectedProductsCount = $category->products()->count();
+    function deleteCategory($category) {
 
+        dd($category);
+        $category = Category::findOrFail($category);
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus.");
+        return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus.");
     }
 
     function restoreCategory(Request $request) {

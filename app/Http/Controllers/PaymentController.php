@@ -257,19 +257,22 @@ class PaymentController extends Controller
                     'status' => 'paid',
                     'paid_at' => now()
                 ]);
-                
+
                 foreach ($order->orderItems as $item) {
                     $product = Product::find($item->product_id);
                     if ($product) {
                         $product->decrement('stok', $item->quantity);
                     }
-                    
+
                 }
 
                 $user = Auth::user();
                 // dd($user->cart);
-                $cart = $user->cart->first();
-                $cart->cartItems()->delete();
+                $cart = $user->cart()->first();
+
+                if ($cart) {
+                    $cart->cartItems()->delete();
+                }
 
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }
