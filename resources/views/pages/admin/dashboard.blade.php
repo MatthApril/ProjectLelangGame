@@ -41,8 +41,7 @@
                 <td>{{ $totalRecipients }}</td>
             </tr>
         </table>
-
-        <br><br>
+        
         {{-- <h6 class="fw-bold">Menu Manajemen</h6> --}}
         {{-- <p>
             <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |

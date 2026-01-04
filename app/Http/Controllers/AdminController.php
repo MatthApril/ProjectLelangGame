@@ -122,11 +122,11 @@ class AdminController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');
     }
 
-    function deleteCategory($id) {
-        $category = Category::findOrFail($id);
-        $affectedProductsCount = $category->products()->count();
+    function deleteCategory($category) {
+        $categoryData = Category::findOrFail($category);
+        $affectedProductsCount = $categoryData->products()->count();
 
-        $category->delete();
+        $categoryData->delete();
 
         return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus.");
     }

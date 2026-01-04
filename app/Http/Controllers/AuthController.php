@@ -55,6 +55,8 @@ class AuthController extends Controller
         $categories = Category::orderBy('category_name')->get();
         $param['user'] = $user;
         $param['categories'] = $categories;
+        $template = Auth::user()->role == 'admin' ? 'layouts.templateadmin' : 'layouts.template';
+        $param['template'] = $template;
 
         return view('pages.auth.profile', $param);
     }

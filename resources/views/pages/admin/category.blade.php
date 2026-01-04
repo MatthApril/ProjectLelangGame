@@ -5,7 +5,7 @@
         <h5 class="fw-semibold text-dark">Kategori</h5>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahKategori">
             Tambah Kategori Baru
-        </button><br>
+        </button>
 
         @if (session('success'))
             <p style="color: green;">{{ session('success') }}</p>
@@ -17,9 +17,7 @@
 
         <hr>
 
-        <h6 class="fw-bold">{{ $editCategory ? 'Edit Kategori' : 'Tambah Kategori Baru' }}</h6>
-
-        <form
+        {{-- <form
             action="{{ $editCategory ? route('admin.categories.update', $editCategory->category_id) : route('admin.categories.store') }}"
             method="POST">
             @csrf
@@ -29,11 +27,9 @@
 
             @if (session('error'))
                 <p style="color: red;">{{ session('error') }}</p>
-            @endif
+            @endif --}}
 
             {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
-
-            <hr>
 
             @if ($editCategory)
                 <h6 class="fw-bold">Edit Kategori</h6>
@@ -81,24 +77,54 @@
                             @forelse($categories as $category)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $category->category_name }}</td>
                                     <td>
-                                        <a href="{{ route('admin.categories.edit', $category->category_id) }}"
-                                            class="text-decoration-none link-footer">Edit</a>
+                                        {{ $category->category_name }}
+                                        @if ($category->deleted_at)
+                                            <span style="color: red; font-weight: bold;">(Dihapus)</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($category->deleted_at)
+                                            <span class="badge bg-danger">Nonaktif</span>
+                                        @else
+                                            <span class="badge bg-success">Aktif</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($category->deleted_at)
+                                            <form action="{{ route('admin.categories.restore') }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $category->category_id }}">
+                                                <button type="submit" onclick="return confirm('Aktifkan kembali kategori ini?')"
+                                                    style="padding: 5px 10px; border: 1px solid green; background: green; color: white; border-radius: 5px; cursor: pointer;">
+                                                    Aktifkan Kembali
+                                                </button>
+                                            </form>
+                                        @else
+                                            <a href="{{ route('admin.categories.edit', $category->category_id) }}"
+                                                class="btn btn-primary">
+                                                Edit
+                                            </a>
 
-                                        <form action="{{ route('admin.categories.destroy', $category->category_id) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                onclick="return confirm('Yakin ingin menghapus kategori ini?')"
-                                                style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
-                                        </form>
+                                            <form action="{{ route('admin.categories.destroy', $category->category_id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    onclick="return confirm('Yakin ingin menonaktifkan kategori ini? Produk terkait akan ikut dinonaktifkan.')"
+                                                    style="padding: 5px 10px; border: 1px solid red; background: red; color: white; border-radius: 5px; cursor: pointer;">
+                                                    Nonaktifkan
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" style="padding: 5px;">Belum ada kategori</td>
+                                    <td colspan="4" style="border: 1px solid gray; padding: 5px; text-align: center;">
+                                        Belum ada kategori
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -107,7 +133,7 @@
             @endif
 
     </div>
-    <div class="modal" tabindex="-1" id="modalTambahKategori">
+    <div class="modal fade" tabindex="-1" id="modalTambahKategori">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -140,86 +166,5 @@
                 </form>
             </div>
         </div>
-
-        <br>
-
-        <button type="submit" style="padding: 5px; width: 500px; border: 1px solid gray; border-radius: 5px;">
-            {{ $editCategory ? 'Update Kategori' : 'Simpan Kategori' }}
-        </button>
-
-        @if ($editCategory)
-            <a href="{{ route('admin.categories.index') }}" class="text-decoration-none link-footer">Batal</a>
-        @endif
-        </form>
-
-        <hr>
-
-        <h6 class="fw-bold">Daftar Kategori (Total: {{ $categories->count() }})</h6>
-
-        <table border="1" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Kategori</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($categories as $category)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>
-                            {{ $category->category_name }}
-                            @if ($category->deleted_at)
-                                <span style="color: red; font-weight: bold;">(Dihapus)</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($category->deleted_at)
-                                <span class="badge bg-danger">Nonaktif</span>
-                            @else
-                                <span class="badge bg-success">Aktif</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($category->deleted_at)
-                                <form action="{{ route('admin.categories.restore') }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $category->category_id }}">
-                                    <button type="submit" onclick="return confirm('Aktifkan kembali kategori ini?')"
-                                        style="padding: 5px 10px; border: 1px solid green; background: green; color: white; border-radius: 5px; cursor: pointer;">
-                                        Aktifkan Kembali
-                                    </button>
-                                </form>
-                            @else
-                                <a href="{{ route('admin.categories.edit', $category->category_id) }}"
-                                    class="text-decoration-none link-footer">
-                                    Edit
-                                </a>
-
-                                <form action="{{ route('admin.categories.destroy', $category->category_id) }}"
-                                    method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        onclick="return confirm('Yakin ingin menonaktifkan kategori ini? Produk terkait akan ikut dinonaktifkan.')"
-                                        style="padding: 5px 10px; border: 1px solid red; background: red; color: white; border-radius: 5px; cursor: pointer;">
-                                        Nonaktifkan
-                                    </button>
-                                </form>
-                            @endif
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" style="border: 1px solid gray; padding: 5px; text-align: center;">
-                            Belum ada kategori
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
     </div>
 @endsection

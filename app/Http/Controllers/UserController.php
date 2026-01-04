@@ -8,6 +8,7 @@ use App\Http\Requests\InputProductCommentRequest;
 use App\Models\Auction;
 use App\Models\AuctionBid;
 use App\Models\AuctionWinner;
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Game;
@@ -478,7 +479,7 @@ class UserController extends Controller
             return back()->with('error', 'Produk tidak tersedia (stok habis).');
         }
 
-        $cart = $user->cart;
+        $cart = Cart::firstOrCreate(['user_id' => $user->user_id]);
         
         $existingCartItem = $cart->cartItems()->where('product_id', $productId)->first();
         
