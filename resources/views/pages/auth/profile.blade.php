@@ -15,11 +15,7 @@
                 <hr>
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     @if ($user->shop && $user->shop->shop_img)
-                        <img 
-                            src="{{ asset('storage/' . $user->shop->shop_img) }}" 
-                            alt="" 
-                            class="shop-avatar"
-                        >
+                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="" class="shop-avatar">
                         {{-- <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" class="rounded-5"> --}}
                     @else
                         <div>
@@ -36,13 +32,14 @@
                 @if ($user->role == 'seller')
                     <div class="ms-3">
                         <a href="{{ route('seller.dashboard') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i> Dashboard Seller</a>
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i>
+                            Dashboard Seller</a>
                     </div>
                     <hr>
                 @endif
                 <div class="ms-3">
-                    <a href="{{ route('user.orders') }}"
-                    class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-cash-coin"></i> Transaksi</a>
+                    <a href="{{ route('user.orders') }}" class="text-decoration-none text-secondary nav-link link-footer"><i
+                            class="bi bi-cash-coin"></i> Transaksi</a>
                 </div>
                 <hr>
             </div>
@@ -69,7 +66,8 @@
                             <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <label>Gambar Toko Baru <span class="text-secondary">(Disarankan Ukuran Gambar 1 : 1)</span></label>
+                                <label>Gambar Toko Baru <span class="text-secondary">(Disarankan Ukuran Gambar 1 :
+                                        1)</span></label>
                                 <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
                                 <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
 
