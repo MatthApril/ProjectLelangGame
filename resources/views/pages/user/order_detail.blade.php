@@ -54,18 +54,42 @@
                         @else
                             <span style="background: lightcoral; padding: 3px 8px; border-radius: 3px;">Dibatalkan</span>
                         @endif
+
+                        @if($item->complaint)
+                            <br><strong>Complaint:</strong>
+                            @if ($item->complaint->status === 'waiting_seller') 
+                                Menunggu Seller
+                            @elseif ($item->complaint->status === 'waiting_admin') 
+                                Menunggu Admin
+                            @elseif ($item->complaint->decision === 'refund') 
+                                Refund Disetujui
+                            @elseif ($item->complaint->decision === 'reject') 
+                                Komplain Ditolak
+                            @endif
+                        @endif
                     </td>
                     <td id="review-section-{{ $item->order_item_id }}">
                         @if($item->status === 'shipped')
-                            <form action="{{ route('user.orders.confirm', $item->order_item_id) }}" method="POST">
+                            @if(!$item->complaint()->exists())
+                            <form action="{{ route('user.orders.confirm', $item->order_item_id) }}" method="POST" style="display:inline-block; margin-right: 10px;">
                                 @csrf
                                 <button type="submit" onclick="return confirm('Konfirmasi pesanan sudah diterima?')" style="padding: 5px 10px; background: green; color: white; border: none; cursor: pointer;">
                                     Konfirmasi Terima
                                 </button>
                             </form>
+
+                            <a href="{{ route('user.complaints.create', $item->order_item_id) }}" style="padding: 5px 10px; background: red; color: white; border: none; cursor: pointer; text-decoration: none; display: inline-block;">
+                                Ajukan Komplain
+                            </a>
+                        @else
+                            <span style="color: orange;">Komplain sedang diproses</span>
+                        @endif
+
+                        @if($item->shipped_at)
                             <small style="color: gray; display: block; margin-top: 5px;">
                                 Auto-confirm: {{ $item->shipped_at->addDays(3)->diffForHumans() }}
                             </small>
+                        @endif
                         @elseif($item->status === 'completed')
                             @if(!$item->hasReview())
                                 <button onclick="showReviewModal({{ $item->order_item_id }})" style="padding: 5px 10px; background: blue; color: white; border: none; cursor: pointer;">

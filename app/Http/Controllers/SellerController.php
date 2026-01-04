@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateComplaintResponseRequest;
 use App\Http\Requests\InsertAuctionRequest;
 use App\Models\Product;
 use App\Models\Category;
@@ -10,6 +11,8 @@ use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Auction;
+use App\Models\Complaint;
+use App\Models\ComplaintResponse;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
@@ -21,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 
 class SellerController extends Controller
 {
+
     function showDashboard() {
         $user = Auth::user();
         $users = User::where('role', 'user')->get();
@@ -37,7 +41,56 @@ class SellerController extends Controller
         return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
     }
 
+    public function showComplaints()
+    {
+        $shop = Auth::user()->shop;
 
+        $complaints = Complaint::where('seller_id', Auth::id())
+            ->with(['orderItem.product', 'buyer', 'response'])
+            ->latest()
+            ->paginate(10);
+
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.seller.complaints', compact('complaints', 'categories', 'shop'));
+    }
+
+    public function showComplaintDetail($complaintId)
+    {
+        $complaint = Complaint::where('seller_id', Auth::id())
+            ->where('complaint_id', $complaintId)
+            ->with(['orderItem.product', 'buyer', 'response'])
+            ->firstOrFail();
+
+        $shop = Auth::user()->shop;
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.seller.complaint_detail', compact('complaint', 'categories', 'shop'));
+    }
+
+     public function respondComplaint(CreateComplaintResponseRequest $request, $complaintId)
+    {
+        $complaint = Complaint::where('seller_id', Auth::id())
+            ->where('complaint_id', $complaintId)
+            ->where('status', 'waiting_seller')
+            ->firstOrFail();
+
+        if ($complaint->response()->exists()) {
+            return redirect()->route('seller.complaints.show', $complaintId)->with('error', 'Anda sudah memberikan tanggapan');
+        }
+
+        $validated = $request->validated();
+        $attachmentPath = null;
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $request->file('attachment')->store("complaint_responses/{$complaint->complaint_id}", 'public');
+        }
+        ComplaintResponse::create([
+            'complaint_id' => $complaint->complaint_id,
+            'message' => $validated['message'],
+            'attachment' => $attachmentPath
+        ]);
+        $complaint->update(['status' => 'waiting_admin']);
+        return redirect()->route('seller.complaints.index')->with('success', 'Tanggapan berhasil dikirim. Menunggu keputusan admin.');
+
+    }
 
     function showSellerAuctions()
     {
@@ -176,8 +229,7 @@ class SellerController extends Controller
             ->firstOrFail();
 
         $orderItem->update([
-            'status' => 'cancelled',
-            'cancelled_at' => now()
+            'status' => 'cancelled'
         ]);
         $buyer = $orderItem->order->account;
         $buyer->increment('balance', $orderItem->subtotal);

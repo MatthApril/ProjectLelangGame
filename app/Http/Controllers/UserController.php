@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\BiddingRequests;
+use App\Http\Requests\CreateComplaintRequest;
 use App\Http\Requests\InputProductCommentRequest;
 use App\Models\Auction;
 use App\Models\AuctionBid;
 use App\Models\AuctionWinner;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Complaint;
 use App\Models\Game;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
@@ -21,6 +23,78 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     // VIEW
+    public function showCreateComplaint($orderItemId)
+    {
+        $orderItem = OrderItem::whereHas('order', function($q) {
+            $q->where('user_id', Auth::id());
+        })
+        ->where('order_item_id', $orderItemId)
+        ->where('status', 'shipped')
+        ->firstOrFail();
+
+        if ($orderItem->complaint()->exists()) {
+            return redirect()->route('user.orders.detail', $orderItem->order_id)->with('error', 'Anda sudah mengajukan komplain untuk produk ini');
+        }
+
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.user.create_complaint', compact('orderItem', 'categories'));
+    }
+
+    public function storeComplaint(CreateComplaintRequest $request, $orderItemId)
+    {
+        $orderItem = OrderItem::whereHas('order', function($q) {
+            $q->where('user_id', Auth::id());
+        })
+        ->where('order_item_id', $orderItemId)
+        ->where('status', 'shipped')
+        ->firstOrFail();
+
+        if ($orderItem->complaint()->exists()) {
+            return redirect()->route('user.orders.detail', $orderItem->order_id)->with('error', 'Anda sudah mengajukan komplain');
+        }
+
+        $validated = $request->validated();
+
+        if($request->hasFile('proof_img')){
+
+            $proofPath = $request->file('proof_img')->store("complaints/{$orderItem->order_item_id}", 'public');
+        }
+
+        Complaint::create([
+            'order_item_id' => $orderItem->order_item_id,
+            'buyer_id' => Auth::id(),
+            'seller_id' => $orderItem->shop->owner_id,
+            'description' => $validated['description'],
+            'proof_img' => $proofPath,
+            'status' => 'waiting_seller'
+        ]);
+        return redirect()->route('user.complaints.index')->with('success', 'Komplain berhasil diajukan. Menunggu tanggapan seller.');
+
+    }
+
+    public function showComplaints()
+    {
+        $complaints = Complaint::where('buyer_id', Auth::id())
+            ->with(['orderItem.product', 'orderItem.shop', 'response'])
+            ->latest()
+            ->paginate(10);
+
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.user.complaints', compact('complaints', 'categories'));
+    }
+
+    public function showComplaintDetail($complaintId)
+    {
+        $complaint = Complaint::where('buyer_id', Auth::id())
+            ->where('complaint_id', $complaintId)
+            ->with(['orderItem.product', 'orderItem.shop', 'response'])
+            ->firstOrFail();
+
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.user.complaint_detail', compact('complaint', 'categories'));
+    }
+
+
     public function showCart()
     {
         $user = Auth::user();
@@ -55,7 +129,7 @@ class UserController extends Controller
     public function showOrders()
     {
         $user = Auth::user();
-        $orders = $user->orders()->with('shop')->get();
+        $orders = $user->orders()->with('shop')->orderBy('created_at', 'desc')->get();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.my_order', compact('orders', 'categories'));

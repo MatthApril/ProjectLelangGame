@@ -13,6 +13,7 @@
     <div>
         <h2>Riwayat Pesanan Saya</h2>
 
+        <a href="{{ route('user.complaints.index') }}">List Complaint</a>
         @if ($orders->isEmpty())
             <p>Anda belum memiliki pesanan.</p>
         @else

@@ -33,6 +33,11 @@ Route::prefix('user')->as('user.')
     Route::post('/auctions/bid/{auctionId}', [UserController::class, 'placeBid'])->name('auctions.bid');
     Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
 
+    Route::get('/complaints', [UserController::class, 'showComplaints'])->name('complaints.index');
+    Route::get('/complaints/{complaintId}', [UserController::class, 'showComplaintDetail'])->name('complaints.show');
+    Route::get('/orders/{orderItemId}/complaint/create', [UserController::class, 'showCreateComplaint'])->name('complaints.create');
+    Route::post('/orders/{orderItemId}/complaint', [UserController::class, 'storeComplaint'])->name('complaints.store');
+
     Route::controller(ChatController::class)->group(function() {
         Route::get('/chat/{userId}', 'show')->name('chat.show');
         Route::post('/chat/{userId}', 'store')->name('chat.store');

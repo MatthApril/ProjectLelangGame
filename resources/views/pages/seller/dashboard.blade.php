@@ -83,6 +83,9 @@
             <a href="{{ route('profile') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-person-fill"></i> Profile</a>
+            <a href="{{ route('seller.complaints.index') }}" 
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
+                    Kelola Complaints</a>
         </div>
         <hr>
         <div>
