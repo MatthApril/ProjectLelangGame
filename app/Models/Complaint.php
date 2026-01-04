@@ -18,10 +18,12 @@ class Complaint extends Model
         'proof_img',
         'status',
         'decision',
+        'is_auto_resolved',
         'resolved_at'
     ];
     protected $casts = [
-        'resolved_at' => 'datetime'
+        'resolved_at' => 'datetime',
+        'is_auto_resolved' => 'boolean'
     ];
 
     public function orderItem()

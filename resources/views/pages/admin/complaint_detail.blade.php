@@ -147,7 +147,12 @@
     @elseif($complaint->status === 'resolved')
     
         <div>
-            <h4>⚖️ KEPUTUSAN FINAL</h4>
+            <h4>⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}</h4>
+
+            @if($complaint->is_auto_resolved)
+                <p><strong>⚠️ Seller tidak merespons dalam 24 jam</strong></p>
+            @endif
+
             <p><strong>Tanggal:</strong> {{ $complaint->resolved_at->format('d M Y, H:i:s') }}</p>
             <p>
                 @if($complaint->decision === 'refund')
@@ -155,6 +160,10 @@
                     <br><small>• Saldo buyer bertambah: Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</small>
                     <br><small>• Running transactions seller berkurang: Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</small>
                     <br><small>• Status order_item: CANCELLED</small>
+
+                    @if($complaint->is_auto_resolved)
+                        <br><small>📌 Refund otomatis karena seller tidak merespons</small>
+                    @endif
                 @else
                     <strong>✗ KOMPLAIN DITOLAK</strong>
                     <br><small>Transaksi tetap berjalan normal. Tidak ada refund.</small>

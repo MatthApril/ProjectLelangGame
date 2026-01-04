@@ -14,3 +14,5 @@ Schedule::command('shops:auto-toggle')
     ->everyMinute();
 Schedule::command('orders:auto-complete')
     ->hourly();
+Schedule::command('complaints:auto-resolve')
+    ->hourly();

@@ -97,6 +97,7 @@ class AdminController extends Controller
         $complaint->update([
             'status' => 'resolved',
             'decision' => $request->decision,
+            'is_auto_resolved' => false,
             'resolved_at' => now()
         ]);
         $message = $request->decision === 'refund' 
