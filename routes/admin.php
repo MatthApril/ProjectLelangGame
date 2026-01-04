@@ -12,10 +12,10 @@ Route::prefix('admin')->as('admin.')
 
             Route::get('/categories', 'showCategories')->name('categories.index');
             Route::post('/categories', 'storeCategory')->name('categories.store');
+            Route::post('/categories/restore', 'restoreCategory')->name('categories.restore');
             Route::get('/categories/{category}/edit', 'showEditCategory')->name('categories.edit');
             Route::put('/categories/{category}', 'updateCategory')->name('categories.update');
             Route::delete('/categories/{category}', 'deleteCategory')->name('categories.destroy');
-            Route::post('/categories/restore','restoreCategory')->name('categories.restore');
 
             Route::get('/games', 'showGames')->name('games.index');
             Route::post('/games', 'storeGame')->name('games.store');

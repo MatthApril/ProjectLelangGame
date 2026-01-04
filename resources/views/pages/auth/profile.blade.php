@@ -1,15 +1,18 @@
-@extends('layouts.template')
+@extends($template)
 
 @section('title', 'Profile | LelangGame')
 
 @section('content')
     <div class="container">
-        <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb mt-3">
-                <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Profile</li>
-            </ol>
-        </nav>
+        @if (Auth::user()->role != 'admin')
+            <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{{ route('user.home') }}" class="text-decoration-none">Beranda</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                </ol>
+            </nav>
+        @endif
         <div class="row">
             <div class="col-md-2">
                 <hr>
@@ -37,11 +40,14 @@
                     </div>
                     <hr>
                 @endif
-                <div class="ms-3">
-                    <a href="{{ route('user.orders') }}" class="text-decoration-none text-secondary nav-link link-footer"><i
-                            class="bi bi-cash-coin"></i> Transaksi</a>
-                </div>
-                <hr>
+                @if ($user->role != 'admin')
+                    <div class="ms-3">
+                        <a href="{{ route('user.orders') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-cash-coin"></i>
+                            Transaksi</a>
+                    </div>
+                    <hr>
+                @endif
             </div>
             <div class="col-md-10 mt-3">
                 @if (session('error'))

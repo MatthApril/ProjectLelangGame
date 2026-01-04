@@ -191,10 +191,10 @@ class AdminController extends Controller
     }
 
     function deleteCategory($category) {
+        $categoryData = Category::findOrFail($category);
+        $affectedProductsCount = $categoryData->products()->count();
 
-        dd($category);
-        $category = Category::findOrFail($category);
-        $category->delete();
+        $categoryData->delete();
 
         return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus.");
     }

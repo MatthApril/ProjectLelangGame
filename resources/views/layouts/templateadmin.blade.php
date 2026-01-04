@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/palette.css') }}">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     @include('partials.headeradmin')
     {{-- navbar 1 --}}
     <nav class="navbar navbar-dark bg-navyblue d-md-none">
@@ -29,12 +29,12 @@
     </nav>
     <div class="d-flex">
         <div class="offcanvas-md offcanvas-start bg-navyblue text-white" tabindex="-1" id="sidebarAdmin"
-            style="width: 270px; border: none; position: sticky; top: 66px; height: calc(100vh - 66px);">
+            style="width: 182px; border: none;">
             <div class="offcanvas-header d-md-none">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     data-bs-target="#sidebarAdmin"></button>
             </div>
-            <div class="offcanvas-body flex-column py-4 px-4" style="min-height: 80vh;">
+            <div class="offcanvas-body position-fixed flex-column py-4 px-4" style="min-height: 100vh;">
                 <a href="{{ route('admin.categories.index') }}"
                     class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
                 <a href="{{ route('admin.games.index') }}"
@@ -42,7 +42,7 @@
                 <a href="{{ route('admin.comments.index') }}"
                     class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.*') ? 'menu-active' : '' }}">Komentar</a>
                 <a href="{{ route('admin.notifications.index') }}"
-                    class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">
+                    class="text-decoration-none text-white d-block {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">
                     Notifikasi</a>
             </div>
         </div>
@@ -61,6 +61,8 @@
                         <li class="breadcrumb-item active mt-3">Komentar</li>
                     @elseif(Route::is('admin.notifications.*'))
                         <li class="breadcrumb-item active mt-3">Notifikasi</li>
+                    @elseif(Route::is('profile'))
+                        <li class="breadcrumb-item active mt-3">Profile</li>
                     @endif
 
                     @if (Route::is('*.edit'))
@@ -68,7 +70,9 @@
                     @endif
                 </ol>
             </nav>
-            @yield('content')
+            <main class="flex-grow-1 d-flex flex-column" style="min-height: calc(110vh - 200px);">
+                @yield('content')
+            </main>
             @include('partials.footeradmin')
         </div>
     </div>

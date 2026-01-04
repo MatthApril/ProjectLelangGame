@@ -9,6 +9,7 @@ use App\Http\Requests\InputProductCommentRequest;
 use App\Models\Auction;
 use App\Models\AuctionBid;
 use App\Models\AuctionWinner;
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Complaint;

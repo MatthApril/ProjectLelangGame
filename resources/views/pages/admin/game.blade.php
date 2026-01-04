@@ -133,14 +133,13 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.games.edit', $game->game_id) }}"
-                                        class="text-decoration-none link-footer">Edit</a>
+                                        class="btn btn-primary" style="display:inline">Edit</a>
 
                                     <form action="{{ route('admin.games.destroy', $game->game_id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
-                                            style="padding: 5px; border: 1px solid gray; border-radius: 5px;">Hapus</button>
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
                                     </form>
                                 </td>
                             </tr>
@@ -157,7 +156,7 @@
         @endif
     </div>
 
-    <div class="modal" tabindex="-1" id="modalTambahGame">
+    <div class="modal fade" tabindex="-1" id="modalTambahGame">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

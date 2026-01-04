@@ -247,5 +247,4 @@ class VerificationController extends Controller
         Mail::to($user->email)->queue(new PasswordChangedWarning());
         return redirect()->route('login')->with('success', 'Password berhasil diubah');
     }
-
 }
