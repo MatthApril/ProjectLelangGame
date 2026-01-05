@@ -20,6 +20,7 @@ use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -414,23 +415,102 @@ class UserController extends Controller
         return view('pages.user.product_detail', compact('product', 'relatedProducts', 'categories'));
     }
 
-    public function showShop($id)
+    public function showShop(Request $request, $id)
     {
-        $shop = Shop::with('owner')->findOrFail($id);
+        $shop = Shop::with(['owner', 'products' => function($query) {
+            $query->whereNull('deleted_at');
+        }])->findOrFail($id);
 
-        if (!$shop->owner) {
-            return redirect()->route('user.home')->with('error', 'Toko tidak ditemukan.');
+        $productsQuery = $shop->products()
+            ->whereNull('deleted_at');
+
+        if ($request->filled('search')) {
+            $productsQuery->where('product_name', 'like', '%' . $request->search . '%');
         }
 
-        $products = Product::where('shop_id', $shop->shop_id)
-            ->with(['game', 'category'])
-            ->active()
-            ->where('stok', '>', 0)
-            ->latest()
-            ->paginate(12);
-        $categories = Category::orderBy('category_name')->get();
+        if ($request->filled('game_id')) {
+            $productsQuery->where('game_id', $request->game_id);
+        }
 
-        return view('pages.user.shop_detail', compact('shop', 'products', 'categories'));
+        if ($request->filled('category_id')) {
+            $productsQuery->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('min_price')) {
+            $productsQuery->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $productsQuery->where('price', '<=', $request->max_price);
+        }
+
+        switch ($request->sort) {
+            case 'price_low':
+                $productsQuery->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $productsQuery->orderBy('price', 'desc');
+                break;
+            case 'rating':
+                $productsQuery->orderBy('rating', 'desc');
+                break;
+            default:
+                $productsQuery->orderBy('created_at', 'desc');
+        }
+
+        $products = $productsQuery->paginate(12);
+
+        $totalProductsSold = $shop->orderItems()
+            ->where('order_items.status', 'completed')
+            ->sum('quantity');
+
+        $totalBuyers = $shop->orderItems()
+            ->where('order_items.status', 'completed')
+            ->join('orders', 'order_items.order_id', '=', 'orders.order_id')
+            ->distinct('orders.user_id')
+            ->count('orders.user_id');
+
+        $ratingStats = [];
+        $totalReviews = 0;
+
+        for ($i = 5; $i >= 1; $i--) {
+            $count = DB::table('products_comments')
+                ->join('products', 'products_comments.product_id', '=', 'products.product_id')
+                ->where('products.shop_id', $shop->shop_id)
+                ->where('products_comments.rating', $i)
+                ->whereNull('products_comments.deleted_at')
+                ->count();
+            
+            $ratingStats[$i] = $count;
+            $totalReviews += $count;
+        }
+
+        $ratingPercentages = [];
+        foreach ($ratingStats as $rating => $count) {
+            $ratingPercentages[$rating] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+        }
+
+        $games = Game::whereHas('products', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id)
+            ->whereNull('deleted_at');
+        })->orderBy('game_name')->get();
+
+        $categories = Category::whereHas('products', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id)
+            ->whereNull('deleted_at');
+        })->orderBy('category_name')->get();
+
+        return view('pages.user.shop_detail', compact(
+            'shop', 
+            'products', 
+            'totalProductsSold', 
+            'totalBuyers', 
+            'ratingStats', 
+            'ratingPercentages', 
+            'totalReviews',
+            'games',
+            'categories'
+        ));
     }
 
     public function showAuctions() {
