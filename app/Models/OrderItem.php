@@ -18,9 +18,21 @@ class OrderItem extends Model
         'product_price',
         'subtotal',
         'quantity',
-        'status'
+        'status',
+        'shipped_at',
+        'paid_at',
+        'is_refunded'
+    ];
+    protected $casts = [
+        'paid_at' => 'datetime',
+        'shipped_at' => 'datetime',
+        'is_refunded' => 'boolean'
     ];
 
+    public function complaint()
+    {
+        return $this->hasOne(Complaint::class, 'order_item_id', 'order_item_id');
+    }
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
@@ -42,5 +54,45 @@ class OrderItem extends Model
     public function hasReview()
     {
         return $this->comment()->exists();
+    }
+    public function isPaid()
+    {
+        return $this->status === 'paid';
+    }
+
+    public function isShipped()
+    {
+        return $this->status === 'shipped';
+    }
+
+    public function isCompleted()
+    {
+        return $this->status === 'completed';
+    }
+
+    public function isCancelled()
+    {
+        return $this->status === 'cancelled';
+    }
+    public function canAutoComplete()
+    {
+        return $this->isShipped()
+            && $this->shipped_at
+            && $this->shipped_at->addDays(3)->isPast();
+    }
+
+    public function getCancelReason(): string
+    {
+        if (!$this->isCancelled()) {
+            return '-';
+        }
+
+        $complaint = $this->complaint;
+
+        if ($complaint && $complaint->decision === 'refund') {
+            return 'Komplain Disetujui (Refund)';
+        }
+
+        return 'Dibatalkan oleh Seller';
     }
 }

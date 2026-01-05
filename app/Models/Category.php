@@ -27,4 +27,20 @@ class Category extends Model
     {
         return $this->hasMany(GameCategory::class, 'category_id');
     }
+
+    protected static function booted()
+    {
+        static::restoring(function ($category) {
+
+            $category->products()->onlyTrashed()->each(function ($product) {
+                if (!$product->game?->deleted_at) {
+                    $product->restore();
+                }
+            });
+
+            $category->gamesCategories()->onlyTrashed()->each(function ($gc) {
+                $gc->restore();
+            });
+        });
+    }
 }

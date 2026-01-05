@@ -19,6 +19,8 @@ use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
 use App\Mail\AccountBanned;
 use App\Models\NotificationLog;
+use App\Models\Complaint;
+use App\Models\OrderItem;
 use App\Models\ProductComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +42,141 @@ class AdminController extends Controller
 
         return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
     }
+    public function showCancelledOrders(Request $request)
+    {
+        $query = OrderItem::where('status', 'cancelled')
+            ->with(['order.account', 'product', 'shop', 'complaint']);
+
+        if ($request->filled('refund_status')) {
+            if ($request->refund_status === 'refunded') {
+                $query->where('is_refunded', true);
+            } elseif ($request->refund_status === 'not_refunded') {
+                $query->where('is_refunded', false);
+            }
+        }
+
+        $cancelledOrders = $query->latest('paid_at')->paginate(20);
+
+        $totalCancelled = OrderItem::where('status', 'cancelled')->count();
+        $totalRefunded = OrderItem::where('status', 'cancelled')->where('is_refunded', true)->count();
+        $totalNotRefunded = OrderItem::where('status', 'cancelled')->where('is_refunded', false)->count();
+
+        return view('pages.admin.cancelled_orders', compact(
+            'cancelledOrders',
+            'totalCancelled',
+            'totalRefunded',
+            'totalNotRefunded'
+        ));
+    }
+
+    public function showCancelledOrderDetail($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('status', 'cancelled')
+            ->with(['order.account', 'product', 'shop', 'complaint.response'])
+            ->firstOrFail();
+
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.admin.cancelled_order_detail', compact('orderItem', 'categories'));
+    }
+
+    public function markAsRefunded($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('status', 'cancelled')
+            ->firstOrFail();
+
+        if ($orderItem->is_refunded) {
+            return back()->with('error', 'Pesanan ini sudah ditandai sebagai refunded');
+        }
+
+        $orderItem->update(['is_refunded' => true]);
+
+        return back()->with('success', 'Pesanan berhasil ditandai sebagai REFUNDED oleh admin');
+    }
+
+    public function undoRefunded($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('status', 'cancelled')
+            ->firstOrFail();
+
+        if (!$orderItem->is_refunded) {
+            return back()->with('error', 'Pesanan ini belum ditandai sebagai refunded');
+        }
+
+        $orderItem->update(['is_refunded' => false]);
+
+        return back()->with('success', 'Status refund berhasil dibatalkan');
+    }
+
+    public function showComplaints(Request $request)
+    {
+        $query = Complaint::with(['orderItem.product', 'buyer', 'seller', 'response']);
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $complaints = $query->latest()->paginate(20);
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.admin.complaints', compact('complaints', 'categories'));
+    }
+
+    public function showComplaintDetail($complaintId)
+    {
+        $complaint = Complaint::where('complaint_id', $complaintId)
+            ->with(['orderItem.product.shop', 'buyer', 'seller', 'response'])
+            ->firstOrFail();
+
+        $categories = Category::orderBy('category_name')->get();
+        return view('pages.admin.complaint_detail', compact('complaint', 'categories'));
+    }
+
+    public function resolveComplaint(Request $request, $complaintId)
+    {
+        $request->validate([
+            'decision' => 'required|in:refund,reject'
+        ]);
+
+        $complaint = Complaint::where('complaint_id', $complaintId)
+            ->where('status', 'waiting_admin')
+            ->firstOrFail();
+
+        if ($request->decision === 'refund') {
+
+            $buyer = $complaint->buyer;
+            $buyer->increment('balance', $complaint->orderItem->subtotal);
+            $shop = $complaint->orderItem->shop;
+            $shop->decrement('running_transactions', $complaint->orderItem->subtotal);
+            $complaint->orderItem->update([
+                'status' => 'cancelled',
+                'is_refunded' => false
+            ]);
+
+        } else {
+            $orderItem = $complaint->orderItem;
+            if ($orderItem->status === 'shipped') {
+                $orderItem->update(['status' => 'completed']);
+
+                $shop = $orderItem->shop;
+                $shop->decrement('running_transactions', $orderItem->subtotal);
+                $shop->increment('shop_balance', $orderItem->subtotal);
+            }
+        }
+        $complaint->update([
+            'status' => 'resolved',
+            'decision' => $request->decision,
+            'is_auto_resolved' => false,
+            'resolved_at' => now()
+        ]);
+        $message = $request->decision === 'refund'
+            ? 'Komplain disetujui. Buyer telah di-refund.'
+            : 'Komplain ditolak.';
+        return redirect()->route('admin.complaints.index')->with('success', $message);
+    }
 
     function showUsers() {
         $users = User::withTrashed()->get();
@@ -49,7 +186,6 @@ class AdminController extends Controller
     function showComments(Request $request)
     {
         $query = ProductComment::with(['product', 'user', 'orderItem']);
-
 
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
@@ -85,8 +221,9 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
     function showCategories() {
-        $categories = Category::orderBy('category_name', 'asc')->get();
+        $categories = Category::withTrashed()->orderBy('category_name', 'asc')->get();
         $editCategory = null;
 
         return view('pages.admin.category', compact('categories', 'editCategory'));
@@ -123,11 +260,21 @@ class AdminController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');
     }
 
-    function deleteCategory($id) {
-        $category = Category::findOrFail($id);
-        $category->delete();
+    function deleteCategory($category) {
+        $categoryData = Category::findOrFail($category);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus');
+        $categoryData->delete();
+
+        return redirect()->route('admin.categories.index')->with('success', "Kategori berhasil dihapus.");
+    }
+
+    function restoreCategory(Request $request) {
+        $request->validate(['id' => 'required|exists:categories,category_id']);
+
+        $category = Category::onlyTrashed()->findOrFail($request->id);
+        $category->restore();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori dan produk terkait berhasil dikembalikan.');
     }
 
     function showGames() {
@@ -194,13 +341,19 @@ class AdminController extends Controller
 
     function deleteGame($id) {
         $game = Game::findOrFail($id);
-        if ($game->game_img) {
-            Storage::disk('public')->delete($game->game_img);
-        }
+
+        $affectedProductsCount = $game->products()->count();
 
         $game->delete();
 
-        return redirect()->route('admin.games.index')->with('success', 'Game berhasil dihapus');
+        return redirect()->route('admin.games.index')->with('success', "Game berhasil dihapus. {$affectedProductsCount} produk terkait juga dihapus (soft delete).");
+    }
+
+    function restoreGame(Request $request) {
+        $request->validate(['id' => 'required|exists:games,game_id']);
+
+        $game = Game::onlyTrashed()->findOrFail($request->id);
+        $game->restore();
     }
 
     function showNotificationMaster(Request $request){
@@ -219,7 +372,7 @@ class AdminController extends Controller
 
     function storeNotificationTemplate(InsertTemplateRequest $request){
         $validated = $request->validated();
-        
+
         NotificationTemplate::create($validated);
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil ditambahkan');
@@ -252,6 +405,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag);
     }
+
     function banUser(Request $req) {
         $req->validate([
             'id' => 'required',
@@ -290,5 +444,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
     }
-
 }

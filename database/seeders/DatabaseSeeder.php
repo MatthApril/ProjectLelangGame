@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             GameCategoriesSeeder::class,
             ShopSeeder::class,
+            CartSeeder::class,
         ]);
     }
 }

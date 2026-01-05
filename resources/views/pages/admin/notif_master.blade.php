@@ -27,32 +27,34 @@
             <div class="col">
                 <div class="card h-100 card-custom p-3">
                     <div class="card-body p-2 d-flex flex-column justify-content-between">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            @if($template->category === 'system')
-                                <span class="badge-category bg-warning text-black">
-                            @elseif($template->category === 'promo')
-                                <span class="badge-category bg-danger text-white">
-                            @else
-                                <span class="badge-category bg-success text-white">
-                            @endif
-                                {{ $template->category }}</span>
-                            <div class="status-available">
-                                <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>
+                        <div class="">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                @if($template->category === 'system')
+                                    <span class="badge-category bg-warning text-black">
+                                @elseif($template->category === 'promo')
+                                    <span class="badge-category bg-danger text-white">
+                                @else
+                                    <span class="badge-category bg-success text-white">
+                                @endif
+                                    {{ $template->category }}</span>
+                                <div class="status-available">
+                                    <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>
+                                </div>
                             </div>
+    
+                            <div class="icon-box bg-primary text-white">
+                                <i class="bi bi-bell fs-4"></i>
+                            </div>
+    
+                            <h5 class="card-title-custom">{{ $template->title }}</h5>
+                            <p class="card-text-muted">{{ Str::limit($template->body, 100) }}</p>
                         </div>
-
-                        <div class="icon-box bg-primary text-white">
-                            <i class="bi bi-bell fs-4"></i>
-                        </div>
-
-                        <h5 class="card-title-custom">{{ $template->subject }}</h5>
-                        <p class="card-text-muted">{{ $template->body }}</p>
                         
-                        <div class="d-flex align-items-center mb-4 text-muted" style="font-size: 0.8rem;">
-                            <i class="bi bi-tag me-2"></i> {{ $template->code_tag }}
-                        </div>
-
+                        
                         <div class="d-grid gap-2">
+                            <div class="d-flex align-items-center mb-4 text-muted" style="font-size: 0.8rem;">
+                                <i class="bi bi-tag me-2"></i> {{ $template->code_tag }}
+                            </div>
                             <button type="button" class="btn btn-generate mb-1 bg-warning text-black"
                                 data-bs-toggle="modal" 
                                 data-bs-target="#modalEditTemplateNotifikasi"
@@ -90,49 +92,6 @@
             </div>
         @endforeach
     </div>
-
-    {{-- <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach($templates as $template)
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $template->subject }}</h5>
-                        <p class="card-text">{{ $template->body }}</p>
-                        <p class="card-text">{{ ucfirst($template->trigger_type) }}</p>
-                        <p class="card-text">{{ ucfirst($template->category) }}</p>
-                        <button type="button" class="btn btn-sm btn-warning btn-hover edit-btn"
-                            data-bs-toggle="modal" 
-                            data-bs-target="#modalEditTemplateNotifikasi"
-                            data-id="{{ $template->notif_temp_id }}"
-                            data-code="{{ $template->code_tag }}"
-                            data-title="{{ $template->title }}"
-                            data-subject="{{ $template->subject }}"
-                            data-body="{{ $template->body }}"
-                            data-trigger="{{ $template->trigger_type }}"
-                            data-category="{{ $template->category }}">
-                            Edit
-                        </button>
-                        @if ($template->trigger_type === 'broadcast')
-                            <button type="button" class="btn btn-sm btn-danger btn-hover"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteModal"
-                                data-id="{{ $template->notif_temp_id }}"
-                                data-name="{{ $template->code_tag }}">
-                                Hapus
-                            </button>
-                            <button type="button" class="btn btn-sm btn-success btn-hover"
-                                data-bs-toggle="modal"
-                                data-bs-target="#broadcastModal"
-                                data-id="{{ $template->notif_temp_id }}"
-                                data-name="{{ $template->code_tag }}">
-                                Broadcast
-                            </button>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div> --}}
 
     <div class="d-flex justify-content-between align-items-center">
         <p class="text-muted">
@@ -217,7 +176,7 @@
         </div>
     </div>
 </div>
-<div class="modal" tabindex="-1" id="modalTambahTemplateNotifikasiBaru">
+<div class="modal fade" tabindex="-1" id="modalTambahTemplateNotifikasiBaru">
   <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -371,5 +330,11 @@
 
         document.getElementById('editForm').action = '/admin/templates/' + id;
     });
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     @if ($errors->any())
+    //         var modal = new bootstrap.Modal(document.getElementById('modalTambahTemplateNotifikasiBaru'));
+    //         modal.show();
+    //     @endif
+    // });
 </script>
 @endsection

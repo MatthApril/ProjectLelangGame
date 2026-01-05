@@ -8,17 +8,42 @@ class Complaint extends Model
 {
     protected $table = 'complaints';
     protected $primaryKey = 'complaint_id';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
-        'customer_id',
-        'content',
+        'order_item_id',
+        'buyer_id',
+        'seller_id',
+        'description',
         'proof_img',
-        'is_served'
+        'status',
+        'decision',
+        'is_auto_resolved',
+        'resolved_at'
+    ];
+    protected $casts = [
+        'resolved_at' => 'datetime',
+        'is_auto_resolved' => 'boolean'
     ];
 
-    public function customer()
+    public function orderItem()
     {
-        return $this->belongsTo(User::class, 'customer_id');
+        return $this->belongsTo(OrderItem::class, 'order_item_id', 'order_item_id');
     }
+
+    public function buyer()
+    {
+        return $this->belongsTo(User::class, 'buyer_id', 'user_id');
+    }
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id', 'user_id');
+    }
+
+    public function response()
+    {
+        return $this->hasOne(ComplaintResponse::class, 'complaint_id', 'complaint_id');
+    }
+
 }

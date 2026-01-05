@@ -11,8 +11,11 @@ Artisan::command('inspire', function () {
 Schedule::command('auction:update-status')
     ->everyMinute();
 
-Schedule::command('shop:update-open-shop-status')
+Schedule::command('shops:auto-toggle')
     ->everyMinute();
 
-Schedule::command('payment:update-payment-status')
-    ->everyMinute();
+Schedule::command('orders:auto-complete')
+    ->hourly();
+
+Schedule::command('complaints:auto-resolve')
+    ->hourly();

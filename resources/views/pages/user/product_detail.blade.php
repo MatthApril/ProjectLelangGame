@@ -3,13 +3,7 @@
 @section('title', 'Detail Produk | LelangGame')
 
 @section('content')
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <div class="container my-4">
+    <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
@@ -32,7 +26,18 @@
         </p>
 
         <hr>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-8 my-3">
                 <div class="card p-3">
@@ -41,7 +46,7 @@
                         <div class="col-md-5 text-center my-2">
                             @if ($product->product_img)
                                 <img src="{{ asset('storage/' . $product->product_img) }}"
-                                    alt="{{ $product->product_name }}" width="300" class="rounded shadow">
+                                    alt="{{ $product->product_name }}" class="rounded shadow" style="width: 100%">
                             @endif
                         </div>
 
@@ -60,13 +65,16 @@
 
                             <div class="row d-flex align-items-center">
 
-                                <div class="col-6">
-                                    <div class="d-flex align-items-center gap-1">
+                                <div class="col-8">
+                                    <div class="d-flex align-items-center gap-2">
 
                                         <div>
                                             @if ($product->shop->shop_img)
-                                                <img src="{{ asset('storage/' . $product->shop->shop_img) }}"
-                                                    alt="Foto Toko" width="50" class="rounded-5">
+                                                <img 
+                                                    src="{{ asset('storage/' . $product->shop->shop_img) }}" 
+                                                    alt="{{ $product->shop->shop_name }}" 
+                                                    class="shop-avatar"
+                                                >
                                             @else
                                                 <i class="bi bi-person-circle fs-1"></i>
                                             @endif
@@ -85,7 +93,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 text-end">
+                                <div class="col-4 text-end">
                                     <a href="{{ route('shops.detail', $product->shop->shop_id) }}"
                                         class="text-decoration-none fw-semibold">
                                         Kunjungi <br> Toko
@@ -124,17 +132,17 @@
                         <h5 class="fw-bold">Subtotal :</h5>
                         <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
                     </div>
-                    <div class="alert alert-light my-2" role="alert">
+                    {{-- <div class="alert alert-light my-2" role="alert">
                         <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah
                         Melakukan Pembelian!
-                    </div>
+                    </div> --}}
                     <div class="d-flex gap-2 mt-2">
                         <form class="flex-grow-1" action="{{ route('chat.open', $product->shop->owner->user_id) }}" method="GET">
                             <input type="hidden" name="product_id" value="{{ $product->product_id }}">
                             <input type="hidden" name="product_id" value="{{ $product->product_id }}">
                             <input type="hidden" name="return_url" value="{{ route('products.detail', $product->product_id) }}">
                             <button type="submit" class="btn btn-outline-primary text-center w-100">
-                                <i class="bi bi-chat-left"></i>
+                                <i class="bi bi-chat-left"></i> Hubungi
                             </button>
                         </form>
                         <form id="addToCartForm" class="flex-grow-1" action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
@@ -165,8 +173,8 @@
             @if ($product->comments->count() > 0)
 
                 <p>
-                    Rating Rata-Rata:
-                    <strong>{{ number_format($product->rating, 1) }}/5</strong> ⭐
+                    Rating Rata - Rata : 
+                    <strong>{{ number_format($product->rating, 1) }}/5</strong> <i class="bi bi-star-fill text-warning"></i>
                 </p>
 
                 <div class="mt-3">
@@ -174,15 +182,15 @@
                         <div class="card mb-3">
                             <div class="card-body">
 
-                                <div class="d-flex justify-content-between">
-                                    <div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
                                         <strong>{{ $comment->user->username }}</strong>
                                         <span class="text-warning">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 @if ($i <= $comment->rating)
-                                                    ⭐
+                                                    <i class="bi bi-star-fill text-warning"></i>
                                                 @else
-                                                    ☆
+                                                    <i class="bi bi-star text-warning"></i>
                                                 @endif
                                             @endfor
                                         </span>
@@ -214,7 +222,6 @@
             <div>
                 <h4 class="fw-semibold">Produk Terkait</h4>
                 <hr>
-
                 @foreach ($relatedProducts as $related)
                     <div class="col-md-3 mt-2">
                         {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
@@ -240,7 +247,7 @@
                                     </div>
                                 </div>
                                 <a href="{{ route('products.detail', $related->product_id) }}"
-                                    class="btn btn-primary btn-sm float-end mt-2">Lihat Produk <i
+                                    class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i
                                         class="bi bi-caret-right-fill"></i></a>
                             </div>
                         </div>
@@ -272,6 +279,22 @@
                 @endforeach
             </div>
         @endif
-
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const qtyInput = document.getElementById('quantity');
+    
+            qtyInput.addEventListener('input', function () {
+                const max = parseInt(this.max);
+                const min = parseInt(this.min);
+                let value = parseInt(this.value);
+    
+                if (value > max) {
+                    this.value = max;
+                } else if (value < min || isNaN(value)) {
+                    this.value = min;
+                }
+            });
+        });
+    </script>
 @endsection

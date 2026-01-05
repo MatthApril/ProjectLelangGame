@@ -56,7 +56,7 @@ class ProductComment extends Model
         $product->save();
 
         $shop = $product->shop;
-        $shopAvgRating = $shop->products()->avg('rating');
+        $shopAvgRating = $shop->products() ->where('rating', '>', 0)->avg('rating');
         $shop->shop_rating = $shopAvgRating ? round($shopAvgRating, 2) : 0;
         $shop->save();
     }

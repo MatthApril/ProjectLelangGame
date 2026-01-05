@@ -1,21 +1,25 @@
-@extends('layouts.template')
+@extends($template)
 
 @section('title', 'Profile | LelangGame')
 
 @section('content')
     <div class="container">
-        <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb mt-3">
-                <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Profile</li>
-            </ol>
-        </nav>
+        @if (Auth::user()->role != 'admin')
+            <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                </ol>
+            </nav>
+        @endif
         <div class="row">
             <div class="col-md-2">
                 <hr>
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     @if ($user->shop && $user->shop->shop_img)
-                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" class="rounded-5">
+                        <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="" class="shop-avatar">
+                        {{-- <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" class="rounded-5"> --}}
                     @else
                         <div>
                             <i class="bi bi-person-circle fs-1"></i>
@@ -29,17 +33,26 @@
                 </div>
                 <hr>
                 @if ($user->role == 'seller')
+                <div class="ms-3">
+                    <a href="{{ route('shops.detail', $user->shop->shop_id) }}"
+                        class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-shop"></i>
+                        Toko Saya</a>
+                </div>
+                <div class="ms-3">
+                    <a href="{{ route('seller.dashboard') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i>
+                            Kelola Toko</a>
+                </div>
+                <hr>
+                @endif
+                @if ($user->role != 'admin')
                     <div class="ms-3">
-                        <a href="{{ route('seller.dashboard') }}"
-                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i> Dashboard Seller</a>
+                        <a href="{{ route('user.orders') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-cash-coin"></i>
+                            Transaksi</a>
                     </div>
                     <hr>
                 @endif
-                <div class="ms-3">
-                    <a href="{{ route('user.orders') }}"
-                    class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-clipboard2"></i> Riwayat Pesanan</a>
-                </div>
-                <hr>
             </div>
             <div class="col-md-10 mt-3">
                 @if (session('error'))
@@ -64,7 +77,8 @@
                             <form action="{{ route('do-update-shop') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <label>Gambar Toko Baru</label>
+                                <label>Gambar Toko Baru <span class="text-secondary">(Disarankan Ukuran Gambar 1 :
+                                        1)</span></label>
                                 <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
                                 <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
 
@@ -180,7 +194,7 @@
                         <label>Nama Toko</label>
                         <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}"
                             class="form-control mb-3" placeholder="Nama Toko Baru" autocomplete="off" required>
-                        <label>Gambar Toko</label>
+                        <label>Gambar Toko <span class="text-secondary">(Disarankan Ukuran Gambar 1 : 1)</span></label>
                         <input type="file" name="shop_img" id="shop_img" accept="image/*" class="form-control">
                         <p class="mb-3"><i>Format: JPG, PNG, JPEG. Max: 2MB</i></p>
                         <label>Jam Buka</label>

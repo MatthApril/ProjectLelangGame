@@ -28,6 +28,10 @@ th {
     clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
 }
 
+/* .card img:hover {
+    transform: scale(1.1);
+} */
+
 /* .card-title{
     font-size: 12px;
     text-align: center;
@@ -62,6 +66,24 @@ th {
     content: ">";
 }
 
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.product-img-16x9 {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+.shop-avatar {
+    width: 70px;
+    height: 70px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
 .card-custom {
     border: none;
     border-radius: 15px;
@@ -94,10 +116,6 @@ th {
 .card-text-muted {
     font-size: 0.85rem;
     margin-bottom: 20px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 .btn-generate {

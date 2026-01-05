@@ -1,5 +1,5 @@
 <nav class="bg-darkblue text-white sticky-top">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-3 py-2">
                 <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-white text-decoration-none">

@@ -16,33 +16,42 @@
     <link rel="stylesheet" href="{{ asset('css/palette.css') }}">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     @include('partials.headeradmin')
     {{-- navbar 1 --}}
     <nav class="navbar navbar-dark bg-navyblue d-md-none">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarAdmin" aria-controls="sidebarAdmin">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarAdmin"
+                aria-controls="sidebarAdmin">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
     </nav>
     <div class="d-flex">
-        <div class="offcanvas-md offcanvas-start bg-navyblue text-white" tabindex="-1" id="sidebarAdmin" style="width: 270px; border: none; position: sticky; top: 66px; height: calc(100vh - 66px);">
+        <div class="offcanvas-md offcanvas-start bg-navyblue text-white" tabindex="-1" id="sidebarAdmin"
+            style="width: 182px; border: none;">
             <div class="offcanvas-header d-md-none">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarAdmin"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    data-bs-target="#sidebarAdmin"></button>
             </div>
-            <div class="offcanvas-body flex-column py-4 px-4" style="min-height: 80vh;">
-                <a href="{{ route('admin.categories.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
-                <a href="{{ route('admin.games.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.*') ? 'menu-active' : '' }}">Game</a>
-                <a href="{{ route('admin.comments.index') }}" class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.*') ? 'menu-active' : '' }}">Komentar</a>
-                <a href="{{ route('admin.notifications.index') }}" class="text-decoration-none text-white d-block mb-4 {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">Template Notifikasi</a>
+            <div class="offcanvas-body position-fixed flex-column py-4 px-4" style="min-height: 100vh;">
+                <a href="{{ route('admin.categories.index') }}"
+                    class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
+                <a href="{{ route('admin.games.index') }}"
+                    class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.*') ? 'menu-active' : '' }}">Game</a>
+                <a href="{{ route('admin.comments.index') }}"
+                    class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.*') ? 'menu-active' : '' }}">Komentar</a>
+                <a href="{{ route('admin.notifications.index') }}"
+                    class="text-decoration-none text-white d-block {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">
+                    Notifikasi</a>
             </div>
         </div>
-        <div class="content px-4 py-2" style="width: 100%;">                                        
+        <div class="content px-4 py-2" style="width: 100%;">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    @if(!Route::is('admin.dashboard'))
-                        <li class="breadcrumb-item mt-3"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+                    @if (!Route::is('admin.dashboard'))
+                        <li class="breadcrumb-item mt-3"><a href="{{ route('admin.dashboard') }}"
+                                class="text-decoration-none">Dashboard</a></li>
                     @endif
                     @if (Route::is('admin.categories.*'))
                         <li class="breadcrumb-item active mt-3">Kategori</li>
@@ -51,15 +60,19 @@
                     @elseif(Route::is('admin.comments.*'))
                         <li class="breadcrumb-item active mt-3">Komentar</li>
                     @elseif(Route::is('admin.notifications.*'))
-                        <li class="breadcrumb-item active mt-3">Template Notifikasi</li>
+                        <li class="breadcrumb-item active mt-3">Notifikasi</li>
+                    @elseif(Route::is('profile'))
+                        <li class="breadcrumb-item active mt-3">Profile</li>
                     @endif
-                    
-                    @if(Route::is('*.edit'))
+
+                    @if (Route::is('*.edit'))
                         <li class="breadcrumb-item active mt-3">Edit</li>
                     @endif
                 </ol>
             </nav>
-            @yield('content')
+            <main class="flex-grow-1 d-flex flex-column" style="min-height: calc(110vh - 200px);">
+                @yield('content')
+            </main>
             @include('partials.footeradmin')
         </div>
     </div>

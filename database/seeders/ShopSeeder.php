@@ -23,7 +23,7 @@ class ShopSeeder extends Seeder
         ]);
 
         Shop::create([
-            'shop_name' => 'Zinx Store',
+            'shop_name' => 'Test Store',
             'shop_img' => 'shop_a.jpg',
             'owner_id' => 3,
             'open_hour' => '08:00:00',

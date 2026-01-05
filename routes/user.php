@@ -17,21 +17,26 @@ Route::get('/auctions/{auctionId}', [UserController::class, 'showAuctionDetail']
 Route::prefix('user')->as('user.')
 ->middleware(['auth', 'check_role:user,seller', 'check_status', 'throttle:api', 'check_banned'])
 ->group(function() {
-    Route::controller(UserController::class)->group(function() {
-        Route::get('/cart','showCart')->name('cart');
-        Route::get('/orders', 'showOrders')->name('orders');
-        Route::get('/cart/partial', 'showCartPartial')->name('cart.partial');
-        Route::post('/cart/update', 'updateCart')->name('cart.update');
-        Route::post('/cart/add/{productId}', 'addToCart')->name('cart.add');
-        Route::post('/cart/remove/{cartItemId}', 'removeFromCart')->name('cart.remove');
-        Route::get('/orders/{orderId}', 'showOrderDetail')->name('orders.detail');
-        Route::get('/topup', 'topUp')->name('topUp');
-        Route::get('/joki', 'joki')->name('joki');
-        Route::get('/akun', 'akun')->name('akun');
-        Route::get('/item', 'item')->name('item');
+    Route::get('/cart', [UserController::class, 'showCart'])->name('cart');
+    Route::get('/orders', [UserController::class, 'showOrders'])->name('orders');
+    Route::get('/cart/partial', [UserController::class, 'showCartPartial'])->name('cart.partial');
+    Route::post('/cart/update', [UserController::class, 'updateCart'])->name('cart.update');
+    Route::post('/cart/add/{productId}', [UserController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/remove/{cartItemId}', [UserController::class, 'removeFromCart'])->name('cart.remove');
+    Route::get('/orders/{orderId}', [UserController::class, 'showOrderDetail'])->name('orders.detail');
+    Route::post('/orders/{orderItemId}',[UserController::class,'confirmOrder'])->name('orders.confirm');
 
-        Route::post('/auctions/bid/{auctionId}', 'placeBid')->name('auctions.bid');
-        Route::post('/reviews/{orderItemId}', 'storeReview')->name('reviews.store');
+    Route::post('/auctions/bid/{auctionId}', [UserController::class, 'placeBid'])->name('auctions.bid');
+    Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
+
+    Route::get('/complaints', [UserController::class, 'showComplaints'])->name('complaints.index');
+    Route::get('/complaints/{complaintId}', [UserController::class, 'showComplaintDetail'])->name('complaints.show');
+    Route::get('/orders/{orderItemId}/complaint/create', [UserController::class, 'showCreateComplaint'])->name('complaints.create');
+    Route::post('/orders/{orderItemId}/complaint', [UserController::class, 'storeComplaint'])->name('complaints.store');
+
+    Route::controller(ChatController::class)->group(function() {
+        Route::get('/chat/{userId}', 'show')->name('chat.show');
+        Route::post('/chat/{userId}', 'store')->name('chat.store');
     });
 });
 

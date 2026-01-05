@@ -72,7 +72,7 @@ class UpdateAuctionStatus extends Command
                         'product_id' => $auction->product->product_id,
                         'shop_id' => $auction->product->shop_id,
                         'product_price' => $auction->product->price,
-                        'quantity' => 1,
+                        'quantity' => $auction->product->quantity,
                         'subtotal' => $highestBid->bid_price,
                         'status' => 'shipped',
                     ]);

@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Xendit\Configuration;
 use Xendit\Invoice\CreateInvoiceRequest;
@@ -202,6 +203,7 @@ class PaymentController extends Controller
                     'quantity' => $item->quantity,
                     'subtotal' => $subtotal,
                     'status' => 'pending',
+                    'paid_at'=> null,
                 ]);
 
             }
@@ -248,22 +250,33 @@ class PaymentController extends Controller
     {
         // dd($req->all());
         if ($req->transaction_status == 'capture') {
-            $order = Order::where('order_id', $req->order_id)->first();
+            $order = Order::with(['account', 'orderItems.product'])->where('order_id', $req->order_id)->first();
             if ($order) {
                 $order->update(['status' => 'paid']);
+
+                $order->orderItems()->update([
+                    'status' => 'paid',
+                    'paid_at' => now()
+                ]);
+
                 foreach ($order->orderItems as $item) {
                     $product = Product::find($item->product_id);
                     if ($product) {
                         $product->decrement('stok', $item->quantity);
                     }
-                    $item->update(['status' => 'shipped']);
+
                 }
 
                 $user = Auth::user();
                 // dd($user->cart);
-                $cart = $user->cart->first();
-                $cart->cartItems()->delete();
+                $cart = $user->cart()->first();
 
+                if ($cart) {
+                    $cart->cartItems()->delete();
+                }
+
+                Mail::to($user->email)->queue(new \App\Mail\Invoice($order));
+                
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }
         }

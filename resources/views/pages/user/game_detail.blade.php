@@ -87,7 +87,11 @@
             {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
                     @if($product->product_img)
-                        <img src="{{ asset('storage/' . $product->product_img) }}" alt="{{ $product->product_name }}" class="card-img-top" height="170">
+                        <img 
+                            src="{{ asset('storage/' . $product->product_img) }}" 
+                            alt="{{ $product->product_name }}" 
+                            class="card-img-top product-img-16x9"
+                        >
                     @endif
                     <div class="card-body">
                         <h5 class="fw-bold">{{ $product->product_name }}</h5>
@@ -104,7 +108,7 @@
                                 <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
                             </div>
                         </div>
-                        <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-2">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
+                        <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                     </div>
                 </div>
             {{-- </a> --}}
@@ -116,7 +120,15 @@
     </div>
 
     @else
-        <h4 class="fw-semibold text-center mt-4">Tidak ada produk ditemukan.</h4>
+        <div class="text-center">
+            <div>
+                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+            </div>
+            <div>
+                <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>
+                <p>Belum ada produk yang sesuai dengan kriteria pencarian Anda.</p>
+            </div>
+        </div>
     @endif
 </div>
 @endsection

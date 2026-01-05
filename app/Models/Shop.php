@@ -12,6 +12,7 @@ class Shop extends Model
     protected $primaryKey = 'shop_id';
     public $timestamps = true;
     public $incrementing = true;
+
     protected $fillable = [
         'shop_name',
         'owner_id',
@@ -23,6 +24,7 @@ class Shop extends Model
         'close_hour',
         'status'
     ];
+    
     protected $casts = [
         'shop_rating' => 'float',
     ];
@@ -39,11 +41,13 @@ class Shop extends Model
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class, 'order_id');
+        return $this->hasMany(OrderItem::class, 'shop_id', 'shop_id');
     }
 
-    public function appeals()
+    public function getTotalProductsSoldAttribute()
     {
-        return $this->hasMany(ShopAppeal::class, 'appeal_shop_id');
+        return $this->orderItems()
+            ->whereIn('status', ['completed'])
+            ->sum('quantity');
     }
 }

@@ -41,14 +41,15 @@
                 <td>{{ $totalRecipients }}</td>
             </tr>
         </table>
-
-        <br><br>
+        
         {{-- <h6 class="fw-bold">Menu Manajemen</h6> --}}
-        {{-- <p>
-            <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |
+        <p>
+            {{-- <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |
             <a href="{{ route('admin.games.index') }}">Manage Game</a> |
-            <a href="{{ route('admin.notifications.index') }}">Manage Notifikasi</a> |
-            <a href="{{ route('admin.comments.index') }}">Manage Comments</a>
-        </p> --}}
+            <a href="{{ route('admin.notifications.index') }}">Manage Notifikasi</a> | --}}
+            <a href="{{ route('admin.comments.index') }}">Manage Comments</a> |
+            <a href="{{ route('admin.complaints.index') }}">Manage Complaints</a>
+            <a href="{{ route('admin.cancelled_orders.index') }}">Manage Cancelled Orders</a>
+        </p>
     </div>
 @endsection

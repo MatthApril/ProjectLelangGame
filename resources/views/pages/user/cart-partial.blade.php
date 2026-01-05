@@ -10,32 +10,30 @@
         </ol>
     </nav>
 
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     {{-- <div class="row"> --}}
         <h2 class="fw-semibold">Keranjang Belanja</h2>
         <hr>
-    
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         @if (count($cartItems) <= 0)
             <div class="text-center">
                 <div>
                     <img src="{{ asset('images/cart-empty.png') }}" alt="Cart Empty" width="300" class="my-3">
                 </div>
                 <div>
-                    <h5 class="fw-semibold">Wah Keranjang Kamu Masih Kosong!</h5>
-                    <p>Mau Beli Apa Hari Ini? Masukin Keranjang Aja Dulu Daripada Nanti Lupa.</p>
+                    <h5 class="fw-semibold">Wah keranjang kamu masih kosong.</h5>
+                    <p>Mau beli apa hari ini? Masukin keranjang aja dulu daripada nanti lupa.</p>
                 </div>
             </div>
         @else
@@ -83,7 +81,15 @@
                         </div>
                     {{-- </a> --}}
                     <div class="d-flex my-3 gap-2">
-                        <input type="number" value="{{ $item->quantity }}" min="1" data-id="{{ $item->cart_items_id }}" class="form-control qty-input">
+                        <input 
+                            type="number"
+                            value="{{ $item->quantity }}"
+                            min="1"
+                            max="{{ $item->product->stok }}"
+                            data-max="{{ $item->product->stok }}"
+                            data-id="{{ $item->cart_items_id }}"
+                            class="form-control qty-input"
+                        >
                         <form action="{{ route('user.cart.remove', ['cartItemId' => $item->cart_items_id]) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash3"></i></button>
