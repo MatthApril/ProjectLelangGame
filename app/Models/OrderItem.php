@@ -21,10 +21,12 @@ class OrderItem extends Model
         'status',
         'shipped_at',
         'paid_at',
+        'is_refunded'
     ];
     protected $casts = [
         'paid_at' => 'datetime',
         'shipped_at' => 'datetime',
+        'is_refunded' => 'boolean'
     ];
 
     public function complaint()
@@ -77,5 +79,20 @@ class OrderItem extends Model
         return $this->isShipped()
             && $this->shipped_at
             && $this->shipped_at->addDays(3)->isPast();
+    }
+
+    public function getCancelReason(): string
+    {
+        if (!$this->isCancelled()) {
+            return '-';
+        }
+
+        $complaint = $this->complaint;
+
+        if ($complaint && $complaint->decision === 'refund') {
+            return 'Komplain Disetujui (Refund)';
+        }
+
+        return 'Dibatalkan oleh Seller';
     }
 }
