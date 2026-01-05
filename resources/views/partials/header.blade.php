@@ -1,14 +1,14 @@
 <nav class="bg-darkblue text-white">
     <div class="container">
         <div class="row d-flex align-items-center justify-content-center">
-            <div class="col-md-3 py-2">
+            <div class="col-sm-12 col-md-12 col-lg-3 py-2">
                 <a href="{{ route('user.home') }}" class="d-flex align-items-center text-white text-decoration-none">
                     <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50">
                     <h5 class="fw-semibold">LelangGame</h5>
                 </a>
             </div>
             @auth
-                <div class="col-md-5">
+                <div class="col-sm-12 col-md-12 col-lg-5">
                     <form action="{{ route('products.index') }}" method="GET">
                         <div class="input-group">
                             <input type="search" class="form-control" name="search" placeholder="Coba Cari Semua Produk"
@@ -17,7 +17,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-4 py-3">
+                <div class="col-sm-12 col-md-12 col-lg-4 py-3">
                     <div class="d-flex align-items-center justify-content-end gap-3">
                         <a href="#" class="text-decoration-none text-white"><i class="bi bi-chat-left"
                                 style="font-size: 1.5rem;"></i></a>
@@ -29,7 +29,10 @@
                         <div class="dropdown dropstart">
                             <button class="btn btn-outline-light text-decoration-none text-wrap dropdown-toggle"
                                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i> {{ Auth::user()->username }}
+                                <i class="bi bi-person-circle"></i>
+                                {{ strlen(Auth::user()->username) > 5 
+                                    ? substr(Auth::user()->username, 0, 5) . '...' 
+                                    : Auth::user()->username }}
                             </button>
 
                             <ul class="dropdown-menu">
@@ -49,7 +52,7 @@
                     </div>
                 </div>
             @else
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-12 col-lg-6">
                     <form action="{{ route('products.index') }}" method="GET">
                         <div class="input-group">
                             <input type="search" class="form-control" name="search" placeholder="Coba Cari Produk"
@@ -58,7 +61,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3 py-3">
+                <div class="col-sm-12 col-md-12 col-lg-3 py-3">
                     <div class="d-flex align-items-center justify-content-end gap-3">
                         <a href="{{ route('login') }}" class="text-decoration-none text-white"><i class="bi bi-cart3"
                                 style="font-size: 1.5rem;"></i></a>

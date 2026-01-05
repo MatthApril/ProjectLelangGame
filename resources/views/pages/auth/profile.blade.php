@@ -7,7 +7,7 @@
         @if (Auth::user()->role != 'admin')
             <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb mt-3">
-                    <li class="breadcrumb-item"><a href="{{ route('user.home') }}" class="text-decoration-none">Beranda</a>
+                    <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Profile</li>
                 </ol>
@@ -33,12 +33,17 @@
                 </div>
                 <hr>
                 @if ($user->role == 'seller')
-                    <div class="ms-3">
-                        <a href="{{ route('seller.dashboard') }}"
+                <div class="ms-3">
+                    <a href="{{ route('shops.detail', $user->shop->shop_id) }}"
+                        class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-shop"></i>
+                        Toko Saya</a>
+                </div>
+                <div class="ms-3">
+                    <a href="{{ route('seller.dashboard') }}"
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i>
-                            Dashboard Seller</a>
-                    </div>
-                    <hr>
+                            Kelola Toko</a>
+                </div>
+                <hr>
                 @endif
                 @if ($user->role != 'admin')
                     <div class="ms-3">

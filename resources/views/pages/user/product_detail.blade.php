@@ -66,13 +66,13 @@
                             <div class="row d-flex align-items-center">
 
                                 <div class="col-8">
-                                    <div class="d-flex align-items-center gap-1">
+                                    <div class="d-flex align-items-center gap-2">
 
                                         <div>
                                             @if ($product->shop->shop_img)
                                                 <img 
                                                     src="{{ asset('storage/' . $product->shop->shop_img) }}" 
-                                                    alt="" 
+                                                    alt="{{ $product->shop->shop_name }}" 
                                                     class="shop-avatar"
                                                 >
                                             @else
