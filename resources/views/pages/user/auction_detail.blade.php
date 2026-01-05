@@ -8,7 +8,7 @@
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('user.auctions.index') }}">Daftar Lelang</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('auctions.index') }}">Daftar Lelang</a></li>
             <li class="breadcrumb-item active" aria-current="page">Detail Lelang</li>
         </ol>
     </nav>
@@ -20,7 +20,6 @@
             $statusConfig = match($auction->status) {
                 'pending' => ['class' => 'bg-secondary', 'text' => 'Akan Dimulai', 'icon' => 'bi-clock'],
                 'running' => ['class' => 'bg-primary', 'text' => 'Berlangsung', 'icon' => 'bi-broadcast'],
-                'paused' => ['class' => 'bg-warning text-dark', 'text' => 'Dijeda', 'icon' => 'bi-pause-circle'],
                 'ended' => ['class' => 'bg-success', 'text' => 'Selesai', 'icon' => 'bi-check-circle'],
                 default => ['class' => 'bg-secondary', 'text' => ucfirst($auction->status), 'icon' => 'bi-question-circle'],
             };
@@ -89,12 +88,16 @@
                             <span class="badge bg-light text-dark border">
                                 <i class="bi bi-grid me-1"></i>{{ $auction->product->category->category_name ?? '-' }}
                             </span>
+                            <span class="badge bg-light text-dark border">
+                                <i class="bi bi-box-seam me-1"></i>{{ $auction->product->stok }}
+                            </span>
                         </div>
                         <h4 class="fw-bold mb-2">{{ $auction->product->product_name ?? 'Produk tidak tersedia' }}</h4>
                         @if ($auction->product->shop)
-                            <p class="text-muted mb-0">
-                                <i class="bi bi-shop me-1"></i> {{ $auction->product->shop->shop_name ?? 'Toko tidak tersedia' }}
-                            </p>
+                            <div class="text-muted mb-0 d-flex justify-content-between">
+                                <span><i class="bi bi-shop me-1"></i> {{ $auction->product->shop->shop_name ?? 'Toko tidak tersedia' }}</span>
+                                <span><i class="bi bi-star me-1"></i> Rating {{ number_format($auction->product->rating, 1) }}</span>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -117,15 +120,12 @@
                             <h2 class="fw-bold mb-0 countdown-timer" data-time="{{ $auction->end_time }}" data-type="end">
                                 --:--:--
                             </h2>
-                        @elseif($auction->status == 'paused')
-                            <p class="mb-2 text-warning"><i class="bi bi-pause-circle me-1"></i> Lelang Dijeda</p>
-                            <h4 class="fw-bold mb-0 text-warning">Menunggu dilanjutkan...</h4>
                         @else
                             <p class="mb-2 text-success"><i class="bi bi-check-circle me-1"></i> Lelang Telah Berakhir</p>
                             <h4 class="fw-bold mb-0 text-white">{{ $auction->end_time->format('d M Y, H:i') }} WIB</h4>
                         @endif
                     </div>
-
+        
                     {{-- Price Section --}}
                     <div class="row g-3 mb-4">
                         <div class="col-6">
@@ -145,7 +145,7 @@
                             </div>
                         </div>
                     </div>
-
+        
                     {{-- Highest Bidder Info --}}
                     @if($auction->highestBid)
                         <div class="d-flex align-items-center bg-light rounded-3 p-3 mb-4">
@@ -167,7 +167,7 @@
                             <i class="bi bi-info-circle me-1"></i> Belum ada penawaran
                         </div>
                     @endif
-
+        
                     {{-- Action Zone (Dynamic based on status) --}}
                     <div class="border-top pt-4">
                         @if($auction->status == 'pending')
@@ -176,14 +176,6 @@
                                 <div>
                                     <p class="mb-0 fw-semibold">Lelang Akan Dimulai</p>
                                     <small class="text-muted">Pada {{ $auction->start_time->format('d M Y, H:i') }} WIB</small>
-                                </div>
-                            </div>
-                        @elseif($auction->status == 'paused')
-                            <div class="alert alert-warning d-flex align-items-center mb-0">
-                                <i class="bi bi-pause-circle fs-4 me-3"></i>
-                                <div>
-                                    <p class="mb-0 fw-semibold">Lelang Sedang Dijeda</p>
-                                    <small>Penawaran tidak dapat diterima saat ini</small>
                                 </div>
                             </div>
                         @elseif($auction->status == 'ended')
@@ -231,82 +223,17 @@
                                 </div>
                             @endif
                         @else
-                            {{-- Running: Show Bid Form --}}
-                            <h6 class="fw-bold mb-3"><i class="bi bi-hammer me-1"></i> Pasang Tawaran</h6>
-                            <form action="{{ route('user.auctions.bid', ['auctionId' => $auction->auction_id]) }}" method="post">
-                                @csrf
-                                
-                                {{-- Minimum Next Bid Info --}}
-                                <div class="bg-success bg-opacity-10 rounded-3 p-3 text-center border border-success mb-3">
-                                    <small class="text-success d-block mb-1 fw-semibold">Minimal Tawaran Berikutnya</small>
-                                    <h5 class="text-success fw-bold mb-0">
-                                        Rp {{ number_format(($auction->current_price ?? 0) + 1000, 0, ',', '.') }}
-                                    </h5>
+                            {{-- Running: Brief status message --}}
+                            <div class="alert alert-primary d-flex align-items-center mb-0">
+                                <i class="bi bi-broadcast fs-4 me-3"></i>
+                                <div>
+                                    <p class="mb-0 fw-semibold">Lelang Sedang Berlangsung</p>
+                                    <small>Pasang tawaran Anda di bawah ini</small>
                                 </div>
-
-                                {{-- Bid Input --}}
-                                <div class="mb-3">
-                                    <label for="bidAmount" class="form-label fw-semibold">
-                                        <i class="bi bi-cash-stack me-1"></i>Jumlah Tawaran Anda
-                                    </label>
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-text bg-primary text-white fw-bold">Rp</span>
-                                        <input type="number" 
-                                               class="form-control form-control-lg fw-bold" 
-                                               id="bidAmount" 
-                                               name="bid_price"
-                                               min="{{ $auction->current_price + 1000 }}" 
-                                               value="{{ $auction->current_price + 1000 }}" 
-                                               readonly 
-                                               required>
-                                    </div>
-                                </div>
-
-                                {{-- Quick Add Buttons --}}
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold text-muted small">
-                                        <i class="bi bi-lightning-fill me-1"></i>Tambah Cepat
-                                    </label>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="1000">
-                                            +Rp 1rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="5000">
-                                            +Rp 5rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="10000">
-                                            +Rp 10rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="25000">
-                                            +Rp 25rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="50000">
-                                            +Rp 50rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="100000">
-                                            +Rp 100rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="resetBid()">
-                                            <i class="bi bi-arrow-counterclockwise"></i> Reset
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {{-- Submit Button --}}
-                                <button type="submit" class="btn btn-primary btn-lg w-100">
-                                    <i class="bi bi-hammer me-2"></i>Tawar Sekarang
-                                </button>
-
-                                {{-- Info Text --}}
-                                <div class="alert alert-light border mt-3 mb-0 small" role="alert">
-                                    <i class="bi bi-info-circle-fill text-primary me-1"></i>
-                                    Tawaran harus lebih tinggi dari harga terkini minimal <strong>Rp 1.000</strong>. 
-                                    Tawaran yang sudah diajukan tidak dapat dibatalkan.
-                                </div>
-                            </form>
+                            </div>
                         @endif
                     </div>
-
+        
                     {{-- Auction Time Info --}}
                     <div class="border-top pt-4 mt-4">
                         <div class="row g-2 small text-muted">
@@ -323,6 +250,97 @@
         </div>
     </div>
 
+    {{-- Bidding Form Section (Full Width - Only when running) --}}
+    @if($auction->status == 'running')
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-hammer me-2"></i>Pasang Tawaran
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            <form action="{{ route('user.auctions.bid', ['auctionId' => $auction->auction_id]) }}" method="post">
+                @csrf
+                
+                <div class="row g-4">
+                    {{-- Left: Price Info --}}
+                    <div class="col-md-4">
+                        <div class="bg-success bg-opacity-10 rounded-3 p-4 text-center border border-success h-100 d-flex flex-column justify-content-center">
+                            <small class="text-success d-block mb-2 fw-semibold">Minimal Tawaran Berikutnya</small>
+                            <h3 class="text-success fw-bold mb-0">
+                                Rp {{ number_format(($auction->current_price ?? 0) + 1000, 0, ',', '.') }}
+                            </h3>
+                        </div>
+                    </div>
+
+                    {{-- Right: Bid Controls --}}
+                    <div class="col-md-8">
+                        {{-- Bid Input --}}
+                        <div class="mb-3">
+                            <label for="bidAmount" class="form-label fw-semibold">
+                                <i class="bi bi-cash-stack me-1"></i>Jumlah Tawaran Anda
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-primary text-white fw-bold">Rp</span>
+                                <input type="number" 
+                                       class="form-control form-control-lg fw-bold" 
+                                       id="bidAmount" 
+                                       name="bid_price"
+                                       min="{{ $auction->current_price + 1000 }}" 
+                                       value="{{ $auction->current_price + 1000 }}" 
+                                       readonly 
+                                       required>
+                            </div>
+                        </div>
+
+                        {{-- Quick Add Buttons --}}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">
+                                <i class="bi bi-lightning-fill me-1"></i>Tambah Cepat
+                            </label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="1000">
+                                    +Rp 1rb
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="5000">
+                                    +Rp 5rb
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="10000">
+                                    +Rp 10rb
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="25000">
+                                    +Rp 25rb
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="50000">
+                                    +Rp 50rb
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="100000">
+                                    +Rp 100rb
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="resetBid()">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- Submit Button --}}
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-hammer me-2"></i>Tawar Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Info Text --}}
+                <div class="alert alert-light border mt-4 mb-0 small" role="alert">
+                    <i class="bi bi-info-circle-fill text-primary me-1"></i>
+                    Tawaran harus lebih tinggi dari harga terkini minimal <strong>Rp 1.000</strong>. 
+                    Tawaran yang sudah diajukan tidak dapat dibatalkan.
+                </div>
+            </form>
+        </div>
+    </div>
+    @endif
+
     {{-- Product Description --}}
     <div class="card border-0 shadow-sm mt-4">
         <div class="card-header bg-white border-bottom py-3">
@@ -333,13 +351,6 @@
         <div class="card-body">
             <p class="mb-0">{!! nl2br(e($auction->product->description ?? 'Tidak ada deskripsi')) !!}</p>
         </div>
-    </div>
-
-    {{-- Back Button --}}
-    <div class="mt-4">
-        <a href="{{ route('user.auctions.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Lelang
-        </a>
     </div>
 </div>
 

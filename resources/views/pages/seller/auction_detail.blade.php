@@ -20,7 +20,6 @@
             $statusConfig = match($auction->status) {
                 'pending' => ['class' => 'bg-secondary', 'text' => 'Akan Dimulai', 'icon' => 'bi-clock'],
                 'running' => ['class' => 'bg-primary', 'text' => 'Berlangsung', 'icon' => 'bi-broadcast'],
-                'paused' => ['class' => 'bg-warning text-dark', 'text' => 'Dijeda', 'icon' => 'bi-pause-circle'],
                 'ended' => ['class' => 'bg-success', 'text' => 'Selesai', 'icon' => 'bi-check-circle'],
                 default => ['class' => 'bg-secondary', 'text' => ucfirst($auction->status), 'icon' => 'bi-question-circle'],
             };
@@ -110,9 +109,6 @@
                             <h2 class="fw-bold mb-0 countdown-timer" data-time="{{ $auction->end_time }}" data-type="end">
                                 --:--:--
                             </h2>
-                        @elseif($auction->status == 'paused')
-                            <p class="mb-2 text-warning"><i class="bi bi-pause-circle me-1"></i> Lelang Dijeda</p>
-                            <h4 class="fw-bold mb-0 text-warning">Menunggu dilanjutkan...</h4>
                         @else
                             <p class="mb-2 text-success"><i class="bi bi-check-circle me-1"></i> Lelang Telah Berakhir</p>
                             <h4 class="fw-bold mb-0 text-white">{{ $auction->end_time->format('d M Y, H:i') }} WIB</h4>
@@ -179,14 +175,6 @@
                                 <div>
                                     <p class="mb-0 fw-semibold">Lelang Sedang Berlangsung</p>
                                     <small>Total {{ $auction->bids->count() }} penawaran masuk</small>
-                                </div>
-                            </div>
-                        @elseif($auction->status == 'paused')
-                            <div class="alert alert-warning d-flex align-items-center">
-                                <i class="bi bi-pause-circle fs-4 me-3"></i>
-                                <div>
-                                    <p class="mb-0 fw-semibold">Lelang Sedang Dijeda</p>
-                                    <small>Penawaran tidak dapat diterima saat ini</small>
                                 </div>
                             </div>
                         @else

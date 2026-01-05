@@ -147,7 +147,7 @@
                     <p>Waktu Selesai: {{ optional($auction->end_time)->format('d M Y H:i') ?? '-' }}</p>
                     @if (now()->greaterThanOrEqualTo($auction->start_time))
                         <p>Status: Sedang Berlangsung</p>
-                        <form action="{{ route('user.auction.detail', $auction->auction_id) }}" method="get">
+                        <form action="{{ route('auctions.detail', $auction->auction_id) }}" method="get">
                             <button class="btn btn-primary" type="submit">Lihat Detail & Pasang Tawaran</button>
                         </form>
                     @else

@@ -55,7 +55,6 @@
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Akan Dimulai</option>
                     <option value="running" {{ request('status') == 'running' ? 'selected' : '' }}>Berlangsung</option>
-                    <option value="paused" {{ request('status') == 'paused' ? 'selected' : '' }}>Istirahat</option>
                     <option value="ended" {{ request('status') == 'ended' ? 'selected' : '' }}>Selesai</option>
                 </select>
             </div>
@@ -76,23 +75,60 @@
 
     <div class="row mt-4">
     @forelse ($auctions as $auction)
+        @php
+            $statusConfig = match($auction->status) {
+                'pending' => ['badge' => 'secondary', 'text' => 'Akan Dimulai', 'icon' => 'bi-clock', 'harga' => 'Awal'],
+                'running' => ['badge' => 'danger', 'text' => 'LIVE', 'icon' => 'bi-broadcast', 'harga' => 'Saat Ini'],
+                'ended' => ['badge' => 'success', 'text' => 'Selesai', 'icon' => 'bi-check-circle', 'harga' => 'Akhir'],
+                default => ['badge' => 'secondary', 'text' => ucfirst($auction->status), 'icon' => 'bi-question-circle', 'harga' => ''],
+            };
+        @endphp
         <div class="col-md-3 mb-4">
             <div class="card h-100 shadow-sm border-0 pb-3">
                 <div class="position-relative">
-                    <img src="{{ asset('storage/' . $auction->product->product_img) }}" 
-                        class="card-img-top object-fit-cover" 
-                        alt="{{ $auction->product->product_name }}" 
-                        style="height: 200px;">
+                    @if($auction->product && $auction->product->product_img)
+                        <img src="{{ asset('storage/' . $auction->product->product_img) }}" 
+                            class="card-img-top object-fit-cover" 
+                            alt="{{ $auction->product->product_name }}" 
+                            style="height: 200px;">
+                    @else
+                        <img src="{{ asset('images/no-image.png') }}" 
+                            class="card-img-top object-fit-cover" 
+                            alt="No Image" 
+                            style="height: 200px;">
+                    @endif
                     
+                    {{-- Status Badge --}}
                     <div class="position-absolute top-0 start-0 m-2">
-                        <span class="badge bg-danger d-flex align-items-center gap-1">
-                            <span class="pulse-dot"></span> LIVE 
-                        </span>
+                        @if($auction->status == 'running')
+                            <span class="badge bg-danger d-flex align-items-center gap-1">
+                                <span class="pulse-dot"></span> LIVE
+                            </span>
+                        @else
+                            <span class="badge bg-{{ $statusConfig['badge'] }}">
+                                <i class="bi {{ $statusConfig['icon'] }} me-1"></i>{{ $statusConfig['text'] }}
+                            </span>
+                        @endif
                     </div>
 
-                    <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
-                        <small><i class="bi bi-alarm"></i> Berakhir dalam: <span class="auction-timer fw-bold" data-end="{{ $auction->end_time }}">...</span></small>
-                    </div>
+                    {{-- Timer Bar --}}
+                    @if($auction->status == 'pending')
+                        <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
+                            <small><i class="bi bi-hourglass-split"></i> Dimulai dalam: 
+                                <span class="auction-timer fw-bold" data-time="{{ $auction->start_time }}" data-type="start">...</span>
+                            </small>
+                        </div>
+                    @elseif($auction->status == 'running')
+                        <div class="position-absolute bottom-0 start-0 w-100 bg-primary bg-opacity-75 text-white text-center py-1">
+                            <small><i class="bi bi-alarm"></i> Berakhir dalam: 
+                                <span class="auction-timer fw-bold" data-time="{{ $auction->end_time }}" data-type="end">...</span>
+                            </small>
+                        </div>
+                    @elseif($auction->status == 'ended')
+                        <div class="position-absolute bottom-0 start-0 w-100 bg-success bg-opacity-75 text-white text-center py-1">
+                            <small><i class="bi bi-check-circle"></i> Lelang Selesai</small>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="card-body">
@@ -101,7 +137,7 @@
                     </h5>
                     
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <small class="text-muted">Harga Saat Ini:</small>
+                        <small class="text-muted">Harga {{ $statusConfig['harga'] }}:</small>
                         <span class="fw-bold text-primary fs-5">
                             Rp {{ number_format($auction->current_price, 0, ',', '.') }}
                         </span>
@@ -127,8 +163,14 @@
                             Detail Lelang <i class="bi bi-arrow-right"></i>
                         </a>
                     @else
-                        <a href="{{ route('user.auctions.detail', $auction->auction_id) }}" class="btn btn-outline-primary w-100 rounded-pill">
-                            Lihat Detail & Pasang Tawaran <i class="bi bi-arrow-right"></i>
+                        <a href="{{ route('auctions.detail', $auction->auction_id) }}" class="btn btn-outline-primary w-100 rounded-pill">
+                            @if($auction->status == 'running')
+                                Pasang Tawaran <i class="bi bi-hammer"></i>
+                            @elseif($auction->status == 'pending')
+                                Lihat Detail <i class="bi bi-arrow-right"></i>
+                            @else
+                                Lihat Detail <i class="bi bi-arrow-right"></i>
+                            @endif
                         </a>    
                     @endif
                 </div>
@@ -149,20 +191,25 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Select all elements with class 'auction-timer'
         const timers = document.querySelectorAll('.auction-timer');
 
-        setInterval(() => {
+        function updateTimers() {
             const now = new Date().getTime();
 
             timers.forEach(timer => {
-                const endTimeStr = timer.getAttribute('data-end');
-                const endTime = new Date(endTimeStr).getTime();
-                const distance = endTime - now;
+                const timeStr = timer.getAttribute('data-time');
+                const type = timer.getAttribute('data-type');
+                const targetTime = new Date(timeStr).getTime();
+                const distance = targetTime - now;
 
                 if (distance < 0) {
-                    timer.innerHTML = "SELESAI";
-                    timer.classList.add('text-danger');
+                    if (type === 'start') {
+                        timer.innerHTML = "DIMULAI!";
+                        timer.classList.add('text-success');
+                    } else {
+                        timer.innerHTML = "SELESAI";
+                        timer.classList.add('text-danger');
+                    }
                     return;
                 }
 
@@ -171,10 +218,18 @@
                 const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // Pad with zeros (e.g., 05m 02s)
-                timer.innerHTML = `${d}h ${h < 10 ? '0'+h : h}j ${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
+                if (d > 0) {
+                    timer.innerHTML = `${d}h ${h < 10 ? '0'+h : h}j ${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
+                } else if (h > 0) {
+                    timer.innerHTML = `${h}j ${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
+                } else {
+                    timer.innerHTML = `${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
+                }
             });
-        }, 1000);
+        }
+
+        updateTimers();
+        setInterval(updateTimers, 1000);
     });
 </script>
 

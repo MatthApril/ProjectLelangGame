@@ -33,21 +33,18 @@
                                 $statusClass = match($auction->status) {
                                     'pending' => 'secondary',
                                     'running' => 'primary',
-                                    'paused' => 'warning',
                                     'ended' => 'success',
                                     default => '',
                                 };
                                 $statusHarga = match($auction->status) {
                                     'pending' => 'Awal',
                                     'running' => 'Terkini',
-                                    'paused' => 'Terkini',
                                     'ended' => 'Akhir',
                                     default => '',
                                 };
                                 $statusIndo = match($auction->status) {
                                     'pending' => 'Akan Dimulai',
                                     'running' => 'Berlangsung',
-                                    'paused' => 'Istirahat',
                                     'ended' => 'Selesai',
                                     default => '',
                                 }
@@ -79,10 +76,6 @@
                                                   data-time="{{ $auction->end_time }}" 
                                                   data-type="end">...</span>
                                         </small>
-                                    </div>
-                                @elseif($auction->status == 'paused')
-                                    <div class="position-absolute bottom-0 start-0 w-100 bg-warning bg-opacity-75 text-dark text-center py-1">
-                                        <small><i class="bi bi-pause-circle"></i> Lelang Diistirahatkan</small>
                                     </div>
                                 @elseif($auction->status == 'ended')
                                     <div class="position-absolute bottom-0 start-0 w-100 bg-success bg-opacity-75 text-white text-center py-1">
@@ -116,7 +109,7 @@
                                         <small class="text-muted">&nbsp;Belum ada tawaran</small>
                                     </div>
                                     <div style="width: 85px;"></div>
-                                @elseif($auction->status == 'paused' || $auction->status == 'ended')
+                                @elseif($auction->status == 'ended')
                                     <div class="d-flex align-items-center gap-1">
                                         <i class="bi bi-x-circle-fill text-danger"></i>
                                         <small class="text-muted">&nbsp;Tidak ada tawaran</small>
