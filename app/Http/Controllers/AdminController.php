@@ -192,7 +192,6 @@ class AdminController extends Controller
 
     function deleteCategory($category) {
         $categoryData = Category::findOrFail($category);
-        $affectedProductsCount = $categoryData->products()->count();
 
         $categoryData->delete();
 
@@ -274,10 +273,6 @@ class AdminController extends Controller
         $game = Game::findOrFail($id);
 
         $affectedProductsCount = $game->products()->count();
-
-        // if ($game->game_img) {
-        //     Storage::disk('public')->delete($game->game_img);
-        // }
 
         $game->delete();
 

@@ -30,16 +30,6 @@ class Category extends Model
 
     protected static function booted()
     {
-        static::deleting(function ($category) {
-            $category->products()->whereNull('deleted_at')->each(function ($product) {
-                $product->delete();
-            });
-
-            $category->gamesCategories()->whereNull('deleted_at')->each(function ($gc) {
-                $gc->delete();
-            });
-        });
-
         static::restoring(function ($category) {
 
             $category->products()->onlyTrashed()->each(function ($product) {

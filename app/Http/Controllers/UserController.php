@@ -249,23 +249,13 @@ class UserController extends Controller
                 $query->whereHas('shop', function($q) {
                     $q->where('status', 'open')->whereHas('owner');
                 })
-                ->where('type', 'normal')
-                ->whereHas('game', function($q) {
-                    $q->whereNull('deleted_at');
-                })
-                ->whereHas('category', function($q) {
-                    $q->whereNull('deleted_at');
-                });
+                ->where('type', 'normal');
             }])->orderBy('products_count', 'desc')->take(6)->get();
 
         $latestProductsQuery = Product::with(['game', 'shop', 'category'])
             ->where('type', 'normal')
-            ->whereHas('category', function($query) {
-                $query->whereNull('deleted_at');
-            })->whereHas('shop', function($query) {
+            ->whereHas('shop', function($query) {
                 $query->where('status', 'open')->whereHas('owner');
-            })->whereHas('game', function($query) {
-                $query->whereNull('deleted_at');
             })->where('stok', '>', 0);
 
         $latestProducts = $latestProductsQuery->latest()->take(12)->get();
@@ -298,9 +288,6 @@ class UserController extends Controller
     {
         $query = Game::withCount(['products'=> function($q){
             $q->where('type', 'normal')
-            ->whereHas('category',function($query){
-                $query->whereNull('deleted_at');
-            })
             ->whereHas('game',function($query){
                 $query->whereNull('deleted_at');
             })
@@ -323,9 +310,7 @@ class UserController extends Controller
 
     public function showGameDetail($id)
     {
-        $game = Game::with(['gamesCategories.category' => function($query) {
-            $query->whereNull('deleted_at');
-        }])->findOrFail($id);
+        $game = Game::findOrFail($id);
 
         if (!$game) {
             return redirect()->route('user.home')->with('error', 'Game tidak ditemukan.');
@@ -340,26 +325,24 @@ class UserController extends Controller
             ->pluck('category')
             ->filter();
 
-        $productsQuery = Product::where('game_id', $game->game_id)->with(['shop', 'category'])
-            ->where('type', 'normal')
-            ->whereHas('category', function($query) {
-                $query->whereNull('deleted_at');
-            })
-            ->whereHas('shop', function($query) {
-                $query->where('status', 'open');
-            })
-            ->whereHas('game')
-            ->where('stok', '>', 0);
-
-        $products=$productsQuery->latest()->paginate(12);
+        $products = Product::query()
+                    ->with(['shop', 'game', 'category'])
+                    ->where('type', 'normal')
+                    ->where('stok', '>', 0)
+                    ->whereHas('shop', function ($q) {
+                        $q->where('status', 'open');
+                    })
+                    ->latest()
+                    ->paginate(12);
 
         return view('pages.user.game_detail', compact('game', 'categories', 'products'));
     }
 
     public function showProducts(Request $request)
     {
-       $query = Product::with(['game', 'shop', 'category'])
-        ->active()
+       $query = Product::withTrashed(['game', 'shop', 'category'])
+        ->where('type', 'normal')
+        ->whereNull('deleted_at')
         ->whereHas('shop', function($q) {
             $q->where('status', 'open')->whereHas('owner');
         })
@@ -409,7 +392,6 @@ class UserController extends Controller
         return view('pages.user.products', compact('products', 'games', 'categories'));
     }
 
-
     public function showProductDetail($id)
     {
         $product = Product::with(['game', 'shop', 'category', 'comments.user'])->whereHas('game')->findOrFail($id);
@@ -419,12 +401,8 @@ class UserController extends Controller
         $relatedProductsQuery = Product::where('game_id', $product->game_id)
             ->with(['game', 'shop', 'category'])
             ->where('type', 'normal')
-            ->whereHas('category', function($query) {
-                $query->whereNull('deleted_at');
-            })->whereHas('shop', function($query) {
+            ->whereHas('shop', function($query) {
                 $query->where('status', 'open')->whereHas('owner');
-            })->whereHas('game', function($query) {
-                $query->whereNull('deleted_at');
             })
             ->where('category_id', $product->category_id)
             ->where('product_id', '!=', $product->product_id)

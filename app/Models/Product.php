@@ -63,13 +63,7 @@ class Product extends Model
 
     public function scopeActive($query)
     {
-        return $query->whereNull('deleted_at')
-            ->whereHas('category', function($q) {
-                $q->whereNull('deleted_at');
-            })
-            ->whereHas('game', function($q) {
-                $q->whereNull('deleted_at');
-            });
+        return $query->whereNull('deleted_at');
     }
 
     public function isAvailableForPurchase()
