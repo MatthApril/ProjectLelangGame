@@ -20,12 +20,10 @@
         @if ($editGame)
             <h6 class="fw-bold">Edit Game</h6>
 
-            <form action="{{ $editGame ? route('admin.games.update', $editGame->game_id) : route('admin.games.store') }}"
+            <form action="{{ route('admin.games.update', $editGame->game_id) }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
-                @if ($editGame)
-                    @method('PUT')
-                @endif
+                @method('PUT')
 
                 <div>
                     <label for="game_name">Nama Game *</label><br>
@@ -80,11 +78,9 @@
 
                 <br>
 
-                <button type="submit" class="btn btn-primary">{{ $editGame ? 'Update Game' : 'Simpan Game' }}</button>
+                <button type="submit" class="btn btn-primary">Update Game</button>
 
-                @if ($editGame)
-                    <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Batal</a>
-                @endif
+                <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Batal</a>
             </form>
         @else
             <h6 class="fw-bold">Daftar Game (Total: {{ $games->count() }})</h6>
@@ -134,13 +130,21 @@
                                 <td>
                                     <a href="{{ route('admin.games.edit', $game->game_id) }}"
                                         class="btn btn-primary" style="display:inline">Edit</a>
+                                    @if($game->trashed())
+                                        <form action="{{ route('admin.games.restore') }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $game->game_id }}">
+                                            <button type="submit" class="btn btn-danger">Restore</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.games.destroy', $game->game_id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
 
-                                    <form action="{{ route('admin.games.destroy', $game->game_id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Hapus</button>
-                                    </form>
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

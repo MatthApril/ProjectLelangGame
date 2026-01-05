@@ -3,8 +3,8 @@
 @section('title', 'Review Komplain')
 
 @section('content')
-<div>
-    <h2>Review Komplain #{{ $complaint->complaint_id }}</h2>
+<div class="container my-3 text-dark">
+    <h5 class="fw-semibold text-dark">Review Komplain #{{ $complaint->complaint_id }}</h5>
     <hr>
 
     @if(session('success'))
@@ -39,31 +39,33 @@
     </div>
 
     <div>
-        <h4>📦 Detail Transaksi</h4>
-        <table>
-            <tr>
-                <td>
-                    @if($complaint->orderItem->product->product_img)
-                        <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" 
-                             alt="{{ $complaint->orderItem->product->product_name }}" 
-                             width="100" height="100">
-                    @endif
-                </td>
-                <td>
-                    <p><strong>Produk:</strong> {{ $complaint->orderItem->product->product_name }}</p>
-                    <p><strong>Toko:</strong> {{ $complaint->orderItem->product->shop->shop_name }}</p>
-                    <p><strong>Buyer:</strong> {{ $complaint->buyer->username }} (ID: {{ $complaint->buyer->user_id }})</p>
-                    <p><strong>Seller:</strong> {{ $complaint->seller->username }} (ID: {{ $complaint->seller->user_id }})</p>
-                    <p><strong>Jumlah:</strong> {{ $complaint->orderItem->quantity }}</p>
-                    <p><strong>Nilai Transaksi:</strong> Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</p>
-                    <p><strong>Order ID:</strong> #{{ $complaint->orderItem->order_id }}</p>
-                </td>
-            </tr>
-        </table>
+        <h6 class="fw-bold">📦 Detail Transaksi</h6>
+        <div class="table-responsive">
+            <table border="1" class="table table-bordered">
+                <tr>
+                    <td>
+                        @if($complaint->orderItem->product->product_img)
+                            <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" 
+                                 alt="{{ $complaint->orderItem->product->product_name }}" 
+                                 width="100" height="100">
+                        @endif
+                    </td>
+                    <td>
+                        <p><strong>Produk:</strong> {{ $complaint->orderItem->product->product_name }}</p>
+                        <p><strong>Toko:</strong> {{ $complaint->orderItem->product->shop->shop_name }}</p>
+                        <p><strong>Buyer:</strong> {{ $complaint->buyer->username }} (ID: {{ $complaint->buyer->user_id }})</p>
+                        <p><strong>Seller:</strong> {{ $complaint->seller->username }} (ID: {{ $complaint->seller->user_id }})</p>
+                        <p><strong>Jumlah:</strong> {{ $complaint->orderItem->quantity }}</p>
+                        <p><strong>Nilai Transaksi:</strong> Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</p>
+                        <p><strong>Order ID:</strong> #{{ $complaint->orderItem->order_id }}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <div>
-        <h4>👤 BUKTI DARI BUYER</h4>
+        <h6 class="fw-bold">👤 BUKTI DARI BUYER</h6>
         <p><strong>Tanggal Komplain:</strong> {{ $complaint->created_at->format('d M Y H:i') }}</p>
         <p><strong>Deskripsi Masalah:</strong></p>
         <div>{{ $complaint->description }}</div>
@@ -75,7 +77,7 @@
 
     @if($complaint->response)
         <div>
-            <h4>🛒 PEMBELAAN DARI SELLER</h4>
+            <h6 class="fw-bold">🛒 PEMBELAAN DARI SELLER</h6>
             <p><strong>Tanggal Tanggapan:</strong> {{ $complaint->response->created_at->format('d M Y H:i') }}</p>
             <p><strong>Pembelaan:</strong></p>
             <div>{{ $complaint->response->message }}</div>
@@ -103,7 +105,7 @@
     @endif
     @if($complaint->status === 'waiting_admin' && $complaint->status !=='resolved')
         <div>
-            <h4>⚖️ KEPUTUSAN ADMIN</h4>
+            <h6 class="fw-bold">⚖️ KEPUTUSAN ADMIN</h6>
             
             <div>
                 <strong>⚠️ Pertimbangan:</strong>
@@ -147,7 +149,7 @@
     @elseif($complaint->status === 'resolved')
     
         <div>
-            <h4>⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}</h4>
+            <h6 class="fw-bold">⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}</h6>
 
             @if($complaint->is_auto_resolved)
                 <p><strong>⚠️ Seller tidak merespons dalam 24 jam</strong></p>

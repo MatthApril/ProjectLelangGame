@@ -3,8 +3,8 @@
 @section('title', 'Detail Pesanan Dibatalkan')
 
 @section('content')
-<div>
-    <h2>Detail Pesanan Dibatalkan</h2>
+<div class="container my-3 text-dark">
+    <h5 class="fw-semibold text-dark">Detail Pesanan Dibatalkan</h5>
     <hr>
 
     @if(session('success'))
@@ -27,124 +27,132 @@
     <hr>
 
     <div>
-        <h4>📦 Detail Pesanan</h4>
-        <table border="1">
-            <tr>
-                <td><strong>Order ID:</strong></td>
-                <td>#{{ $orderItem->order_id }}</td>
-            </tr>
-            <tr>
-                <td><strong>Order Item ID:</strong></td>
-                <td>#{{ $orderItem->order_item_id }}</td>
-            </tr>
-            <tr>
-                <td><strong>Status:</strong></td>
-                <td>CANCELLED</td>
-            </tr>
-            <tr>
-                <td><strong>Tanggal Pembayaran:</strong></td>
-                <td>{{ $orderItem->paid_at->format('d M Y H:i') }}</td>
-            </tr>
-            <tr>
-                <td><strong>Alasan Cancel:</strong></td>
-                <td>{{ $orderItem->getCancelReason() }}</td>
-            </tr>
-        </table>
+        <h6 class="fw-bold">📦 Detail Pesanan</h6>
+        <div class="table-responsive">
+            <table border="1">
+                <tr>
+                    <td><strong>Order ID:</strong></td>
+                    <td>#{{ $orderItem->order_id }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Order Item ID:</strong></td>
+                    <td>#{{ $orderItem->order_item_id }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Status:</strong></td>
+                    <td>CANCELLED</td>
+                </tr>
+                <tr>
+                    <td><strong>Tanggal Pembayaran:</strong></td>
+                    <td>{{ $orderItem->paid_at->format('d M Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Alasan Cancel:</strong></td>
+                    <td>{{ $orderItem->getCancelReason() }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <hr>
 
     <div class="product-detail-section">
-        <h4>🛍️ Detail Produk</h4>
-        <table border="1">
-            <tr>
-                <td rowspan="5" style="text-align: center;">
-                    @if($orderItem->product->product_img)
-                        <img src="{{ asset('storage/' . $orderItem->product->product_img) }}"
-                             alt="{{ $orderItem->product->product_name }}"
-                             width="150" height="150">
-                    @endif
-                </td>
-                <td><strong>Nama Produk:</strong></td>
-                <td>{{ $orderItem->product->product_name }}</td>
-            </tr>
-            <tr>
-                <td><strong>Toko:</strong></td>
-                <td>{{ $orderItem->shop->shop_name }}</td>
-            </tr>
-            <tr>
-                <td><strong>Harga Satuan:</strong></td>
-                <td>Rp {{ number_format($orderItem->product_price, 0, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td><strong>Jumlah:</strong></td>
-                <td>{{ $orderItem->quantity }}</td>
-            </tr>
-            <tr>
-                <td><strong>Subtotal:</strong></td>
-                <td><strong>Rp {{ number_format($orderItem->subtotal, 0, ',', '.') }}</strong></td>
-            </tr>
-        </table>
+        <h6 class="fw-bold">🛍️ Detail Produk</h6>
+        <div class="table-responsive">
+            <table border="1">
+                <tr>
+                    <td rowspan="5" style="text-align: center;">
+                        @if($orderItem->product->product_img)
+                            <img src="{{ asset('storage/' . $orderItem->product->product_img) }}"
+                                 alt="{{ $orderItem->product->product_name }}"
+                                 width="150" height="150">
+                        @endif
+                    </td>
+                    <td><strong>Nama Produk:</strong></td>
+                    <td>{{ $orderItem->product->product_name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Toko:</strong></td>
+                    <td>{{ $orderItem->shop->shop_name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Harga Satuan:</strong></td>
+                    <td>Rp {{ number_format($orderItem->product_price, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Jumlah:</strong></td>
+                    <td>{{ $orderItem->quantity }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Subtotal:</strong></td>
+                    <td><strong>Rp {{ number_format($orderItem->subtotal, 0, ',', '.') }}</strong></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <hr>
 
     <div class="buyer-detail-section">
-        <h4>👤 Detail Buyer</h4>
-        <table border="1">
-            <tr>
-                <td><strong>Username:</strong></td>
-                <td>{{ $orderItem->order->account->username }}</td>
-            </tr>
-            <tr>
-                <td><strong>Email:</strong></td>
-                <td>{{ $orderItem->order->account->email }}</td>
-            </tr>
-            <tr>
-                <td><strong>User ID:</strong></td>
-                <td>{{ $orderItem->order->account->user_id }}</td>
-            </tr>
-        </table>
+        <h6 class="fw-bold">👤 Detail Buyer</h6>
+        <div class="table-responsive">
+            <table border="1">
+                <tr>
+                    <td><strong>Username:</strong></td>
+                    <td>{{ $orderItem->order->account->username }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email:</strong></td>
+                    <td>{{ $orderItem->order->account->email }}</td>
+                </tr>
+                <tr>
+                    <td><strong>User ID:</strong></td>
+                    <td>{{ $orderItem->order->account->user_id }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <hr>
 
     @if($orderItem->complaint)
         <div class="complaint-detail-section">
-            <h4>📝 Detail Complaint</h4>
-            <table border="1">
-                <tr>
-                    <td><strong>Complaint ID:</strong></td>
-                    <td>#{{ $orderItem->complaint->complaint_id }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Status:</strong></td>
-                    <td>{{ ucfirst($orderItem->complaint->status) }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Keputusan:</strong></td>
-                    <td>
-                        @if($orderItem->complaint->decision === 'refund')
-                            <span style="color: green;">✓ REFUND DISETUJUI</span>
-                        @elseif($orderItem->complaint->decision === 'reject')
-                            <span style="color: red;">✗ DITOLAK</span>
-                        @else
-                            -
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Deskripsi Masalah:</strong></td>
-                    <td>{{ $orderItem->complaint->description }}</td>
-                </tr>
-                @if($orderItem->complaint->is_auto_resolved)
-                <tr>
-                    <td colspan="2" style="background: yellow;">
-                        <strong>⚠️ Auto-Resolved:</strong> Seller tidak merespons dalam 24 jam
-                    </td>
-                </tr>
-                @endif
-            </table>
+            <h6 class="fw-bold">📝 Detail Complaint</h6>
+            <div class="table-responsive">
+                <table border="1">
+                    <tr>
+                        <td><strong>Complaint ID:</strong></td>
+                        <td>#{{ $orderItem->complaint->complaint_id }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status:</strong></td>
+                        <td>{{ ucfirst($orderItem->complaint->status) }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keputusan:</strong></td>
+                        <td>
+                            @if($orderItem->complaint->decision === 'refund')
+                                <span style="color: green;">✓ REFUND DISETUJUI</span>
+                            @elseif($orderItem->complaint->decision === 'reject')
+                                <span style="color: red;">✗ DITOLAK</span>
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deskripsi Masalah:</strong></td>
+                        <td>{{ $orderItem->complaint->description }}</td>
+                    </tr>
+                    @if($orderItem->complaint->is_auto_resolved)
+                    <tr>
+                        <td colspan="2" style="background: yellow;">
+                            <strong>⚠️ Auto-Resolved:</strong> Seller tidak merespons dalam 24 jam
+                        </td>
+                    </tr>
+                    @endif
+                </table>
+            </div>
 
             <p>
                 <a href="{{ route('admin.complaints.show', $orderItem->complaint->complaint_id) }}">
@@ -156,7 +164,7 @@
     @endif
 
     <div class="refund-action-section">
-        <h4>💰 Aksi Refund</h4>
+        <h6 class="fw-bold">💰 Aksi Refund</h6>
 
         @if($orderItem->is_refunded)
             <div style="background: lightgreen; padding: 15px; border: 2px solid green;">

@@ -3,8 +3,8 @@
 @section('title', 'Kelola Komplain')
 
 @section('content')
-<div>
-    <h2>Kelola Komplain</h2>
+<div class="container my-3 text-dark">
+    <h5 class="fw-semibold text-dark">Komplain</h5>
     <hr>
 
     @if(session('success'))
@@ -26,59 +26,61 @@
     </form>
 
     @if($complaints->count() > 0)
-        <table>
-            <tr>
-                <th>No</th>
-                <th>Produk</th>
-                <th>Buyer</th>
-                <th>Seller</th>
-                <th>Status</th>
-                <th>Keputusan</th>
-                <th>Tanggal</th>
-                <th>Aksi</th>
-            </tr>
-            @foreach($complaints as $complaint)
+        <div class="table-responsive">
+            <table border="1" class="table table-bordered">
                 <tr>
-                    <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>
-                    <td>
-                        @if($complaint->orderItem->product->product_img)
-                            <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" width="50" alt="{{ $complaint->orderItem->product->product_name }}">
-                        @endif
-                        {{ $complaint->orderItem->product->product_name }}
-                    </td>
-                    <td>{{ $complaint->buyer->username }}</td>
-                    <td>{{ $complaint->seller->username }}</td>
-                    <td>
-                        @if($complaint->status === 'waiting_seller')
-                            Waiting Seller
-                        @elseif($complaint->status === 'waiting_admin')
-                            PERLU REVIEW
-                        @else
-                            Selesai
-                        @endif
-                    </td>
-                    <td>
-                        @if($complaint->decision === 'refund')
-                            ✓ Refund
-                        @elseif($complaint->decision === 'reject')
-                            ✗ Ditolak
-                        @else
-                            -
-                        @endif
-                    </td>
-                    <td>{{ $complaint->created_at->format('d M Y H:i') }}</td>
-                    <td>
-                        <a href="{{ route('admin.complaints.show', $complaint->complaint_id) }}">
-                            @if($complaint->status === 'waiting_admin')
-                                Tinjau & Putuskan
-                            @else
-                                Detail
-                            @endif
-                        </a>
-                    </td>
+                    <th>No</th>
+                    <th>Produk</th>
+                    <th>Buyer</th>
+                    <th>Seller</th>
+                    <th>Status</th>
+                    <th>Keputusan</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
                 </tr>
-            @endforeach
-        </table>
+                @foreach($complaints as $complaint)
+                    <tr>
+                        <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>
+                        <td>
+                            @if($complaint->orderItem->product->product_img)
+                                <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" width="50" alt="{{ $complaint->orderItem->product->product_name }}">
+                            @endif
+                            {{ $complaint->orderItem->product->product_name }}
+                        </td>
+                        <td>{{ $complaint->buyer->username }}</td>
+                        <td>{{ $complaint->seller->username }}</td>
+                        <td>
+                            @if($complaint->status === 'waiting_seller')
+                                Waiting Seller
+                            @elseif($complaint->status === 'waiting_admin')
+                                PERLU REVIEW
+                            @else
+                                Selesai
+                            @endif
+                        </td>
+                        <td>
+                            @if($complaint->decision === 'refund')
+                                ✓ Refund
+                            @elseif($complaint->decision === 'reject')
+                                ✗ Ditolak
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td>{{ $complaint->created_at->format('d M Y H:i') }}</td>
+                        <td>
+                            <a href="{{ route('admin.complaints.show', $complaint->complaint_id) }}">
+                                @if($complaint->status === 'waiting_admin')
+                                    Tinjau & Putuskan
+                                @else
+                                    Detail
+                                @endif
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
 
         <div>
             {{ $complaints->appends(request()->query())->links() }}

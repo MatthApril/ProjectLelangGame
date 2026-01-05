@@ -278,7 +278,7 @@ class AdminController extends Controller
     }
 
     function showGames() {
-        $games = Game::with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
+        $games = Game::withTrashed()->with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
         $game = null;
         $categories = Category::all();
         $editGame = null;
@@ -354,6 +354,7 @@ class AdminController extends Controller
 
         $game = Game::onlyTrashed()->findOrFail($request->id);
         $game->restore();
+        return redirect()->back()->with('success', 'Game direstore.');
     }
 
     function showNotificationMaster(Request $request){
