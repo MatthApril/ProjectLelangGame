@@ -10,7 +10,7 @@
         <h4>{{ $auction->product->product_name ?? 'Produk dihapus' }}</h4>
         @if ($auction->product->product_img)
             <img src="{{ asset('storage/' . $auction->product->product_img) }}" alt="{{ $auction->product->product_name }}"
-                width="200">
+                width="200" class="img-fluid">
         @endif
         @if ($auction->highestBid)
             <p>Pemenang: {{ $auction->highestBid->user->username }}</p>

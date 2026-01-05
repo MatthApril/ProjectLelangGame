@@ -29,7 +29,7 @@
         @if (count($cartItems) <= 0)
             <div class="text-center">
                 <div>
-                    <img src="{{ asset('images/cart-empty.png') }}" alt="Cart Empty" width="300" class="my-3">
+                    <img src="{{ asset('images/cart-empty.png') }}" alt="Cart Empty" width="300" class="img-fluid my-3">
                 </div>
                 <div>
                     <h5 class="fw-semibold">Wah keranjang kamu masih kosong.</h5>
@@ -63,7 +63,7 @@
                                         src="{{ asset('storage/' . $item->product->product_img) }}"
                                         alt="{{ $item->product->product_name }}"
                                         width="170"
-                                        class="rounded shadow"
+                                        class="img-fluid rounded shadow"
                                     >
                                 </div>
         

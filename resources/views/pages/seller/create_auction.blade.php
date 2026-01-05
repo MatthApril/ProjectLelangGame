@@ -43,7 +43,7 @@
                             <div class="mb-3">
                                 <label>Gambar Saat Ini :</label><br>
                                 <img src="{{ asset('storage/' . $product->product_img) }}"alt="Gambar Produk" width="300"
-                                    class="shadow rounded">
+                                    class="shadow rounded img-fluid">
                             </div>
                         @endif
                         <label>Gambar Produk {{ $product ? '' : '*' }}</label>

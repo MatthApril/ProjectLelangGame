@@ -30,7 +30,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
         <div>
             <h5 class="fw-semibold">Filter Produk Toko Anda</h5>
             <form action="{{ route('seller.products.index') }}" method="GET">
@@ -79,8 +78,10 @@
                                     <span class="badge bg-warning position-absolute top-0 end-0 m-2">Kategori Dihapus</span>
                                 @elseif($product->game?->deleted_at)
                                     <span class="badge bg-warning position-absolute top-0 end-0 m-2">Game Dihapus</span>
-                                @else
+                                @elseif($product->stok > 0)
                                     <span class="badge bg-success position-absolute top-0 end-0 m-2">Aktif</span>
+                                @else
+                                    <span class="badge bg-secondary position-absolute top-0 end-0 m-2">Habis</span>
                                 @endif
                             </div>
                         @endif
@@ -134,7 +135,7 @@
             @empty
                 <div class="text-center mb-5">
                     <div>
-                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid">
                     </div>
                     <div>
                         <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>

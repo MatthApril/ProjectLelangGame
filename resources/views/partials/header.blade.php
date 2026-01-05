@@ -3,7 +3,7 @@
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-sm-12 col-md-12 col-lg-3 py-2">
                 <a href="{{ route('user.home') }}" class="d-flex align-items-center text-white text-decoration-none">
-                    <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50">
+                    <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50" class="img-fluid">
                     <h5 class="fw-semibold">LelangGame</h5>
                 </a>
             </div>

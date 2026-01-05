@@ -46,7 +46,7 @@
                         <div class="col-md-5 text-center my-2">
                             @if ($product->product_img)
                                 <img src="{{ asset('storage/' . $product->product_img) }}"
-                                    alt="{{ $product->product_name }}" class="rounded shadow" style="width: 100%">
+                                    alt="{{ $product->product_name }}" class="img-fluid rounded shadow" style="width: 100%">
                             @endif
                         </div>
 
@@ -223,7 +223,7 @@
                         <div class="card">
                             @if ($related->product_img)
                                 <img src="{{ asset('storage/' . $related->product_img) }}"
-                                    alt="{{ $related->product_name }}" class="card-img-top" height="170">
+                                    alt="{{ $related->product_name }}" class="card-img-top product-img-16x9">
                             @endif
                             <div class="card-body">
                                 <h5 class="fw-bold">{{ $related->product_name }}</h5>

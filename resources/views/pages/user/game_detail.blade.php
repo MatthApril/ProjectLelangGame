@@ -14,7 +14,7 @@
         <div class="row d-flex align-items-center">
             <div class="col-md-4 text-center">
                 @if($game->game_img)
-                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="300">
+                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="300" class="img-fluid">
                 @endif
             </div>
             
@@ -122,7 +122,7 @@
     @else
         <div class="text-center">
             <div>
-                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid">
             </div>
             <div>
                 <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>

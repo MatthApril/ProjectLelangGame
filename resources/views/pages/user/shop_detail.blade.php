@@ -21,7 +21,7 @@
         <div class="col-md-4 d-flex align-items-start gap-3 mt-3">
             @if($shop->shop_img)
                 <div>
-                    <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="{{ $shop->shop_name }}" width="150" class="shop-avatar">
+                    <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="{{ $shop->shop_name }}" width="150" class="img-fluid shop-avatar">
                 </div>
             @endif
             <div>
@@ -63,7 +63,7 @@
         <div class="col-md-4 mt-3">
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i> {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
-                <a href="#" class="text-decoration-none fw-semibold m-0">Semua Ulasan</a>
+                {{-- <a href="#" class="text-decoration-none fw-semibold m-0">Semua Ulasan</a> --}}
             </div>
             <div class="card p-3">
                 @if($totalReviews > 0)
@@ -89,11 +89,10 @@
                             <span class="text-secondary" style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                         </div>
                     @endfor
-                    
-                    <hr class="my-2">
+                    {{-- <hr class="my-2">
                     <div class="text-center">
                         <small class="text-secondary">Total {{ number_format($totalReviews) }} Ulasan</small>
-                    </div>
+                    </div> --}}
                 @else
                     <div class="text-center text-secondary">
                         <i class="bi bi-star" style="font-size: 48px;"></i>
@@ -166,6 +165,7 @@
     @if($products->count() > 0)
     <div class="row mt-3">
         @foreach($products as $product)
+        @if(Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
         <div class="col-md-3 mt-3">
             {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
@@ -196,6 +196,17 @@
                 </div>
             {{-- </a> --}}
         </div>
+        @else
+            <div class="text-center">
+                <div>
+                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid mt-3">
+                </div>
+                <div>
+                    <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                    <p>Coba ubah filter pencarian Anda.</p>
+                </div>
+            </div>
+        @endif
         @endforeach
     </div>
     <div class="mt-3">
@@ -206,7 +217,7 @@
             @if (Auth::user()->user_id == $shop->owner_id)
                 <div class="text-center">
                     <div>
-                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid mt-3">
                     </div>
                     <div>
                         <h5 class="fw-semibold">Toko anda belum memiliki produk.</h5>
@@ -216,7 +227,7 @@
             @else
                 <div class="text-center">
                     <div>
-                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid mt-3">
                     </div>
                     <div>
                         <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
@@ -227,7 +238,7 @@
         @else
             <div class="text-center">
                 <div>
-                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid mt-3">
                 </div>
                 <div>
                     <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>

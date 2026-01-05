@@ -12,7 +12,7 @@
                 <p>Produk: {{ $auction->product->product_name ?? 'Produk dihapus' }}</p>
                 @if ($auction->product->product_img)
                     <img src="{{ asset('storage/' . $auction->product->product_img) }}"
-                        alt="{{ $auction->product->product_name }}" width="200">
+                        alt="{{ $auction->product->product_name }}" width="200" class="img-fluid">
                 @endif
                 @if ($auction->highestBid)
                     <p>Pemenang: {{ $auction->highestBid->user->username }}</p>
