@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-                Chat with <strong>{{ $otherUser->username }}</strong>
+                <strong>{{ $otherUser->username }}</strong>
             </div>
             <a href="{{ $returnUrl ?? route('chat.index') }}" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> {{ $returnLabel ?? 'Kembali' }}
@@ -33,8 +33,8 @@
                 @csrf
                 <div class="input-group">
                     <input type="text" id="message-input" name="content" class="form-control" 
-                           placeholder="Type a message..." value="{{ $autoMessage ?? '' }}" autocomplete="off">
-                    <button type="submit" id="send-button" class="btn btn-primary">Send</button>
+                           placeholder="Ketik pesan..." value="{{ $autoMessage ?? '' }}" autocomplete="off">
+                    <button type="submit" id="send-button" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
                 </div>
             </form>
         </div>

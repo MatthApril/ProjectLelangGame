@@ -3,9 +3,9 @@
 @section('title', 'Dashboard Seller | LelangGame')
 
 @section('content')
-    <div class="container mt-3">
+    <div class="container my-4">
         <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb mt-3">
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Dashboard Seller</li>
@@ -25,7 +25,7 @@
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-box-seam"></i> Kelola Produk</a>
             <a href="{{ route('seller.auctions.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Daftar Lelang</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Kelola Lelang</a>
             <a href="{{ route('seller.incoming_orders.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-clipboard2"></i> Daftar Pesanan Masuk</a>
         </div>

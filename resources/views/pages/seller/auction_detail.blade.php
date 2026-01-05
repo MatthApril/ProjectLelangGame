@@ -4,16 +4,16 @@
 
 @section('content')
 <div class="container my-4">
-    {{-- Breadcrumb --}}
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('user.auctions.index') }}">Daftar Lelang</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard Seller</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('seller.auctions.index') }}">Daftar Lelang</a></li>
             <li class="breadcrumb-item active" aria-current="page">Detail Lelang</li>
         </ol>
     </nav>
 
-    {{-- Header --}}
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="fw-semibold mb-0">Detail Lelang</h2>
         @php
@@ -44,16 +44,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    @error('bid_price')
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ $message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @enderror
 
     {{-- Main 2-Column Layout --}}
     <div class="row g-4">
-        {{-- Left Column: Product Image --}}
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-4">
@@ -74,7 +67,7 @@
                         @if($auction->status == 'running')
                             <div class="position-absolute top-0 start-0 m-3">
                                 <span class="badge bg-danger d-flex align-items-center gap-1 px-3 py-2">
-                                    <span class="pulse-dot"></span> LIVE
+                                    <span class="bg-white rounded-circle" style="width: 8px; height: 8px;"></span> LIVE
                                 </span>
                             </div>
                         @endif
@@ -93,7 +86,7 @@
                         <h4 class="fw-bold mb-2">{{ $auction->product->product_name ?? 'Produk tidak tersedia' }}</h4>
                         @if ($auction->product->shop)
                             <p class="text-muted mb-0">
-                                <i class="bi bi-shop me-1"></i> {{ $auction->product->shop->shop_name ?? 'Toko tidak tersedia' }}
+                                <i class="bi bi-box-seam"></i> Stok {{ $auction->product->stok }}
                             </p>
                         @endif
                     </div>
@@ -151,7 +144,7 @@
                         <div class="d-flex align-items-center bg-light rounded-3 p-3 mb-4">
                             <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
                                  style="width: 45px; height: 45px;">
-                                <i class="bi bi-person-fill text-white fs-5"></i>
+                                 <i class="bi bi-person-fill text-white fs-5"></i>
                             </div>
                             <div>
                                 <small class="text-muted">Penawar Tertinggi</small>
@@ -170,23 +163,33 @@
 
                     {{-- Action Zone (Dynamic based on status) --}}
                     <div class="border-top pt-4">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-lightning-charge me-1"></i> Status Lelang</h6>
+                        
                         @if($auction->status == 'pending')
-                            <div class="alert alert-secondary d-flex align-items-center mb-0">
+                            <div class="alert alert-secondary d-flex align-items-center">
                                 <i class="bi bi-hourglass-split fs-4 me-3"></i>
                                 <div>
                                     <p class="mb-0 fw-semibold">Lelang Akan Dimulai</p>
                                     <small class="text-muted">Pada {{ $auction->start_time->format('d M Y, H:i') }} WIB</small>
                                 </div>
                             </div>
+                        @elseif($auction->status == 'running')
+                            <div class="alert alert-primary d-flex align-items-center">
+                                <i class="bi bi-broadcast fs-4 me-3"></i>
+                                <div>
+                                    <p class="mb-0 fw-semibold">Lelang Sedang Berlangsung</p>
+                                    <small>Total {{ $auction->bids->count() }} penawaran masuk</small>
+                                </div>
+                            </div>
                         @elseif($auction->status == 'paused')
-                            <div class="alert alert-warning d-flex align-items-center mb-0">
+                            <div class="alert alert-warning d-flex align-items-center">
                                 <i class="bi bi-pause-circle fs-4 me-3"></i>
                                 <div>
                                     <p class="mb-0 fw-semibold">Lelang Sedang Dijeda</p>
                                     <small>Penawaran tidak dapat diterima saat ini</small>
                                 </div>
                             </div>
-                        @elseif($auction->status == 'ended')
+                        @else
                             {{-- Ended Status with Winner Info --}}
                             <div class="alert alert-success mb-3">
                                 <div class="d-flex align-items-center">
@@ -207,7 +210,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" 
                                                  style="width: 50px; height: 50px;">
-                                                <i class="bi bi-person-fill text-white fs-5"></i>
+                                                 <i class="bi bi-person-fill text-white fs-5"></i>
                                             </div>
                                             <div>
                                                 <p class="fw-bold mb-0">{{ $auction->winner->user->username ?? 'Tidak diketahui' }}</p>
@@ -220,95 +223,21 @@
                                     </div>
                                 </div>
                             @elseif($auction->highestBid)
-                                <div class="alert alert-info mb-0">
+                                <div class="alert alert-info">
                                     <i class="bi bi-info-circle me-1"></i> 
                                     Pemenang akan segera diumumkan
                                 </div>
                             @else
-                                <div class="alert alert-warning mb-0">
+                                <div class="alert alert-warning">
                                     <i class="bi bi-exclamation-triangle me-1"></i> 
                                     Tidak ada pemenang (tidak ada penawaran)
                                 </div>
                             @endif
-                        @else
-                            {{-- Running: Show Bid Form --}}
-                            <h6 class="fw-bold mb-3"><i class="bi bi-hammer me-1"></i> Pasang Tawaran</h6>
-                            <form action="{{ route('user.auctions.bid', ['auctionId' => $auction->auction_id]) }}" method="post">
-                                @csrf
-                                
-                                {{-- Minimum Next Bid Info --}}
-                                <div class="bg-success bg-opacity-10 rounded-3 p-3 text-center border border-success mb-3">
-                                    <small class="text-success d-block mb-1 fw-semibold">Minimal Tawaran Berikutnya</small>
-                                    <h5 class="text-success fw-bold mb-0">
-                                        Rp {{ number_format(($auction->current_price ?? 0) + 1000, 0, ',', '.') }}
-                                    </h5>
-                                </div>
-
-                                {{-- Bid Input --}}
-                                <div class="mb-3">
-                                    <label for="bidAmount" class="form-label fw-semibold">
-                                        <i class="bi bi-cash-stack me-1"></i>Jumlah Tawaran Anda
-                                    </label>
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-text bg-primary text-white fw-bold">Rp</span>
-                                        <input type="number" 
-                                               class="form-control form-control-lg fw-bold" 
-                                               id="bidAmount" 
-                                               name="bid_price"
-                                               min="{{ $auction->current_price + 1000 }}" 
-                                               value="{{ $auction->current_price + 1000 }}" 
-                                               readonly 
-                                               required>
-                                    </div>
-                                </div>
-
-                                {{-- Quick Add Buttons --}}
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold text-muted small">
-                                        <i class="bi bi-lightning-fill me-1"></i>Tambah Cepat
-                                    </label>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="1000">
-                                            +Rp 1rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="5000">
-                                            +Rp 5rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="10000">
-                                            +Rp 10rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="25000">
-                                            +Rp 25rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="50000">
-                                            +Rp 50rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm quick-add" data-amount="100000">
-                                            +Rp 100rb
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="resetBid()">
-                                            <i class="bi bi-arrow-counterclockwise"></i> Reset
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {{-- Submit Button --}}
-                                <button type="submit" class="btn btn-primary btn-lg w-100">
-                                    <i class="bi bi-hammer me-2"></i>Tawar Sekarang
-                                </button>
-
-                                {{-- Info Text --}}
-                                <div class="alert alert-light border mt-3 mb-0 small" role="alert">
-                                    <i class="bi bi-info-circle-fill text-primary me-1"></i>
-                                    Tawaran harus lebih tinggi dari harga terkini minimal <strong>Rp 1.000</strong>. 
-                                    Tawaran yang sudah diajukan tidak dapat dibatalkan.
-                                </div>
-                            </form>
                         @endif
                     </div>
 
                     {{-- Auction Time Info --}}
-                    <div class="border-top pt-4 mt-4">
+                    <div class="border-top pt-4 mt-3">
                         <div class="row g-2 small text-muted">
                             <div class="col-6">
                                 <i class="bi bi-calendar-event me-1"></i> Mulai: {{ $auction->start_time->format('d M Y, H:i') }}
@@ -323,6 +252,95 @@
         </div>
     </div>
 
+    {{-- Leaderboard: Riwayat Penawaran Tertinggi --}}
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-header bg-white border-bottom py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-list-ol me-2 text-primary"></i>Riwayat Penawaran Tertinggi
+                </h5>
+                <span class="badge bg-primary rounded-pill">
+                    {{ $topBids->count() }} / {{ $auction->bids->count() }} Tawaran
+                </span>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            @if($topBids->count() > 0)
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center" style="width: 80px;">Peringkat</th>
+                                <th>Nama Penawar</th>
+                                <th class="text-center">Waktu Penawaran</th>
+                                <th class="text-end">Jumlah Tawaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($topBids as $index => $bid)
+                                <tr class="{{ $index == 0 ? 'table-warning' : '' }}">
+                                    <td class="text-center">
+                                        @if($index == 0)
+                                            <span class="badge bg-warning text-dark fs-6">
+                                                <i class="bi bi-trophy-fill"></i> 1
+                                            </span>
+                                        @elseif($index == 1)
+                                            <span class="badge bg-secondary fs-6">
+                                                <i class="bi bi-award"></i> 2
+                                            </span>
+                                        @elseif($index == 2)
+                                            <span class="badge bg-danger fs-6">
+                                                <i class="bi bi-award"></i> 3
+                                            </span>
+                                        @else
+                                            <span class="badge bg-light text-dark">{{ $index + 1 }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" 
+                                                 style="width: 35px; height: 35px;">
+                                                 <i class="bi bi-person-fill text-primary"></i>
+                                            </div>
+                                                <span class="fw-semibold">
+                                                    @php
+                                                        $username = $bid->user->username ?? 'Anonim';
+                                                        $maskedName = strlen($username) > 6 
+                                                            ? substr($username, 0, 3) . '***' . substr($username, -2) 
+                                                            : $username;
+                                                    @endphp
+                                                    {{ $maskedName }}
+                                                </span>
+                                                @if($index == 0)
+                                                    <span class="badge bg-success ms-2">Tertinggi</span>
+                                                @endif
+                                        </div>
+                                    </td>
+                                    <td class="text-center text-muted">
+                                        <i class="bi bi-clock me-1"></i>
+                                        {{ $bid->created_at->format('d M Y, H:i:s') }}
+                                    </td>
+                                    <td class="text-end">
+                                        <span class="fw-bold {{ $index == 0 ? 'text-success fs-5' : 'text-primary' }}">
+                                            Rp {{ number_format($bid->bid_price, 0, ',', '.') }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="text-center py-5">
+                    <img src="{{ asset('images/empty-bid.png') }}" alt="No Bids" style="max-width: 150px; opacity: 0.5;" onerror="this.style.display='none'">
+                    <i class="bi bi-inbox text-muted d-block" style="font-size: 4rem;"></i>
+                    <h5 class="fw-semibold mt-3">Belum Ada Penawaran</h5>
+                    <p class="text-muted">Penawaran akan muncul setelah lelang dimulai</p>
+                </div>
+            @endif
+        </div>
+    </div>
+
     {{-- Product Description --}}
     <div class="card border-0 shadow-sm mt-4">
         <div class="card-header bg-white border-bottom py-3">
@@ -334,53 +352,11 @@
             <p class="mb-0">{!! nl2br(e($auction->product->description ?? 'Tidak ada deskripsi')) !!}</p>
         </div>
     </div>
-
-    {{-- Back Button --}}
-    <div class="mt-4">
-        <a href="{{ route('user.auctions.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Lelang
-        </a>
-    </div>
 </div>
 
-{{-- Pulse Animation CSS --}}
-<style>
-    .pulse-dot {
-        width: 8px;
-        height: 8px;
-        background-color: #fff;
-        border-radius: 50%;
-        animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-        0% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(1.2); }
-        100% { opacity: 1; transform: scale(1); }
-    }
-</style>
-
-{{-- Scripts --}}
+{{-- Countdown Timer Script --}}
 <script>
-    const minBid = {{ $auction->current_price + 1000 }};
-    
-    function resetBid() {
-        document.getElementById('bidAmount').value = minBid;
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
-        // Quick add buttons
-        document.querySelectorAll('.quick-add').forEach(button => {
-            button.addEventListener('click', function() {
-                const bidAmountInput = document.getElementById('bidAmount');
-                const amount = parseInt(this.dataset.amount);
-                let currentBid = parseInt(bidAmountInput.value);
-                currentBid += amount;
-                bidAmountInput.value = currentBid;
-            });
-        });
-
-        // Countdown Timer
         const timers = document.querySelectorAll('.countdown-timer');
         
         function updateTimers() {

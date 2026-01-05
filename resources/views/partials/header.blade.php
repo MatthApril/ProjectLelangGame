@@ -79,7 +79,7 @@
                     class="bi bi-controller"></i> Semua Game</a>
             <a href="{{ route('products.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-box-seam"></i> Semua Produk</a>
-            <a href="{{ route('user.auctions.index') }}" class="text-decoration-none text-white"><i
+            <a href="{{ route('auctions.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-graph-up"></i> Semua Lelang</a>
         </div>
     </div>

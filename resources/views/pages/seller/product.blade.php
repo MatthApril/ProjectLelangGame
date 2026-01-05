@@ -98,7 +98,7 @@
                     <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
                 </div>
                 <div>
-                    <h5 class="fw-semibold">Wah produk Ttidak ditemukan!</h5>
+                    <h5 class="fw-semibold">Wah produk Tidak ditemukan!</h5>
                     <p>Mau jual apa? Tambahkan produk sekarang.</p>
                     <a href="{{ route('seller.products.create') }}" class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambahkan Produk</a>
                 </div>

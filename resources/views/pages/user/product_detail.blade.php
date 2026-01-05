@@ -9,9 +9,9 @@
         </div>
     @endif
 
-    <div class="container">
+    <div class="container my-4">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb mt-3">
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="{{ route('user.home') }}">Beranda</a>
                 </li>
@@ -118,7 +118,7 @@
                     <hr>
                     <p class="m-0 fw-semibold">Stok : {{ $product->stok }}</p>
                     <input type="number" class="form-control" min="1" max="{{ $product->stok }}" value="1"
-                    id="quantity" name="quantity" required>
+                    id="quantity" name="quantity" form="addToCartForm" required>
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
                         <h5 class="fw-bold">Subtotal :</h5>
@@ -137,9 +137,9 @@
                                 <i class="bi bi-chat-left"></i>
                             </button>
                         </form>
-                        <form class="flex-grow-1" action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
+                        <form id="addToCartForm" class="flex-grow-1" action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
                             @csrf
-                                <button type="submit" class="btn btn-outline-primary text-center w-100  ">
+                                <button type="submit" class="btn btn-outline-primary text-center w-100">
                                     <i class="bi bi-cart3"></i> Tambahkan Ke Keranjang
                                 </button>
                             </form>

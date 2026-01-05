@@ -11,6 +11,8 @@ Route::get('/games/{id}', [UserController::class, 'showGameDetail'])->name('game
 Route::get('/products', [UserController::class, 'showProducts'])->name('products.index');
 Route::get('/products/{id}', [UserController::class, 'showProductDetail'])->name('products.detail');
 Route::get('/shops/{id}', [UserController::class, 'showShop'])->name('shops.detail');
+Route::get('/auctions', [UserController::class, 'showAuctions'])->name('auctions.index');
+Route::get('/auctions/{auctionId}', [UserController::class, 'showAuctionDetail'])->name('auctions.detail');
 
 Route::prefix('user')->as('user.')
 ->middleware(['auth', 'check_role:user,seller', 'check_status', 'throttle:api', 'check_banned'])
@@ -28,8 +30,6 @@ Route::prefix('user')->as('user.')
         Route::get('/akun', 'akun')->name('akun');
         Route::get('/item', 'item')->name('item');
 
-        Route::get('/auctions', 'showAuctions')->name('auctions.index');
-        Route::get('/auctions/{auctionId}', 'showAuctionDetail')->name('auction.detail');
         Route::post('/auctions/bid/{auctionId}', 'placeBid')->name('auctions.bid');
         Route::post('/reviews/{orderItemId}', 'storeReview')->name('reviews.store');
     });
