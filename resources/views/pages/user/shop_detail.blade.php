@@ -44,7 +44,7 @@
                 <p class="text-secondary"><i class="bi bi-box-seam"></i> Produk Terjual ({{ $totalProductsSold }})</p>
                 @auth
                     @if(Auth::user()->user_id != $shop->owner_id)
-                        <form action="{{ route('user.chat.show', $shop->owner->user_id) }}" method="GET">
+                        <form action="{{ route('chat.open', $shop->owner->user_id) }}" method="GET">
                             <div class="d-grid">
                                 <input type="hidden" name="return_url" value="{{ route('shops.detail', $shop->shop_id) }}">
                                 <input type="hidden" name="return_label" value="Kembali ke Toko">

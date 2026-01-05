@@ -139,8 +139,8 @@
                     <div class="d-flex gap-2 mt-2">
                         <form class="flex-grow-1" action="{{ route('chat.open', $product->shop->owner->user_id) }}" method="GET">
                             <input type="hidden" name="product_id" value="{{ $product->product_id }}">
-                            <input type="hidden" name="product_id" value="{{ $product->product_id }}">
                             <input type="hidden" name="return_url" value="{{ route('products.detail', $product->product_id) }}">
+                            <input type="hidden" name="return_label" value="Kembali ke Produk">
                             <button type="submit" class="btn btn-outline-primary text-center w-100">
                                 <i class="bi bi-chat-left"></i> Hubungi
                             </button>
