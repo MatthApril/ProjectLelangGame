@@ -27,7 +27,7 @@
             </div>
         @endif
         @if (count($cartItems) <= 0)
-            <div class="text-center">
+            <div class="text-center mt-5">
                 <div>
                     <img src="{{ asset('images/cart-empty.png') }}" alt="Cart Empty" width="300" class="img-fluid my-3">
                 </div>
@@ -61,7 +61,7 @@
                                 <div>
                                     <img
                                         src="{{ asset('storage/' . $item->product->product_img) }}"
-                                        alt="{{ $item->product->product_name }}"
+                                        alt=""
                                         width="170"
                                         class="img-fluid rounded shadow"
                                     >

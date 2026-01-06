@@ -23,10 +23,6 @@ Route::prefix('user')->as('user.')
     Route::post('/cart/remove/{cartItemId}', [UserController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/orders/{orderId}', [UserController::class, 'showOrderDetail'])->name('orders.detail');
     Route::post('/orders/{orderItemId}',[UserController::class,'confirmOrder'])->name('orders.confirm');
-    Route::get('/topup', [UserController::class, 'topUp'])->name('topUp');
-    Route::get('/joki', [UserController::class, 'joki'])->name('joki');
-    Route::get('/akun', [UserController::class, 'akun'])->name('akun');
-    Route::get('/item', [UserController::class, 'item'])->name('item');
 
     Route::get('/auctions', [UserController::class, 'showAuctions'])->name('auctions.index');
     Route::get('/auctions/{auctionId}', [UserController::class, 'showAuctionDetail'])->name('auction.detail');

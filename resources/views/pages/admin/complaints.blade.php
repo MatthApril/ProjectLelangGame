@@ -42,7 +42,7 @@
                     <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>
                     <td>
                         @if($complaint->orderItem->product->product_img)
-                            <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" width="50" alt="{{ $complaint->orderItem->product->product_name }}">
+                            <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" width="50" alt="">
                         @endif
                         {{ $complaint->orderItem->product->product_name }}
                     </td>

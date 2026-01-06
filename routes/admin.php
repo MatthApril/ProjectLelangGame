@@ -40,6 +40,11 @@ Route::prefix('admin')->as('admin.')
             Route::get('/complaints', 'showComplaints')->name('complaints.index');
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');
             Route::post('/complaints/{complaintId}/resolve', 'resolveComplaint')->name('complaints.resolve');
+
+            Route::get('/cancelled-orders', 'showCancelledOrders')->name('cancelled_orders.index');
+            Route::get('/cancelled-orders/{orderItemId}', 'showCancelledOrderDetail')->name('cancelled_orders.show');
+            Route::post('/cancelled-orders/{orderItemId}/mark-refunded', 'markAsRefunded')->name('cancelled_orders.mark_refunded');
+            Route::post('/cancelled-orders/{orderItemId}/undo-refunded', 'undoRefunded')->name('cancelled_orders.undo_refunded');
         });
 
         Route::controller(ChatController::class)->group(function() {

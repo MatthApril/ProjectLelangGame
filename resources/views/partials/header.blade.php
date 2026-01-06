@@ -78,6 +78,8 @@
 <nav class="bg-navyblue text-white py-2">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center gap-3">
+            <a href="{{ route('user.home') }}" class="text-decoration-none text-white"><i
+                    class="bi bi-house"></i> Beranda</a>
             <a href="{{ route('games.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-controller"></i> Semua Game</a>
             <a href="{{ route('products.index') }}" class="text-decoration-none text-white"><i

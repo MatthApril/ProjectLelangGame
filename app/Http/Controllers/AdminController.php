@@ -20,6 +20,7 @@ use App\Services\NotificationService;
 use App\Mail\AccountBanned;
 use App\Models\NotificationLog;
 use App\Models\Complaint;
+use App\Models\OrderItem;
 use App\Models\ProductComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,74 @@ class AdminController extends Controller
         $totalRecipients = NotificationLog::sum('recipients_count');
 
         return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
+    }
+    public function showCancelledOrders(Request $request)
+    {
+        $query = OrderItem::where('status', 'cancelled')
+            ->with(['order.account', 'product', 'shop', 'complaint']);
+
+        if ($request->filled('refund_status')) {
+            if ($request->refund_status === 'refunded') {
+                $query->where('is_refunded', true);
+            } elseif ($request->refund_status === 'not_refunded') {
+                $query->where('is_refunded', false);
+            }
+        }
+
+        $cancelledOrders = $query->latest('paid_at')->paginate(20);
+
+        $totalCancelled = OrderItem::where('status', 'cancelled')->count();
+        $totalRefunded = OrderItem::where('status', 'cancelled')->where('is_refunded', true)->count();
+        $totalNotRefunded = OrderItem::where('status', 'cancelled')->where('is_refunded', false)->count();
+
+        return view('pages.admin.cancelled_orders', compact(
+            'cancelledOrders',
+            'totalCancelled',
+            'totalRefunded',
+            'totalNotRefunded'
+        ));
+    }
+
+    public function showCancelledOrderDetail($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('status', 'cancelled')
+            ->with(['order.account', 'product', 'shop', 'complaint.response'])
+            ->firstOrFail();
+
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.admin.cancelled_order_detail', compact('orderItem', 'categories'));
+    }
+
+    public function markAsRefunded($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('status', 'cancelled')
+            ->firstOrFail();
+
+        if ($orderItem->is_refunded) {
+            return back()->with('error', 'Pesanan ini sudah ditandai sebagai refunded');
+        }
+
+        $orderItem->update(['is_refunded' => true]);
+
+        return back()->with('success', 'Pesanan berhasil ditandai sebagai REFUNDED oleh admin');
+    }
+
+    public function undoRefunded($orderItemId)
+    {
+        $orderItem = OrderItem::where('order_item_id', $orderItemId)
+            ->where('status', 'cancelled')
+            ->firstOrFail();
+
+        if (!$orderItem->is_refunded) {
+            return back()->with('error', 'Pesanan ini belum ditandai sebagai refunded');
+        }
+
+        $orderItem->update(['is_refunded' => false]);
+
+        return back()->with('success', 'Status refund berhasil dibatalkan');
     }
 
     public function showComplaints(Request $request)
@@ -83,7 +152,8 @@ class AdminController extends Controller
             $shop = $complaint->orderItem->shop;
             $shop->decrement('running_transactions', $complaint->orderItem->subtotal);
             $complaint->orderItem->update([
-                'status' => 'cancelled'
+                'status' => 'cancelled',
+                'is_refunded' => false
             ]);
 
         } else {
@@ -192,7 +262,6 @@ class AdminController extends Controller
 
     function deleteCategory($category) {
         $categoryData = Category::findOrFail($category);
-        $affectedProductsCount = $categoryData->products()->count();
 
         $categoryData->delete();
 
@@ -274,10 +343,6 @@ class AdminController extends Controller
         $game = Game::findOrFail($id);
 
         $affectedProductsCount = $game->products()->count();
-
-        // if ($game->game_img) {
-        //     Storage::disk('public')->delete($game->game_img);
-        // }
 
         $game->delete();
 

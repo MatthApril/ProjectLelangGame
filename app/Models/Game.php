@@ -30,16 +30,6 @@ class Game extends Model
 
     protected static function booted()
     {
-        static::deleting(function ($game) { 
-            $game->products()->whereNull('deleted_at')->each(function ($product) {
-                $product->delete();
-            });
-
-            $game->gamesCategories()->whereNull('deleted_at')->each(function ($gc) {
-                $gc->delete();
-            });
-        });
-
         static::restoring(function ($game) {
             $game->products()->onlyTrashed()->each(function ($product) {
                 if (!$product->category?->deleted_at) {

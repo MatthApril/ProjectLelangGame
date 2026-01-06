@@ -40,14 +40,14 @@
         @endif
         <div class="row">
             <div class="col-md-8 my-3">
-                <div class="card p-3">
-                    <div class="row">
-
-                        <div class="col-md-5 text-center my-2">
-                            @if ($product->product_img)
-                                <img src="{{ asset('storage/' . $product->product_img) }}"
-                                    alt="{{ $product->product_name }}" class="img-fluid rounded shadow" style="width: 100%">
-                            @endif
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-5 text-center my-2">
+                                @if ($product->product_img)
+                                    <img src="{{ asset('storage/' . $product->product_img) }}"
+                                        alt="" class="img-fluid rounded shadow" style="width: 100%">
+                                @endif
                         </div>
 
                         <div class="col-md-7 my-2">
@@ -72,7 +72,7 @@
                                             @if ($product->shop->shop_img)
                                                 <img 
                                                     src="{{ asset('storage/' . $product->shop->shop_img) }}" 
-                                                    alt="{{ $product->shop->shop_name }}" 
+                                                    alt="" 
                                                     class="shop-avatar"
                                                 >
                                             @else
@@ -109,8 +109,10 @@
                 </div>
                 <h4 class="fw-semibold mt-3">Deskripsi Produk</h4>
                 <hr>
-                <div class="card p-3">
-                    <p>{{ $product->description }}</p>
+                <div class="card">
+                    <div class="card-body">
+                        <p>{{ $product->description }}</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 my-3">
@@ -123,28 +125,30 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @enderror
-                        <div class="card p-3">
-                            <h5 class="fw-semibold">Informasi Pesanan</h5>
-                            <hr>
-                            <p class="m-0 fw-semibold">Stok : {{ $product->stok }}</p>
-                            <input type="number" class="form-control" min="1" max="{{ $product->stok }}" value="1"
-                                id="quantity" name="quantity" required>
-                            <hr>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h5 class="fw-bold">Subtotal :</h5>
-                                <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
-                            </div>
-                            {{-- <div class="alert alert-light my-2" role="alert">
-                                <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah
-                                Melakukan Pembelian!
-                            </div> --}}
-                            <div class="d-flex gap-2 mt-2">
-                                <a href="#" class="btn btn-outline-primary flex-fill text-center">
-                                    <i class="bi bi-chat-left"></i> Hubungi
-                                </a>
-                                <button type="submit" class="btn btn-outline-primary flex-fill text-center">
-                                    <i class="bi bi-cart3"></i> Tambah Ke Keranjang
-                                </button>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="fw-semibold">Informasi Pesanan</h5>
+                                <hr>
+                                <p class="m-0 fw-semibold">Stok : {{ $product->stok }}</p>
+                                <input type="number" class="form-control" min="1" max="{{ $product->stok }}" value="1"
+                                    id="quantity" name="quantity" required>
+                                <hr>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h5 class="fw-bold">Subtotal :</h5>
+                                    <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
+                                </div>
+                                {{-- <div class="alert alert-light my-2" role="alert">
+                                    <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah
+                                    Melakukan Pembelian!
+                                </div> --}}
+                                <div class="d-flex gap-2 mt-2">
+                                    <a href="#" class="btn btn-outline-primary flex-fill text-center">
+                                        <i class="bi bi-chat-left"></i> Hubungi
+                                    </a>
+                                    <button type="submit" class="btn btn-outline-primary flex-fill text-center">
+                                        <i class="bi bi-cart3"></i> Tambah Ke Keranjang
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -223,7 +227,7 @@
                         <div class="card">
                             @if ($related->product_img)
                                 <img src="{{ asset('storage/' . $related->product_img) }}"
-                                    alt="{{ $related->product_name }}" class="card-img-top product-img-16x9">
+                                    alt="" class="card-img-top product-img-16x9">
                             @endif
                             <div class="card-body">
                                 <h5 class="fw-bold">{{ $related->product_name }}</h5>

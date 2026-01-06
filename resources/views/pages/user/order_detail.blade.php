@@ -16,10 +16,12 @@
         <hr>
         <div id="alert-container"></div>
         <div>
-            <div class="card p-3">
-                <p class="m-0">Total Harga : <strong>Rp{{ number_format($order->total_prices, 0, ',', '.') }}</strong>
-                </p>
-                <p class="m-0">Tanggal Transaksi : <strong>{{ $order->created_at->format('d-m-Y H:i') }}</strong></p>
+            <div class="card">
+                <div class="card-body">
+                    <p class="m-0">Total Harga : <strong>Rp{{ number_format($order->total_prices, 0, ',', '.') }}</strong>
+                    </p>
+                    <p class="m-0">Tanggal Transaksi : <strong>{{ $order->created_at->format('d-m-Y H:i') }}</strong></p>
+                </div>
             </div>
 
             <h5 class="fw-semibold mt-4">Produk Dalam Transaksi</h5>
@@ -36,120 +38,122 @@
                 </div>
             @else
                 @foreach ($order->orderItems as $index => $item)
-                    <div class="card p-3 mb-3">
-                        <div class="row">
-                            <div class="col-md-3 text-center my-2">
-                                <img src="{{ asset('storage/' . $item->product->product_img) }}"
-                                    alt="{{ $item->product->product_name }}" width="300" class="img-fluid rounded shadow">
-                            </div>
-                            <div class="col-md-9 my-2">
-                                <h4 class="fw-semibold m-0">{{ $item->product->product_name }}</h4>
-                                <p class="text-secondary"><i class="bi bi-grid"></i>
-                                    {{ $item->product->category->category_name }} | <i class="bi bi-controller"></i>
-                                    {{ $item->product->game->game_name }}</p>
-                                <hr>
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-8">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div>
-                                                @if ($item->product->shop->shop_img)
-                                                    <img src="{{ asset('storage/' . $item->product->shop->shop_img) }}"
-                                                        alt="" class="shop-avatar">
-                                                @else
-                                                    <i class="bi bi-person-circle fs-1"></i>
-                                                @endif
-                                            </div>
-                                            <div>
-                                                <p class="m-0 fw-semibold">
-                                                    {{ $item->product->shop->shop_name }}
-                                                </p>
-                                                <p class="m-0">
-                                                    <i class="bi bi-star-fill text-warning"></i>
-                                                    {{ number_format($item->product->rating, 1) }} / 5.0
-                                                </p>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 text-center my-2">
+                                    <img src="{{ asset('storage/' . $item->product->product_img) }}"
+                                        alt="{{ $item->product->product_name }}" width="300" class="img-fluid rounded shadow">
+                                </div>
+                                <div class="col-md-9 my-2">
+                                    <h4 class="fw-semibold m-0">{{ $item->product->product_name }}</h4>
+                                    <p class="text-secondary"><i class="bi bi-grid"></i>
+                                        {{ $item->product->category->category_name }} | <i class="bi bi-controller"></i>
+                                        {{ $item->product->game->game_name }}</p>
+                                    <hr>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-8">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div>
+                                                    @if ($item->product->shop->shop_img)
+                                                        <img src="{{ asset('storage/' . $item->product->shop->shop_img) }}"
+                                                            alt="" class="shop-avatar">
+                                                    @else
+                                                        <i class="bi bi-person-circle fs-1"></i>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <p class="m-0 fw-semibold">
+                                                        {{ $item->product->shop->shop_name }}
+                                                    </p>
+                                                    <p class="m-0">
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        {{ number_format($item->product->rating, 1) }} / 5.0
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="col-4 text-end">
+                                            <a href="{{ route('shops.detail', $item->product->shop->shop_id) }}"
+                                                class="text-decoration-none fw-semibold">
+                                                Kunjungi <br> Toko
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <a href="{{ route('shops.detail', $item->product->shop->shop_id) }}"
-                                            class="text-decoration-none fw-semibold">
-                                            Kunjungi <br> Toko
-                                        </a>
-                                    </div>
-                                </div>
-                                <hr>
-                                <p class="m-0">Jumlah : <strong>{{ $item->quantity }}</strong></p>
-                                <p class="m-0">Harga Satuan :
-                                    <strong>Rp{{ number_format($item->product_price, 0, ',', '.') }}</strong>
-                                </p>
-                                <p class="m-0">Subtotal :
-                                    <strong>Rp{{ number_format($item->subtotal, 0, ',', '.') }}</strong>
-                                </p>
-                                <p class="m-0">
-                                    Status :
-                                    @if ($item->status === 'paid')
-                                        <span class="text-warning fw-semibold">Menunggu
-                                            Dikirim</span>
-                                    @elseif($item->status === 'shipped')
-                                        <span class="text-primary fw-semibold">Telah
-                                            Dikirim</span>
-                                    @elseif($item->status === 'completed')
-                                        <span class="text-success fw-semibold">Selesai</span>
-                                    @else
-                                        <span class="text-danger fw-semibold">Dibatalkan</span>
-                                    @endif
-
-                                    @if ($item->complaint)
-                                        <strong>Keluhan :</strong>
-                                        @if ($item->complaint->status === 'waiting_seller')
-                                            Menunggu Seller
-                                        @elseif ($item->complaint->status === 'waiting_admin')
-                                            Menunggu Admin
-                                        @elseif ($item->complaint->decision === 'refund')
-                                            Refund Disetujui
-                                        @elseif ($item->complaint->decision === 'reject')
-                                            Komplain Ditolak
-                                        @endif
-                                    @endif
-                                </p>
-                                <div id="review-section-{{ $item->order_item_id }}" class="mt-2">
-                                    @if ($item->status === 'shipped')
-                                        @if (!$item->complaint()->exists())
-                                            <div class="d-flex gap-2 mb-2">
-                                                <form action="{{ route('user.orders.confirm', $item->order_item_id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        onclick="return confirm('Konfirmasi pesanan sudah diterima?')"
-                                                        class="btn btn-success btn-sm">
-                                                        Konfirmasi Terima
-                                                    </button>
-                                                </form>
-    
-                                                <a href="{{ route('user.complaints.create', $item->order_item_id) }}"
-                                                    class="btn btn-danger btn-sm">
-                                                    Ajukan Komplain
-                                                </a>
-                                            </div>
+                                    <hr>
+                                    <p class="m-0">Jumlah : <strong>{{ $item->quantity }}</strong></p>
+                                    <p class="m-0">Harga Satuan :
+                                        <strong>Rp{{ number_format($item->product_price, 0, ',', '.') }}</strong>
+                                    </p>
+                                    <p class="m-0">Subtotal :
+                                        <strong>Rp{{ number_format($item->subtotal, 0, ',', '.') }}</strong>
+                                    </p>
+                                    <p class="m-0">
+                                        Status :
+                                        @if ($item->status === 'paid')
+                                            <span class="text-warning fw-semibold">Menunggu
+                                                Dikirim</span>
+                                        @elseif($item->status === 'shipped')
+                                            <span class="text-primary fw-semibold">Telah
+                                                Dikirim</span>
+                                        @elseif($item->status === 'completed')
+                                            <span class="text-success fw-semibold">Selesai</span>
                                         @else
-                                            <span class="text-warning">Komplain sedang diproses</span>
+                                            <span class="text-danger fw-semibold">Dibatalkan</span>
                                         @endif
 
-                                        @if ($item->shipped_at)
-                                            <small class="text-secondary d-block mt-1">
-                                                Batas konfirmasi : {{ $item->shipped_at->addDays(3)->diffForHumans() }}
-                                            </small>
+                                        @if ($item->complaint)
+                                            <strong>Keluhan :</strong>
+                                            @if ($item->complaint->status === 'waiting_seller')
+                                                Menunggu Seller
+                                            @elseif ($item->complaint->status === 'waiting_admin')
+                                                Menunggu Admin
+                                            @elseif ($item->complaint->decision === 'refund')
+                                                Refund Disetujui
+                                            @elseif ($item->complaint->decision === 'reject')
+                                                Komplain Ditolak
+                                            @endif
                                         @endif
-                                    @elseif($item->status === 'completed')
-                                        @if (!$item->hasReview())
-                                            <button type="button" data-bs-toggle="modal"
-                                                data-bs-target="#reviewModal-{{ $item->order_item_id }}"
-                                                class="btn btn-outline-primary btn-sm"><i class="bi bi-star"></i> Beri
-                                                Review</button>
-                                        @else
-                                            <button disabled class="btn btn-outline-success btn-sm">Sudah Review</button>
+                                    </p>
+                                    <div id="review-section-{{ $item->order_item_id }}" class="mt-2">
+                                        @if ($item->status === 'shipped')
+                                            @if (!$item->complaint()->exists())
+                                                <div class="d-flex gap-2 mb-2">
+                                                    <form action="{{ route('user.orders.confirm', $item->order_item_id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            onclick="return confirm('Konfirmasi pesanan sudah diterima?')"
+                                                            class="btn btn-success btn-sm">
+                                                            Konfirmasi Terima
+                                                        </button>
+                                                    </form>
+        
+                                                    <a href="{{ route('user.complaints.create', $item->order_item_id) }}"
+                                                        class="btn btn-danger btn-sm">
+                                                        Ajukan Komplain
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <span class="text-warning">Komplain sedang diproses</span>
+                                            @endif
+
+                                            @if ($item->shipped_at)
+                                                <small class="text-secondary d-block mt-1">
+                                                    Batas konfirmasi : {{ $item->shipped_at->addDays(3)->diffForHumans() }}
+                                                </small>
+                                            @endif
+                                        @elseif($item->status === 'completed')
+                                            @if (!$item->hasReview())
+                                                <button type="button" data-bs-toggle="modal"
+                                                    data-bs-target="#reviewModal-{{ $item->order_item_id }}"
+                                                    class="btn btn-outline-primary btn-sm"><i class="bi bi-star"></i> Beri
+                                                    Review</button>
+                                            @else
+                                                <button disabled class="btn btn-outline-success btn-sm">Sudah Review</button>
+                                            @endif
                                         @endif
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>

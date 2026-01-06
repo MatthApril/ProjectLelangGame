@@ -10,22 +10,25 @@
         </ol>
     </nav>
 
-    <div class="card mb-5 p-3">
-        <div class="row d-flex align-items-center">
-            <div class="col-md-4 text-center">
-                @if($game->game_img)
-                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="300" class="img-fluid">
-                @endif
-            </div>
-            
-            <div class="col-md-8">
-            <h2 class="fw-semibold">Game : {{ $game->game_name }}</h2>
-            @if($categories->count() > 0)
-                <h5 class="fw-semibold">Kategori :</h5>
-                @foreach($categories as $category)
-                    <button class="btn btn-outline-primary btn-sm mt-2" disabled>{{ $category->category_name }}</button>
-                @endforeach
-                @endif
+    <div class="card mb-5">
+        <div class="card-body">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-4 text-center">
+                    @if($game->game_img)
+                        <img src="{{ asset('storage/' . $game->game_img) }}" alt="" width="300" class="img-fluid">
+                    @endif
+                </div>
+                
+                <div class="col-md-8">
+                <h2 class="fw-semibold">Game {{ $game->game_name }}</h2>
+                @if($categories->count() > 0)
+                    <div class="d-flex align-items-center gap-2">
+                        @foreach($categories as $category)
+                            <button class="btn btn-outline-primary btn-sm" disabled>{{ $category->category_name }}</button>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -89,7 +92,7 @@
                     @if($product->product_img)
                         <img 
                             src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
+                            alt="" 
                             class="card-img-top product-img-16x9"
                         >
                     @endif

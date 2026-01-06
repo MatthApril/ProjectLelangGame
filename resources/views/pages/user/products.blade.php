@@ -79,7 +79,7 @@
                     @if($product->product_img)
                         <img 
                             src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
+                            alt="" 
                             class="card-img-top product-img-16x9"
                         >
                     @endif

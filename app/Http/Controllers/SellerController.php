@@ -11,6 +11,7 @@ use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Auction;
+use App\Models\CartItem;
 use App\Models\Complaint;
 use App\Models\ComplaintResponse;
 use App\Models\Order;
@@ -378,9 +379,12 @@ class SellerController extends Controller
     public function destroy($id)
     {
 
-        $count_in_order_item = OrderItem::where('product_id', $id)
-                                ->whereNotIn('status', ['cancelled', 'completed'])
+        $count_in_order_item = OrderItem::join('orders', 'orders.order_id', '=', 'order_items.order_id')
+                                ->where('order_items.product_id', $id)
+                                ->whereNotIn('order_items.status', ['cancelled', 'completed'])
+                                ->where('orders.status', 'paid')
                                 ->count();
+
         if ($count_in_order_item > 0) {
             return redirect()->route('seller.products.index')->with('error', 'Produk tidak dapat dihapus karena ada di pesanan pengguna.');
         }
@@ -391,6 +395,7 @@ class SellerController extends Controller
         //     Storage::disk('public')->delete($product->product_img);
         // }
 
+        CartItem::where('product_id', $product->product_id)->delete();
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dihapus!');

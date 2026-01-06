@@ -42,14 +42,15 @@
         @else
             @foreach ($orders as $order)
                 @if ($order->status == 'unpaid' && !now()->lessThan($order->expire_payment_at))
-                    <div class="card p-3 mb-3 border-secondary border-3">
+                    <div class="card mb-3 border-secondary border-3">
                     @else
                         @if (ucfirst($order->status) == 'Unpaid')
-                            <div class="card p-3 mb-3 border-danger border-3">
+                                <div class="card mb-3 border-danger border-3">
                             @else
-                                <div class="card p-3 mb-3 border-success border-3">
+                                <div class="card mb-3 border-success border-3">
                         @endif
                 @endif
+                <div class="card-body">
                 <h6 class="fw-semibold">ID Transaksi : #{{ $order->order_id }}</h6>
                 <span>Tanggal Transaksi : {{ $order->created_at->format('d-m-Y H:i') }}</span>
                 <hr>
@@ -68,6 +69,7 @@
                         @endif
                     </div>
                 </div>
+            </div>
     </div>
     @endforeach
     {{-- <div class="table-wrapper">

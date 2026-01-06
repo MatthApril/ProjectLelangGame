@@ -44,7 +44,7 @@
                     @if ($game && $game->game_img)
                         <div>
                             <p>Gambar saat ini:</p>
-                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}"
+                            <img src="{{ asset('storage/' . $game->game_img) }}" alt=""
                                 width="200">
                         </div>
                     @endif
@@ -106,7 +106,7 @@
                                 <td>{{ ($games->currentPage() - 1) * $games->perPage() + $loop->iteration }}</td>
                                 <td>
                                     @if ($game->game_img)
-                                        <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}"
+                                        <img src="{{ asset('storage/' . $game->game_img) }}" alt=""
                                             width="100">
                                     @else
                                         <span>No Image</span>

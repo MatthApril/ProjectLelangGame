@@ -131,3 +131,11 @@ th {
     font-size: 0.75rem;
     font-weight: 600;
 }
+
+.sampul {
+    height: 100%;
+    /* background-color: #008CFF; */
+    background-image: url('../images/sampul/bg-sampul.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}

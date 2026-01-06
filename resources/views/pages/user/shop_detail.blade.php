@@ -21,7 +21,7 @@
         <div class="col-md-4 d-flex align-items-start gap-3 mt-3">
             @if($shop->shop_img)
                 <div>
-                    <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="{{ $shop->shop_name }}" width="150" class="img-fluid shop-avatar">
+                    <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="" width="150" class="img-fluid shop-avatar">
                 </div>
             @endif
             <div>
@@ -38,26 +38,28 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <h5 class="fw-semibold m-0">Info Toko</h5>
             </div>
-            <div class="card p-3">
-                <p class="text-secondary m-0"><i class="bi bi-person-fill"></i> Pemilik ({{ $shop->owner->username }})</p>
-                <p class="text-secondary m-0 my-2"><i class="bi bi-people-fill"></i> Pembeli ({{ $totalBuyers }}) Orang</p>
-                <p class="text-secondary"><i class="bi bi-box-seam"></i> Produk Terjual ({{ $totalProductsSold }})</p>
-                @auth
-                    @if(Auth::user()->user_id != $shop->owner_id)
-                        <form action="{{ route('user.chat.show', $shop->owner->user_id) }}" method="GET">
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-outline-primary">
-                                    <i class="bi bi-chat-left-fill"></i> Chat Pemilik Toko
-                                </button>
-                            </div>
-                        </form>
-                    @endif
-                @else
-                    <p class="text-secondary m-0 mb-2">Silahkan masuk terlebih dahulu jika ingin chat dengan pemilik toko.</p>
-                    <div class="d-grid">
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary"><i class="bi bi-box-arrow-in-right"></i> Masuk</a>
-                    </div>
-                @endauth
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-secondary m-0"><i class="bi bi-person-fill"></i> Pemilik ({{ $shop->owner->username }})</p>
+                    <p class="text-secondary m-0 my-2"><i class="bi bi-people-fill"></i> Pembeli ({{ $totalBuyers }}) Orang</p>
+                    <p class="text-secondary"><i class="bi bi-box-seam"></i> Produk Terjual ({{ $totalProductsSold }})</p>
+                    @auth
+                        @if(Auth::user()->user_id != $shop->owner_id)
+                            <form action="{{ route('user.chat.show', $shop->owner->user_id) }}" method="GET">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        <i class="bi bi-chat-left-fill"></i> Chat Pemilik Toko
+                                    </button>
+                                </div>
+                            </form>
+                        @endif
+                    @else
+                        <p class="text-secondary m-0 mb-2">Silahkan masuk terlebih dahulu jika ingin chat dengan pemilik toko.</p>
+                        <div class="d-grid">
+                            <a href="{{ route('login') }}" class="btn btn-outline-primary"><i class="bi bi-box-arrow-in-right"></i> Masuk</a>
+                        </div>
+                    @endauth
+                </div>
             </div>
         </div>
         <div class="col-md-4 mt-3">
@@ -65,40 +67,42 @@
                 <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i> {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
                 {{-- <a href="#" class="text-decoration-none fw-semibold m-0">Semua Ulasan</a> --}}
             </div>
-            <div class="card p-3">
-                @if($totalReviews > 0)
-                    @for($i = 5; $i >= 1; $i--)
-                        <div class="d-flex gap-2 align-items-center mb-2">
-                            @for($j = 1; $j <= 5; $j++)
-                                @if($j <= $i)
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                @else
-                                    <i class="bi bi-star text-warning"></i>
-                                @endif
-                            @endfor
-                            
-                            <div class="progress flex-grow-1 mx-2" role="progressbar" 
-                                aria-label="Rating {{ $i }} stars" 
-                                aria-valuenow="{{ $ratingPercentages[$i] }}" 
-                                aria-valuemin="0" 
-                                aria-valuemax="100" 
-                                style="height: 8px;">
-                                <div class="progress-bar bg-warning" style="width: {{ $ratingPercentages[$i] }}%"></div>
+            <div class="card">
+                <div class="card-body">
+                    @if($totalReviews > 0)
+                        @for($i = 5; $i >= 1; $i--)
+                            <div class="d-flex gap-2 align-items-center mb-2">
+                                @for($j = 1; $j <= 5; $j++)
+                                    @if($j <= $i)
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    @else
+                                        <i class="bi bi-star text-warning"></i>
+                                    @endif
+                                @endfor
+                                
+                                <div class="progress flex-grow-1 mx-2" role="progressbar" 
+                                    aria-label="Rating {{ $i }} stars" 
+                                    aria-valuenow="{{ $ratingPercentages[$i] }}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100" 
+                                    style="height: 8px;">
+                                    <div class="progress-bar bg-warning" style="width: {{ $ratingPercentages[$i] }}%"></div>
+                                </div>
+                                
+                                <span class="text-secondary" style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                             </div>
-                            
-                            <span class="text-secondary" style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
+                        @endfor
+                        {{-- <hr class="my-2">
+                        <div class="text-center">
+                            <small class="text-secondary">Total {{ number_format($totalReviews) }} Ulasan</small>
+                        </div> --}}
+                    @else
+                        <div class="text-center text-secondary">
+                            <i class="bi bi-star" style="font-size: 48px;"></i>
+                            <p class="mb-0 mt-2">Belum Ada Ulasan</p>
                         </div>
-                    @endfor
-                    {{-- <hr class="my-2">
-                    <div class="text-center">
-                        <small class="text-secondary">Total {{ number_format($totalReviews) }} Ulasan</small>
-                    </div> --}}
-                @else
-                    <div class="text-center text-secondary">
-                        <i class="bi bi-star" style="font-size: 48px;"></i>
-                        <p class="mb-0 mt-2">Belum Ada Ulasan</p>
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -172,7 +176,7 @@
                     @if($product->product_img)
                         <img 
                             src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
+                            alt="" 
                             class="card-img-top product-img-16x9"
                         >
                     @endif
