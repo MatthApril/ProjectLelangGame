@@ -34,7 +34,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @enderror
-
     <div>
         <div class="card mb-3">
                 <h3 class="fw-semibold p-4 pb-0">Detail Produk</h3>
@@ -101,13 +100,13 @@
                 <div>
                     <label>Deskripsi Masalah *</label>
                     <textarea name="description" rows="5" maxlength="1000" placeholder="Jelaskan Masalah Yang Anda Alami Dengan Detail (Minimal 20 Karakter)" class="form-control" required>{{ old('description') }}</textarea>
-                    <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></small>
+                    <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></p>
                 </div>
                 
                 <div>
                     <label>Bukti Foto *</label>
                     <input type="file" name="proof_img" accept="image/jpeg,image/png,image/jpg" class="form-control" required>
-                    <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></small>
+                    <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></p>
                 </div>
                 
                 <div>

@@ -31,14 +31,16 @@
                             <i class="bi bi-controller"></i> {{ $complaint->orderItem->product->game->game_name }}
                         </p>
                         <hr>
-                            <div class="d-flex align-items-center gap-1">
+                            <p class="m-0">Jumlah : <span class="fw-semibold">{{ $complaint->orderItem->quantity }}</span></p>
+                            <p class="m-0">Subtotal : <span class="fw-semibold">{{ $complaint->orderItem->subtotal }}</span></p>
+                            {{-- <div class="d-flex align-items-center gap-1">
                                 <h4 class="fw-bold text-primary mb-0">
                                     Rp {{ number_format($complaint->orderItem->product->price, 0, ',', '.') }}
                                 </h4>
                                 <p class="text-secondary mb-0">
                                     / {{ $complaint->orderItem->product->category->category_name }}
                                 </p>
-                            </div>
+                            </div> --}}
 
                             <hr>
 
@@ -79,7 +81,9 @@
                             </div>
 
                             <hr>
-
+                            <button type="submit" class="btn btn-outline-primary text-center">
+                                <i class="bi bi-chat"></i> Hubungi Penjual
+                            </button>
                         </div>
                     </div>
                     <h4 class="fw-semibold mt-3">Komplain Anda</h4>
@@ -110,7 +114,7 @@
                             <div class="card p-3 mb-3">{{ $complaint->response->message }}</div>
 
                             @if($complaint->response->attachment)
-                                <label>Lampiran :</label>
+                                <label>Bukti Foto :</label>
                                 {{-- <div>
                                     <img src="{{ asset('storage/' . $complaint->response->attachment) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
                                     <p><i>Klik Gambar Untuk Memperbesar.</i></p>
@@ -134,11 +138,12 @@
                         <p class="text-secondary">{{ $complaint->resolved_at->format('d M Y H:i') }}</p>
                         <hr>
 
-                            @if($complaint->is_auto_resolved)
-                                <p><strong>⚠️ Seller tidak merespons dalam 24 jam</strong></p>
-                            @endif
-
-                            <div class="card p-3">
+                        
+                        <div class="card p-3">
+                                @if($complaint->is_auto_resolved)
+                                    <p class="m-0 fw-semibold">Seller tidak merespons dalam 24 jam</p>
+                                    <hr>
+                                @endif
                                 @if ($complaint->decision === 'refund')
                                     <p class="m-0 fw-semibold">
                                         <i class="bi bi-check-lg text-success"></i>

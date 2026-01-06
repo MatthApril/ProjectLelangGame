@@ -95,6 +95,8 @@
                     <hr>
                     <div class="card">
                         <div class="card-body">
+                            <p class="m-0">Jumlah : <span class="fw-semibold">{{ $complaint->orderItem->quantity }}</span></p>
+                            <p class="m-0">Subtotal : <span class="fw-semibold">{{ $complaint->orderItem->subtotal }}</span></p>
                             @if($complaint->status === 'waiting_seller')
                                 <p class="m-0">Status : <span class="text-primary fw-semibold">Menunggu Seller</span></p>
                             @elseif($complaint->status === 'waiting_admin')
