@@ -559,7 +559,7 @@ class UserController extends Controller
             ->whereHas('product.shop.owner')
             ->where('end_time', '>', now())
             ->whereIn('status', ['running', 'pending']);
-        
+
         if ($request->filled('search')) {
             $auctionsQuery->whereHas('product', function($q) use ($request) {
                 $q->where('product_name', 'LIKE', '%' . $request->search . '%');
@@ -593,7 +593,7 @@ class UserController extends Controller
         if ($request->filled('status')) {
             $auctionsQuery->where('status', $request->status);
         }
-            
+
         $auctions = $auctionsQuery->orderBy('start_time', 'desc')->paginate(12);
         $categories = Category::orderBy('category_name')->get();
         $games = Game::orderBy('game_name')->get();

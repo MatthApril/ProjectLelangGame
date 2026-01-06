@@ -30,46 +30,6 @@
         @if ($complaints->count() > 0)
             <div class="table-responsive">
                 <table border="1" class="table table-bordered">
-                    <tr>
-                        <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>
-                        <td>
-                            @if ($complaint->orderItem->product->product_img)
-                                <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}"
-                                    width="50" alt="">
-                            @endif
-                            {{ $complaint->orderItem->product->product_name }}
-                        </td>
-                        <td>{{ $complaint->buyer->username }}</td>
-                        <td>{{ $complaint->seller->username }}</td>
-                        <td>
-                            @if ($complaint->status === 'waiting_seller')
-                                Waiting Seller
-                            @elseif($complaint->status === 'waiting_admin')
-                                PERLU REVIEW
-                            @else
-                                Selesai
-                            @endif
-                        </td>
-                        <td>
-                            @if ($complaint->decision === 'refund')
-                                ✓ Refund
-                            @elseif($complaint->decision === 'reject')
-                                ✗ Ditolak
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td>{{ $complaint->created_at->format('d M Y H:i') }}</td>
-                        <td>
-                            <a href="{{ route('admin.complaints.show', $complaint->complaint_id) }}">
-                                @if ($complaint->status === 'waiting_admin')
-                                    Tinjau & Putuskan
-                                @else
-                                    Detail
-                                @endif
-                            </a>
-                        </td>
-                    </tr>
                     @foreach ($complaints as $complaint)
                         <tr>
                             <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>

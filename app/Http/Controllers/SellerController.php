@@ -17,6 +17,7 @@ use App\Models\ComplaintResponse;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
+use App\Models\Refund;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -170,34 +171,39 @@ class SellerController extends Controller
         return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
     }
 
-    function showIncomingOrders()
+    function showIncomingOrders(Request $req)
     {
         $categories = Category::orderBy('category_name')->get();
-        $user = Auth::user();
+
         $orders = OrderItem::query()
             ->leftJoin('orders', 'orders.order_id', '=', 'order_items.order_id')
             ->leftJoin('products', 'products.product_id', '=', 'order_items.product_id')
             ->leftJoin('shops', 'shops.shop_id', '=', 'products.shop_id')
             ->where(function ($q) {
-                $q->where('shops.owner_id', Auth::id())   // PEMILIK TOKO
-                ->orWhereNull('products.product_id');  // product hard delete
+                $q->where('shops.owner_id', Auth::id())
+                ->orWhereNull('products.product_id');
             })
-            ->whereIn('order_items.status', ['paid', 'completed', 'cancelled','shipped'])
-            ->where('orders.status', '=', 'paid')
-            ->orderBy('order_items.paid_at', 'desc')       // SORT BY ORDER
-            ->select('order_items.*')
+            ->where('orders.status', 'paid')
+            ->whereIn('order_items.status', ['paid', 'completed', 'cancelled', 'shipped'])
+
+            // FILTER STATUS DI SINI
+            ->when($req->status, function ($q) use ($req) {
+                $q->where('order_items.status', $req->status);
+            })
+
             ->with([
                 'order.account',
                 'product' => function ($q) {
-                    $q->withTrashed()
-                    ->with([
+                    $q->withTrashed()->with([
                         'shop'     => fn ($q) => $q->withTrashed(),
                         'category' => fn ($q) => $q->withTrashed(),
                         'game'     => fn ($q) => $q->withTrashed(),
                     ]);
                 }
-                ])
-            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
+            ])
+            ->orderBy('order_items.paid_at', 'desc')
+            ->orderBy('orders.created_at', 'desc')
+            ->select('order_items.*')
             ->paginate(20);
 
         return view('pages.seller.orders', compact('categories', 'orders'));
@@ -232,9 +238,16 @@ class SellerController extends Controller
         $orderItem->update([
             'status' => 'cancelled'
         ]);
+
         $buyer = $orderItem->order->account;
         $buyer->increment('balance', $orderItem->subtotal);
         $orderItem->product->increment('stok', $orderItem->quantity);
+
+        Refund::create([
+            'order_item_id' => $orderItem->order_item_id,
+            'reason' => 'Order cancelled by seller'
+        ]);
+
         return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan!');
 
     }
@@ -271,17 +284,17 @@ class SellerController extends Controller
             ->limit(10)
             ->get();
 
-        $isOpen = $auction->status === 'running' 
+        $isOpen = $auction->status === 'running'
             && now()->between($auction->start_time, $auction->end_time);
 
         $categories = Category::orderBy('category_name')->get();
         $shop = Auth::user()->shop;
 
         return view('pages.seller.auction_detail', compact(
-            'auction', 
-            'topBids', 
-            'isOpen', 
-            'categories', 
+            'auction',
+            'topBids',
+            'isOpen',
+            'categories',
             'shop'
         ));
     }

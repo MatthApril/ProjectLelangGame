@@ -29,7 +29,7 @@ Route::prefix('seller')->as('seller.')
             Route::get('/auctions/create', 'showCreateAuctionForm')->name('auctions.create.form');
             Route::post('/auctions/create', 'createAuction')->name('auctions.create');
             Route::get('/auctions/{auctionId}', 'showSellerAuctionDetail')->name('auctions.detail');
-            
+
 
             Route::get('/complaints', 'showComplaints')->name('complaints.index');
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');

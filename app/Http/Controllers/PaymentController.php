@@ -275,8 +275,10 @@ class PaymentController extends Controller
                     $cart->cartItems()->delete();
                 }
 
+                // dd($cart->cartItems());
+
                 Mail::to($user->email)->queue(new \App\Mail\Invoice($order));
-                
+
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }
         }

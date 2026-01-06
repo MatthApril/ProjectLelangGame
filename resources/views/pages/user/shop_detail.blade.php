@@ -185,8 +185,54 @@
         <hr>
         @if ($products->count() > 0)
             <div class="row mt-3">
-                @foreach ($products as $product)
-                    @if (Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
+                @auth
+                    @foreach ($products as $product)
+                        @if (Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
+                            <div class="col-md-3 mt-3">
+                                {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
+                                <div class="card">
+                                    @if ($product->product_img)
+                                        <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
+                                            class="card-img-top product-img-16x9">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                                        <h5 class="text-primary fw-semibold">
+                                            Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
+                                        <p class="text-secondary">
+                                            <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
+                                            <i class="bi bi-controller"></i> Game : {{ $product->game->game_name }}
+                                        </p>
+                                        <div class="d-flex justify-content-between text-secondary">
+                                            <div>
+                                                <i class="bi bi-box-seam"></i> Stok {{ $product->stok }}
+                                            </div>
+                                            <div>
+                                                <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('products.detail', $product->product_id) }}"
+                                            class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i
+                                                class="bi bi-caret-right-fill"></i></a>
+                                    </div>
+                                </div>
+                                {{-- </a> --}}
+                            </div>
+                        @else
+                            <div class="text-center">
+                                <div>
+                                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                                        class="img-fluid mt-3">
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                                    <p>Coba ubah filter pencarian Anda.</p>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                @else
+                    @foreach ($products as $product)
                         <div class="col-md-3 mt-3">
                             {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                             <div class="card">
@@ -217,19 +263,8 @@
                             </div>
                             {{-- </a> --}}
                         </div>
-                    @else
-                        <div class="text-center">
-                            <div>
-                                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                                    class="img-fluid mt-3">
-                            </div>
-                            <div>
-                                <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                                <p>Coba ubah filter pencarian Anda.</p>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
+                    @endforeach
+                @endauth
             </div>
             <div class="mt-3">
                 {{ $products->links() }}

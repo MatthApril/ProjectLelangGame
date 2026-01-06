@@ -18,10 +18,12 @@ use App\Http\Requests\UpdateTemplateRequest;
 use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
 use App\Mail\AccountBanned;
+use App\Models\CartItem;
 use App\Models\NotificationLog;
 use App\Models\Complaint;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
+use App\Models\Refund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -185,7 +187,13 @@ class AdminController extends Controller
 
     function showComments(Request $request)
     {
-        $query = ProductComment::with(['product', 'user', 'orderItem']);
+        $query = ProductComment::with(['product', 'user', 'orderItem'])
+                    ->whereHas('product', function($q) {
+                        $q->whereNull('deleted_at');
+                    })
+                    ->whereHas('user', function($q) {
+                        $q->whereNull('deleted_at');
+                    });
 
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
@@ -193,6 +201,7 @@ class AdminController extends Controller
 
         $comments = $query->latest('created_at')->paginate(20);
 
+        // dd($comments);
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -400,6 +409,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus');
     }
+
     function broadcastNotification(Request $req, $id){
         $template = NotificationTemplate::findOrFail($id);
         (new NotificationService())->broadcast($template->code_tag, $req->target_audience);
@@ -426,10 +436,31 @@ class AdminController extends Controller
 
         $shop = Shop::where('owner_id', $user->user_id)->first();
         if ($shop) {
+            CartItem::whereHas('product', function ($query) use ($shop) {
+                $query->where('shop_id', $shop->shop_id);
+            })->delete();
+
             $shop->products()->delete();
         }
 
         Mail::to($user->email)->queue(new AccountBanned());
+
+        if ($user->role == 'user') {
+            $orderItems = OrderItem::whereHas('order', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id);
+            })->whereIn('status', ['pending', 'paid', 'shipped'])->get();
+
+            foreach ($orderItems as $item) {
+                $item->update(['status' => 'cancelled']);
+                $shop = $item->shop;
+                $shop->decrement('running_transactions', $item->subtotal);
+
+                Refund::create([
+                    'order_item_id' => $item->order_item_id,
+                    'reason' => 'Order cancelled due to account ban'
+                ]);
+            }
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
     }

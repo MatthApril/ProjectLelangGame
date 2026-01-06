@@ -47,14 +47,22 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
     public function comment()
     {
         return $this->hasOne(ProductComment::class,'order_item_id');
     }
+
+    public function refund()
+    {
+        return $this->hasOne(Refund::class,'order_item_id');
+    }
+
     public function hasReview()
     {
         return $this->comment()->exists();
     }
+
     public function isPaid()
     {
         return $this->status === 'paid';
