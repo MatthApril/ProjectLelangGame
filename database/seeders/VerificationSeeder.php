@@ -13,31 +13,51 @@ class VerificationSeeder extends Seeder
      */
     public function run(): void
     {
-        Verification::create([
-            'user_id' => 2,
-            'unique_id' => 'VERIF-0001',
-            'otp' => '123456',
-            'type' => 'register',
-            'expires_at' => now()->addMinutes(2),
-            'status' => 'valid'
-        ]);
+        $verifications = [
+            [
+                'user_id' => 2,
+                'unique_id' => 'VERIF-SELLER-001',
+                'otp' => '123456',
+                'type' => 'register',
+                'status' => 'valid',
+                'expires_at' => now()->addDays(7),
+            ],
+            [
+                'user_id' => 3,
+                'unique_id' => 'VERIF-SELLER-002',
+                'otp' => '654321',
+                'type' => 'register',
+                'status' => 'valid',
+                'expires_at' => now()->addDays(7),
+            ],
+            [
+                'user_id' => 4,
+                'unique_id' => 'VERIF-USER-001',
+                'otp' => '789456',
+                'type' => 'register',
+                'status' => 'valid',
+                'expires_at' => now()->addDays(7),
+            ],
+            [
+                'user_id' => 2,
+                'unique_id' => 'VERIF-EMAIL-CHANGE-001',
+                'otp' => '321654',
+                'type' => 'change_email',
+                'status' => 'active',
+                'expires_at' => now()->addHours(2),
+            ],
+            [
+                'user_id' => 4,
+                'unique_id' => 'VERIF-RESET-PWD-001',
+                'otp' => '999888',
+                'type' => 'forgot_password',
+                'status' => 'active',
+                'expires_at' => now()->addHours(1),
+            ],
+        ];
 
-        Verification::create([
-            'user_id' => 3,
-            'unique_id' => 'VERIF-0002',
-            'otp' => '123456',
-            'type' => 'register',
-            'expires_at' => now()->addMinutes(2),
-            'status' => 'valid'
-        ]);
-
-        Verification::create([
-            'user_id' => 4,
-            'unique_id' => 'VERIF-0003',
-            'otp' => '123456',
-            'type' => 'register',
-            'expires_at' => now()->addMinutes(2),
-            'status' => 'valid'
-        ]);
+        foreach ($verifications as $verification) {
+            Verification::create($verification);
+        }
     }
 }
