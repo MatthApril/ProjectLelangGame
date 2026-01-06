@@ -551,21 +551,54 @@ class UserController extends Controller
         ));
     }
 
-    public function showAuctions() {
-        $auctions = Auction::with(['product.shop.owner', 'highestBid.user'])
+    public function showAuctions(Request $request) {
+        $auctionsQuery = Auction::with(['product.shop.owner', 'highestBid.user'])
             ->whereHas('product', function($q) {
                 $q->where('stok', '>', 0);
             })
             ->whereHas('product.shop.owner')
             ->where('end_time', '>', now())
-            ->whereHas('product.shop.owner')
-            ->whereIn('status', ['running'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->whereIn('status', ['running', 'pending']);
+        
+        if ($request->filled('search')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('product_name', 'LIKE', '%' . $request->search . '%');
+            });
+        }
 
+        if ($request->filled('game_id')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('game_id', $request->game_id);
+            });
+        }
+
+        if ($request->filled('category_id')) {
+            $auctionsQuery->whereHas('product.category', function($q) use ($request) {
+                $q->where('category_id', $request->category_id);
+            });
+        }
+
+        if ($request->filled('min_price')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('price', '>=', $request->min_price);
+            });
+        }
+
+        if ($request->filled('max_price')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('price', '<=', $request->max_price);
+            });
+        }
+
+        if ($request->filled('status')) {
+            $auctionsQuery->where('status', $request->status);
+        }
+            
+        $auctions = $auctionsQuery->orderBy('start_time', 'desc')->paginate(12);
         $categories = Category::orderBy('category_name')->get();
+        $games = Game::orderBy('game_name')->get();
 
-        return view('pages.user.auctions', compact('auctions', 'categories'));
+        return view('pages.user.auctions', compact('auctions', 'categories', 'games'));
     }
 
     public function showAuctionDetail($auctionId) {
@@ -577,7 +610,7 @@ class UserController extends Controller
             ->where('auction_id', $auctionId)
             ->where('end_time', '>', now())
             ->whereHas('product.shop.owner')
-            ->whereIn('status', ['running'])
+            ->whereIn('status', ['running', 'pending'])
             ->first();
 
         if (!$auction) {

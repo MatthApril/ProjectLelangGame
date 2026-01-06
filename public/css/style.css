@@ -128,3 +128,16 @@ th {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.auction-img-container {
+    height: 180px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.auction-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}

@@ -109,8 +109,6 @@ class SellerController extends Controller
         $categories = Category::orderBy('category_name')->get();
         $shop = Auth::user()->shop;
 
-        // dd($auctions);
-
         return view('pages.seller.auctions', compact('auctions', 'categories', 'shop'));
     }
 
@@ -247,6 +245,45 @@ class SellerController extends Controller
         $games = Game::all();
         $product = null;
         return view('pages.seller.create_auction', compact('categories', 'games', 'product'));
+    }
+
+    public function showSellerAuctionDetail($auctionId)
+    {
+        $auction = Auction::where('seller_id', Auth::user()->user_id)
+            ->with([
+                'product' => function ($q) {
+                    $q->withTrashed()
+                        ->with([
+                            'shop'     => fn ($q) => $q->withTrashed(),
+                            'category' => fn ($q) => $q->withTrashed(),
+                            'game'     => fn ($q) => $q->withTrashed(),
+                        ]);
+                },
+                'bids.user',
+                'highestBid.user',
+                'winner.user'
+            ])
+            ->findOrFail($auctionId);
+
+        $topBids = $auction->bids()
+            ->with('user')
+            ->orderByDesc('bid_price')
+            ->limit(10)
+            ->get();
+
+        $isOpen = $auction->status === 'running' 
+            && now()->between($auction->start_time, $auction->end_time);
+
+        $categories = Category::orderBy('category_name')->get();
+        $shop = Auth::user()->shop;
+
+        return view('pages.seller.auction_detail', compact(
+            'auction', 
+            'topBids', 
+            'isOpen', 
+            'categories', 
+            'shop'
+        ));
     }
 
     public function index(Request $request)

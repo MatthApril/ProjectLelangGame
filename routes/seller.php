@@ -28,15 +28,11 @@ Route::prefix('seller')->as('seller.')
             Route::get('/auctions', 'showSellerAuctions')->name('auctions.index');
             Route::get('/auctions/create', 'showCreateAuctionForm')->name('auctions.create.form');
             Route::post('/auctions/create', 'createAuction')->name('auctions.create');
+            Route::get('/auctions/{auctionId}', 'showSellerAuctionDetail')->name('auctions.detail');
+            
 
             Route::get('/complaints', 'showComplaints')->name('complaints.index');
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');
             Route::post('/complaints/{complaintId}/respond', 'respondComplaint')->name('complaints.respond');
         });
-
-        Route::controller(ChatController::class)->group(function() {
-            Route::get('/chat/{userId}', 'show')->name('chat.show');
-            Route::post('/chat/{userId}', 'store')->name('chat.store');
-        });
-    });
-
+});

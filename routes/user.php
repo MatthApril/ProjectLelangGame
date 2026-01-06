@@ -12,6 +12,7 @@ Route::get('/products', [UserController::class, 'showProducts'])->name('products
 Route::get('/products/{id}', [UserController::class, 'showProductDetail'])->name('products.detail');
 Route::get('/shops/{id}', [UserController::class, 'showShop'])->name('shops.detail');
 Route::get('/auctions', [UserController::class, 'showAuctions'])->name('auctions.index');
+Route::get('/auctions/{auctionId}', [UserController::class, 'showAuctionDetail'])->name('auctions.detail');
 
 Route::prefix('user')->as('user.')
 ->middleware(['auth', 'check_role:user,seller', 'check_status', 'throttle:api', 'check_banned'])
@@ -25,7 +26,6 @@ Route::prefix('user')->as('user.')
     Route::get('/orders/{orderId}', [UserController::class, 'showOrderDetail'])->name('orders.detail');
     Route::post('/orders/{orderItemId}',[UserController::class,'confirmOrder'])->name('orders.confirm');
 
-    Route::get('/auctions/{auctionId}', [UserController::class, 'showAuctionDetail'])->name('auction.detail');
     Route::post('/auctions/bid/{auctionId}', [UserController::class, 'placeBid'])->name('auctions.bid');
     Route::post('/reviews/{orderItemId}', [UserController::class, 'storeReview'])->name('reviews.store');
 
