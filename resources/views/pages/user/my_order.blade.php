@@ -12,7 +12,7 @@
             </ol>
         </nav>
         <h2 class="fw-semibold">Transaksi</h2>
-        <a href="{{ route('user.complaints.index') }}">List Complaint</a>
+        <a href="{{ route('user.complaints.index') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-chat"></i> Keluhan Saya</a>
         <hr>
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -32,7 +32,7 @@
         @if ($orders->isEmpty())
             <div class="text-center">
                 <div>
-                    <img src="{{ asset('images/order-empty.png') }}" alt="Order Empty" width="300">
+                    <img src="{{ asset('images/order-empty.png') }}" alt="Order Empty" width="300" class="img-fluid">
                 </div>
                 <div>
                     <h5 class="fw-semibold">Anda belum memiliki transaksi.</h5>
@@ -42,14 +42,15 @@
         @else
             @foreach ($orders as $order)
                 @if ($order->status == 'unpaid' && !now()->lessThan($order->expire_payment_at))
-                    <div class="card p-3 mb-3 border-secondary border-3">
+                    <div class="card mb-3 border-secondary border-3">
                     @else
                         @if (ucfirst($order->status) == 'Unpaid')
-                            <div class="card p-3 mb-3 border-danger border-3">
+                                <div class="card mb-3 border-danger border-3">
                             @else
-                                <div class="card p-3 mb-3 border-success border-3">
+                                <div class="card mb-3 border-success border-3">
                         @endif
                 @endif
+                <div class="card-body">
                 <h6 class="fw-semibold">ID Transaksi : #{{ $order->order_id }}</h6>
                 <span>Tanggal Transaksi : {{ $order->created_at->format('d-m-Y H:i') }}</span>
                 <hr>
@@ -68,6 +69,7 @@
                         @endif
                     </div>
                 </div>
+            </div>
     </div>
     @endforeach
     {{-- <div class="table-wrapper">

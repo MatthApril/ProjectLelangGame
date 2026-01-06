@@ -3,7 +3,8 @@
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-sm-12 col-md-12 col-lg-3 py-2">
                 <a href="{{ route('user.home') }}" class="d-flex align-items-center text-white text-decoration-none">
-                    <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50">
+                    <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo" width="50"
+                        class="img-fluid">
                     <h5 class="fw-semibold">LelangGame</h5>
                 </a>
             </div>
@@ -30,9 +31,7 @@
                             <button class="btn btn-outline-light text-decoration-none text-wrap dropdown-toggle"
                                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i>
-                                {{ strlen(Auth::user()->username) > 5 
-                                    ? substr(Auth::user()->username, 0, 5) . '...' 
-                                    : Auth::user()->username }}
+                                {{ strlen(Auth::user()->username) > 5 ? substr(Auth::user()->username, 0, 5) . '...' : Auth::user()->username }}
                             </button>
 
                             <ul class="dropdown-menu">
@@ -78,11 +77,13 @@
 <nav class="bg-navyblue text-white py-2">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center gap-3">
+            <a href="{{ route('user.home') }}" class="text-decoration-none text-white"><i class="bi bi-house"></i>
+                Beranda</a>
             <a href="{{ route('games.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-controller"></i> Semua Game</a>
             <a href="{{ route('products.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-box-seam"></i> Semua Produk</a>
-            <a href="{{ route('user.auctions.index') }}" class="text-decoration-none text-white"><i
+            <a href="{{ route('auctions.index') }}" class="text-decoration-none text-white"><i
                     class="bi bi-graph-up"></i> Semua Lelang</a>
         </div>
     </div>

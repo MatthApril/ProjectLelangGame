@@ -29,7 +29,7 @@
         <div class="col-md-2 mt-4">
             <div class="card">
                 @if($game->game_img)
-                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" class="card-img-top">
+                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="" class="card-img-top">
                 @endif
                 <div class="card-body">
                     <h5 class="card-title fw-semibold">{{ $game->game_name }}</h5>
@@ -41,7 +41,7 @@
         @empty
         <div class="text-center">
             <div>
-                <img src="{{ asset('images/game-empty.png') }}" alt="Game Empty" width="300">
+                <img src="{{ asset('images/game-empty.png') }}" alt="Game Empty" width="300" class="img-fluid">
             </div>
             <div>
                 <h5 class="fw-semibold">Wah game tidak ditemukan.</h5>
@@ -50,8 +50,6 @@
         </div>
         @endforelse
     </div>
-
-    <br>
     {{ $games->links() }}
 </div>
 @endsection

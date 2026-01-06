@@ -29,7 +29,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-center align-items-center">
                             <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo"
-                                width="100">
+                                width="100" class="img-fluid">
                             <h1 class="card-title text-center mb-4 fw-bold">LelangGame</h1>
                         </div>
                         <form action="{{ route('forgot-pwd.store') }}" method="post">

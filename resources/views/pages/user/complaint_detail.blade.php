@@ -36,7 +36,7 @@
             <tr>
                 <td>
                     @if($complaint->orderItem->product->product_img)
-                        <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt="{{ $complaint->orderItem->product->product_name }}" width="100" height="100">
+                        <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt="" width="100" height="100" class="img-fluid">
                     @endif
                 </td>
                 <td>

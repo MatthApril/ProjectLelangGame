@@ -79,7 +79,7 @@
                     @if($product->product_img)
                         <img 
                             src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
+                            alt="" 
                             class="card-img-top product-img-16x9"
                         >
                     @endif
@@ -106,7 +106,7 @@
         @empty
         <div class="text-center">
             <div>
-                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid">
             </div>
             <div>
                 <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>
