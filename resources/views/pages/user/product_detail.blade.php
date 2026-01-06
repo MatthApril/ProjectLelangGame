@@ -40,14 +40,13 @@
         @endif
         <div class="row">
             <div class="col-md-8 my-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-5 text-center my-2">
-                                @if ($product->product_img)
-                                    <img src="{{ asset('storage/' . $product->product_img) }}"
-                                        alt="" class="img-fluid rounded shadow" style="width: 100%">
-                                @endif
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col-md-5 text-center my-2">
+                            @if ($product->product_img)
+                                <img src="{{ asset('storage/' . $product->product_img) }}"
+                                    alt="" class="img-fluid rounded shadow" style="width: 100%">
+                            @endif
                         </div>
 
                         <div class="col-md-7 my-2">
@@ -106,12 +105,12 @@
 
                         </div>
                     </div>
-                </div>
-                <h4 class="fw-semibold mt-3">Deskripsi Produk</h4>
-                <hr>
-                <div class="card">
-                    <div class="card-body">
-                        <p>{{ $product->description }}</p>
+                    <h4 class="fw-semibold mt-3">Deskripsi Produk</h4>
+                    <hr>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>{{ $product->description }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

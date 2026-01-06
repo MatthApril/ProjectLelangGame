@@ -8,19 +8,19 @@
         <div class="row mb-4 px-2">
             <div class="col-md-3 mt-4 position-relative">
                 <img src="{{ asset('images/sampul/img_sampul_1.jpg') }}" alt="" style="width: 100%;" class="img-fluid rounded shadow-lg">
-                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Lihat Semua <i class="bi bi-caret-right-fill"></i></a>
+                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli Sekarang</a>
             </div>
             <div class="col-md-3 mt-4 position-relative">
                 <img src="{{ asset('images/sampul/img_sampul_2.jpg') }}" alt="" style="width: 100%;" class="img-fluid rounded shadow-lg">
-                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Lihat Semua <i class="bi bi-caret-right-fill"></i></a>
+                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli Sekarang</a>
             </div>
             <div class="col-md-3 mt-4 position-relative">
                 <img src="{{ asset('images/sampul/img_sampul_3.jpg') }}" alt="" style="width: 100%;" class="img-fluid rounded shadow-lg">
-                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Lihat Semua <i class="bi bi-caret-right-fill"></i></a>
+                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli Sekarang</a>
             </div>
             <div class="col-md-3 mt-4 position-relative">
                 <img src="{{ asset('images/sampul/img_sampul_4.jpg') }}" alt="" style="width: 100%;" class="img-fluid rounded shadow-lg">
-                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Lihat Semua <i class="bi bi-caret-right-fill"></i></a>
+                <a href="#" class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli Sekarang</a>
             </div>
         </div>
         <h6 class="m-0 text-white text-center mb-4"><i class="bi bi-shield-check"></i> Transaksi Aman &nbsp;|&nbsp; <i class="bi bi-cash-coin"></i> Garansi Uang Kembali &nbsp;|&nbsp; <i class="bi bi-headset"></i> Bantuan Customer Care</h6>
