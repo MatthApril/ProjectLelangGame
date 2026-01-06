@@ -20,8 +20,7 @@
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-4 py-3">
                     <div class="d-flex align-items-center justify-content-end gap-3">
-                        <a href="{{ route('chat.index') }}" class="text-decoration-none text-white"><i class="bi bi-envelope"
-                                style="font-size: 1.5rem;"></i></a>
+                        <a href="{{ route('chat.index') }}" class="text-decoration-none text-white"><i class="bi bi-chat" style="font-size: 1.5rem;"></i></a>
                         <a href="{{ route('notifications.index') }}" class="text-decoration-none text-white"><i class="bi bi-bell"
                                 style="font-size: 1.5rem;"></i></a>
                         <a href="{{ route('user.cart') }}" class="text-decoration-none text-white"><i class="bi bi-cart3"

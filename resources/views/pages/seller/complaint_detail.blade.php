@@ -96,7 +96,7 @@
 
                 <div>
                     <label><strong>Pembelaan/Klarifikasi *</strong></label>
-                    <textarea name="message" rows="6" required maxlength="1000" placeholder="Jelaskan posisi Anda dengan detail (minimal 20 karakter)">{{ old('message') }}</textarea>
+                    <textarea name="message" rows="5" required maxlength="1000" placeholder="Jelaskan posisi Anda dengan detail (minimal 20 karakter)">{{ old('message') }}</textarea>
                     @error('message')
                         <small>{{ $message }}</small>
                     @enderror

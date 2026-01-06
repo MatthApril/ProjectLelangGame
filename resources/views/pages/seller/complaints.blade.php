@@ -1,10 +1,10 @@
 @extends('layouts.template')
 
-@section('title', 'Komplain Masuk')
+@section('title', 'Komplain Pelanggan | LelangGame')
 
 @section('content')
-<div>
-    <h2>Komplain Masuk - {{ $shop->shop_name }}</h2>
+<div class="container">
+    <h2>Komplain Pelanggan - {{ $shop->shop_name }}</h2>
     <hr>
 
     @if(session('success'))

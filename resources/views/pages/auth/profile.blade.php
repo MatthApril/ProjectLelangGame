@@ -50,6 +50,11 @@
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-cash-coin"></i>
                             Transaksi</a>
                     </div>
+                    <div class="ms-3">
+                        <a href="{{ route('user.complaints.index') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-chat-dots"></i>
+                            Komplain</a>
+                    </div>
                     <hr>
                 @endif
             </div>

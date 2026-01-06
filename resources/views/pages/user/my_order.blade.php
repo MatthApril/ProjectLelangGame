@@ -12,7 +12,7 @@
             </ol>
         </nav>
         <h2 class="fw-semibold">Transaksi</h2>
-        <a href="{{ route('user.complaints.index') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-chat"></i> Keluhan Saya</a>
+        {{-- <a href="{{ route('user.complaints.index') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-chat"></i> Keluhan Saya</a> --}}
         <hr>
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">

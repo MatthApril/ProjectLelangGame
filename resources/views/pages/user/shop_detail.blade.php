@@ -54,7 +54,7 @@
                                         value="{{ route('shops.detail', $shop->shop_id) }}">
                                     <input type="hidden" name="return_label" value="Kembali ke Toko">
                                     <button type="submit" class="btn btn-outline-primary">
-                                        <i class="bi bi-chat-left-fill"></i> Chat Pemilik Toko
+                                        <i class="bi bi-chat"></i> Chat Pemilik Toko
                                     </button>
                                 </div>
                             </form>
@@ -189,7 +189,7 @@
                                         class="card-img-top product-img-16x9">
                                 @endif
                                 <div class="card-body">
-                                    <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                                    <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
                                     <h5 class="text-primary fw-semibold">
                                         Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                                     <p class="text-secondary">

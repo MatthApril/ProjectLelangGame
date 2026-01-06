@@ -43,7 +43,7 @@
     <div class="container mt-5">
         <div class="d-flex align-items-center justify-content-between">
             <h2 class="fw-bold">Produk Terbaru</h2>
-            <a href="{{ route('products.index') }}" class="text-decoration-none fw-semibold">Lihat Semua Produk <i
+            <a href="{{ route('products.index') }}" class="text-decoration-none fw-semibold">Semua Produk <i
                     class="bi bi-chevron-right"></i></a>
         </div>
         <hr>
@@ -56,7 +56,7 @@
                                 class="card-img-top product-img-16x9">
                         @endif
                         <div class="card-body">
-                            <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                            <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
                             <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                             <p class="text-secondary">
                                 <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
@@ -82,7 +82,7 @@
     <div class="container mt-5">
         <div class="d-flex align-items-center justify-content-between">
             <h2 class="fw-bold">Produk Lelang</h2>
-            <a href="{{ route('auctions.index') }}" class="text-decoration-none fw-semibold">Semua Produk Lelang <i
+            <a href="{{ route('auctions.index') }}" class="text-decoration-none fw-semibold">Semua Lelang <i
                     class="bi bi-chevron-right"></i></a>
         </div>
         <hr>
@@ -223,7 +223,7 @@
     <div class="container mt-5">
         <div class="d-flex align-items-center justify-content-between">
             <h2 class="fw-bold">Game Terpopuler</h2>
-            <a href="{{ route('games.index') }}" class="text-decoration-none fw-semibold">Lihat Semua Game <i
+            <a href="{{ route('games.index') }}" class="text-decoration-none fw-semibold">Semua Game <i
                     class="bi bi-chevron-right"></i></a>
         </div>
         <hr>
@@ -260,7 +260,7 @@
                                 class="card-img-top card-img-top shop-avatar w-100 h-100">
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title fw-semibold">{{ $shop->shop_name }}</h5>
+                            <h5 class="card-title fw-semibold">{{ strlen($shop->shop_name) > 12 ? substr($shop->shop_name, 0, 12) . '...' : $shop->shop_name }}</h5>
                             <p class="text-secondary m-0"><i class="bi bi-people-fill"></i> Pembeli
                                 ({{ $shop->total_buyers }})
                             </p>

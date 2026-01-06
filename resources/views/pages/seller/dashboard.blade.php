@@ -61,20 +61,21 @@
         <h4 class="fw-bold">Menu Cepat</h4>
         <div class="d-flex gap-2 mb-3">
             <a href="{{ route('seller.incoming_orders.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-clipboard"></i> Daftar Pesanan Pelanggan</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-clipboard"></i> Pesanan Pelanggan</a>
             <a href="{{ route('seller.products.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-box-seam"></i> Kelola Produk</a>
             <a href="{{ route('seller.auctions.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Kelola Lelang Produk</a>
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Lelang Produk</a>
+        </div>
+        <div class="d-flex gap-2 mb-3">
             <a href="{{ route('seller.complaints.index') }}"
                     class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
-                    <i class="bi bi-chat"></i> Kelola Keluhan</a>
+                    <i class="bi bi-chat"></i> Komplain Pelanggan</a>
             <a href="{{ route('seller.reviews.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-star"></i> Lihat Ulasan</a>
         </div>
         <hr>
-
         <div>
             <h6 class="fw-bold">Keuangan Toko</h6>
             <table border="1" class="table table-striped">

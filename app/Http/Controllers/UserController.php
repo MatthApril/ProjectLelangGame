@@ -448,7 +448,7 @@ class UserController extends Controller
             ->where('product_id', '!=', $product->product_id)
             ->where('stok', '>', 0);
 
-        $relatedProducts = $relatedProductsQuery->take(12)->get();
+        $relatedProducts = $relatedProductsQuery->take(4)->get();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.product_detail', compact('product', 'relatedProducts', 'categories'));

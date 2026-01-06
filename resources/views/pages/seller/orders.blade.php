@@ -47,11 +47,11 @@
                     <img src="{{ asset('storage/' . $item->product->product_img) }}"
                     alt="" class="img-fluid rounded shadow mb-3" width="300">
                 @endif
-                <span>Produk : {{ $item->product->product_name }}</span>
-                <span>Pembeli : {{ $item->order->account->username }}</span>
-                <span>Jumlah : {{ $item->quantity }}</span>
-                <span>Subtotal : Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span>
-                <span>Status : 
+                <p class="m-0">Produk : {{ $item->product->product_name }}</p>
+                <p class="m-0">Pembeli : {{ $item->order->account->username }}</p>
+                <p class="m-0">Jumlah : {{ $item->quantity }}</p>
+                <p class="m-0">Subtotal : Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                <p class="m-0 fw-semibold">Status : 
                     @if($item->status === 'paid')
                         <span class="text-primary">Paid (Menunggu Dikirim)</span>
                     @elseif($item->status === 'shipped')
@@ -61,7 +61,7 @@
                     @else
                         <span class="text-danger">Cancelled (Dibatalkan)</span>
                     @endif
-                </span>
+                </p>
                 <hr>
                 <div>
                     @if($item->status === 'paid')

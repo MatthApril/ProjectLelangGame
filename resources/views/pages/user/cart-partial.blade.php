@@ -40,6 +40,7 @@
                 <div class="col-md-8 my-3">
                 @foreach ($cartItems as $item)
                         <div class="d-flex align-items-center gap-3">
+                                @if($item->product->product_img)
                                 <div>
                                     <img
                                         src="{{ asset('storage/' . $item->product->product_img) }}"
@@ -48,6 +49,7 @@
                                         class="img-fluid rounded shadow"
                                     >
                                 </div>
+                                @endif
         
                                 <div>
                                     <h6 class="fw-bold">{{ $item->product->product_name }}</h6>
@@ -86,7 +88,7 @@
                         <p class="m-0 mb-2">({{ $cartItems->count() }} Produk)</p>
                         @foreach ($cartItems as $item)
                             <div class="d-flex align-items-center justify-content-between">
-                                <span class="text-secondary">{{ $item->product->product_name }} x{{ $item->quantity }}</span>
+                                <span class="text-secondary">{{ strlen($item->product->product_name) > 22 ? substr($item->product->product_name, 0, 22) . '...' : $item->product->product_name }} x{{ $item->quantity }}</span>
                                 <span class="text-primary">
                                     Rp{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
                                 </span>

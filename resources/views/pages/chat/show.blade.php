@@ -33,7 +33,7 @@
                 @csrf
                 <div class="input-group">
                     <input type="text" id="message-input" name="content" class="form-control" 
-                           placeholder="Ketik pesan..." value="{{ $autoMessage ?? '' }}" autocomplete="off">
+                           placeholder="Ketik pesan" value="{{ $autoMessage ?? '' }}" autocomplete="off">
                     <button type="submit" id="send-button" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
                 </div>
             </form>

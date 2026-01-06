@@ -110,7 +110,7 @@
             </div>
             <div class="col-md-12 mb-3">
                 <label>Deskripsi</label><br>
-                <textarea id="description" name="description" class="form-control" placeholder="Tuliskan Deskripsi Produk Yang Ingin Di Jual">{{ old('description', $product->description ?? '') }}</textarea>
+                <textarea rows="5" id="description" name="description" class="form-control" placeholder="Tuliskan Deskripsi Produk Yang Ingin Di Jual">{{ old('description', $product->description ?? '') }}</textarea>
             </div>
         </div>
 
@@ -118,7 +118,7 @@
             <a href="{{ route('seller.products.index') }}" class="btn btn-danger"><i class="bi bi-x-lg"></i> Batal</a>
             <button type="submit"
                 class="btn {{ $product ? 'btn-warning' : 'btn-primary' }}">
-                {!! $product ? '<i class="bi bi-pencil-square"></i> Ubah Produk' : '<i class="bi bi-plus-lg"></i> Tambah Produk' !!}
+                {!! $product ? '<i class="bi bi-pencil-square"></i> Edit Produk' : '<i class="bi bi-plus-lg"></i> Tambah Produk' !!}
             </button>
         </div>
     </form>

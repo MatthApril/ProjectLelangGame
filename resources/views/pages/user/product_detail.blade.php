@@ -138,7 +138,7 @@
                                     value="{{ route('products.detail', $product->product_id) }}">
                                 <input type="hidden" name="return_label" value="Kembali ke Produk">
                                 <button type="submit" class="btn btn-outline-primary text-center w-100">
-                                    <i class="bi bi-chat-left"></i> Hubungi
+                                    <i class="bi bi-chat"></i> Hubungi
                                 </button>
                             </form>
                             <form id="addToCartForm" class="flex-grow-1"
@@ -228,7 +228,7 @@
                                     class="card-img-top product-img-16x9">
                             @endif
                             <div class="card-body">
-                                <h5 class="fw-bold">{{ $related->product_name }}</h5>
+                                <h5 class="fw-bold">{{ strlen($related->product_name) > 22 ? substr($related->product_name, 0, 22) . '...' : $related->product_name }}</h5>
                                 <h5 class="text-primary fw-semibold">Rp{{ number_format($related->price, 0, ',', '.') }}
                                 </h5>
                                 <p class="text-secondary">
@@ -251,9 +251,9 @@
                     </div>
                 @endforeach
             </div>
-            <div class="mt-3">
-                {{ $products->links() }}
-            </div>
+            {{-- <div class="mt-3">
+                {{ $relatedProducts->links() }}
+            </div> --}}
         @endif
     </div>
     <script>
