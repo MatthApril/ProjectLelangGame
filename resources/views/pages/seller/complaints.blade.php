@@ -57,8 +57,7 @@
             </tr>
             @endforeach
         </table>
-
-        <div>
+        <div class="mt-3">
             {{ $complaints->links() }}
         </div>
     @else

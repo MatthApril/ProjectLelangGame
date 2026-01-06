@@ -18,9 +18,6 @@
                 <input type="search" name="search" placeholder="Cari Nama Game" value="{{ request('search') }}" aria-label="Search" class="form-control" autocomplete="off" autofocus>
                 <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
             </div>
-            {{-- @if(request('search'))
-                <a href="{{ route('games.index') }}" class="btn btn-secondary">Reset</a>
-            @endif --}}
         </div>
     </form>
 
@@ -32,7 +29,7 @@
                     <img src="{{ asset('storage/' . $game->game_img) }}" alt="" class="card-img-top">
                 @endif
                 <div class="card-body">
-                    <h5 class="card-title fw-semibold">{{ $game->game_name }}</h5>
+                    <h6 class="card-title fw-semibold">{{ $game->game_name }}</h6>
                     <span class="text-secondary">{{ $game->products_count }} Produk Tersedia</span>
                     <a href="{{ route('games.detail', $game->game_id) }}" class="btn btn-primary btn-sm mt-3 float-end">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                 </div>
@@ -50,6 +47,8 @@
         </div>
         @endforelse
     </div>
-    {{ $games->links() }}
+    <div class="mt-3">
+        {{ $games->links() }}
+    </div>
 </div>
 @endsection

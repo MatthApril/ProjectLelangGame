@@ -74,7 +74,6 @@
     <div class="row">
         @forelse($products as $product)
         <div class="col-md-3 mt-3">
-            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
                     @if($product->product_img)
                         <img 
@@ -101,7 +100,6 @@
                         <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                     </div>
                 </div>
-            {{-- </a> --}}
         </div>
         @empty
         <div class="text-center">
@@ -115,6 +113,8 @@
         </div>
         @endforelse
     </div>
-    {{ $products->links() }}
+    <div class="mt-3">
+        {{ $products->links() }}
+    </div>
 </div>
 @endsection

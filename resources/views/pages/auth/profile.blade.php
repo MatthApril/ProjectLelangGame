@@ -19,7 +19,6 @@
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     @if ($user->shop && $user->shop->shop_img)
                         <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="" class="shop-avatar">
-                        {{-- <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" class="rounded-5"> --}}
                     @else
                         <div>
                             <i class="bi bi-person-circle fs-1"></i>

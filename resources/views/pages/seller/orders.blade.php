@@ -103,60 +103,6 @@
             </p>
         </div>
      @endforelse
-    {{-- <table class="table">
-        <tr>
-            <th>No</th>
-            <th>Order ID</th>
-            <th>Produk</th>
-            <th>Buyer</th>
-            <th>Qty</th>
-            <th>Subtotal</th>
-            <th>Status</th>
-            <th>Tanggal Pesanan</th>
-            <th>Aksi</th>
-        </tr>
-        @forelse ($orders as $item)
-            <tr>
-                <td>{{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}</td>
-                <td>#{{ $item->order->order_id }}</td>
-                <td>{{ $item->product->product_name }}</td>
-                <td>{{ $item->order->account->username }}</td>
-                <td>{{ $item->quantity }}</td>
-                <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                <td>{{ $item->status }}</td>
-                <td>{{ $item->paid_at->format('d M Y H:i') }}</td>
-                <td>
-                    @if($item->status === 'paid')
-                        <form action="{{ route('seller.orders.ship', $item->order_item_id) }}" method="POST" style="display:inline; margin-right: 5px;">
-                            @csrf
-                            <button type="submit" onclick="return confirm('Kirim pesanan ini?')" style="padding: 5px 10px; background: blue; color: white; border: none; cursor: pointer;">
-                                Kirim
-                            </button>
-                        </form>
-                        <form action="{{ route('seller.orders.cancel', $item->order_item_id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" onclick="return confirm('Batalkan pesanan? Saldo pembeli akan dikembalikan.')" style="padding: 5px 10px; background: red; color: white; border: none; cursor: pointer;">
-                                Cancel
-                            </button>
-                        </form>
-                    @elseif($item->status === 'shipped')
-                        <div>
-                            <small style="color: gray;">Menunggu konfirmasi pembeli</small><br>
-                            <small style="color: blue;">Auto-complete: {{ $item->shipped_at->addDays(3)->format('d M Y') }}</small>
-                        </div>
-                    @elseif($item->status === 'completed')
-                        <span style="color: green;">Pesanan selesai</span>
-                    @else
-                        <span style="color: red;">Pesanan dibatalkan</span>
-                    @endif
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="9" style="text-align: center;">Tidak ada pesanan</td>
-            </tr>
-        @endforelse
-    </table> --}}
     <div class="mt-3">
         {{ $orders->appends(request()->query())->links() }}
     </div>

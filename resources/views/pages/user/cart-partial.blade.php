@@ -10,7 +10,6 @@
         </ol>
     </nav>
 
-    {{-- <div class="row"> --}}
         <h2 class="fw-semibold">Keranjang Belanja</h2>
         <hr>
         @if (session('error'))
@@ -37,27 +36,10 @@
                 </div>
             </div>
         @else
-            {{-- <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault">
-                        Semua Produk
-                    </label>
-                </div>
-                <div>
-                    <a href="#" class="text-decoration-none fw-semibold">Hapus Dari Keranjang</a>
-                </div>
-            </div>
-            <hr> --}}
-            
             <div class="row">
                 <div class="col-md-8 my-3">
                 @foreach ($cartItems as $item)
-                    {{-- <a href="{{ route('products.detail', $item->product->product_id) }}" class="text-decoration-none text-dark"> --}}
                         <div class="d-flex align-items-center gap-3">
-                                {{-- <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </div> --}}
                                 <div>
                                     <img
                                         src="{{ asset('storage/' . $item->product->product_img) }}"
@@ -79,7 +61,6 @@
                                     <a href="{{ route('products.detail', $item->product->product_id) }}" class="btn btn-primary btn-sm mt-2">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                                 </div>
                         </div>
-                    {{-- </a> --}}
                     <div class="d-flex my-3 gap-2">
                         <input 
                             type="number"
@@ -132,73 +113,6 @@
                         </form>
                     </div>
                 </div>
-            {{-- </div> --}}
-    
-            {{-- <tr>
-                <td><img src="{{ asset('storage/' . $item->product->product_img) }}" alt="{{ $item->product->product_name }}" width="150px"></td>
-                <td>{{ $item->product->product_name }}</td>
-                <td>Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
-                <td><input type="number" value="{{ $item->quantity }}" min="1"
-                data-id="{{ $item->cart_items_id }}" class="qty-input" /></td>
-                <td>Rp {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</td>
-                <td>
-                <form action="{{ route('user.cart.remove', ['cartItemId' => $item->cart_items_id]) }}"
-                method="POST">
-                @csrf
-                <button type="submit">Hapus</button>
-                </form>
-                </td>
-            </tr> --}}
-    
-            {{-- <table>
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Harga</th>
-                        <th>Jumlah</th>
-                        <th>Total</th>
-                        <th>Hapus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($cartItems as $item)
-                        <tr>
-                            <td><img src="{{ asset('storage/' . $item->product->product_img) }}"
-                                    alt="{{ $item->product->product_name }}" width="150px"></td>
-                            <td>{{ $item->product->product_name }}</td>
-                            <td>Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
-                            <td><input type="number" value="{{ $item->quantity }}" min="1"
-                                    data-id="{{ $item->cart_items_id }}" class="qty-input" /></td>
-                            <td>Rp {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</td>
-                            <td>
-                                <form action="{{ route('user.cart.remove', ['cartItemId' => $item->cart_items_id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    <button type="submit">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-    
-        <p>
-            Total :
-            Rp
-            {{ number_format(
-                $cartItems->sum(function ($item) {
-                    return $item->product->price * $item->quantity;
-                }),
-                0,
-                ',',
-                '.',
-            ) }}
-        </p>
-    
-        <form action="{{ route('payment.checkout') }}" method="post">
-            @csrf
-            <button type="submit">Checkout</button>
-        </form> --}}
         @endif
     </div>
 </div>

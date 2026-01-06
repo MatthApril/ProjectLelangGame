@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title', 'Review Produk Toko | LelangGame')
+@section('title', 'Ulasan Toko | LelangGame')
 
 @section('content')
 <div class="container">
@@ -9,10 +9,10 @@
             <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
             <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Dashboard Seller</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Review Produk Toko</li>
+            <li class="breadcrumb-item active" aria-current="page">Ulasan Toko</li>
         </ol>
     </nav>
-    <h2 class="fw-semibold">Review Produk Toko</h2>
+    <h2 class="fw-semibold">Ulasan Toko</h2>
     <hr>
     <div id="alert-container"></div>
 
@@ -85,7 +85,7 @@
         @include('partials.reviews_table', ['comments' => $comments])
     </div>
 
-    <div id="pagination-container" class="mt-3">
+    <div class="mt-3">
         {{ $comments->links() }}
     </div>
 </div>

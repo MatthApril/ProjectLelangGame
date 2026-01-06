@@ -130,10 +130,6 @@
                             <h5 class="fw-bold">Subtotal :</h5>
                             <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
                         </div>
-                        {{-- <div class="alert alert-light my-2" role="alert">
-                        <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah
-                        Melakukan Pembelian!
-                    </div> --}}
                         <div class="d-flex gap-2 mt-2">
                             <form class="flex-grow-1" action="{{ route('chat.open', $product->shop->owner->user_id) }}"
                                 method="GET">
@@ -226,7 +222,6 @@
                 <hr>
                 @foreach ($relatedProducts as $related)
                     <div class="col-md-3 mt-2">
-                        {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                         <div class="card">
                             @if ($related->product_img)
                                 <img src="{{ asset('storage/' . $related->product_img) }}" alt=""
@@ -253,32 +248,11 @@
                                         class="bi bi-caret-right-fill"></i></a>
                             </div>
                         </div>
-                        {{-- </a> --}}
                     </div>
-                    {{-- @empty --}}
-                    {{-- <h4 class="fw-semibold mt-4 text-center">Tidak Ada Produk Ditemukan</h4> --}}
-                    {{-- @endforelse
-                {{ $products->links() }} --}}
-                    {{-- <div>
-                    @if ($related->product_img)
-                        <img
-                            src="{{ asset('storage/' . $related->product_img) }}"
-                            alt="{{ $related->product_name }}"
-                            width="150"
-                        >
-                    @endif
-
-                    <h4>{{ $related->product_name }}</h4>
-                    <p>
-                        Rp {{ number_format($related->price, 0, ',', '.') }}
-                    </p>
-
-                    <a href="{{ route('products.detail', $related->product_id) }}">
-                        Lihat Detail
-                    </a>
-                </div>
-                <br> --}}
                 @endforeach
+            </div>
+            <div class="mt-3">
+                {{ $products->links() }}
             </div>
         @endif
     </div>

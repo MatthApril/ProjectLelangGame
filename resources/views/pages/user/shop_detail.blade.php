@@ -73,7 +73,6 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i>
                         {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
-                    {{-- <a href="#" class="text-decoration-none fw-semibold m-0">Semua Ulasan</a> --}}
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -100,10 +99,6 @@
                                         style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                                 </div>
                             @endfor
-                            {{-- <hr class="my-2">
-                        <div class="text-center">
-                            <small class="text-secondary">Total {{ number_format($totalReviews) }} Ulasan</small>
-                        </div> --}}
                         @else
                             <div class="text-center text-secondary">
                                 <i class="bi bi-star" style="font-size: 48px;"></i>
@@ -188,7 +183,6 @@
                 @foreach ($products as $product)
                     @if (Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
                         <div class="col-md-3 mt-3">
-                            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                             <div class="card">
                                 @if ($product->product_img)
                                     <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
@@ -215,7 +209,6 @@
                                             class="bi bi-caret-right-fill"></i></a>
                                 </div>
                             </div>
-                            {{-- </a> --}}
                         </div>
                     @else
                         <div class="text-center">
