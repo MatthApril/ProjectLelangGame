@@ -55,17 +55,17 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-envelope-at-fill"></i></span>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Alamat Email"
                                     autocomplete="off" value="{{ old('email') }}" required>
                             </div>
                             <label>Nomor Rekening : </label>
-                            <div class="input-group flex-nowrap mb-3">
-                                <span class="input-group-text" id="addon-wrapping"><i
-                                        class="bi bi-envelope-at-fill"></i></span>
-                                <input type="text" class="form-control" name="bank_account_number"
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="addon-wrapping"><i class="bi bi-bank2"></i></span>
+                                <input type="number" class="form-control" name="bank_account_number"
                                     id="bank_account_number" placeholder="Nomor Rekening" autocomplete="off"
                                     value="{{ old('bank_account_number') }}" required>
-                            </div>
+                                </div>
+                            <p class="m-0 mb-3"><i>Wajib Nomor Rekening <strong>Bank BCA</strong> Untuk Pencairan Dana</i></p>
                             <label>Password : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>

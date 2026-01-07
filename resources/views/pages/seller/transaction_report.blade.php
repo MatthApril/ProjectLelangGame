@@ -13,8 +13,39 @@
             </ol>
         </nav>
 
-        <h2 class="fw-semibold">Laporan Transaksi</h2>
-        <hr>
+        <div class="no-print">
+            <h2 class="fw-semibold">Laporan Transaksi</h2>
+            <hr>
+        </div>
+
+        {{-- Header khusus CETAK --}}
+        <div class="print-only mb-3 d-none">
+            <h4 class="fw-bold mb-1">Laporan Transaksi</h4>
+            <p class="mb-0">
+                Periode :
+                {{ \Carbon\Carbon::parse($request->start_date)->format('d/m/Y') }}
+                s/d
+                {{ \Carbon\Carbon::parse($request->end_date)->format('d/m/Y') }}
+            </p>
+            <p class="mb-0">
+                Status :
+                @if(!$request->status || $request->status == 'all')
+                    Semua
+                @elseif($request->status == 'paid')
+                    Dibayar
+                @elseif($request->status == 'shipped')
+                    Dikirim
+                @elseif($request->status == 'completed')
+                    Selesai
+                @elseif($request->status == 'cancelled')
+                    Dibatalkan
+                @endif
+            </p>
+            <p class="mb-0">
+                Dicetak pada : {{ now()->format('d/m/Y H:i') }}
+            </p>
+            <hr>
+        </div>
 
         {{-- Filter Form --}}
         <div class="card mb-4 no-print">
@@ -42,13 +73,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-funnel"></i> Generate Laporan
-                        </button>
+                    <div class="mt-3 float-end">
                         <a href="{{ route('seller.transaction-report.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-arrow-clockwise"></i> Reset
                         </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-file-text"></i> Generate Laporan
+                        </button>
                     </div>
                 </form>
             </div>
@@ -147,11 +178,10 @@
                                 @endforelse
                             </tbody>
                         </table>
-
             </div>
         @else
-            <div class="alert alert-info">
-                <i class="bi bi-info-circle"></i> Silakan pilih periode dan generate laporan untuk melihat data transaksi.
+            <div class="alert alert-primary">
+                <i class="bi bi-info-circle"></i> Silakan pilih periode terlebih dahulu dan generate laporan untuk melihat data transaksi.
             </div>
         @endif
     </div>

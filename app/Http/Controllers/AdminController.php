@@ -30,6 +30,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -533,5 +535,249 @@ class AdminController extends Controller
         $user->restore();
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
+    }
+
+    public function showSellerTransactionReport()
+    {
+        $sellers = User::where('role', 'seller')
+            ->whereHas('shop')
+            ->with('shop')
+            ->orderBy('username')
+            ->get();
+
+        return view('pages.admin.transaction_report_seller', [
+            'sellers' => $sellers,
+            'request' => request()
+        ]);
+    }
+
+    public function generateSellerTransactionReport(Request $request)
+    {
+        $request->validate([
+            'seller_id' => 'required|exists:users,user_id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $seller = User::with('shop')->findOrFail($request->seller_id);
+        $shop = $seller->shop;
+
+        if (!$shop) {
+            return back()->with('error', 'Seller tidak memiliki toko.');
+        }
+
+        $query = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product']);
+
+        $orderItems = $query->get();
+
+        $totalTransactions = $orderItems->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        $sellers = User::where('role', 'seller')
+            ->whereHas('shop')
+            ->with('shop')
+            ->orderBy('username')
+            ->get();
+
+        return view('pages.admin.transaction_report_seller', compact(
+            'orderItems',
+            'totalTransactions',
+            'totalRevenue',
+            'totalPending',
+            'totalCancelled',
+            'sellers',
+            'seller',
+            'shop',
+            'request'
+        ));
+    }
+
+    public function exportSellerPdf(Request $request)
+    {
+        $request->validate([
+            'seller_id' => 'required|exists:users,user_id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $seller = User::with('shop')->findOrFail($request->seller_id);
+        $shop = $seller->shop;
+
+        $orderItems = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product'])
+            ->get();
+
+        $totalTransactions = $orderItems->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        $pdf = Pdf::loadView('pages.admin.report.t_report_seller_pdf', [
+            'orderItems' => $orderItems,
+            'totalTransactions' => $totalTransactions,
+            'totalRevenue' => $totalRevenue,
+            'totalPending' => $totalPending,
+            'totalCancelled' => $totalCancelled,
+            'seller' => $seller,
+            'shop' => $shop,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return $pdf->download('Laporan-Transaksi-Seller-' . $shop->shop_name . '-' . now()->format('YmdHis') . '.pdf');
+    }
+
+    public function exportSellerExcel(Request $request)
+    {
+        $request->validate([
+            'seller_id' => 'required|exists:users,user_id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $seller = User::with('shop')->findOrFail($request->seller_id);
+        $shop = $seller->shop;
+
+        $orderItems = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product'])
+            ->get();
+
+        return Excel::download(
+            new \App\Exports\TransactionReportAdmin($orderItems),
+            'Laporan-Transaksi-Seller-' . $shop->shop_name . '-' . now()->format('YmdHis') . '.xlsx'
+        );
+    }
+
+    public function showIncomeReport()
+    {
+        return view('pages.admin.income_report');
+    }
+
+    public function generateIncomeReport(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $query = OrderItem::whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product.shop']);
+
+        $orderItems = $query->get();
+
+        // Hitung total pendapatan dari biaya admin (completed orders only)
+        $totalAdminFee = Order::whereHas('orderItems', function($q) use ($request) {
+            $q->where('status', 'completed')
+            ->whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+        })->sum('admin_fee');
+
+        $totalTransactions = $orderItems->count();
+        $completedOrders = $orderItems->where('status', 'completed')->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        return view('pages.admin.income_report', compact(
+            'orderItems',
+            'totalTransactions',
+            'completedOrders',
+            'totalRevenue',
+            'totalPending',
+            'totalCancelled',
+            'totalAdminFee',
+            'request'
+        ));
+    }
+
+    public function exportIncomePdf(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $orderItems = OrderItem::whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product.shop'])
+            ->get();
+
+        $totalAdminFee = Order::whereHas('orderItems', function($q) use ($request) {
+            $q->where('status', 'completed')
+            ->whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+        })->sum('admin_fee');
+
+        $totalTransactions = $orderItems->count();
+        $completedOrders = $orderItems->where('status', 'completed')->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        $pdf = Pdf::loadView('pages.admin.report.income_pdf', [
+            'orderItems' => $orderItems,
+            'totalTransactions' => $totalTransactions,
+            'completedOrders' => $completedOrders,
+            'totalRevenue' => $totalRevenue,
+            'totalPending' => $totalPending,
+            'totalCancelled' => $totalCancelled,
+            'totalAdminFee' => $totalAdminFee,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return $pdf->download('laporan-pendapatan-platform.pdf');
+    }
+
+    public function exportIncomeExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $orderItems = OrderItem::whereNotNull('paid_at')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product.shop'])
+            ->get();
+
+        return Excel::download(
+            new \App\Exports\IncomeReportAdmin($orderItems),
+            'laporan-pendapatan-platform.xlsx'
+        );
     }
 }

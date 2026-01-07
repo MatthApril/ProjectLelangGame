@@ -707,10 +707,12 @@ class SellerController extends Controller
 
         $data = $this->getReportData($request);
 
-        $pdf = Pdf::loadView('pages.seller.report.pdf', $data)
+        $pdf = Pdf::loadView('pages.seller.report.t_report_pdf', $data)
             ->setPaper('A4', 'landscape');
 
-        return $pdf->download('laporan-transaksi-' . date('Y-m-d') . '.pdf');
+        return $pdf->download(
+            'Laporan-Transaksi-' . now()->format('Y-m-d_H-i-s') . '.pdf'
+        );
     }
 
     public function exportExcel(Request $request)
@@ -725,7 +727,7 @@ class SellerController extends Controller
 
         return Excel::download(
             new \App\Exports\TransactionReportExport($data['orderItems']),
-            'laporan-transaksi-' . date('Y-m-d') . '.xlsx'
+            'Laporan-Transaksi-' . now()->format('Y-m-d_H-i-s') . '.xlsx'
         );
     }
 

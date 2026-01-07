@@ -35,7 +35,6 @@
                         <option value="">Semua Status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Akan Dimulai</option>
                         <option value="running" {{ request('status') == 'running' ? 'selected' : '' }}>Berlangsung</option>
-                        <option value="ended" {{ request('status') == 'ended' ? 'selected' : '' }}>Selesai</option>
                     </select>
                 </div>
             </div>

@@ -54,8 +54,27 @@
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.withdraws.*') ? 'menu-active' : '' }}">
                     Pencairan Saldo</a>
                 <a href="{{ route('admin.cancelled_orders.index') }}"
-                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
+                    class="text-decoration-none text-white d-block {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
                     Pesanan Dibatalkan</a>
+                <hr>
+                <p class="fw-semibold m-0">Laporan</p>
+                <hr>
+                <a href="{{ route('admin.transaction-report-seller.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.transaction-report-seller.*') ? 'menu-active' : '' }}">
+                    Transaksi Seller
+                </a>
+                <a href="{{ route('admin.income-report.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.income-report.*') ? 'menu-active' : '' }}">
+                    Pendapatan
+                </a>
+                {{-- <a href="{{ route('admin.cancelled_orders.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
+                    Top Seller
+                </a>
+                <a href="{{ route('admin.cancelled_orders.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
+                    Top Game & Kategori
+                </a> --}}
             </div>
         </div>
         <div class="content px-4 py-2" style="width: 100%;">
@@ -83,6 +102,10 @@
                         <li class="breadcrumb-item active mt-3">Pencairan Saldo</li>
                     @elseif(Route::is('admin.cancelled_orders.*'))
                         <li class="breadcrumb-item active mt-3">Pesanan Dibatalkan</li>
+                    @elseif(Route::is('admin.transaction-report-seller.*'))
+                        <li class="breadcrumb-item active mt-3">Laporan Transaksi Seller</li>
+                    @elseif(Route::is('admin.income-report.*'))
+                        <li class="breadcrumb-item active mt-3">Laporan Pendapatan Platform</li>
                     @endif
 
                     @if (Route::is('*.edit'))
