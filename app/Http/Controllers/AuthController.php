@@ -98,7 +98,7 @@ class AuthController extends Controller
         }
         DB::commit();
 
-        (new NotificationService())->send($user->user_id, 'welcome_user', ['username' => $user->username]);
+        (new NotificationService())->send($user->user_id, 'selamat_datang_pengguna', ['username' => $user->username]);
 
         Auth::login($user);
         return redirect()->route('verify.index');
@@ -142,6 +142,10 @@ class AuthController extends Controller
             'shop_rating' => 0,
             'running_transactions' => 0,
             'shop_balance' => 0
+        ]);
+
+        (new NotificationService())->send($user->user_id, 'selamat_datang_penjual', [
+            'username' => $user->username,
         ]);
 
         return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat.');

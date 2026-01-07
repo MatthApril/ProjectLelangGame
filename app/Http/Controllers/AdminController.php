@@ -224,6 +224,16 @@ class AdminController extends Controller
         $message = $request->decision === 'refund'
             ? 'Komplain disetujui. Buyer telah di-refund.'
             : 'Komplain ditolak.';
+
+        $resolution = $request->decision === 'refund' ? 'Refund Disetujui' : 'Komplain Ditolak';
+
+        // komplain_diselesaikan - ke buyer
+        (new NotificationService())->send($complaint->buyer_id, 'komplain_diselesaikan', [
+            'username' => $complaint->buyer->username,
+            'order_id' => $complaint->orderItem->order_id,
+            'resolution' => $resolution,
+        ]);
+
         return redirect()->route('admin.complaints.index')->with('success', $message);
     }
 
@@ -511,6 +521,10 @@ class AdminController extends Controller
                 $shop->decrement('running_transactions', $item->subtotal);
             }
         }
+
+        (new NotificationService())->send($user->user_id, 'akun_diblokir', [
+            'username' => $user->username,
+        ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
     }
