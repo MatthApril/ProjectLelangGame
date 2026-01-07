@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('bid_id');
             $table->foreignId('auction_id')->constrained('auctions', 'auction_id')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
-            $table->integer('bid_price'); 
-            $table->timestamp('created_at');
+            $table->integer('bid_price');
+            $table->timestamps();
         });
     }
 

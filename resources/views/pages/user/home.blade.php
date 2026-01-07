@@ -52,7 +52,7 @@
                 <div class="col-md-3 mt-3">
                     <div class="card">
                         @if ($product->product_img)
-                            <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
+                            <img src="{{ asset('storage/products/' . $product->product_img) }}" alt=""
                                 class="card-img-top product-img-16x9">
                         @endif
                         <div class="card-body">
@@ -120,7 +120,7 @@
                     <div class="card h-100 shadow-sm border-0 pb-3">
                         <div class="position-relative">
                             @if ($auction->product && $auction->product->product_img)
-                                <img src="{{ asset('storage/' . $auction->product->product_img) }}"
+                                <img src="{{ asset('storage/products/' . $auction->product->product_img) }}"
                                     class="card-img-top object-fit-cover" alt="{{ $auction->product->product_name }}"
                                     style="height: 200px;">
                             @else
@@ -183,7 +183,7 @@
                                 <div class="bg-light rounded-circle border d-flex align-items-center justify-content-center"
                                     style="width: 24px; height: 24px;">
                                     @if ($auction->product->shop->shop_img)
-                                        <img src="{{ asset('storage/' . $auction->product->shop->shop_img) }}"
+                                        <img src="{{ asset('storage/shops/' . $auction->product->shop->shop_img) }}"
                                             alt="Shop Image" class="rounded-circle"
                                             style="width: 24px; height: 24px; object-fit: cover;">
                                     @else
@@ -232,10 +232,10 @@
                 <div class="col-md-2 mt-4">
                     <div class="card">
                         @if ($game->game_img)
-                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="" class="card-img-top">
+                            <img src="{{ asset('storage/games/' . $game->game_img) }}" alt="" class="card-img-top">
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title fw-semibold">{{ $game->game_name }}</h5>
+                            <h5 class="card-title fw-semibold text-truncate">{{ $game->game_name }}</h5>
                             <span class="text-secondary">{{ $game->products_count }} Produk Tersedia</span>
                             <a href="{{ route('games.detail', $game->game_id) }}"
                                 class="btn btn-primary btn-sm mt-3 float-end">Lihat Produk <i
@@ -256,7 +256,7 @@
                 <div class="col-md-2 mt-4">
                     <div class="card">
                         @if ($shop->shop_img)
-                            <img src="{{ asset('storage/' . $shop->shop_img) }}" alt=""
+                            <img src="{{ asset('storage/shops/' . $shop->shop_img) }}" alt=""
                                 class="card-img-top card-img-top shop-avatar w-100 h-100">
                         @endif
                         <div class="card-body">
@@ -296,4 +296,41 @@
             @endforeach
         </div>
     </div>
+
+<script>
+    // Auction Timer Script
+    document.addEventListener('DOMContentLoaded', function () {
+        const timers = document.querySelectorAll('.auction-timer');
+
+        timers.forEach(function (timer) {
+            const endTime = new Date(timer.getAttribute('data-time'));
+            const type = timer.getAttribute('data-type');
+
+            function updateTimer() {
+                const now = new Date();
+                let timeDiff;
+
+                if (type === 'end') {
+                    timeDiff = endTime - now;
+                } else {
+                    timeDiff = endTime - now;
+                }
+
+                if (timeDiff <= 0) {
+                    timer.textContent = '00:00:00';
+                    return;
+                }
+
+                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        });
+    });
+</script>
 @endsection

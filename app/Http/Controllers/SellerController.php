@@ -20,6 +20,7 @@ use App\Models\ProductComment;
 use App\Models\Refund;
 use App\Models\User;
 use App\Models\Shop;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -347,6 +348,11 @@ class SellerController extends Controller
         $orderItem->update([
             'status' => 'shipped',
             'shipped_at' => now(),
+        ]);
+
+        (new NotificationService())->send($orderItem->order->user_id, 'order_shipped', [
+            'username' => $orderItem->order->account->username,
+            'product_name' => $orderItem->product->product_name,
         ]);
 
         $shop = $orderItem->shop;

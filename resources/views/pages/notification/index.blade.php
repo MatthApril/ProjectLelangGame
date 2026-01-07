@@ -1,7 +1,13 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container mt-4">
+<div class="container my-4">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Notifikasi</li>
+        </ol>
+    </nav>
     <h3 class="fw-bold mb-4">Notifikasi</h3>
 
     <div id="notification-list">
@@ -13,7 +19,7 @@
 
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <h5 class="mb-1 text-dark">{{ $recipient->notification->title }}</h5>
+                        <h5 class="mb-1 fw-semibold text-dark">{{ $recipient->notification->title }}</h5>
                         <small class="text-muted">
                             {{ $recipient->notification->created_at->diffForHumans() }}
                         </small>

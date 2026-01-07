@@ -74,7 +74,7 @@ class UpdateAuctionStatus extends Command
                         'product_price' => $auction->product->price,
                         'quantity' => $auction->product->stok,
                         'subtotal' => $highestBid->bid_price,
-                        'status' => 'shipped',
+                        'status' => 'pending',
                     ]);
 
                     // Midtrans

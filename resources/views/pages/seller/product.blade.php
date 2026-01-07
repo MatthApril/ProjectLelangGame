@@ -70,7 +70,7 @@
                     <div class="card">
                         @if ($product->product_img)
                             <div class="position-relative">
-                                <img src="{{ asset('storage/' . $product->product_img) }}"
+                                <img src="{{ asset('storage/products/' . $product->product_img) }}"
                                     alt="" class="card-img-top product-img-16x9">
                                 @if ($product->deleted_at)
                                     <span class="badge bg-danger position-absolute top-0 end-0 m-2">Dihapus</span>

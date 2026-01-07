@@ -20,6 +20,13 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <h6 class="fw-bold">Daftar Template Notifikasi (Total: {{ $templates->total() }})</h6>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -31,8 +38,6 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 @if($template->category === 'system')
                                     <span class="badge-category bg-warning text-black">
-                                @elseif($template->category === 'promo')
-                                    <span class="badge-category bg-danger text-white">
                                 @else
                                     <span class="badge-category bg-success text-white">
                                 @endif
@@ -48,22 +53,22 @@
                                     </button>
                                 </div>
                             </div>
-    
+
                             <div class="icon-box bg-primary text-white">
                                 <i class="bi bi-bell fs-4"></i>
                             </div>
-    
+
                             <h5 class="card-title-custom">{{ $template->title }}</h5>
                             <p class="card-text-muted">{{ Str::limit($template->body, 100) }}</p>
                         </div>
-                        
-                        
+
+
                         <div class="d-grid gap-2">
                             <div class="d-flex align-items-center mb-4 text-muted" style="font-size: 0.8rem;">
                                 <i class="bi bi-tag me-2"></i> {{ $template->code_tag }}
                             </div>
                             <button type="button" class="btn btn-generate mb-1 bg-warning text-black"
-                                data-bs-toggle="modal" 
+                                data-bs-toggle="modal"
                                 data-bs-target="#modalEditTemplateNotifikasi"
                                 data-id="{{ $template->notif_temp_id }}"
                                 data-code="{{ $template->code_tag }}"
@@ -74,7 +79,7 @@
                                 data-category="{{ $template->category }}">
                                 Edit Template
                             </button>
-                            
+
                             @if ($template->trigger_type === 'broadcast')
                             <div class="d-flex gap-2">
                                 <button type="button" class="btn btn-generate flex-grow-1 bg-danger text-white"
@@ -100,12 +105,12 @@
         @endforeach
     </div>
 
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center mt-3">
         <p class="text-muted">
             Menampilkan {{ $templates->firstItem() ?? 0 }} - {{ $templates->lastItem() ?? 0 }} dari {{ $templates->total() }} template
         </p>
         <div>
-            {{ $templates->withQueryString()->links('pagination::bootstrap-4') }}
+            {{ $templates->links('pagination::bootstrap-4') }}
         </div>
     </div>
 </div>
@@ -230,7 +235,6 @@
                         <label for="category" class="form-label">Kategori</label>
                         <select class="form-select" id="category" name="category" required>
                             <option value="system" {{ (old('category', $template->category ?? '') == 'system') ? 'selected' : '' }}>System</option>
-                            <option value="promo" {{ (old('category', $template->category ?? '') == 'promo') ? 'selected' : '' }}>Promo</option>
                             <option value="order" {{ (old('category', $template->category ?? '') == 'order') ? 'selected' : '' }}>Order</option>
                         </select>
                     </div>
@@ -281,7 +285,6 @@
                         <label class="form-label">Kategori</label>
                         <select class="form-select" name="category" id="edit_category" required>
                             <option value="system">System</option>
-                            <option value="promo">Promo</option>
                             <option value="order">Order</option>
                         </select>
                     </div>
@@ -336,7 +339,7 @@
     document.getElementById('broadcastModal').addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
         var id = button.getAttribute('data-id');      // e.g. 5
-        var name = button.getAttribute('data-name');  // e.g. promo_new_year
+        var name = button.getAttribute('data-name');  // e.g. system_maintenance_alert
 
         document.getElementById('broadcastTemplateName').textContent = name;
 
@@ -348,7 +351,7 @@
 
     document.getElementById('modalEditTemplateNotifikasi').addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
-        
+
         var id = button.getAttribute('data-id');
         var code = button.getAttribute('data-code');
         var title = button.getAttribute('data-title');

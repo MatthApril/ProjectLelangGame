@@ -464,6 +464,8 @@ class UserController extends Controller
         }])->findOrFail($id);
 
         $productsQuery = $shop->products()
+            ->with(['category', 'game'])
+            ->where('type', 'normal')
             ->whereNull('deleted_at');
 
         if ($request->filled('search')) {
@@ -484,6 +486,10 @@ class UserController extends Controller
 
         if ($request->filled('max_price')) {
             $productsQuery->where('price', '<=', $request->max_price);
+        }
+
+        if ($request->filled('type')) {
+            $productsQuery->where('type', $request->type);
         }
 
         switch ($request->sort) {
@@ -546,9 +552,62 @@ class UserController extends Controller
             ->whereNull('deleted_at');
         })->orderBy('category_name')->get();
 
+        // Fetch auctions for this shop
+        $auctionsQuery = Auction::with(['product.category', 'product.game', 'highestBid', 'bids'])
+            ->where('seller_id', $shop->owner_id)
+            ->whereIn('status', ['pending', 'running', 'ended']);
+
+        if ($request->filled('search')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('product_name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('game_id')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('game_id', $request->game_id);
+            });
+        }
+
+        if ($request->filled('category_id')) {
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('category_id', $request->category_id);
+            });
+        }
+
+        if ($request->filled('min_price')) {
+            $auctionsQuery->where('current_price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $auctionsQuery->where('current_price', '<=', $request->max_price);
+        }
+
+        if ($request->filled('type')){
+            $auctionsQuery->whereHas('product', function($q) use ($request) {
+                $q->where('type', $request->type);
+            });
+        }
+
+        $auctions = $auctionsQuery->get();
+
+        // Merge products and auctions into single collection with type indicator
+        $productItems = $products->getCollection()->map(function($product) {
+            $product->item_type = 'product';
+            return $product;
+        });
+
+        $auctionItems = $auctions->map(function($auction) {
+            $auction->item_type = 'auction';
+            return $auction;
+        });
+
+        $mergedItems = $productItems->concat($auctionItems)->sortByDesc('created_at')->values();
+
         return view('pages.user.shop_detail', compact(
             'shop',
             'products',
+            'mergedItems',
             'totalProductsSold',
             'totalBuyers',
             'ratingStats',
@@ -566,8 +625,8 @@ class UserController extends Controller
                 $q->where('stok', '>', 0);
             })
             ->whereHas('product.shop.owner')
-            ->where('end_time', '>', now())
-            ->whereIn('status', ['running', 'pending']);
+            // ->where('end_time', '>', now())
+            ->whereIn('status', ['running', 'pending', 'ended']);
 
         if ($request->filled('search')) {
             $auctionsQuery->whereHas('product', function($q) use ($request) {
@@ -588,15 +647,11 @@ class UserController extends Controller
         }
 
         if ($request->filled('min_price')) {
-            $auctionsQuery->whereHas('product', function($q) use ($request) {
-                $q->where('price', '>=', $request->min_price);
-            });
+            $auctionsQuery->where('current_price', '>=', $request->min_price);
         }
 
         if ($request->filled('max_price')) {
-            $auctionsQuery->whereHas('product', function($q) use ($request) {
-                $q->where('price', '<=', $request->max_price);
-            });
+            $auctionsQuery->where('current_price', '<=', $request->max_price);
         }
 
         if ($request->filled('status')) {
@@ -617,19 +672,19 @@ class UserController extends Controller
             })
             ->whereHas('product.shop.owner')
             ->where('auction_id', $auctionId)
-            ->where('end_time', '>', now())
+            // ->where('end_time', '>', now())
             ->whereHas('product.shop.owner')
-            ->whereIn('status', ['running', 'pending'])
+            ->whereIn('status', ['running', 'pending', 'ended'])
             ->first();
 
         if (!$auction) {
             return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
         }
 
-        if ($auction->end_time <= now()) {
-            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
-            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
-        }
+        // if ($auction->end_time <= now()) {
+        //     Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+        //     return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
+        // }
 
         $categories = Category::orderBy('category_name')->get();
 
@@ -670,16 +725,20 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Penawaran harus lebih tinggi dari harga saat ini.');
         }
 
-        AuctionBid::create([
-            'auction_id' => $auction->auction_id,
-            'user_id' => Auth::id(),
-            'bid_price' => $req->bid_price,
-        ]);
+        DB::transaction(function () use ($req, $auction) {
+            AuctionBid::updateOrCreate(
+                [
+                    'auction_id' => $auction->auction_id,
+                    'user_id'    => Auth::id(),
+                ],
+                [
+                    'bid_price'  => $req->bid_price,
+                    'updated_at' => now(),
+                ]
+            );
 
-        Auction::where('auction_id', $auction->auction_id)
-            ->update(['current_price' => $req->bid_price]);
-
-        // Logic to record the bid would go here
+            $auction->update(['current_price' => $req->bid_price]);
+        });
 
         return redirect()->back()->with('success', 'Penawaran berhasil ditempatkan.');
     }

@@ -58,7 +58,7 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div>
                                                     @if ($item->product->shop->shop_img)
-                                                        <img src="{{ asset('storage/' . $item->product->shop->shop_img) }}"
+                                                        <img src="{{ asset('storage/shops/' . $item->product->shop->shop_img) }}"
                                                             alt="" class="shop-avatar">
                                                     @else
                                                         <i class="bi bi-person-circle fs-1"></i>

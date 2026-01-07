@@ -21,7 +21,7 @@
             <div class="col-md-4 d-flex align-items-start gap-3 mt-3">
                 @if ($shop->shop_img)
                     <div>
-                        <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="" width="150"
+                        <img src="{{ asset('storage/shops/' . $shop->shop_img) }}" alt="" width="150"
                             class="img-fluid shop-avatar">
                     </div>
                 @endif
@@ -111,47 +111,50 @@
             </div>
         </div>
         <hr>
-        <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control"
-            autocomplete="off">
+        <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
         <form method="GET" action="{{ route('shops.detail', $shop->shop_id) }}">
-            <div class="row">
-                <div class="col-md-6 mt-3">
-                    <label>Game :</label>
-                    <select name="game_id" class="form-select">
-                        <option value="">Semua Game</option>
-                        @foreach ($games as $game)
-                            <option value="{{ $game->game_id }}"
-                                {{ request('game_id') == $game->game_id ? 'selected' : '' }}>
-                                {{ $game->game_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-6 mt-3">
-                    <label>Kategori :</label>
-                    <select name="category_id" class="form-select">
-                        <option value="">Semua Kategori</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->category_id }}"
-                                {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
-                                {{ $category->category_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+        <div class="row">
+            <div class="col-md-4 mt-3">
+                <label>Game :</label>
+                <select name="game_id" class="form-select">
+                    <option value="">Semua Game</option>
+                    @foreach($games as $game)
+                        <option value="{{ $game->game_id }}" {{ request('game_id') == $game->game_id ? 'selected' : '' }}>
+                            {{ $game->game_name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            <div class="row">
-                <div class="col-md-6 mt-3">
-                    <label>Harga Min :</label>
-                    <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="IDR 0"
-                        class="form-control">
-                </div>
-                <div class="col-md-6 mt-3">
-                    <label>Harga Max :</label>
-                    <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="IDR 1000000"
-                        class="form-control">
-                </div>
+            <div class="col-md-4 mt-3">
+                <label>Kategori :</label>
+                <select name="category_id" class="form-select">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->category_id }}" {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
+                            {{ $category->category_name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
+            <div class="col-md-4 mt-3">
+                <label>Tipe Produk :</label>
+                <select name="type" class="form-select">
+                    <option value="">Semua Tipe</option>
+                    <option value="normal" {{ request('type') == 'normal' ? 'selected' : '' }}>Produk Biasa</option>
+                    <option value="auction" {{ request('type') == 'auction' ? 'selected' : '' }}>Lelang</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                <label>Harga Min :</label>
+                <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="IDR 0" class="form-control">
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>Harga Max :</label>
+                <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="IDR 1000000" class="form-control">
+            </div>
+        </div>
             <div class="mt-3">
                 <label>Urutkan :</label>
                 <select name="sort" class="form-select">
@@ -243,18 +246,21 @@
                             <p>Silahkan menambahkan produk pada halaman profil anda.</p>
                         </div>
                     </div>
-                @else
-                    <div class="text-center">
-                        <div>
-                            <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                                class="img-fluid mt-3">
-                        </div>
-                        <div>
-                            <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                            <p>Coba ubah filter pencarian Anda atau hubungi pemilik toko.</p>
-                        </div>
+                </div>
+            @endif
+        @endforeach
+    </div>
+    <div class="mt-3">
+        {{ $products->links() }}
+    </div>
+    @else
+        @auth
+            @if (Auth::user()->user_id == $shop->owner_id)
+                <div class="text-center">
+                    <div>
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
                     </div>
-                @endif
+                </div>
             @else
                 <div class="text-center">
                     <div>
@@ -266,7 +272,55 @@
                         <p>Coba ubah filter pencarian Anda.</p>
                     </div>
                 </div>
-            @endauth
-        @endif
+            @endif
+        @else
+            <div class="text-center">
+                <div>
+                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                </div>
+                <div>
+                    <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                    <p>Coba ubah filter pencarian Anda.</p>
+                </div>
+            </div>
+        @endauth
+    @endif
     </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const timers = document.querySelectorAll('.auction-timer');
+
+        function updateTimers() {
+            const now = new Date().getTime();
+
+            timers.forEach(timer => {
+                const timeStr = timer.getAttribute('data-time');
+                const targetTime = new Date(timeStr).getTime();
+                const diff = targetTime - now;
+
+                if (diff <= 0) {
+                    timer.textContent = 'Waktu habis';
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                if (days > 0) {
+                    timer.textContent = `${days}h ${hours}j ${minutes}m`;
+                } else if (hours > 0) {
+                    timer.textContent = `${hours}j ${minutes}m ${seconds}d`;
+                } else {
+                    timer.textContent = `${minutes}m ${seconds}d`;
+                }
+            });
+        }
+
+        updateTimers();
+        setInterval(updateTimers, 1000);
+    });
+</script>
 @endsection

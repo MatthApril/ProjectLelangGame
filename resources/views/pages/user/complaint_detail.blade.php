@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-md-5 text-center my-2">
                             @if ($complaint->orderItem->product->product_img)
-                                <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt=""
+                                <img src="{{ asset('storage/products/' . $complaint->orderItem->product->product_img) }}" alt=""
                                     class="img-fluid rounded shadow" style="width: 100%">
                             @endif
                         </div>
@@ -51,7 +51,7 @@
 
                                         <div>
                                             @if ($complaint->orderItem->product->shop->shop_img)
-                                                <img src="{{ asset('storage/' . $complaint->orderItem->product->shop->shop_img) }}"
+                                                <img src="{{ asset('storage/shops/' . $complaint->orderItem->product->shop->shop_img) }}"
                                                     alt="" class="shop-avatar">
                                             @else
                                                 <i class="bi bi-person-circle fs-1"></i>
@@ -97,12 +97,12 @@
                     </div>
                     <label>Bukti Foto : </label>
                     <div>
-                        <a href="{{ asset('storage/' . $complaint->proof_img) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <a href="{{ asset('storage/complaints/' . $complaint->proof_img) }}" target="_blank" class="btn btn-outline-primary btn-sm">
                             <i class="bi bi-card-image"></i> Lihat Bukti Saya
                         </a>
                     </div>
                     {{-- <div>
-                        <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
+                        <img src="{{ asset('storage/complaints/' . $complaint->proof_img) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
                         <p><i>Klik Gambar Untuk Memperbesar.</i></p>
                     </div> --}}
                         @if($complaint->response)
@@ -116,11 +116,11 @@
                             @if($complaint->response->attachment)
                                 <label>Bukti Foto :</label>
                                 {{-- <div>
-                                    <img src="{{ asset('storage/' . $complaint->response->attachment) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
+                                    <img src="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
                                     <p><i>Klik Gambar Untuk Memperbesar.</i></p>
                                 </div> --}}
                                 <div>
-                                    <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    <a href="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" target="_blank" class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-card-image"></i> Lihat Bukti Seller
                                     </a>
                                 </div>
@@ -138,7 +138,7 @@
                         <p class="text-secondary">{{ $complaint->resolved_at->format('d M Y H:i') }}</p>
                         <hr>
 
-                        
+
                         <div class="card p-3">
                                 @if($complaint->is_auto_resolved)
                                     <p class="m-0 fw-semibold">Seller tidak merespons dalam 24 jam</p>

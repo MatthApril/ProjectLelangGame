@@ -51,9 +51,9 @@
                             @endphp
                             <div class="position-relative auction-img-container">
                                 @if ($auction->product && $auction->product->product_img)
-                                    <img 
-                                        src="{{ asset('storage/' . $auction->product->product_img) }}" 
-                                        class="auction-img border-top rounded" 
+                                    <img
+                                        src="{{ asset('storage/products/' . $auction->product->product_img) }}"
+                                        class="auction-img border-top rounded"
                                         alt="{{ $auction->product->product_name }}">
                                 @else
                                     <img src="{{ asset('images/no-image.png') }}" class="auction-img border-top rounded" alt="No Image">
@@ -63,17 +63,17 @@
                                 </span>
                                 @if($auction->status == 'pending')
                                     <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
-                                        <small><i class="bi bi-hourglass-split"></i> Dimulai dalam: 
-                                            <span class="auction-timer fw-bold" 
-                                                  data-time="{{ $auction->start_time }}" 
+                                        <small><i class="bi bi-hourglass-split"></i> Dimulai dalam:
+                                            <span class="auction-timer fw-bold"
+                                                  data-time="{{ $auction->start_time }}"
                                                   data-type="start">...</span>
                                         </small>
                                     </div>
                                 @elseif($auction->status == 'running')
                                     <div class="position-absolute bottom-0 start-0 w-100 bg-primary bg-opacity-75 text-white text-center py-1">
-                                        <small><i class="bi bi-alarm"></i> Berakhir dalam: 
-                                            <span class="auction-timer fw-bold" 
-                                                  data-time="{{ $auction->end_time }}" 
+                                        <small><i class="bi bi-alarm"></i> Berakhir dalam:
+                                            <span class="auction-timer fw-bold"
+                                                  data-time="{{ $auction->end_time }}"
                                                   data-type="end">...</span>
                                         </small>
                                     </div>
@@ -90,12 +90,12 @@
                             <h5 class="card-title fw-semibold text-center mb-2 text-truncate" title="{{ $auction->product->product_name ?? 'Produk dihapus' }}">
                                 {{ $auction->product->product_name ?? 'Produk dihapus' }}
                             </h5>
-                            
+
                             <div class="d-flex justify-content-between align-items-center my-2">
                                 <span class="text-muted small">Harga {{ $statusHarga }}</span>
                                 <span class="text-{{ $statusClass }} fw-semibold">Rp {{ number_format($auction->current_price, 0, ',', '.') }}</span>
                             </div>
-                            
+
                             <div class="d-flex justify-content-between align-items-center" style="min-height: 32px;">
                                 @if($auction->highestBid)
                                     <div class="d-flex align-items-center gap-1">
@@ -122,9 +122,9 @@
                                     </div>
                                     <div style="width: 85px;"></div>
                                 @endif
-                            </div>                            
+                            </div>
                         </div>
-                        
+
                         <div class="card-footer bg-white border-top-0 p-3 pt-0">
                             <a href="{{ route('seller.auctions.detail', $auction->auction_id) }}" class="btn btn-outline-primary w-100 rounded-pill">
                                 <i class="bi bi-eye"></i> Lihat Detail
@@ -143,38 +143,8 @@
                         <a href="{{ route('seller.auctions.create.form') }}" class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambahkan Lelang</a>
                     </div>
                 </div>
-            @endforelse     
+            @endforelse
         </div>
-        {{-- <table class="table">
-            <tr>
-                <th>No</th>
-                <th>Nama Produk</th>
-                <th>Harga Awal</th>
-                <th>Harga Terkini</th>
-                <th>Waktu Mulai</th>
-                <th>Waktu Selesai</th>
-                <th>Status</th>
-                <th>Harga Pemenang</th>
-            </tr>
-            @foreach ($auctions as $index => $auction)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $auction->product->product_name ?? 'Produk dihapus' }}</td>
-                    <td>Rp {{ number_format($auction->start_price ?? 0, 0, ',', '.') }}</td>
-                    <td>Rp {{ number_format($auction->current_price ?? 0, 0, ',', '.') }}</td>
-                    <td>{{ optional($auction->start_time)->format('d M Y H:i') ?? '-' }}</td>
-                    <td>{{ optional($auction->end_time)->format('d M Y H:i') ?? '-' }}</td>
-                    <td>{{ ucfirst($auction->status) }}</td>
-                    <td>
-                        @if ($auction->highestBid)
-                            Rp {{ number_format($auction->highestBid->bid_price ?? 0, 0, ',', '.') }}
-                        @else
-                            Tidak ada yang menawar
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </table> --}}
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

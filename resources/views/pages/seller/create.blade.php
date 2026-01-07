@@ -70,7 +70,7 @@
                 @if($product && $product->product_img)
                     <div class="mb-3">
                         <label>Gambar Saat Ini :</label><br>
-                        <img src="{{ asset('storage/' . $product->product_img) }}"alt="Gambar Produk" width="300" class="shadow rounded img-fluid">
+                        <img src="{{ asset('storage/products/' . $product->product_img) }}"alt="Gambar Produk" width="300" class="shadow rounded img-fluid">
                     </div>
                 @endif
                 <label>Gambar Produk {{ $product ? '' : '*' }} <span class="text-secondary">(Disarankan Ukuran Gambar 16 : 9)</span></label>
