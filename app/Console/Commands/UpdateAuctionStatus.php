@@ -72,7 +72,7 @@ class UpdateAuctionStatus extends Command
                         'product_id' => $auction->product->product_id,
                         'shop_id' => $auction->product->shop_id,
                         'product_price' => $auction->product->price,
-                        'quantity' => $auction->product->quantity,
+                        'quantity' => $auction->product->stok,
                         'subtotal' => $highestBid->bid_price,
                         'status' => 'shipped',
                     ]);
@@ -106,6 +106,14 @@ class UpdateAuctionStatus extends Command
 
         } catch (\Throwable $e) {
             DB::rollBack();
+
+            // \Log::error('Auction Update Transaction Failed', [
+            //     'message' => $e->getMessage(),
+            //     'file' => $e->getFile(),
+            //     'line' => $e->getLine(),
+            //     'trace' => $e->getTraceAsString(),
+            // ]);
+
             $this->error('Error updating auction status: ' . $e->getMessage());
         }
 

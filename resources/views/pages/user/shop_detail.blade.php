@@ -213,25 +213,48 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                @endauth
-        </div>
-        <div class="mt-3">
-            {{ $products->links() }}
-        </div>
-    @else
-        @auth
-            @if (auth()->check() && Auth::user()->user_id == $shop->owner_id)
-                <div class="text-center">
-                    <div>
-                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                            class="img-fluid mt-3">
+                    @else
+                        <div class="text-center">
+                            <div>
+                                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                                    class="img-fluid mt-3">
+                            </div>
+                            <div>
+                                <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                                <p>Coba ubah filter pencarian Anda.</p>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+            <div class="mt-3">
+                {{ $products->links() }}
+            </div>
+        @else
+            @auth
+                @if (auth()->check() && Auth::user()->user_id == $shop->owner_id)
+                    <div class="text-center">
+                        <div>
+                            <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                                class="img-fluid mt-3">
+                        </div>
+                        <div>
+                            <h5 class="fw-semibold">Toko anda belum memiliki produk.</h5>
+                            <p>Silahkan menambahkan produk pada halaman profil anda.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h5 class="fw-semibold">Toko anda belum memiliki produk.</h5>
-                        <p>Silahkan menambahkan produk pada halaman profil anda.</p>
+                @else
+                    <div class="text-center">
+                        <div>
+                            <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                                class="img-fluid mt-3">
+                        </div>
+                        <div>
+                            <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                            <p>Coba ubah filter pencarian Anda atau hubungi pemilik toko.</p>
+                        </div>
                     </div>
-                </div>
+                @endif
             @else
                 <div class="text-center">
                     <div>
@@ -240,22 +263,10 @@
                     </div>
                     <div>
                         <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                        <p>Coba ubah filter pencarian Anda atau hubungi pemilik toko.</p>
+                        <p>Coba ubah filter pencarian Anda.</p>
                     </div>
                 </div>
-            @endif
-        @else
-            <div class="text-center">
-                <div>
-                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                        class="img-fluid mt-3">
-                </div>
-                <div>
-                    <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                    <p>Coba ubah filter pencarian Anda.</p>
-                </div>
-            </div>
-        @endauth
-    @endif
-</div>
+            @endauth
+        @endif
+    </div>
 @endsection
