@@ -272,7 +272,6 @@ class PaymentController extends Controller
                         $product->decrement('stok', $item->quantity);
                     }
 
-                    Shop::find($item->shop_id)->increment('running_transactions', $item->subtotal);
                 }
 
                 $user = Auth::user();
