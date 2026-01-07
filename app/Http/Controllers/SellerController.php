@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Game;
 use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\AdminSettings;
 use App\Models\Auction;
 use App\Models\CartItem;
 use App\Models\Complaint;
@@ -201,7 +202,7 @@ class SellerController extends Controller
             'order_id' => $complaint->orderItem->order_id,
             'response' => $validated['message'],
         ]);
-        
+
         return redirect()->route('seller.complaints.index')->with('success', 'Tanggapan berhasil dikirim. Menunggu keputusan admin.');
 
     }
@@ -357,6 +358,8 @@ class SellerController extends Controller
             'shipped_at' => now(),
         ]);
 
+        $platform_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+        
         (new NotificationService())->send($orderItem->order->user_id, 'pesanan_dikirim', [
             'username' => $orderItem->order->account->username,
             'order_id' => $orderItem->order->order_id,
@@ -364,7 +367,16 @@ class SellerController extends Controller
         ]);
 
         $shop = $orderItem->shop;
-        $shop->increment('running_transactions', $orderItem->subtotal);
+
+        if ($orderItem->product->type === 'normal') {
+            $shop->increment('running_transactions', $orderItem->subtotal);
+        }
+
+        if ($orderItem->product->type === 'auction') {
+            // Untuk produk lelang, pindahkan dari running_transactions ke shop_balance
+            $shop->increment('running_transactions', round($orderItem->subtotal * (1 - $platform_fee_percentage / 100)));
+            $orderItem->order->update(['admin_fee' => round($orderItem->subtotal * ($platform_fee_percentage / 100)) ]);
+        }
 
         return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan berhasil dikirim.');
 

@@ -16,11 +16,11 @@ class MessageSeeder extends Seeder
         $messages = [
             [
                 'sender_id' => 2,
-                'receiver_id' => 1,
+                'receiver_id' => 3,
                 'content' => 'Halo bos, akun ML gue udah ready. Bisa diambil kapan saja ya?',
             ],
             [
-                'sender_id' => 1,
+                'sender_id' => 3,
                 'receiver_id' => 2,
                 'content' => 'Oke siap! Langsung prepare sekarang. Estimasi 1 jam lagi ready.',
             ],
@@ -45,13 +45,13 @@ class MessageSeeder extends Seeder
                 'content' => 'Bisa juga sih, kita diskusi dulu detail sistemnya ya',
             ],
             [
-                'sender_id' => 1,
+                'sender_id' => 2,
                 'receiver_id' => 4,
                 'content' => 'Ini akun yang lu beli kemarin status order sudah di update ya',
             ],
             [
                 'sender_id' => 4,
-                'receiver_id' => 1,
+                'receiver_id' => 2,
                 'content' => 'Makasih bro, pelayanannya top banget! Rating 5 bintang pasti hehe',
             ],
             [
@@ -66,11 +66,11 @@ class MessageSeeder extends Seeder
             ],
             [
                 'sender_id' => 3,
-                'receiver_id' => 1,
+                'receiver_id' => 4,
                 'content' => 'Komplain order kemarin, item skin tidak sesuai deskripsi',
             ],
             [
-                'sender_id' => 1,
+                'sender_id' => 4,
                 'receiver_id' => 3,
                 'content' => 'Waduh sorry bro! Nanti kita lihat bersama-sama dan kasih solusi terbaik',
             ],

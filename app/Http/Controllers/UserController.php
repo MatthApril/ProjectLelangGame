@@ -181,8 +181,20 @@ class UserController extends Controller
         ]);
 
         $shop = $orderItem->shop;
-        $shop->decrement('running_transactions', $orderItem->subtotal);
-        $shop->increment('shop_balance', $orderItem->subtotal);
+        $platform_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
+        if ($orderItem->product->type === 'normal') {
+            // Untuk produk normal, pindahkan dari running_transactions ke shop_balance
+            $shop->decrement('running_transactions', $orderItem->subtotal);
+            $shop->increment('shop_balance', $orderItem->subtotal);
+        }
+
+        if ($orderItem->product->type === 'auction') {
+            // Tandai pemenang lelang
+            $shop->decrement('running_transactions', round($orderItem->subtotal * (1 - $platform_fee_percentage / 100)));
+            $shop->increment('shop_balance', round($orderItem->subtotal * (1 - $platform_fee_percentage / 100)));
+            $orderItem->order->update(['admin_fee' => round($orderItem->subtotal * ($platform_fee_percentage / 100)) ]);
+        }
 
         (new NotificationService())->send($orderItem->shop->owner_id, 'pesanan_selesai', [
             'username' => $orderItem->shop->owner->username,
@@ -647,7 +659,7 @@ class UserController extends Controller
                 $q->where('stok', '>', 0);
             })
             ->whereHas('product.shop.owner')
-            // ->where('end_time', '>', now())
+            ->where('end_time', '>', now())
             ->whereIn('status', ['running', 'pending', 'ended']);
 
         if ($request->filled('search')) {
@@ -694,7 +706,7 @@ class UserController extends Controller
             })
             ->whereHas('product.shop.owner')
             ->where('auction_id', $auctionId)
-            // ->where('end_time', '>', now())
+            ->where('end_time', '>', now())
             ->whereHas('product.shop.owner')
             ->whereIn('status', ['running', 'pending', 'ended'])
             ->first();
@@ -703,10 +715,10 @@ class UserController extends Controller
             return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
         }
 
-        // if ($auction->end_time <= now()) {
-        //     Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
-        //     return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
-        // }
+        if ($auction->end_time <= now()) {
+            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
+        }
 
         $categories = Category::orderBy('category_name')->get();
 

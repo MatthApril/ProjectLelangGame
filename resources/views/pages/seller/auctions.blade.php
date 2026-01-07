@@ -14,7 +14,8 @@
         </nav>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="fw-semibold">Kelola Lelang</h2>
-            <a href="{{ route('seller.auctions.create.form') }}" class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambah Lelang</a>
+            <a href="{{ route('seller.auctions.create.form') }}" class="btn btn-outline-primary rounded rounded-5"><i
+                    class="bi bi-plus-lg"></i> Tambah Lelang</a>
         </div>
         <hr>
         @if (session('success'))
@@ -30,55 +31,56 @@
                     <div class="card h-100 shadow-sm border-0 pb-3">
                         @if ($auction->product && $auction->product->product_img)
                             @php
-                                $statusClass = match($auction->status) {
+                                $statusClass = match ($auction->status) {
                                     'pending' => 'secondary',
                                     'running' => 'primary',
                                     'ended' => 'success',
                                     default => '',
                                 };
-                                $statusHarga = match($auction->status) {
+                                $statusHarga = match ($auction->status) {
                                     'pending' => 'Awal',
                                     'running' => 'Terkini',
                                     'ended' => 'Akhir',
                                     default => '',
                                 };
-                                $statusIndo = match($auction->status) {
+                                $statusIndo = match ($auction->status) {
                                     'pending' => 'Akan Dimulai',
                                     'running' => 'Berlangsung',
                                     'ended' => 'Selesai',
                                     default => '',
-                                }
+                                };
                             @endphp
                             <div class="position-relative auction-img-container">
                                 @if ($auction->product && $auction->product->product_img)
-                                    <img
-                                        src="{{ asset('storage/products/' . $auction->product->product_img) }}"
-                                        class="auction-img border-top rounded"
-                                        alt="{{ $auction->product->product_name }}">
+                                    <img src="{{ asset('storage/' . $auction->product->product_img) }}"
+                                        class="auction-img border-top rounded" alt="{{ $auction->product->product_name }}">
                                 @else
-                                    <img src="{{ asset('images/no-image.png') }}" class="auction-img border-top rounded" alt="No Image">
+                                    <img src="{{ asset('images/no-image.png') }}" class="auction-img border-top rounded"
+                                        alt="No Image">
                                 @endif
-                                <span class="position-absolute top-0 start-0 m-2 badge bg-{{ $statusClass }} text-white text-capitalize">
+                                <span
+                                    class="position-absolute top-0 start-0 m-2 badge bg-{{ $statusClass }} text-white text-capitalize">
                                     {{ $statusIndo }}
                                 </span>
-                                @if($auction->status == 'pending')
-                                    <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
+                                @if ($auction->status == 'pending')
+                                    <div
+                                        class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
                                         <small><i class="bi bi-hourglass-split"></i> Dimulai dalam:
-                                            <span class="auction-timer fw-bold"
-                                                  data-time="{{ $auction->start_time }}"
-                                                  data-type="start">...</span>
+                                            <span class="auction-timer fw-bold" data-time="{{ $auction->start_time }}"
+                                                data-type="start">...</span>
                                         </small>
                                     </div>
                                 @elseif($auction->status == 'running')
-                                    <div class="position-absolute bottom-0 start-0 w-100 bg-primary bg-opacity-75 text-white text-center py-1">
+                                    <div
+                                        class="position-absolute bottom-0 start-0 w-100 bg-primary bg-opacity-75 text-white text-center py-1">
                                         <small><i class="bi bi-alarm"></i> Berakhir dalam:
-                                            <span class="auction-timer fw-bold"
-                                                  data-time="{{ $auction->end_time }}"
-                                                  data-type="end">...</span>
+                                            <span class="auction-timer fw-bold" data-time="{{ $auction->end_time }}"
+                                                data-type="end">...</span>
                                         </small>
                                     </div>
                                 @elseif($auction->status == 'ended')
-                                    <div class="position-absolute bottom-0 start-0 w-100 bg-success bg-opacity-75 text-white text-center py-1">
+                                    <div
+                                        class="position-absolute bottom-0 start-0 w-100 bg-success bg-opacity-75 text-white text-center py-1">
                                         <small><i class="bi bi-check-circle"></i> Lelang Selesai</small>
                                     </div>
                                 @endif
@@ -87,20 +89,23 @@
                             <img src="{{ asset('images/no-image.png') }}" class="card-img-top" alt="No Image">
                         @endif
                         <div class="card-body d-flex flex-column p-3 border-top border-5 border-{{ $statusClass }}">
-                            <h5 class="card-title fw-semibold text-center mb-2 text-truncate" title="{{ $auction->product->product_name ?? 'Produk dihapus' }}">
+                            <h5 class="card-title fw-semibold text-center mb-2 text-truncate"
+                                title="{{ $auction->product->product_name ?? 'Produk dihapus' }}">
                                 {{ $auction->product->product_name ?? 'Produk dihapus' }}
                             </h5>
 
                             <div class="d-flex justify-content-between align-items-center my-2">
                                 <span class="text-muted small">Harga {{ $statusHarga }}</span>
-                                <span class="text-{{ $statusClass }} fw-semibold">Rp {{ number_format($auction->current_price, 0, ',', '.') }}</span>
+                                <span class="text-{{ $statusClass }} fw-semibold">Rp
+                                    {{ number_format($auction->current_price, 0, ',', '.') }}</span>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center" style="min-height: 32px;">
-                                @if($auction->highestBid)
+                                @if ($auction->highestBid)
                                     <div class="d-flex align-items-center gap-1">
                                         <i class="bi bi-trophy-fill text-warning"></i>
-                                        <small class="text-muted text-truncate" style="max-width: 100px;">&nbsp;{{ $auction->highestBid->user->username ?? 'Unknown' }}</small>
+                                        <small class="text-muted text-truncate"
+                                            style="max-width: 100px;">&nbsp;{{ $auction->highestBid->user->username ?? 'Unknown' }}</small>
                                     </div>
                                     <div style="width: 85px;"></div>
                                 @elseif($auction->status == 'running')
@@ -126,7 +131,8 @@
                         </div>
 
                         <div class="card-footer bg-white border-top-0 p-3 pt-0">
-                            <a href="{{ route('seller.auctions.detail', $auction->auction_id) }}" class="btn btn-outline-primary w-100 rounded-pill">
+                            <a href="{{ route('seller.auctions.detail', $auction->auction_id) }}"
+                                class="btn btn-outline-primary w-100 rounded-pill">
                                 <i class="bi bi-eye"></i> Lihat Detail
                             </a>
                         </div>
@@ -140,14 +146,16 @@
                     <div>
                         <h5 class="fw-semibold">Wah Lelang Tidak ditemukan!</h5>
                         <p>Mau mulai lelang? Tambahkan produk dan buat lelang sekarang.</p>
-                        <a href="{{ route('seller.auctions.create.form') }}" class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambahkan Lelang</a>
+                        <a href="{{ route('seller.auctions.create.form') }}"
+                            class="btn btn-outline-primary rounded rounded-5"><i class="bi bi-plus-lg"></i> Tambahkan
+                            Lelang</a>
                     </div>
                 </div>
             @endforelse
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const timers = document.querySelectorAll('.auction-timer');
 
             function updateTimers() {
@@ -176,7 +184,8 @@
                     const s = Math.floor((distance % (1000 * 60)) / 1000);
 
                     if (d > 0) {
-                        timer.innerHTML = `${d}h ${h < 10 ? '0'+h : h}j ${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
+                        timer.innerHTML =
+                            `${d}h ${h < 10 ? '0'+h : h}j ${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
                     } else if (h > 0) {
                         timer.innerHTML = `${h}j ${m < 10 ? '0'+m : m}m ${s < 10 ? '0'+s : s}d`;
                     } else {

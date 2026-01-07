@@ -62,7 +62,7 @@
                 <tr>
                     <td rowspan="5" style="text-align: center;">
                         @if ($orderItem->product->product_img)
-                            <img src="{{ asset('storage/products/' . $orderItem->product->product_img) }}" alt=""
+                            <img src="{{ asset('storage/' . $orderItem->product->product_img) }}" alt=""
                                 width="150" height="150">
                         @endif
                     </td>

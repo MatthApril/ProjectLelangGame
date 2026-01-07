@@ -70,8 +70,8 @@
                     <div class="card">
                         @if ($product->product_img)
                             <div class="position-relative">
-                                <img src="{{ asset('storage/products/' . $product->product_img) }}"
-                                    alt="" class="card-img-top product-img-16x9">
+                                <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
+                                    class="card-img-top product-img-16x9">
                                 @if ($product->deleted_at)
                                     <span class="badge bg-danger position-absolute top-0 end-0 m-2">Dihapus</span>
                                 @elseif($product->category?->deleted_at)
@@ -86,7 +86,9 @@
                             </div>
                         @endif
                         <div class="card-body">
-                            <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
+                            <h5 class="fw-bold">
+                                {{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}
+                            </h5>
                             <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                             <p class="text-secondary">
                                 <i class="bi bi-grid"></i> Kategori : <span
@@ -135,7 +137,8 @@
             @empty
                 <div class="text-center mb-5">
                     <div>
-                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid">
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                            class="img-fluid">
                     </div>
                     <div>
                         <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>
