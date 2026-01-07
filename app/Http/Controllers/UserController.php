@@ -625,7 +625,7 @@ class UserController extends Controller
                 $q->where('stok', '>', 0);
             })
             ->whereHas('product.shop.owner')
-            // ->where('end_time', '>', now())
+            ->where('end_time', '>', now())
             ->whereIn('status', ['running', 'pending', 'ended']);
 
         if ($request->filled('search')) {
@@ -672,7 +672,7 @@ class UserController extends Controller
             })
             ->whereHas('product.shop.owner')
             ->where('auction_id', $auctionId)
-            // ->where('end_time', '>', now())
+            ->where('end_time', '>', now())
             ->whereHas('product.shop.owner')
             ->whereIn('status', ['running', 'pending', 'ended'])
             ->first();
@@ -681,10 +681,10 @@ class UserController extends Controller
             return redirect()->route('user.home')->with('error', 'Lelang tidak ditemukan atau sudah berakhir.');
         }
 
-        // if ($auction->end_time <= now()) {
-        //     Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
-        //     return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
-        // }
+        if ($auction->end_time <= now()) {
+            Auction::where('auction_id', $auction->auction_id)->update(['status' => 'ended']);
+            return redirect()->route('user.home')->with('error', 'Lelang sudah berakhir.');
+        }
 
         $categories = Category::orderBy('category_name')->get();
 

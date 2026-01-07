@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-md-5 text-center my-2">
                             @if ($product->product_img)
-                                <img src="{{ asset('storage/products/' . $product->product_img) }}" alt=""
+                                <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
                                     class="img-fluid rounded shadow" style="width: 100%">
                             @endif
                         </div>
@@ -69,7 +69,7 @@
 
                                         <div>
                                             @if ($product->shop->shop_img)
-                                                <img src="{{ asset('storage/shops/' . $product->shop->shop_img) }}"
+                                                <img src="{{ asset('storage/' . $product->shop->shop_img) }}"
                                                     alt="" class="shop-avatar">
                                             @else
                                                 <i class="bi bi-person-circle fs-1"></i>
@@ -224,11 +224,13 @@
                     <div class="col-md-3 mt-2">
                         <div class="card">
                             @if ($related->product_img)
-                                <img src="{{ asset('storage/products/' . $related->product_img) }}" alt=""
+                                <img src="{{ asset('storage/' . $related->product_img) }}" alt=""
                                     class="card-img-top product-img-16x9">
                             @endif
                             <div class="card-body">
-                                <h5 class="fw-bold">{{ strlen($related->product_name) > 22 ? substr($related->product_name, 0, 22) . '...' : $related->product_name }}</h5>
+                                <h5 class="fw-bold">
+                                    {{ strlen($related->product_name) > 22 ? substr($related->product_name, 0, 22) . '...' : $related->product_name }}
+                                </h5>
                                 <h5 class="text-primary fw-semibold">Rp{{ number_format($related->price, 0, ',', '.') }}
                                 </h5>
                                 <p class="text-secondary">

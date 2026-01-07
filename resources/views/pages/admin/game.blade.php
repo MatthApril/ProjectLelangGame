@@ -20,8 +20,8 @@
         @if ($editGame)
             <h6 class="fw-bold">Edit Game</h6>
 
-            <form action="{{ route('admin.games.update', $editGame->game_id) }}"
-                method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.games.update', $editGame->game_id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -42,8 +42,7 @@
                     @if ($game && $game->game_img)
                         <div>
                             <p>Gambar saat ini:</p>
-                            <img src="{{ asset('storage/games/' . $game->game_img) }}" alt=""
-                                width="200">
+                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="" width="200">
                         </div>
                     @endif
                 </div>
@@ -102,8 +101,7 @@
                                 <td>{{ ($games->currentPage() - 1) * $games->perPage() + $loop->iteration }}</td>
                                 <td>
                                     @if ($game->game_img)
-                                        <img src="{{ asset('storage/games/' . $game->game_img) }}" alt=""
-                                            width="100">
+                                        <img src="{{ asset('storage/' . $game->game_img) }}" alt="" width="100">
                                     @else
                                         <span>No Image</span>
                                     @endif
@@ -128,10 +126,11 @@
                                     @endforelse
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.games.edit', $game->game_id) }}"
-                                        class="btn btn-primary" style="display:inline">Edit</a>
-                                    @if($game->trashed())
-                                        <form action="{{ route('admin.games.restore') }}" method="POST" style="display:inline;">
+                                    <a href="{{ route('admin.games.edit', $game->game_id) }}" class="btn btn-primary"
+                                        style="display:inline">Edit</a>
+                                    @if ($game->trashed())
+                                        <form action="{{ route('admin.games.restore') }}" method="POST"
+                                            style="display:inline;">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $game->game_id }}">
                                             <button type="submit" class="btn btn-danger">Restore</button>
