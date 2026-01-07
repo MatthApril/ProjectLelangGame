@@ -52,6 +52,15 @@
     </div>
 
     <br>
-    {{ $games->links() }}
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <p class="text-muted">
+            @if($games->total() > 0)
+                Menampilkan {{ $games->firstItem() ?? 0 }} - {{ $games->lastItem() ?? 0 }} dari {{ $games->total() }} game
+            @endif
+        </p>
+        <div>
+            {{ $games->links('pagination::bootstrap-4') }}
+        </div>
+    </div>
 </div>
 @endsection

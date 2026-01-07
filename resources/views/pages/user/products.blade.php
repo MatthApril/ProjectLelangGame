@@ -115,6 +115,15 @@
         </div>
         @endforelse
     </div>
-    {{ $products->links() }}
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <p class="text-muted">
+            @if($products->total() > 0)
+                Menampilkan {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} dari {{ $products->total() }} produk
+            @endif
+        </p>
+        <div>
+            {{ $products->links('pagination::bootstrap-4') }}
+        </div>
+    </div>
 </div>
 @endsection

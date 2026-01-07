@@ -95,8 +95,15 @@
             </tbody>
         </table>
 
-        <div>
-            {{ $cancelledOrders->appends(request()->query())->links() }}
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <p class="text-muted">
+                @if($cancelledOrders->total() > 0)
+                    Menampilkan {{ $cancelledOrders->firstItem() ?? 0 }} - {{ $cancelledOrders->lastItem() ?? 0 }} dari {{ $cancelledOrders->total() }} pesanan yang dibatalkan
+                @endif
+            </p>
+            <div>
+                {{ $cancelledOrders->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     @else
         <div>

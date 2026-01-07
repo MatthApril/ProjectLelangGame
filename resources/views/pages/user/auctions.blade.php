@@ -188,6 +188,16 @@
             </div>
         @endforelse
     </div>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <p class="text-muted">
+            @if($auctions->total() > 0)
+                Menampilkan {{ $auctions->firstItem() ?? 0 }} - {{ $auctions->lastItem() ?? 0 }} dari {{ $auctions->total() }} template
+            @endif
+        </p>
+        <div>
+            {{ $auctions->links('pagination::bootstrap-4') }}
+        </div>
+    </div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

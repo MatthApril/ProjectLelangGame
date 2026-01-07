@@ -103,7 +103,7 @@
             Menampilkan {{ $templates->firstItem() ?? 0 }} - {{ $templates->lastItem() ?? 0 }} dari {{ $templates->total() }} template
         </p>
         <div>
-            {{ $templates->withQueryString()->links('pagination::bootstrap-4') }}
+            {{ $templates->links('pagination::bootstrap-4') }}
         </div>
     </div>
 </div>
