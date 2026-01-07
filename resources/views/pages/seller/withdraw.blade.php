@@ -37,7 +37,7 @@
         </form>
 
         <h2>Riwayat Penarikan Saldo</h2>
-        @foreach ($withdraws as $withdraw)
+        @forelse ($withdraws as $withdraw)
             <div class="card mb-3">
                 <div class="card-body">
                     <p class="card-text"><strong>Jumlah:</strong> Rp {{ number_format($withdraw->amount, 0, ',', '.') }}</p>
@@ -54,6 +54,8 @@
                             {{ $withdraw->created_at->format('d M Y H:i') }}</small></p>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <p>Belum ada riwayat penarikan saldo.</p>
+        @endforelse
 
     @endsection
