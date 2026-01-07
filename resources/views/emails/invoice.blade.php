@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>LelangGame</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
 <body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, Helvetica, sans-serif;">
@@ -39,23 +37,23 @@
         <h5 style="font-size:17px; color:#334155;">Detail Transaksi</h5>
         <table class="table table-bordered">
             <tr>
-                <td style="color:#475569;">Order ID</td>
+                <td style="color:#475569;">ID Pesanan</td>
                 <td style="color:#334155;">{{ $invoice->order_id }}</td>
             </tr>
             <tr>
-                <td style="color:#475569;">Paid At</td>
+                <td style="color:#475569;">Dibayar Pada</td>
                 <td style="color:#334155;">{{ $invoice->orderItems->first()->paid_at }}</td>
             </tr>
         </table>
         <table class="table table-bordered">
             <tr style="color:#475569;">
-                <td>Shop Name</td>
-                <td>Product Name</td>
-                <td>Product Price</td>
-                <td>Quantity</td>
+                <td>Nama Toko</td>
+                <td>Nama Produk</td>
+                <td>Harga Produk</td>
+                <td>Jumlah</td>
                 <td>Subtotal</td>
-                <td>Game Name</td>
-                <td>Category Name</td>
+                <td>Nama Game</td>
+                <td>Nama Kategori</td>
             </tr>
             @foreach ($invoice->orderItems as $item)
                 <tr style="color:#334155;">
@@ -69,9 +67,19 @@
                 </tr>
             @endforeach
         </table>
+        <br>
         <table class="table table-bordered">
             <tr>
-                <td style="color:#475569;">Total Prices</td>
+                <td style="color:#475569;">Total Belanja</td>
+                <td style="color:#334155;">Rp
+                    {{ number_format($invoice->total_prices - $invoice->admin_fee, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td style="color:#475569;">Biaya Admin</td>
+                <td style="color:#334155;">Rp {{ number_format($invoice->admin_fee, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td style="color:#475569;">Total Harga</td>
                 <td style="color:#334155;">Rp {{ number_format($invoice->total_prices, 0, ',', '.') }}</td>
             </tr>
         </table>

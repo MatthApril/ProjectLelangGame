@@ -213,8 +213,9 @@ class PaymentController extends Controller
 
             }
 
+            $order->update(['admin_fee' => round($totalPrice * ($admin_fee_percentage / 100))]);
             $totalPrice += round($totalPrice * ($admin_fee_percentage / 100));
-            $order->update(['total_prices' => $totalPrice, 'admin_fee' => round($totalPrice * ($admin_fee_percentage / 100))]);
+            $order->update(['total_prices' => $totalPrice]);
             // $product->decrement('stok', $item->quantity);
             // $cart->cartItems()->delete();
 

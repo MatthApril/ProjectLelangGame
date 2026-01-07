@@ -4549,3 +4549,6 @@
 #62 D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\college\\\\seme...')
 #63 {main}
 "} 
+[2026-01-07 14:41:16] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-3efba8c2-55ef-4d44-949c-429fcf656d7d","gross_amount":216000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+[2026-01-07 14:42:45] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-82feaaf1-be44-405b-b3b5-668180be9cf5","gross_amount":432000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+[2026-01-07 14:46:32] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-c394c185-7006-4d00-bd9c-2a42f71ae805","gross_amount":432000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
