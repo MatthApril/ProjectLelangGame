@@ -14,18 +14,18 @@ class GameSeeder extends Seeder
     public function run(): void
     {
         $games = [
-            ['game_name' => 'Mobile Legends', 'game_img' => 'mobile_legends.jpg'],
-            ['game_name' => 'Genshin Impact', 'game_img' => 'genshin_impact.jpg'],
-            ['game_name' => 'PUBG Mobile', 'game_img' => 'pubg_mobile.jpg'],
-            ['game_name' => 'Free Fire', 'game_img' => 'free_fire.jpg'],
-            ['game_name' => 'Call of Duty Mobile', 'game_img' => 'cod_mobile.jpg'],
-            ['game_name' => 'Clash of Clans', 'game_img' => 'coc.jpg'],
-            ['game_name' => 'Dota 2', 'game_img' => 'dota2.jpg'],
-            ['game_name' => 'Valorant', 'game_img' => 'valorant.jpg'],
-            ['game_name' => 'Minecraft', 'game_img' => 'minecraft.jpg'],
-            ['game_name' => 'Elden Ring', 'game_img' => 'elden_ring.jpg'],
-            ['game_name' => 'Final Fantasy XIV', 'game_img' => 'ffxiv.jpg'],
-            ['game_name' => 'Lost Ark', 'game_img' => 'lost_ark.jpg'],
+            ['game_name' => 'Mobile Legends', 'game_img' => 'storage/app/public/games/mobile_legends.jpg'],
+            ['game_name' => 'Genshin Impact', 'game_img' => 'storage/app/public/games/genshin_impact.jpg'],
+            ['game_name' => 'PUBG Mobile', 'game_img' => 'storage/app/public/games/pubg_mobile.jpg'],
+            ['game_name' => 'Free Fire', 'game_img' => 'storage/app/public/games/free_fire.jpg'],
+            ['game_name' => 'Call of Duty Mobile', 'game_img' => 'storage/app/public/games/cod_mobile.jpg'],
+            ['game_name' => 'Clash of Clans', 'game_img' => 'storage/app/public/games/coc.jpg'],
+            ['game_name' => 'Dota 2', 'game_img' => 'storage/app/public/games/dota2.jpg'],
+            ['game_name' => 'Valorant', 'game_img' => 'storage/app/public/games/valorant.jpg'],
+            ['game_name' => 'Minecraft', 'game_img' => 'storage/app/public/games/minecraft.jpg'],
+            ['game_name' => 'Elden Ring', 'game_img' => 'storage/app/public/games/elden_ring.jpg'],
+            ['game_name' => 'Final Fantasy XIV', 'game_img' => 'storage/app/public/games/ffxiv.jpg'],
+            ['game_name' => 'Lost Ark', 'game_img' => 'storage/app/public/games/lost_ark.jpg'],
         ];
 
         foreach ($games as $game) {
