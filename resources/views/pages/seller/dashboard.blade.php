@@ -37,6 +37,10 @@
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
                 <i class="bi bi-star"></i> Lihat Ulasan
             </a>
+            <a href="{{ route('seller.transaction-report.index') }}"
+                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
+                <i class="bi bi-file-earmark-text"></i> Laporan Transaksi
+            </a>
         </div>
         <hr>
         
@@ -77,7 +81,7 @@
                         </p>
                         <p class="mb-1">
                             <i class="bi bi-star-fill text-warning"></i> 
-                            Rating : {{ number_format($shop->shop_rating ?? 0, 1) }} / 5.0
+                            Rating : {{ number_format($averageRating ?? 0, 1) }} / 5.0
                         </p>
                         <p class="mb-1">
                             Status Toko : 
@@ -99,22 +103,6 @@
             </div>
         </div>
 
-<<<<<<< Updated upstream
-        <h4 class="fw-bold">Menu Cepat</h4>
-        <div class="d-flex gap-2 mb-2 flex-wrap">
-            <a href="{{ route('seller.incoming_orders.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-clipboard"></i> Pesanan Pelanggan</a>
-            <a href="{{ route('seller.products.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-box-seam"></i> Kelola Produk</a>
-            <a href="{{ route('seller.auctions.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-graph-up"></i> Lelang Produk</a>
-            <a href="{{ route('seller.complaints.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
-                <i class="bi bi-chat"></i> Komplain Pelanggan</a>
-            <a href="{{ route('seller.reviews.index') }}"
-                class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i class="bi bi-star"></i> Lihat Ulasan</a>
-=======
         {{-- Statistik Keuangan --}}
         <h5 class="fw-bold mb-3">Keuangan Toko</h5>
         <div class="row mb-4">
@@ -145,13 +133,12 @@
                     </div>
                 </div>
             </div>
->>>>>>> Stashed changes
         </div>
 
         {{-- Statistik Produk --}}
         <h5 class="fw-bold mb-3">Statistik Produk</h5>
         <div class="table-responsive mb-4">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered">
                 <thead class="table-light">
                     <tr>
                         <th>Kategori</th>
@@ -178,7 +165,7 @@
         {{-- Statistik Pesanan --}}
         <h5 class="fw-bold mb-3">Statistik Pesanan</h5>
         <div class="table-responsive mb-4">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered">
                 <thead class="table-light">
                     <tr>
                         <th>Status Pesanan</th>
@@ -196,7 +183,7 @@
                     </tr>
                     <tr>
                         <td>Dalam Pengiriman (Shipped)</td>
-                        <td class="text-center text-info fw-bold">{{ $shippedOrders }}</td>
+                        <td class="text-center text-primary fw-bold">{{ $shippedOrders }}</td>
                     </tr>
                     <tr>
                         <td>Selesai (Completed)</td>
@@ -244,7 +231,7 @@
             <div class="col-md-6">
                 <h5 class="fw-bold mb-3">Statistik Komplain</h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered">
                         <tbody>
                             <tr>
                                 <td>Total Komplain</td>
@@ -270,8 +257,8 @@
                         <h2 class="fw-bold">{{ $totalReviews }}</h2>
                         <hr>
                         <h6 class="text-muted">Rating Rata-rata</h6>
-                        <h2 class="fw-bold text-warning">
-                            <i class="bi bi-star-fill"></i> 
+                        <h2 class="fw-bold">
+                            <i class="bi bi-star-fill text-warning"></i> 
                             {{ number_format($averageRating ?? 0, 1) }} / 5.0
                         </h2>
                     </div>

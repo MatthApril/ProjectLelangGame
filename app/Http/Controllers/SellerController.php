@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\User;
+use App\Models\Shop;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -25,8 +26,6 @@ use Illuminate\Support\Facades\DB;
 
 class SellerController extends Controller
 {
-<<<<<<< Updated upstream
-=======
     function showWithdraw()
     {
         $shop = Auth::user()->shop;
@@ -65,7 +64,6 @@ class SellerController extends Controller
 
         return redirect()->route('seller.withdraws.index')->with('success', 'Permintaan pencairan berhasil diajukan.');
     }
->>>>>>> Stashed changes
 
     function showDashboard() {
         $user = Auth::user();
@@ -248,7 +246,7 @@ class SellerController extends Controller
             $query->where('product_id', $request->product_id);
         }
 
-                $ratingStats = [];
+        $ratingStats = [];
         $totalReviews = 0;
 
         for ($i = 5; $i >= 1; $i--) {
@@ -267,6 +265,10 @@ class SellerController extends Controller
         foreach ($ratingStats as $rating => $count) {
             $ratingPercentages[$rating] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
         }
+
+        $averageRating = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->avg('rating');
 
         $comments = $query->latest('created_at')->paginate(20);
 
@@ -291,7 +293,7 @@ class SellerController extends Controller
             ]);
         }
 
-        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution', 'ratingStats', 'ratingPercentages'));
+        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution', 'ratingStats', 'ratingPercentages', 'averageRating'));
     }
 
     function showIncomingOrders()
@@ -359,14 +361,10 @@ class SellerController extends Controller
         $buyer = $orderItem->order->account;
         $buyer->increment('balance', $orderItem->subtotal);
         $orderItem->product->increment('stok', $orderItem->quantity);
-<<<<<<< Updated upstream
-        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan!');
-=======
 
         Shop::find($orderItem->shop_id)->decrement('running_transactions', $orderItem->subtotal);
 
         return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan.');
->>>>>>> Stashed changes
 
     }
 
@@ -620,6 +618,58 @@ class SellerController extends Controller
         $categories = Game::findOrFail($gameId)->gamesCategories()->whereHas('category', function($query) {    $query->whereNull('deleted_at'); })->with('category')->get()->pluck('category')->filter();
 
         return response()->json($categories);
+    }
+
+    public function showTransactionReport()
+    {
+        $shop = Auth::user()->shop;
+        $categories = Category::orderBy('category_name')->get();
+
+        // Data untuk filter
+        $currentMonth = now()->format('Y-m');
+        $currentYear = now()->format('Y');
+
+        return view('pages.seller.transaction_report', compact('shop', 'categories', 'currentMonth', 'currentYear'));
+    }
+
+    public function generateTransactionReport(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'nullable|in:all,paid,shipped,completed,cancelled'
+        ]);
+
+        $shop = Auth::user()->shop;
+        
+        $query = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereBetween('paid_at', [$request->start_date, $request->end_date])
+            ->with(['order.account', 'product']);
+
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $orderItems = $query->orderBy('paid_at', 'desc')->get();
+
+        // Statistik
+        $totalTransactions = $orderItems->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.seller.transaction_report', compact(
+            'shop',
+            'categories',
+            'orderItems',
+            'totalTransactions',
+            'totalRevenue',
+            'totalPending',
+            'totalCancelled',
+            'request'
+        ));
     }
 
 }

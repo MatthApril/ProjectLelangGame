@@ -276,13 +276,8 @@ class PaymentController extends Controller
                 }
 
                 Mail::to($user->email)->queue(new \App\Mail\Invoice($order));
-<<<<<<< Updated upstream
-                
-                return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
-=======
 
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil.');
->>>>>>> Stashed changes
             }
         }
 

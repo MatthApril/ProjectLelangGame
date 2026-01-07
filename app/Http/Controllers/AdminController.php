@@ -431,9 +431,6 @@ class AdminController extends Controller
 
         Mail::to($user->email)->queue(new AccountBanned());
 
-<<<<<<< Updated upstream
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
-=======
         if ($user->role == 'user') {
             $orderItems = OrderItem::whereHas('order', function ($query) use ($user) {
                 $query->where('user_id', $user->user_id);
@@ -455,7 +452,6 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned.');
->>>>>>> Stashed changes
     }
 
     function unbanUser(Request $req) {

@@ -34,5 +34,8 @@ Route::prefix('seller')->as('seller.')
             Route::get('/complaints', 'showComplaints')->name('complaints.index');
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');
             Route::post('/complaints/{complaintId}/respond', 'respondComplaint')->name('complaints.respond');
+
+            Route::get('/transaction-report', [SellerController::class, 'showTransactionReport'])->name('transaction-report.index');
+            Route::get('/transaction-report/generate', [SellerController::class, 'generateTransactionReport'])->name('transaction-report.generate');
         });
 });

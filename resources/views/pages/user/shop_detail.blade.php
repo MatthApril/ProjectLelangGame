@@ -47,7 +47,7 @@
                     </p>
                     <p class="text-secondary"><i class="bi bi-box-seam"></i> Produk Terjual ({{ $totalProductsSold }})</p>
                     @auth
-                        @if (Auth::user()->user_id != $shop->owner_id)
+                        @if (auth()->check() && Auth::user()->user_id != $shop->owner_id)
                             <form action="{{ route('chat.open', $shop->owner->user_id) }}" method="GET">
                                 <div class="d-grid">
                                     <input type="hidden" name="return_url"
@@ -72,7 +72,7 @@
             <div class="col-md-4 mt-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i>
-                        {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
+                        {{ number_format($averageRating ?? 0, 1) }} / 5.0</h5>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -99,6 +99,8 @@
                                         style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                                 </div>
                             @endfor
+                            <hr>
+                            <p class="m-0 text-secondary float-end">Total Ulasan ({{ $totalReviews }})</p>
                         @else
                             <div class="text-center text-secondary">
                                 <i class="bi bi-star" style="font-size: 48px;"></i>
@@ -181,7 +183,7 @@
         @if ($products->count() > 0)
             <div class="row mt-3">
                 @foreach ($products as $product)
-                    @if (Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
+                    @if (auth()->check() && Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
                         <div class="col-md-3 mt-3">
                             <div class="card">
                                 @if ($product->product_img)
@@ -229,7 +231,7 @@
             </div>
         @else
             @auth
-                @if (Auth::user()->user_id == $shop->owner_id)
+                @if (auth()->check() && Auth::user()->user_id == $shop->owner_id)
                     <div class="text-center">
                         <div>
                             <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"

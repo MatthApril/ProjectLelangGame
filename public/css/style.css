@@ -141,3 +141,23 @@ th {
     object-fit: cover;
     object-position: center;
 }
+
+.card-left-primary {
+    border-left: 0.25rem solid #0d6efd;
+}
+
+.card-left-success {
+    border-left: 0.25rem solid #198754;
+}
+
+.card-left-info {
+    border-left: 0.25rem solid #0dcaf0;
+}
+
+.card-left-warning {
+    border-left: 0.25rem solid #ffc107;
+}
+
+.card-left-danger {
+    border-left: 0.25rem solid #dc3545;
+}

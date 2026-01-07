@@ -172,13 +172,8 @@ class UserController extends Controller
         $shop = $orderItem->shop;
         $shop->decrement('running_transactions', $orderItem->subtotal);
         $shop->increment('shop_balance', $orderItem->subtotal);
-<<<<<<< Updated upstream
-        return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi!');
-=======
 
         return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi.');
->>>>>>> Stashed changes
-
     }
 
     public function storeReview(InputProductCommentRequest $request, $orderItemId)
@@ -534,6 +529,10 @@ class UserController extends Controller
             $ratingPercentages[$rating] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
         }
 
+        $averageRating = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->avg('rating');
+
         $games = Game::whereHas('products', function($q) use ($shop) {
             $q->where('shop_id', $shop->shop_id)
             ->whereNull('deleted_at');
@@ -552,6 +551,7 @@ class UserController extends Controller
             'ratingStats',
             'ratingPercentages',
             'totalReviews',
+            'averageRating',
             'games',
             'categories'
         ));
