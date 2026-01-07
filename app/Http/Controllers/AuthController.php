@@ -35,21 +35,6 @@ class AuthController extends Controller
         return view('pages.auth.change_pwd');
     }
 
-    function showOpenShop() {
-        $shop = null;
-        return view('pages.auth.open_shop',compact('shop'));
-    }
-
-    function showEditShop() {
-        $shop = Auth::user()->shop;
-
-        if (!$shop) {
-            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko.');
-        }
-
-        return view('pages.auth.open_shop', compact('shop'));
-    }
-
     function showProfile() {
         $user = Auth::user();
         $categories = Category::orderBy('category_name')->get();
@@ -210,6 +195,22 @@ class AuthController extends Controller
         ]);
 
         return back()->with('success', 'Nama Toko berhasil diubah.');
+    }
+
+    function changeBankAccountNumber(Request $req) {
+        $req->validate([
+            'bank_account_number' => ['required', 'digits:10'],
+        ], [
+            'bank_account_number.required' => 'Nomor Rekening Wajib Diisi!',
+            'bank_account_number.digits' => 'Nomor Rekening Harus 10 Digit!',
+        ]);
+
+        $user = Auth::user();
+        $user->update([
+            'bank_account_number' => $req->bank_account_number
+        ]);
+
+        return back()->with('success', 'Nomor Rekening berhasil diubah.');
     }
 
 }
