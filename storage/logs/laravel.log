@@ -1,0 +1,31 @@
+[2026-01-07 20:00:28] local.ERROR: Command "schedule:start" is not defined.
+
+Did you mean one of these?
+    queue:restart
+    reverb:restart
+    reverb:start
+    schedule:clear-cache
+    schedule:interrupt
+    schedule:list
+    schedule:run
+    schedule:test
+    schedule:work {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"schedule:start\" is not defined.
+
+Did you mean one of these?
+    queue:restart
+    reverb:restart
+    reverb:start
+    schedule:clear-cache
+    schedule:interrupt
+    schedule:list
+    schedule:run
+    schedule:test
+    schedule:work at D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\vendor\\symfony\\console\\Application.php:740)
+[stacktrace]
+#0 D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\vendor\\symfony\\console\\Application.php(298): Symfony\\Component\\Console\\Application->find('schedule:start')
+#1 D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\vendor\\symfony\\console\\Application.php(195): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 D:\\college\\semester 3\\proyek\\BWP\\ProjectLelangGame\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 
