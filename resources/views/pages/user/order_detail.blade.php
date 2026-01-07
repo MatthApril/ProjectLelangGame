@@ -18,7 +18,8 @@
         <div>
             <div class="card">
                 <div class="card-body">
-                    <p class="m-0">Total Harga : <strong>Rp{{ number_format($order->total_prices, 0, ',', '.') }}</strong>
+                    <p class="m-0">Total Harga :
+                        <strong>Rp{{ number_format($order->total_prices, 0, ',', '.') }}</strong>
                     </p>
                     <p class="m-0">Tanggal Transaksi : <strong>{{ $order->created_at->format('d-m-Y H:i') }}</strong></p>
                 </div>
@@ -29,7 +30,8 @@
             @if ($order->orderItems->isEmpty())
                 <div class="text-center">
                     <div>
-                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid">
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                            class="img-fluid">
                     </div>
                     <div>
                         <h5 class="fw-semibold">Produk tidak ditemukan dalam transaksi ini.</h5>
@@ -42,8 +44,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3 text-center my-2">
-                                    <img src="{{ asset('storage/' . $item->product->product_img) }}"
-                                        alt="" width="300" class="img-fluid rounded shadow">
+                                    <img src="{{ asset('storage/' . $item->product->product_img) }}" alt=""
+                                        width="300" class="img-fluid rounded shadow">
                                 </div>
                                 <div class="col-md-9 my-2">
                                     <h4 class="fw-semibold m-0">{{ $item->product->product_name }}</h4>
@@ -98,6 +100,8 @@
                                                 Dikirim</span>
                                         @elseif($item->status === 'completed')
                                             <span class="text-success fw-semibold">Selesai</span>
+                                        @elseif($item->status === 'pending')
+                                            <span class="text-danger fw-semibold">Menunggu Pembayaran</span>
                                         @else
                                             <span class="text-danger fw-semibold">Dibatalkan</span>
                                         @endif
@@ -128,7 +132,7 @@
                                                             <i class="bi bi-check-lg"></i> Konfirmasi Terima
                                                         </button>
                                                     </form>
-        
+
                                                     <a href="{{ route('user.complaints.create', $item->order_item_id) }}"
                                                         class="btn btn-danger btn-sm">
                                                         <i class="bi bi-x-lg"></i> Ajukan Komplain
@@ -150,7 +154,8 @@
                                                     class="btn btn-outline-primary btn-sm"><i class="bi bi-star"></i> Beri
                                                     Review</button>
                                             @else
-                                                <button disabled class="btn btn-outline-success btn-sm">Sudah Review</button>
+                                                <button disabled class="btn btn-outline-success btn-sm">Sudah
+                                                    Review</button>
                                             @endif
                                         @endif
                                     </div>

@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="d-flex justify-content-between align-items-center p-3 pb-0">
             <h5 class="fw-semibold">{{ $comment->user->username }}</h5>
-            <h5 class="fw-semibold"><i class="bi bi-star-fill text-warning"></i> {{ $comment->rating }} / 5.0</h5>
+            <h5 class="fw-semibold"><i class="bi bi-star-fill text-warning"></i> {{ number_format($comment->rating ?? 0, 1) }} / 5.0</h5>
         </div>
         <p class="text-secondary p-3 pt-0 pb-0 m-0">{{ $comment->product->product_name }}</p>
         <p class="text-secondary p-3 pt-0 pb-0 m-0">{{ $comment->created_at->format('d M Y H:i') }}</p>

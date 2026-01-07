@@ -17,20 +17,23 @@ class UserSeeder extends Seeder
             'username' => 'lelanggameofficial',
             'email' => 'lelanggameofficial@gmail.com',
             'password' => bcrypt('pass'),
-            'role' => 'admin'
+            'bank_account_number' => '1234567890',
+            'role' => 'admin',
         ]);
 
         User::create([
             'username' => 'zinx',
             'email' => 'zinx8729@gmail.com',
             'password' => bcrypt('pass'),
-            'role' => 'seller'
+            'bank_account_number' => '1234567890',
+            'role' => 'seller',
         ]);
 
         User::create([
             'username' => 'test',
             'email' => 'testinggdg12345@gmail.com',
             'password' => bcrypt('pass'),
+            'bank_account_number' => '1234567890',
             'role' => 'seller'
         ]);
 
@@ -38,6 +41,7 @@ class UserSeeder extends Seeder
             'username' => 'han',
             'email' => 'hanchandra14@gmail.com',
             'password' => bcrypt('pass'),
+            'bank_account_number' => '1234567890',
             'role' => 'user'
         ]);
 

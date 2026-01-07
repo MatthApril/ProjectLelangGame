@@ -29,6 +29,7 @@ class RegisterRequest extends FormRequest
             'email' => ['required', 'email', new EmailRegisteredRule],
             'password' => ['required', 'string'],
             'confirm_password' => ['required', 'same:password'],
+            'bank_account_number' => ['required', 'digits:10'],
         ];
     }
 
@@ -41,6 +42,8 @@ class RegisterRequest extends FormRequest
             'password.required' => 'Password Wajib Diisi!',
             'confirm_password.required' => 'Konfirmasi Password Wajib Diisi!',
             'confirm_password.same' => 'Konfirmasi Password Dengan Password Tidak Sama!',
+            'bank_account_number.required' => 'Nomor Rekening Wajib Diisi!',
+            'bank_account_number.digits' => 'Nomor Rekening Harus 10 Digit!',
         ];
     }
 

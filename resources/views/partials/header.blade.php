@@ -1,4 +1,4 @@
-<nav class="bg-darkblue text-white">
+<nav class="bg-darkblue text-white no-print">
     <div class="container">
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-sm-12 col-md-12 col-lg-3 py-2">
@@ -73,7 +73,7 @@
         </div>
     </div>
 </nav>
-<nav class="bg-navyblue text-white py-2">
+<nav class="bg-navyblue text-white py-2 no-print">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center gap-3">
             <a href="{{ route('user.home') }}" class="text-decoration-none text-white"><i class="bi bi-house"></i>

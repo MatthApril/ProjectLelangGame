@@ -47,8 +47,7 @@
                             @csrf
                             <label>Username : </label>
                             <div class="input-group flex-nowrap mb-3">
-                                <span class="input-group-text" id="addon-wrapping"><i
-                                        class="bi bi-person-fill"></i></span>
+                                <span class="input-group-text" id="addon-wrapping"><i class="bi bi-person-fill"></i></span>
                                 <input type="text" class="form-control" name="username" id="username"
                                     placeholder="Username" autocomplete="off" value="{{ old('username') }}" required>
                             </div>
@@ -56,8 +55,16 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-envelope-at-fill"></i></span>
-                                <input type="email" class="form-control" name="email" id="email"
-                                    placeholder="Email" autocomplete="off" value="{{ old('email') }}" required>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                    autocomplete="off" value="{{ old('email') }}" required>
+                            </div>
+                            <label>Nomor Rekening : </label>
+                            <div class="input-group flex-nowrap mb-3">
+                                <span class="input-group-text" id="addon-wrapping"><i
+                                        class="bi bi-envelope-at-fill"></i></span>
+                                <input type="text" class="form-control" name="bank_account_number"
+                                    id="bank_account_number" placeholder="Nomor Rekening" autocomplete="off"
+                                    value="{{ old('bank_account_number') }}" required>
                             </div>
                             <label>Password : </label>
                             <div class="input-group flex-nowrap mb-3">
@@ -68,9 +75,8 @@
                             <label>Konfirmasi Password : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span>
-                                <input type="password" class="form-control" name="confirm_password"
-                                    id="confirm_password" placeholder="Konfirmasi Password" autocomplete="off"
-                                    required>
+                                <input type="password" class="form-control" name="confirm_password" id="confirm_password"
+                                    placeholder="Konfirmasi Password" autocomplete="off" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary rounded-5 my-3">Daftar</button>

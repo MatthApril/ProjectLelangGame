@@ -46,7 +46,7 @@
                             @endfor
                             <hr>
                             <p class="m-0 text-secondary">Total Ulasan ({{ $totalReviews }})</p>
-                            <p class="m-0 text-secondary">Rating Toko <i class="bi bi-star-fill text-warning"></i> {{ number_format(Auth::user()->shop->shop_rating, 1) }} / 5.0</p>
+                            <p class="m-0 text-secondary">Rating Toko <i class="bi bi-star-fill text-warning"></i> {{ number_format($averageRating ?? 0, 1) }} / 5.0</p>
                         @else
                             <div class="text-center text-secondary">
                                 <i class="bi bi-star" style="font-size: 48px;"></i>
