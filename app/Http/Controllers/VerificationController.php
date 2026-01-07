@@ -60,7 +60,7 @@ class VerificationController extends Controller
             if ($verify->type == 'register') {
                 Auth::logout();
 
-                return redirect()->route('register')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan daftar ulang!');
+                return redirect()->route('register')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan login dan coba ulangi pengiriman OTP.');
             }
 
             return redirect()->route('profile')->with('error', 'OTP tidak valid atau sudah kadaluarsa. Silakan coba lagi.');
@@ -84,7 +84,7 @@ class VerificationController extends Controller
                 ->whereType('change_email')
                 ->whereStatus('active')
                 ->update(['status' => 'invalid']);
-            return redirect()->route('profile')->with('success', 'Email berhasil diubah!');
+            return redirect()->route('profile')->with('success', 'Email berhasil diubah.');
         }
 
         if ($verify->type == 'register') {
@@ -124,8 +124,8 @@ class VerificationController extends Controller
             $req->validate([
                 'email' => ['required', 'email', new EmailRegisteredRule]
             ], [
-                'email.required' => 'Email baru wajib diisi!',
-                'email.email' => 'Format email tidak valid!',
+                'email.required' => 'Email baru wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
             ]);
 
             session(['new_email' => $req->email]);
@@ -142,7 +142,7 @@ class VerificationController extends Controller
 
         $user = User::where('email', $req->email)->first();
         if (!$user) {
-            return back()->with('error', 'Email tidak terdaftar!');
+            return back()->with('error', 'Email tidak terdaftar.');
         }
 
         $otp = rand(100000, 999999);
@@ -161,7 +161,7 @@ class VerificationController extends Controller
     function resendOTP() {
         $user = User::where('email', session('forgot_pwd_email'))->first();
         if (!$user) {
-            return back()->with('error', 'Email tidak terdaftar!');
+            return back()->with('error', 'Email tidak terdaftar.');
         }
 
         $otp = rand(100000, 999999);
@@ -226,7 +226,7 @@ class VerificationController extends Controller
             ->update(['status' => 'invalid']);
 
         Mail::to($user->email)->queue(new PasswordChangedWarning());
-        return redirect()->route('profile')->with('success', 'Password berhasil diubah');
+        return redirect()->route('profile')->with('success', 'Password berhasil diubah.');
     }
 
     function changeForgotPassword(ChangePasswordRequest $req) {
@@ -245,6 +245,6 @@ class VerificationController extends Controller
         session()->forget('forgot_pwd_user_id');
 
         Mail::to($user->email)->queue(new PasswordChangedWarning());
-        return redirect()->route('login')->with('success', 'Password berhasil diubah');
+        return redirect()->route('login')->with('success', 'Password berhasil diubah.');
     }
 }

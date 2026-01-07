@@ -88,12 +88,12 @@ class AdminController extends Controller
             ->firstOrFail();
 
         if ($orderItem->is_refunded) {
-            return back()->with('error', 'Pesanan ini sudah ditandai sebagai refunded');
+            return back()->with('error', 'Pesanan ini sudah ditandai sebagai refunded.');
         }
 
         $orderItem->update(['is_refunded' => true]);
 
-        return back()->with('success', 'Pesanan berhasil ditandai sebagai REFUNDED oleh admin');
+        return back()->with('success', 'Pesanan berhasil ditandai sebagai refunded oleh admin.');
     }
 
     public function undoRefunded($orderItemId)
@@ -103,7 +103,7 @@ class AdminController extends Controller
             ->firstOrFail();
 
         if (!$orderItem->is_refunded) {
-            return back()->with('error', 'Pesanan ini belum ditandai sebagai refunded');
+            return back()->with('error', 'Pesanan ini belum ditandai sebagai refunded.');
         }
 
         $orderItem->update(['is_refunded' => false]);
@@ -217,7 +217,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus komentar: ' . $e->getMessage()
+                'message' => 'Gagal menghapus komentar: ' . $e->getMessage() . '.'
             ], 500);
         }
     }
@@ -239,7 +239,7 @@ class AdminController extends Controller
             'category_img' => $imagePath
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
 
     function showEditCategory($id) {
@@ -257,7 +257,7 @@ class AdminController extends Controller
             'category_name' => $validated['category_name']
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate.');
     }
 
     function deleteCategory($category) {
@@ -303,7 +303,7 @@ class AdminController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.games.index')->with('success', 'Game berhasil ditambahkan');
+        return redirect()->route('admin.games.index')->with('success', 'Game berhasil ditambahkan.');
     }
 
     function showEditGame($id) {
@@ -336,7 +336,7 @@ class AdminController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.games.index')->with('success', 'Game berhasil diupdate');
+        return redirect()->route('admin.games.index')->with('success', 'Game berhasil diupdate.');
     }
 
     function deleteGame($id) {
@@ -376,7 +376,7 @@ class AdminController extends Controller
 
         NotificationTemplate::create($validated);
 
-        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil ditambahkan');
+        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil ditambahkan.');
     }
 
     function showEditNotificationTemplate($id){
@@ -391,20 +391,20 @@ class AdminController extends Controller
 
         $template->update($validated);
 
-        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil diupdate');
+        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil diupdate.');
     }
 
     function deleteNotificationTemplate($id){
         $template = NotificationTemplate::findOrFail($id);
         $template->delete();
 
-        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus');
+        return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus.');
     }
     function broadcastNotification(Request $req, $id){
         $template = NotificationTemplate::findOrFail($id);
         (new NotificationService())->broadcast($template->code_tag, $req->target_audience);
 
-        return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag);
+        return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil dibroadcast menggunakan template: ' . $template->code_tag . '.');
     }
 
     function banUser(Request $req) {
@@ -431,7 +431,31 @@ class AdminController extends Controller
 
         Mail::to($user->email)->queue(new AccountBanned());
 
+<<<<<<< Updated upstream
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
+=======
+        if ($user->role == 'user') {
+            $orderItems = OrderItem::whereHas('order', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id);
+            })->whereIn('status', ['pending', 'paid', 'shipped'])->get();
+
+            foreach ($orderItems as $item) {
+                if ($item->status == 'shipped') {
+                    $item->update(['status' => 'completed']);
+                    $shop = $item->shop;
+                    $shop->decrement('running_transactions', $item->subtotal);
+                    $shop->increment('shop_balance', $item->subtotal);
+                    continue;
+                }
+
+                $item->update(['status' => 'cancelled']);
+                $shop = $item->shop;
+                $shop->decrement('running_transactions', $item->subtotal);
+            }
+        }
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned.');
+>>>>>>> Stashed changes
     }
 
     function unbanUser(Request $req) {
@@ -443,6 +467,6 @@ class AdminController extends Controller
         $user = User::withTrashed()->findOrFail($id);
         $user->restore();
 
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned.');
     }
 }

@@ -35,7 +35,7 @@ class UserController extends Controller
         ->firstOrFail();
 
         if ($orderItem->complaint()->exists()) {
-            return redirect()->route('user.orders.detail', $orderItem->order_id)->with('error', 'Anda sudah mengajukan komplain untuk produk ini');
+            return redirect()->route('user.orders.detail', $orderItem->order_id)->with('error', 'Anda sudah mengajukan komplain untuk produk ini.');
         }
 
         $categories = Category::orderBy('category_name')->get();
@@ -52,7 +52,7 @@ class UserController extends Controller
         ->firstOrFail();
 
         if ($orderItem->complaint()->exists()) {
-            return redirect()->route('user.orders.detail', $orderItem->order_id)->with('error', 'Anda sudah mengajukan komplain');
+            return redirect()->route('user.orders.detail', $orderItem->order_id)->with('error', 'Anda sudah mengajukan komplain untuk produk ini.');
         }
 
         $validated = $request->validated();
@@ -172,7 +172,12 @@ class UserController extends Controller
         $shop = $orderItem->shop;
         $shop->decrement('running_transactions', $orderItem->subtotal);
         $shop->increment('shop_balance', $orderItem->subtotal);
+<<<<<<< Updated upstream
         return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi!');
+=======
+
+        return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi.');
+>>>>>>> Stashed changes
 
     }
 
@@ -214,7 +219,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Review berhasil ditambahkan',
+                'message' => 'Review berhasil ditambahkan.',
                 'data' => [
                     'rating' => $comment->rating,
                     'comment' => $comment->comment,
@@ -225,7 +230,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage() . '.'
             ], 500);
         }
     }
@@ -738,7 +743,7 @@ class UserController extends Controller
         if (!$cart) {
             return response()->json([
                 'success' => false,
-                'message' => 'Keranjang tidak ditemukan'
+                'message' => 'Keranjang tidak ditemukan.'
             ], 404);
         }
 
@@ -749,7 +754,7 @@ class UserController extends Controller
         if (!$cartItem) {
             return response()->json([
                 'success' => false,
-                'message' => 'Item keranjang tidak ditemukan'
+                'message' => 'Item keranjang tidak ditemukan.'
             ], 404);
         }
 
@@ -777,7 +782,7 @@ class UserController extends Controller
         $cart = $user->cart()->first();
 
         if (!$cart) {
-            return redirect()->route('user.cart')->with('error', 'Keranjang tidak ditemukan');
+            return redirect()->route('user.cart')->with('error', 'Keranjang tidak ditemukan.');
         }
 
         $cartItem = $cart->cartItems()
@@ -785,12 +790,12 @@ class UserController extends Controller
             ->first();
 
         if (!$cartItem) {
-            return redirect()->route('user.cart')->with('error', 'Item keranjang tidak ditemukan');
+            return redirect()->route('user.cart')->with('error', 'Item keranjang tidak ditemukan.');
         }
 
         $cartItem->delete();
 
-        return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang');
+        return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 
 }
