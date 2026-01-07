@@ -256,7 +256,7 @@ class PaymentController extends Controller
     public function callback (Request $req)
     {
         // dd($req->all());
-        if ($req->transaction_status == 'capture') {
+        if ($req->transaction_status == 'capture' || $req->transaction_status == 'pending') {
             $order = Order::with(['account', 'orderItems.product'])->where('order_id', $req->order_id)->first();
             if ($order) {
                 $order->update(['status' => 'paid']);

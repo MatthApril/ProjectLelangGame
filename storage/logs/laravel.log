@@ -745,3 +745,4 @@ Did you mean this?
 #6 {main}
 "} 
 [2026-01-07 20:45:01] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-f109e93a-8387-4ce8-9e36-742d3754c1cc","gross_amount":214000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+[2026-01-07 21:04:14] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-41844f44-bd32-40ae-9079-9130f884ffa8","gross_amount":299600.0},"customer_details":{"name":"frost","email":"frostocean4@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
