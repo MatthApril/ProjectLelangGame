@@ -104,7 +104,7 @@
                         </h5>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
-                        <h6 class="fw-semibold">Biaya Layanan</h6>
+                        <h6 class="fw-semibold">Biaya Layanan ({{ $admin_fee_percentage }}%)</h6>
                         <h5 class="fw-semibold text-primary">
                             Rp{{ number_format(
                                 round(

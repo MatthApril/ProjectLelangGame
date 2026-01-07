@@ -16006,7 +16006,7 @@ Did you mean one of these?
 #29 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #30 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #31 {main}
-"} 
+"}
 [2026-01-07 16:47:41] local.ERROR: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'category' at row 1 (Connection: mysql, SQL: insert into `notifications` (`title`, `body`, `category`, `created_at`) values (Happy New Year 2026! 🎆, Tahun baru sudah tiba! Dapatkan banyak flash sale dan promo menarik di LelangGame. Jangan sampai terlewatkan!, promo, 2026-01-07 16:47:41)) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 01000): SQLSTATE[01000]: Warning: 1265 Data truncated for column 'category' at row 1 (Connection: mysql, SQL: insert into `notifications` (`title`, `body`, `category`, `created_at`) values (Happy New Year 2026! 🎆, Tahun baru sudah tiba! Dapatkan banyak flash sale dan promo menarik di LelangGame. Jangan sampai terlewatkan!, promo, 2026-01-07 16:47:41)) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:824)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(778): Illuminate\\Database\\Connection->runQueryCallback('insert into `no...', Array, Object(Closure))
@@ -16140,7 +16140,7 @@ Did you mean one of these?
 #62 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #63 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #64 {main}
-"} 
+"}
 [2026-01-07 17:17:18] local.ERROR: syntax error, unexpected token "else" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\shop_detail.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"else\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\shop_detail.blade.php) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\storage\\framework\\views\\62c92e420a9ae1b5a7a7e5b769ed5dc4.php:329)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -16259,7 +16259,7 @@ Did you mean one of these?
 #54 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #55 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\Files Kuliah...')
 #56 {main}
-"} 
+"}
 [2026-01-07 17:18:35] local.ERROR: syntax error, unexpected token "else" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\shop_detail.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"else\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\shop_detail.blade.php) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\storage\\framework\\views\\62c92e420a9ae1b5a7a7e5b769ed5dc4.php:329)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -16378,7 +16378,7 @@ Did you mean one of these?
 #54 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #55 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\Files Kuliah...')
 #56 {main}
-"} 
+"}
 [2026-01-07 17:25:01] local.ERROR: syntax error, unexpected token "else" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\shop_detail.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"else\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\shop_detail.blade.php) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\storage\\framework\\views\\62c92e420a9ae1b5a7a7e5b769ed5dc4.php:330)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -16497,7 +16497,7 @@ Did you mean one of these?
 #54 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #55 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\Files Kuliah...')
 #56 {main}
-"} 
+"}
 [2026-01-07 17:47:37] local.ERROR: syntax error, unexpected end of file, expecting "elseif" or "else" or "endif" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\auction_detail.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected end of file, expecting \"elseif\" or \"else\" or \"endif\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\auction_detail.blade.php) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\storage\\framework\\views\\c118c21f394fa600373e10e2dd7fb9d9.php:487)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -16616,7 +16616,7 @@ Did you mean one of these?
 #54 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #55 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\Files Kuliah...')
 #56 {main}
-"} 
+"}
 [2026-01-07 18:11:17] local.ERROR: syntax error, unexpected token "endif" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\auctions.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"endif\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\auctions.blade.php) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\storage\\framework\\views\\572bc0b59582bea1b2e1095a4b2c68a0.php:259)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -16735,7 +16735,7 @@ Did you mean one of these?
 #54 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #55 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\Files Kuliah...')
 #56 {main}
-"} 
+"}
 [2026-01-07 22:19:45] local.ERROR: syntax error, unexpected token "endforeach", expecting "elseif" or "else" or "endif" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\seller\withdraw.blade.php) {"userId":2,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"endforeach\", expecting \"elseif\" or \"else\" or \"endif\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\seller\\withdraw.blade.php) at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\storage\\framework\\views\\80ac9a8090a7192337a20aa0800100a2.php:72)
 [stacktrace]
 #0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -16878,4 +16878,40 @@ Did you mean one of these?
 #66 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #67 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\Files Kuliah...')
 #68 {main}
-"} 
+"}
+[2026-01-07 22:30:36] local.ERROR: Class "Barryvdh\DomPDF\ServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Barryvdh\\DomPDF\\ServiceProvider\" not found at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:961)
+[stacktrace]
+#0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('Barryvdh\\\\DomPDF...')
+#1 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(74): Illuminate\\Foundation\\Application->register('Barryvdh\\\\DomPDF...')
+#2 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#3 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#4 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#5 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(473): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#6 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#7 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 {main}
+"}
+[2026-01-07 22:30:36] local.ERROR: Class "Barryvdh\DomPDF\ServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Barryvdh\\DomPDF\\ServiceProvider\" not found at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:961)
+[stacktrace]
+#0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('Barryvdh\\\\DomPDF...')
+#1 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(74): Illuminate\\Foundation\\Application->register('Barryvdh\\\\DomPDF...')
+#2 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#3 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#4 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#5 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(473): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#6 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#7 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 {main}
+"}
+[2026-01-07 22:30:36] local.ERROR: Class "Barryvdh\DomPDF\ServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Barryvdh\\DomPDF\\ServiceProvider\" not found at D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:961)
+[stacktrace]
+#0 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('Barryvdh\\\\DomPDF...')
+#1 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(74): Illuminate\\Foundation\\Application->register('Barryvdh\\\\DomPDF...')
+#2 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#3 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#4 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#5 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(473): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#6 D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#7 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 {main}
+"}

@@ -16,7 +16,7 @@ class ShopSeeder extends Seeder
         $shops = [
             [
                 'shop_name' => 'Zinx Gaming Store',
-                'shop_img' => 'zinx_store.jpg',
+                'shop_img' => '/shops/zinx_store.jpg',
                 'owner_id' => 2,
                 'open_hour' => '08:00:00',
                 'close_hour' => '22:00:00',
@@ -27,7 +27,7 @@ class ShopSeeder extends Seeder
             ],
             [
                 'shop_name' => 'Test Gaming Hub',
-                'shop_img' => 'test_store.jpg',
+                'shop_img' => '/shops/test_store.jpg',
                 'owner_id' => 3,
                 'open_hour' => '09:00:00',
                 'close_hour' => '23:00:00',
@@ -38,7 +38,7 @@ class ShopSeeder extends Seeder
             ],
             [
                 'shop_name' => 'Akun Gaming Gampang',
-                'shop_img' => 'akun_gampang.jpg',
+                'shop_img' => '/shops/akun_gampang.jpg',
                 'owner_id' => 2,
                 'open_hour' => '07:00:00',
                 'close_hour' => '23:59:00',
@@ -49,7 +49,7 @@ class ShopSeeder extends Seeder
             ],
             [
                 'shop_name' => 'Joki Pro Indonesia',
-                'shop_img' => 'joki_pro.jpg',
+                'shop_img' => '/shops/joki_pro.jpg',
                 'owner_id' => 3,
                 'open_hour' => '10:00:00',
                 'close_hour' => '22:00:00',
@@ -60,7 +60,7 @@ class ShopSeeder extends Seeder
             ],
             [
                 'shop_name' => 'Item Langka Store',
-                'shop_img' => 'item_langka.jpg',
+                'shop_img' => '/shops/item_langka.jpg',
                 'owner_id' => 2,
                 'open_hour' => '08:30:00',
                 'close_hour' => '21:00:00',

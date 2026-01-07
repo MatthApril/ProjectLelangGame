@@ -32,17 +32,17 @@
                 </div>
                 <hr>
                 @if ($user->role == 'seller')
-                <div class="ms-3">
-                    <a href="{{ route('shops.detail', $user->shop->shop_id) }}"
-                        class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-shop"></i>
-                        Toko Saya</a>
-                </div>
-                <div class="ms-3">
-                    <a href="{{ route('seller.dashboard') }}"
+                    <div class="ms-3">
+                        <a href="{{ route('shops.detail', $user->shop->shop_id) }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-shop"></i>
+                            Toko Saya</a>
+                    </div>
+                    <div class="ms-3">
+                        <a href="{{ route('seller.dashboard') }}"
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i>
                             Kelola Toko</a>
-                </div>
-                <hr>
+                    </div>
+                    <hr>
                 @endif
                 @if ($user->role != 'admin')
                     <div class="ms-3">
@@ -111,6 +111,18 @@
                             <div class="text-end">
                                 <button type="submit" class="btn btn-outline-dark my-3"><i class="bi bi-floppy-fill"></i>
                                     Simpan Username</button>
+                            </div>
+                        </form>
+                        <form action="{{ route('change-bank-account-number') }}" method="post">
+                            @csrf
+                            <label>Nomor Rekening</label>
+                            <input type="text" name="bank_account_number" id="bank_account_number"
+                                value="{{ $user->bank_account_number }}" class="form-control"
+                                placeholder="Nomor Rekening Baru" required>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-outline-dark my-3"><i
+                                        class="bi bi-floppy-fill"></i>
+                                    Simpan Nomor Rekening</button>
                             </div>
                         </form>
                         <form action="{{ route('verify.store') }}" method="post">

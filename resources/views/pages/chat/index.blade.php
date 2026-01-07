@@ -18,7 +18,7 @@
         </a>
     @empty
         <div class="alert alert-info">
-            <i class="bi bi-info-circle"></i> Belum ada percakapan.
+            <i class="bi bi-info-circle"></i> Belum Ada Percakapan
         </div>
     @endforelse
 </div>

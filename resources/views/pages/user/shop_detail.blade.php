@@ -47,11 +47,10 @@
                     </p>
                     <p class="text-secondary"><i class="bi bi-box-seam"></i> Produk Terjual ({{ $totalProductsSold }})</p>
                     @auth
-                        @if (Auth::user()->user_id != $shop->owner_id)
+                        @if (auth()->check() && Auth::user()->user_id != $shop->owner_id)
                             <form action="{{ route('chat.open', $shop->owner->user_id) }}" method="GET">
                                 <div class="d-grid">
-                                    <input type="hidden" name="return_url"
-                                        value="{{ route('shops.detail', $shop->shop_id) }}">
+                                    <input type="hidden" name="return_url" value="{{ route('shops.detail', $shop->shop_id) }}">
                                     <input type="hidden" name="return_label" value="Kembali ke Toko">
                                     <button type="submit" class="btn btn-outline-primary">
                                         <i class="bi bi-chat"></i> Chat Pemilik Toko
@@ -72,7 +71,7 @@
             <div class="col-md-4 mt-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i>
-                        {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
+                        {{ number_format($averageRating ?? 0, 1) }} / 5.0</h5>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -99,6 +98,8 @@
                                         style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                                 </div>
                             @endfor
+                            <hr>
+                            <p class="m-0 text-secondary float-end">Total Ulasan ({{ $totalReviews }})</p>
                         @else
                             <div class="text-center text-secondary">
                                 <i class="bi bi-star" style="font-size: 48px;"></i>
@@ -179,130 +180,71 @@
                     </div>
                 </div>
             </div>
-    </form>
-    <hr>
-    @if($mergedItems->count() > 0)
-    <div class="row mt-3">
-        @foreach($mergedItems as $item)
-            @if($item->item_type === 'auction')
-                @php
-                    $statusConfig = match($item->status) {
-                        'pending' => ['badge' => 'secondary', 'text' => 'Akan Dimulai', 'icon' => 'bi-clock', 'harga' => 'Awal'],
-                        'running' => ['badge' => 'danger', 'text' => 'LIVE', 'icon' => 'bi-broadcast', 'harga' => 'Saat Ini'],
-                        'ended' => ['badge' => 'success', 'text' => 'Selesai', 'icon' => 'bi-check-circle', 'harga' => 'Akhir'],
-                        default => ['badge' => 'secondary', 'text' => ucfirst($item->status), 'icon' => 'bi-question-circle', 'harga' => ''],
-                    };
-                @endphp
-                <div class="col-md-3 mt-3">
-                    <div class="card h-100">
-                        <div class="position-relative">
-                            @if($item->product && $item->product->product_img)
-                                <img src="{{ asset('storage/products/' . $item->product->product_img) }}"
-                                    class="card-img-top product-img-16x9"
-                                    alt="{{ $item->product->product_name }}">
-                            @else
-                                <img src="{{ asset('images/no-image.png') }}"
-                                    class="card-img-top product-img-16x9"
-                                    alt="No Image">
-                            @endif
-
-                            {{-- Status Badge --}}
-                            <div class="position-absolute top-0 start-0 m-2">
-                                @if($item->status == 'running')
-                                    <span class="badge bg-danger d-flex align-items-center gap-1">
-                                        <span class="bg-white rounded-circle" style="width: 8px; height: 8px; display: inline-block;"></span> LIVE
-                                    </span>
-                                @else
-                                    <span class="badge bg-{{ $statusConfig['badge'] }}">
-                                        <i class="bi {{ $statusConfig['icon'] }} me-1"></i>{{ $statusConfig['text'] }}
-                                    </span>
+        </form>
+        <hr>
+        @if ($products->count() > 0)
+            <div class="row mt-3">
+                @foreach ($products as $product)
+                    @if ((auth()->check() && Auth::user()->user_id == $shop->owner_id) || $product->stok > 0)
+                        <div class="col-md-3 mt-3">
+                            <div class="card">
+                                @if ($product->product_img)
+                                    <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
+                                        class="card-img-top product-img-16x9">
                                 @endif
-                            </div>
-
-                            {{-- Timer Bar --}}
-                            @if($item->status == 'pending')
-                                <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
-                                    <small><i class="bi bi-hourglass-split"></i> Dimulai dalam:
-                                        <span class="auction-timer fw-bold" data-time="{{ $item->start_time }}" data-type="start">...</span>
-                                    </small>
+                                <div class="card-body">
+                                    <h5 class="fw-bold">
+                                        {{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}
+                                    </h5>
+                                    <h5 class="text-primary fw-semibold">
+                                        Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
+                                    <p class="text-secondary">
+                                        <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
+                                        <i class="bi bi-controller"></i> Game : {{ $product->game->game_name }}
+                                    </p>
+                                    <div class="d-flex justify-content-between text-secondary">
+                                        <div>
+                                            <i class="bi bi-box-seam"></i> Stok {{ $product->stok }}
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('products.detail', $product->product_id) }}"
+                                        class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i
+                                            class="bi bi-caret-right-fill"></i></a>
                                 </div>
-                            @elseif($item->status == 'running')
-                                <div class="position-absolute bottom-0 start-0 w-100 bg-primary bg-opacity-75 text-white text-center py-1">
-                                    <small><i class="bi bi-alarm"></i> Berakhir dalam:
-                                        <span class="auction-timer fw-bold" data-time="{{ $item->end_time }}" data-type="end">...</span>
-                                    </small>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="fw-bold text-truncate">{{ $item->product->product_name }}</h5>
-                            <h5 class="text-primary fw-semibold">Rp{{ number_format($item->current_price, 0, ',', '.') }}</h5>
-                            <p class="text-secondary">
-                                <i class="bi bi-grid"></i> Kategori : {{ $item->product->category->category_name ?? '-' }} <br>
-                                <i class="bi bi-controller"></i> Game : {{ $item->product->game->game_name ?? '-' }}
-                            </p>
-                            <div class="d-flex justify-content-between text-secondary mb-2">
-                                <div>
-                                    <i class="bi bi-hammer"></i> Lelang
-                                </div>
-                                <div>
-                                    <i class="bi bi-people"></i> {{ $item->bids->count() }} Bid
-                                </div>
-                            </div>
-                            <div class="mt-auto">
-                                @auth
-                                    @if (Auth::user()->user_id == $shop->owner_id)
-                                        <a href="{{ route('seller.auctions.detail', $item->auction_id) }}" class="btn btn-primary btn-sm float-end">Lihat Lelang <i class="bi bi-caret-right-fill"></i></a>
-                                    @else
-                                        <a href="{{ route('auctions.detail', $item->auction_id) }}" class="btn btn-primary btn-sm float-end">Lihat Lelang <i class="bi bi-caret-right-fill"></i></a>
-                                    @endif
-                                @else
-                                    <a href="{{ route('auctions.detail', $item->auction_id) }}" class="btn btn-primary btn-sm float-end">Lihat Lelang <i class="bi bi-caret-right-fill"></i></a>
-                                @endauth
                             </div>
                         </div>
-                    </div>
-                </div>
-            @else
-                {{-- Product Card --}}
-                <div class="col-md-3 mt-3">
-                    <div class="card h-100">
-                        @if ($item->type === 'normal')
-                            @if($item->product_img)
-                                <img
-                                    src="{{ asset('storage/products/' . $item->product_img) }}"
-                                    alt="{{ $item->product_name }}"
-                                    class="card-img-top product-img-16x9"
-                                >
-                            @endif
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="fw-bold text-truncate">{{ $item->product_name }}</h5>
-                                <h5 class="text-primary fw-semibold">Rp{{ number_format($item->price, 0, ',', '.') }}</h5>
-                                <p class="text-secondary">
-                                    <i class="bi bi-grid"></i> Kategori : {{ $item->category->category_name }} <br>
-                                    <i class="bi bi-controller"></i> Game : {{ $item->game->game_name }}
-                                </p>
-                                <div class="d-flex justify-content-between text-secondary mb-2">
-                                    <div>
-                                        <i class="bi bi-box-seam"></i> Stok {{ $item->stok }}
-                                    </div>
-                                    <div>
-                                        <i class="bi bi-star"></i> Rating {{ number_format($item->rating, 1) }}
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="{{ route('products.detail', $item->product_id) }}" class="btn btn-primary btn-sm float-end">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
-                                </div>
+                    @else
+                        <div class="text-center">
+                            <div>
+                                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                                    class="img-fluid mt-3">
                             </div>
-                        @else
-                            @if($item->product_img)
-                                <img
-                                    src="{{ asset('storage/products/' . $item->product_img) }}"
-                                    alt="{{ $item->product_name }}"
-                                    class="card-img-top product-img-16x9"
-                                >
-                            @endif
-                        @endif
+                            <div>
+                                <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                                <p>Coba ubah filter pencarian Anda.</p>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+            <div class="mt-3">
+                {{ $products->links() }}
+            </div>
+        @else
+            @auth
+                @if (auth()->check() && Auth::user()->user_id == $shop->owner_id)
+                    <div class="text-center">
+                        <div>
+                            <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                                class="img-fluid mt-3">
+                        </div>
+                        <div>
+                            <h5 class="fw-semibold">Toko anda belum memiliki produk.</h5>
+                            <p>Silahkan menambahkan produk pada halaman profil anda.</p>
+                        </div>
                     </div>
                 </div>
             @endif

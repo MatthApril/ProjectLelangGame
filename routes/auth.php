@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth', 'check_role:user,seller,admin', 'check_st
     Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
     Route::post('/change-username', [AuthController::class, 'changeUsername'])->name('change-username');
     Route::post('/change-shop-name', [AuthController::class, 'changeShopName'])->name('change-shop-name');
+    Route::post('/change-bank-account-number', [AuthController::class, 'changeBankAccountNumber'])->name('change-bank-account-number');
 });
 
 // Ganti Password

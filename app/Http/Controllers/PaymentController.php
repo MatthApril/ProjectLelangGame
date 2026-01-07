@@ -193,7 +193,7 @@ class PaymentController extends Controller
                 $product = Product::lockForUpdate()->findOrFail($item->product_id);
 
                 if ($product->stok < $item->quantity) {
-                    throw new \Exception("Stok {$product->name} tidak cukup");
+                    throw new \Exception("Stok {$product->name} tidak cukup.");
                 }
                 // dd($product->stok);
 
@@ -223,7 +223,7 @@ class PaymentController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollBack();
-            return redirect()->route('user.cart')->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
+            return redirect()->route('user.cart')->with('error', 'Gagal memproses pesanan: ' . $e->getMessage() . '.');
         }
 
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
@@ -256,7 +256,7 @@ class PaymentController extends Controller
     public function callback (Request $req)
     {
         // dd($req->all());
-        if ($req->transaction_status == 'capture') {
+        if ($req->transaction_status == 'capture' || $req->transaction_status == 'pending') {
             $order = Order::with(['account', 'orderItems.product'])->where('order_id', $req->order_id)->first();
             if ($order) {
                 $order->update(['status' => 'paid']);

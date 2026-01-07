@@ -141,3 +141,118 @@ th {
     object-fit: cover;
     object-position: center;
 }
+
+.card-left-primary {
+    border-left: 0.25rem solid #0d6efd;
+}
+
+.card-left-success {
+    border-left: 0.25rem solid #198754;
+}
+
+.card-left-info {
+    border-left: 0.25rem solid #0dcaf0;
+}
+
+.card-left-warning {
+    border-left: 0.25rem solid #ffc107;
+}
+
+.card-left-danger {
+    border-left: 0.25rem solid #dc3545;
+}
+
+@media print {
+
+    /* Reset dasar */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    body {
+        font-size: 11px;
+        color: #000;
+        background: #fff;
+    }
+
+    /* Sembunyikan elemen yang tidak perlu */
+    .no-print,
+    nav,
+    .breadcrumb,
+    .btn,
+    form,
+    .alert {
+        display: none !important;
+    }
+
+    /* Container full lebar */
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Judul */
+    /* h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 16px;
+    } */
+
+    /* hr {
+        border: 1px solid #000;
+    } */
+
+    /* Tabel */
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    th,
+    td {
+        border: 1px solid #000 !important;
+        padding: 6px !important;
+        font-size: 10px;
+        vertical-align: middle !important;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    th {
+        background-color: #f2f2f2 !important;
+        font-weight: bold;
+    }
+
+    /* Hilangkan hover bootstrap */
+    .table-hover tbody tr:hover {
+        background-color: transparent !important;
+    }
+
+    /* Card statistik jadi simple */
+    .card {
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+    }
+
+    .card-body {
+        padding: 8px !important;
+    }
+
+    /* Margin halaman */
+    @page {
+        size: A4 portrait;
+        margin: 15mm;
+    }
+}

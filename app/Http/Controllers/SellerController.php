@@ -18,13 +18,15 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\Refund;
-use App\Models\Shop;
 use App\Models\User;
+use App\Models\Shop;
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SellerController extends Controller
 {
@@ -59,7 +61,7 @@ class SellerController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal melakukan pencairan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal melakukan pencairan: ' . $e->getMessage() . '.');
         }
 
         DB::commit();
@@ -69,18 +71,81 @@ class SellerController extends Controller
 
     function showDashboard() {
         $user = Auth::user();
-        $users = User::where('role', 'user')->get();
         $shop = $user->shop;
 
-        $totalProducts = $shop->products() ? $shop->products()->count() : 0;
-        $activeProducts = $shop->products() ? $shop->products()->where('stok', '>', 0)->count() : 0;
-        $totalOrders = $shop->orderItems() ? $shop->orderItems()->count() : 0;
+        // Statistik Produk
+        $totalProducts = $shop->products()->count();
+        $activeProducts = $shop->products()->where('stok', '>', 0)->count();
+        $inactiveProducts = $shop->products()->where('stok', '=', 0)->count();
 
-        $runningTransactions = $shop->running_transactions; // Saldo yang masih dalam proses (belum bisa dicairkan)
-        $shopBalance = $shop->shop_balance; // Saldo yang sudah bisa dicairkan
+        // Statistik Pesanan
+        $totalOrders = $shop->orderItems()->count();
+        $pendingOrders = $shop->orderItems()->where('status', 'paid')->count();
+        $shippedOrders = $shop->orderItems()->where('status', 'shipped')->count();
+        $completedOrders = $shop->orderItems()->where('status', 'completed')->count();
+        $cancelledOrders = $shop->orderItems()->where('status', 'cancelled')->count();
+
+        // Statistik Keuangan
+        $runningTransactions = $shop->running_transactions; // Saldo dalam proses
+        $shopBalance = $shop->shop_balance; // Saldo yang bisa dicairkan
+
+        // Total penjualan yang sudah selesai
+        $totalRevenue = $shop->orderItems()
+            ->where('status', 'completed')
+            ->sum('subtotal');
+
+        // Statistik Lelang
+        $totalAuctions = Auction::where('seller_id', $user->user_id)->count();
+        $runningAuctions = Auction::where('seller_id', $user->user_id)
+            ->where('status', 'running')
+            ->count();
+        $endedAuctions = Auction::where('seller_id', $user->user_id)
+            ->where('status', 'ended')
+            ->count();
+
+        // Statistik Komplain
+        $totalComplaints = Complaint::where('seller_id', $user->user_id)->count();
+        $waitingComplaints = Complaint::where('seller_id', $user->user_id)
+            ->where('status', 'waiting_seller')
+            ->count();
+        $resolvedComplaints = Complaint::where('seller_id', $user->user_id)
+            ->where('status', 'resolved')
+            ->count();
+
+        // Statistik Rating & Review
+        $totalReviews = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->count();
+
+        $averageRating = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->avg('rating');
+
         $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.seller.dashboard', compact('shop','totalProducts', 'activeProducts', 'totalOrders', 'runningTransactions', 'shopBalance', 'users', 'categories'));
+        return view('pages.seller.dashboard', compact(
+            'shop',
+            'totalProducts',
+            'activeProducts',
+            'inactiveProducts',
+            'totalOrders',
+            'pendingOrders',
+            'shippedOrders',
+            'completedOrders',
+            'cancelledOrders',
+            'runningTransactions',
+            'shopBalance',
+            'totalRevenue',
+            'totalAuctions',
+            'runningAuctions',
+            'endedAuctions',
+            'totalComplaints',
+            'waitingComplaints',
+            'resolvedComplaints',
+            'totalReviews',
+            'averageRating',
+            'categories'
+        ));
     }
 
     public function showComplaints()
@@ -116,7 +181,7 @@ class SellerController extends Controller
             ->firstOrFail();
 
         if ($complaint->response()->exists()) {
-            return redirect()->route('seller.complaints.show', $complaintId)->with('error', 'Anda sudah memberikan tanggapan');
+            return redirect()->route('seller.complaints.show', $complaintId)->with('error', 'Anda sudah memberikan tanggapan.');
         }
 
         $validated = $request->validated();
@@ -158,13 +223,13 @@ class SellerController extends Controller
         $shop = Auth::user()->shop;
 
         if (!$shop) {
-            return redirect()->route('seller.dashboard')->with('error', 'Toko tidak ditemukan');
+            return redirect()->route('seller.dashboard')->with('error', 'Toko tidak ditemukan.');
         }
 
         $newStatus = $shop->status === 'open' ? 'closed' : 'open';
         $shop->update(['status' => $newStatus]);
 
-        $message = $newStatus === 'open'? 'Toko berhasil dibuka!': 'Toko berhasil ditutup!';
+        $message = $newStatus === 'open'? 'Toko berhasil dibuka.': 'Toko berhasil ditutup.';
 
         return redirect()->route('seller.dashboard')->with('success', $message);
     }
@@ -185,7 +250,7 @@ class SellerController extends Controller
             $query->where('product_id', $request->product_id);
         }
 
-                $ratingStats = [];
+        $ratingStats = [];
         $totalReviews = 0;
 
         for ($i = 5; $i >= 1; $i--) {
@@ -204,6 +269,10 @@ class SellerController extends Controller
         foreach ($ratingStats as $rating => $count) {
             $ratingPercentages[$rating] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
         }
+
+        $averageRating = ProductComment::whereHas('product', function($q) use ($shop) {
+            $q->where('shop_id', $shop->shop_id);
+        })->avg('rating');
 
         $comments = $query->latest('created_at')->paginate(20);
 
@@ -228,7 +297,7 @@ class SellerController extends Controller
             ]);
         }
 
-        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution', 'ratingStats', 'ratingPercentages'));
+        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution', 'ratingStats', 'ratingPercentages', 'averageRating'));
     }
 
     function showIncomingOrders(Request $req)
@@ -289,7 +358,7 @@ class SellerController extends Controller
         $shop = $orderItem->shop;
         $shop->increment('running_transactions', $orderItem->subtotal);
 
-        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan berhasil dikirim!');
+        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan berhasil dikirim.');
 
     }
 
@@ -309,7 +378,7 @@ class SellerController extends Controller
 
         Shop::find($orderItem->shop_id)->decrement('running_transactions', $orderItem->subtotal);
 
-        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan!');
+        return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan.');
 
     }
 
@@ -415,7 +484,7 @@ class SellerController extends Controller
             'rating' => 0,
         ]);
 
-        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil ditambahkan!');
+        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -453,7 +522,7 @@ class SellerController extends Controller
             }
         }
 
-        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil diupdate!');
+        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil diupdate.');
     }
 
     public function restore($id)
@@ -484,7 +553,7 @@ class SellerController extends Controller
 
         $product->restore();
 
-        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dikembalikan!');
+        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dikembalikan.');
     }
 
     public function destroy($id)
@@ -509,7 +578,7 @@ class SellerController extends Controller
         CartItem::where('product_id', $product->product_id)->delete();
         $product->delete();
 
-        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dihapus!');
+        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dihapus.');
     }
 
     public function createAuction(InsertAuctionRequest $req)
@@ -555,7 +624,7 @@ class SellerController extends Controller
 
         DB::commit();
 
-        return redirect()->route('seller.auctions.index')->with('success', 'Lelang berhasil dibuat!');
+        return redirect()->route('seller.auctions.index')->with('success', 'Lelang berhasil dibuat.');
     }
 
     public function getCategoriesByGame($gameId)
@@ -565,4 +634,121 @@ class SellerController extends Controller
         return response()->json($categories);
     }
 
+    public function showTransactionReport()
+    {
+        $shop = Auth::user()->shop;
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.seller.transaction_report', compact('shop', 'categories'));
+    }
+
+    public function generateTransactionReport(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'nullable|in:all,paid,shipped,completed,cancelled'
+        ]);
+
+        $shop = Auth::user()->shop;
+
+        $query = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product']);
+
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $orderItems = $query->orderBy('paid_at', 'desc')->get();
+
+        // Statistik
+        $totalTransactions = $orderItems->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('pages.seller.transaction_report', compact(
+            'shop',
+            'categories',
+            'orderItems',
+            'totalTransactions',
+            'totalRevenue',
+            'totalPending',
+            'totalCancelled',
+            'request'
+        ));
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'nullable|in:all,paid,shipped,completed,cancelled'
+        ]);
+
+        $data = $this->getReportData($request);
+
+        $pdf = Pdf::loadView('pages.seller.report.pdf', $data)
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->download('laporan-transaksi-' . date('Y-m-d') . '.pdf');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'nullable|in:all,paid,shipped,completed,cancelled'
+        ]);
+
+        $data = $this->getReportData($request);
+
+        return Excel::download(
+            new \App\Exports\TransactionReportExport($data['orderItems']),
+            'laporan-transaksi-' . date('Y-m-d') . '.xlsx'
+        );
+    }
+
+    private function getReportData(Request $request)
+    {
+        $shop = Auth::user()->shop;
+
+        $query = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product']);
+
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $orderItems = $query->orderBy('paid_at', 'desc')->get();
+
+        $totalTransactions = $orderItems->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        return [
+            'orderItems' => $orderItems,
+            'totalRevenue' => $totalRevenue,
+            'totalTransactions' => $totalTransactions,
+            'totalPending' => $totalPending,
+            'totalCancelled' => $totalCancelled,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+            'shop' => $shop
+        ];
+    }
 }

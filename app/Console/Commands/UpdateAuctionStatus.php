@@ -106,6 +106,14 @@ class UpdateAuctionStatus extends Command
 
         } catch (\Throwable $e) {
             DB::rollBack();
+
+            // \Log::error('Auction Update Transaction Failed', [
+            //     'message' => $e->getMessage(),
+            //     'file' => $e->getFile(),
+            //     'line' => $e->getLine(),
+            //     'trace' => $e->getTraceAsString(),
+            // ]);
+
             $this->error('Error updating auction status: ' . $e->getMessage());
         }
 

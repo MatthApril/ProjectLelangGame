@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('email')->unique();
             $table->enum('role', ['admin', 'seller', 'user']);
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('bank_account_number');
             $table->string('password');
             $table->integer('balance')->default(0);
             $table->rememberToken();

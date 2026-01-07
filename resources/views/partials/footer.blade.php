@@ -1,4 +1,4 @@
-<footer class="my-4">
+<footer class="my-4 no-print">
     <div class="container">
         <hr>
         <div class="row">
