@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-md-5 text-center my-2">
                             @if ($complaint->orderItem->product->product_img)
-                                <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt=""
+                                <img src="{{ asset('storage/products/' . $complaint->orderItem->product->product_img) }}" alt=""
                                     class="img-fluid rounded shadow" style="width: 100%">
                             @endif
                         </div>
@@ -75,7 +75,7 @@
 
                                         <div>
                                             @if ($complaint->orderItem->product->shop->shop_img)
-                                                <img src="{{ asset('storage/' . $complaint->orderItem->product->shop->shop_img) }}"
+                                                <img src="{{ asset('storage/shops/' . $complaint->orderItem->product->shop->shop_img) }}"
                                                     alt="" class="shop-avatar">
                                             @else
                                                 <i class="bi bi-person-circle fs-1"></i>
@@ -120,12 +120,12 @@
                     </div>
                     <label>Bukti Foto : </label>
                     <div>
-                        <a href="{{ asset('storage/' . $complaint->proof_img) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <a href="{{ asset('storage/complaints/' . $complaint->proof_img) }}" target="_blank" class="btn btn-outline-primary btn-sm">
                             <i class="bi bi-card-image"></i> Lihat Bukti Pembeli
                         </a>
                     </div>
                     {{-- <div>
-                        <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
+                        <img src="{{ asset('storage/complaints/' . $complaint->proof_img) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
                         <p><i>Klik Gambar Untuk Memperbesar.</i></p>
                     </div> --}}
                     @if($complaint->status === 'waiting_seller' && !$complaint->response()->exists())
@@ -180,11 +180,11 @@
                             @if($complaint->response->attachment)
                                 <label>Bukti Foto :</label>
                                 {{-- <div>
-                                    <img src="{{ asset('storage/' . $complaint->response->attachment) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
+                                    <img src="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" alt="" onclick="window.open(this.src, '_blank')" class="img-fluid rounded shadow" width="400">
                                     <p><i>Klik Gambar Untuk Memperbesar.</i></p>
                                 </div> --}}
                                 <div>
-                                    <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    <a href="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" target="_blank" class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-card-image"></i> Lihat Bukti Saya
                                     </a>
                                 </div>
@@ -265,7 +265,7 @@
                         </div>
                     @endif
                 </div>
-{{-- 
+{{--
     <div>
         @if($complaint->decision)
             <span>
@@ -284,7 +284,7 @@
             <tr>
                 <td>
                     @if($complaint->orderItem->product->product_img)
-                        <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt="" width="100" height="100" class="img-fluid">
+                        <img src="{{ asset('storage/products/' . $complaint->orderItem->product->product_img) }}" alt="" width="100" height="100" class="img-fluid">
                     @endif
                 </td>
                 <td>
@@ -292,7 +292,7 @@
                     <p><strong>Buyer:</strong> {{ $complaint->buyer->username }}</p>
                     <p><strong>Jumlah:</strong> {{ $complaint->orderItem->quantity }}</p>
                     <p><strong>Total:</strong> Rp {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</p>
-                    <p><strong>Status Order:</strong> 
+                    <p><strong>Status Order:</strong>
                         @if($complaint->orderItem->status === 'cancelled')
                             Dibatalkan (Refund)
                         @else
@@ -309,9 +309,9 @@
         <p><strong>Tanggal:</strong> {{ $complaint->created_at->format('d M Y H:i') }}</p>
         <p><strong>Deskripsi Masalah:</strong></p>
         <div>{{ $complaint->description }}</div>
-        
+
         <p><strong>Bukti Foto dari Buyer:</strong></p>
-        <img src="{{ asset('storage/' . $complaint->proof_img) }}"alt="Bukti"onclick="window.open(this.src, '_blank')">
+        <img src="{{ asset('storage/complaints/' . $complaint->proof_img) }}"alt="Bukti"onclick="window.open(this.src, '_blank')">
         <br><small>Klik gambar untuk memperbesar</small>
     </div>
 
@@ -362,10 +362,10 @@
             <p><strong>Tanggal Dikirim:</strong> {{ $complaint->response->created_at->format('d M Y H:i') }}</p>
             <p><strong>Pembelaan:</strong></p>
             <div>{{ $complaint->response->message }}</div>
-            
+
             @if($complaint->response->attachment)
                 <p><strong>Lampiran:</strong></p>
-                <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank">
+                <a href="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" target="_blank">
                     📎 Lihat Lampiran
                 </a>
             @endif

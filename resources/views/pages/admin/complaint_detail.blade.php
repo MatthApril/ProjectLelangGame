@@ -44,7 +44,7 @@
                 <tr>
                     <td>
                         @if ($complaint->orderItem->product->product_img)
-                            <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt=""
+                            <img src="{{ asset('storage/products/' . $complaint->orderItem->product->product_img) }}" alt=""
                                 width="100" height="100">
                         @endif
                     </td>
@@ -71,7 +71,7 @@
             <div>{{ $complaint->description }}</div>
 
             <p><strong>Bukti Foto:</strong></p>
-            <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="Bukti Buyer"
+            <img src="{{ asset('storage/complaints/' . $complaint->proof_img) }}" alt="Bukti Buyer"
                 onclick="window.open(this.src, '_blank')">
             <br><small>Klik gambar untuk memperbesar</small>
         </div>
@@ -90,11 +90,11 @@
                     @endphp
 
                     @if (in_array($ext, ['jpg', 'jpeg', 'png']))
-                        <img src="{{ asset('storage/' . $complaint->response->attachment) }}" alt="Lampiran Seller"
+                        <img src="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" alt="Lampiran Seller"
                             onclick="window.open(this.src, '_blank')">
                         <br><small>Klik gambar untuk memperbesar</small>
                     @else
-                        <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank">
+                        <a href="{{ asset('storage/complaints/' . $complaint->response->attachment) }}" target="_blank">
                             📎 Lihat Lampiran PDF
                         </a>
                     @endif

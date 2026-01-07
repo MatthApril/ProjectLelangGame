@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3 text-center my-2">
-                                    <img src="{{ asset('storage/' . $item->product->product_img) }}"
+                                    <img src="{{ asset('storage/products/' . $item->product->product_img) }}"
                                         alt="" width="300" class="img-fluid rounded shadow">
                                 </div>
                                 <div class="col-md-9 my-2">
@@ -56,7 +56,7 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div>
                                                     @if ($item->product->shop->shop_img)
-                                                        <img src="{{ asset('storage/' . $item->product->shop->shop_img) }}"
+                                                        <img src="{{ asset('storage/shops/' . $item->product->shop->shop_img) }}"
                                                             alt="" class="shop-avatar">
                                                     @else
                                                         <i class="bi bi-person-circle fs-1"></i>
@@ -128,7 +128,7 @@
                                                             <i class="bi bi-check-lg"></i> Konfirmasi Terima
                                                         </button>
                                                     </form>
-        
+
                                                     <a href="{{ route('user.complaints.create', $item->order_item_id) }}"
                                                         class="btn btn-danger btn-sm">
                                                         <i class="bi bi-x-lg"></i> Ajukan Komplain

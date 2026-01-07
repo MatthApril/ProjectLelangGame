@@ -26,7 +26,7 @@
         <div class="col-md-2 mt-4">
             <div class="card">
                 @if($game->game_img)
-                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="" class="card-img-top">
+                    <img src="{{ asset('storage/games/' . $game->game_img) }}" alt="" class="card-img-top">
                 @endif
                 <div class="card-body">
                     <h6 class="card-title fw-semibold">{{ $game->game_name }}</h6>

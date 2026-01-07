@@ -15,10 +15,10 @@
             <div class="row d-flex align-items-center">
                 <div class="col-md-4 text-center">
                     @if($game->game_img)
-                        <img src="{{ asset('storage/' . $game->game_img) }}" alt="" width="300" class="img-fluid">
+                        <img src="{{ asset('storage/games/' . $game->game_img) }}" alt="" width="300" class="img-fluid">
                     @endif
                 </div>
-                
+
                 <div class="col-md-8">
                 <h2 class="fw-semibold">Game {{ $game->game_name }}</h2>
                 @if($categories->count() > 0)
@@ -89,9 +89,9 @@
         <div class="col-md-3 mt-2">
                 <div class="card">
                     @if($product->product_img)
-                        <img 
-                            src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="" 
+                        <img
+                            src="{{ asset('storage/products/' . $product->product_img) }}"
+                            alt=""
                             class="card-img-top product-img-16x9"
                         >
                     @endif

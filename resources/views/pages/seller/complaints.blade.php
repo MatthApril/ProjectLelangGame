@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-5 text-center my-2">
                             @if ($complaint->orderItem->product->product_img)
-                                <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt=""
+                                <img src="{{ asset('storage/products/' . $complaint->orderItem->product->product_img) }}" alt=""
                                     class="img-fluid rounded shadow" style="width: 100%">
                             @endif
                         </div>
@@ -64,7 +64,7 @@
 
                                         <div>
                                             @if ($complaint->orderItem->product->shop->shop_img)
-                                                <img src="{{ asset('storage/' . $complaint->orderItem->product->shop->shop_img) }}"
+                                                <img src="{{ asset('storage/shops/' . $complaint->orderItem->product->shop->shop_img) }}"
                                                     alt="" class="shop-avatar">
                                             @else
                                                 <i class="bi bi-person-circle fs-1"></i>
@@ -146,7 +146,7 @@
                 <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>
                 <td>
                     @if($complaint->orderItem->product->product_img)
-                        <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}"  width="50" alt="" class="img-fluid">
+                        <img src="{{ asset('storage/products/' . $complaint->orderItem->product->product_img) }}"  width="50" alt="" class="img-fluid">
                     @endif
                     {{ $complaint->orderItem->product->product_name }}
                 </td>

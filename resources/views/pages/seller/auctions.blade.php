@@ -52,7 +52,7 @@
                             <div class="position-relative auction-img-container">
                                 @if ($auction->product && $auction->product->product_img)
                                     <img
-                                        src="{{ asset('storage/' . $auction->product->product_img) }}"
+                                        src="{{ asset('storage/products/' . $auction->product->product_img) }}"
                                         class="auction-img border-top rounded"
                                         alt="{{ $auction->product->product_name }}">
                                 @else

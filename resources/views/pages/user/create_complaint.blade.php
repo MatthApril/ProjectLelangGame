@@ -41,7 +41,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3 text-center my-2">
-                                    <img src="{{ asset('storage/' . $orderItem->product->product_img) }}"
+                                    <img src="{{ asset('storage/products/' . $orderItem->product->product_img) }}"
                                         alt="" width="300" class="img-fluid rounded shadow">
                                 </div>
                                 <div class="col-md-9 my-2">
@@ -55,7 +55,7 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div>
                                                     @if ($orderItem->product->shop->shop_img)
-                                                        <img src="{{ asset('storage/' . $orderItem->product->shop->shop_img) }}"
+                                                        <img src="{{ asset('storage/shops/' . $orderItem->product->shop->shop_img) }}"
                                                             alt="" class="shop-avatar">
                                                     @else
                                                         <i class="bi bi-person-circle fs-1"></i>
@@ -102,13 +102,13 @@
                     <textarea name="description" rows="5" maxlength="1000" placeholder="Jelaskan Masalah Yang Anda Alami Dengan Detail (Minimal 20 Karakter)" class="form-control" required>{{ old('description') }}</textarea>
                     <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></p>
                 </div>
-                
+
                 <div>
                     <label>Bukti Foto *</label>
                     <input type="file" name="proof_img" accept="image/jpeg,image/png,image/jpg" class="form-control" required>
                     <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></p>
                 </div>
-                
+
                 <div>
                     <strong>
                         <i class="bi bi-exclamation-triangle-fill"></i> Perhatian:

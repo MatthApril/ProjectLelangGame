@@ -21,7 +21,7 @@
             <div class="col-md-4 d-flex align-items-start gap-3 mt-3">
                 @if ($shop->shop_img)
                     <div>
-                        <img src="{{ asset('storage/' . $shop->shop_img) }}" alt="" width="150"
+                        <img src="{{ asset('storage/shops/' . $shop->shop_img) }}" alt="" width="150"
                             class="img-fluid shop-avatar">
                     </div>
                 @endif
@@ -109,10 +109,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
-    <form method="GET" action="{{ route('shops.detail', $shop->shop_id) }}">
+        <hr>
+        <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
+        <form method="GET" action="{{ route('shops.detail', $shop->shop_id) }}">
         <div class="row">
             <div class="col-md-4 mt-3">
                 <label>Game :</label>
@@ -198,7 +197,7 @@
                     <div class="card h-100">
                         <div class="position-relative">
                             @if($item->product && $item->product->product_img)
-                                <img src="{{ asset('storage/' . $item->product->product_img) }}"
+                                <img src="{{ asset('storage/products/' . $item->product->product_img) }}"
                                     class="card-img-top product-img-16x9"
                                     alt="{{ $item->product->product_name }}">
                             @else
@@ -236,7 +235,7 @@
                             @endif
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="fw-bold">{{ $item->product->product_name }}</h5>
+                            <h5 class="fw-bold text-truncate">{{ $item->product->product_name }}</h5>
                             <h5 class="text-primary fw-semibold">Rp{{ number_format($item->current_price, 0, ',', '.') }}</h5>
                             <p class="text-secondary">
                                 <i class="bi bi-grid"></i> Kategori : {{ $item->product->category->category_name ?? '-' }} <br>
@@ -271,13 +270,13 @@
                         @if ($item->type === 'normal')
                             @if($item->product_img)
                                 <img
-                                    src="{{ asset('storage/' . $item->product_img) }}"
+                                    src="{{ asset('storage/products/' . $item->product_img) }}"
                                     alt="{{ $item->product_name }}"
                                     class="card-img-top product-img-16x9"
                                 >
                             @endif
                             <div class="card-body d-flex flex-column">
-                                <h5 class="fw-bold">{{ $item->product_name }}</h5>
+                                <h5 class="fw-bold text-truncate">{{ $item->product_name }}</h5>
                                 <h5 class="text-primary fw-semibold">Rp{{ number_format($item->price, 0, ',', '.') }}</h5>
                                 <p class="text-secondary">
                                     <i class="bi bi-grid"></i> Kategori : {{ $item->category->category_name }} <br>
@@ -298,7 +297,7 @@
                         @else
                             @if($item->product_img)
                                 <img
-                                    src="{{ asset('storage/' . $item->product_img) }}"
+                                    src="{{ asset('storage/products/' . $item->product_img) }}"
                                     alt="{{ $item->product_name }}"
                                     class="card-img-top product-img-16x9"
                                 >
@@ -319,7 +318,7 @@
                     <div>
                         <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
                     </div>
-                @endif
+                </div>
             @else
                 <div class="text-center">
                     <div>
@@ -344,7 +343,7 @@
             </div>
         @endauth
     @endif
-</div>
+    </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

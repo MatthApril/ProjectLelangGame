@@ -77,7 +77,7 @@
                 <div class="card">
                     @if($product->product_img)
                         <img
-                            src="{{ asset('storage/' . $product->product_img) }}"
+                            src="{{ asset('storage/products/' . $product->product_img) }}"
                             alt="{{ $product->product_name }}"
                             class="card-img-top product-img-16x9"
                         >

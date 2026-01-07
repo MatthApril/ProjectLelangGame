@@ -62,7 +62,7 @@
                 <div class="card-body p-4">
                     <div class="position-relative">
                         @if($auction->product && $auction->product->product_img)
-                            <img src="{{ asset('storage/' . $auction->product->product_img) }}"
+                            <img src="{{ asset('storage/products/' . $auction->product->product_img) }}"
                                  alt="{{ $auction->product->product_name }}"
                                  class="img-fluid rounded w-100"
                                  style="height: 350px; object-fit: cover;">
@@ -99,6 +99,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
         {{-- Right Column: Auction Details --}}
         <div class="col-lg-7">
@@ -167,7 +168,7 @@
                     @endif
 
                     {{-- Action Zone (Dynamic based on status) --}}
-                    <div class="border-top pt-4">
+                    <div>
                         @if($auction->status == 'pending')
                             <div class="alert alert-secondary d-flex align-items-center mb-0">
                                 <i class="bi bi-hourglass-split fs-4 me-3"></i>
@@ -176,52 +177,15 @@
                                     <small class="text-muted">Pada {{ $auction->start_time->format('d M Y, H:i') }} WIB</small>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="bg-primary bg-opacity-10 rounded-3 p-3 text-center border border-primary">
-                                    <p class="text-primary small mb-1 fw-semibold">Tawaran Tertinggi</p>
-                                    <h5 class="fw-bold text-primary mb-0">
-                                        Rp {{ number_format($auction->current_price, 0, ',', '.') }}
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Highest Bidder Info --}}
-                        @if ($auction->highestBid)
-                            <div class="d-flex align-items-center bg-light rounded-3 p-3 mb-4">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                    style="width: 45px; height: 45px;">
-                                    <i class="bi bi-person-fill text-white fs-5"></i>
-                                </div>
+                        @elseif($auction->status == 'running')
+                            <div class="alert alert-primary d-flex align-items-center mb-0">
+                                <i class="bi bi-broadcast fs-4 me-3"></i>
                                 <div>
-                                    <small class="text-muted">Penawar Tertinggi</small>
-                                    <p class="fw-semibold mb-0">{{ $auction->highestBid->user->username ?? 'Anonim' }}</p>
-                                </div>
-                                <div class="ms-auto text-end">
-                                    <small class="text-muted">Waktu Tawaran</small>
-                                    <p class="fw-semibold mb-0 small">
-                                        {{ $auction->highestBid->created_at->format('d M Y, H:i') }}</p>
+                                    <p class="mb-0 fw-semibold">Lelang Sedang Berlangsung</p>
+                                    <small class="text-muted">Pasang tawaran Anda di bawah sebelum waktu habis!</small>
                                 </div>
                             </div>
-                        @else
-                            <div class="alert alert-light border text-center mb-4">
-                                <i class="bi bi-info-circle me-1"></i> Belum ada penawaran
-                            </div>
-                        @endif
-
-                        {{-- Action Zone (Dynamic based on status) --}}
-                        <div class="border-top pt-4">
-                            @if ($auction->status == 'pending')
-                                <div class="alert alert-secondary d-flex align-items-center mb-0">
-                                    <i class="bi bi-hourglass-split fs-4 me-3"></i>
-                                    <div>
-                                        <p class="mb-0 fw-semibold">Lelang Akan Dimulai</p>
-                                        <small class="text-muted">Pada {{ $auction->start_time->format('d M Y, H:i') }}
-                                            WIB</small>
-                                    </div>
-                                </div>
-                            </div>
-
+                        @elseif($auction->status == 'ended')
                             @if($auction->winner)
                                 <div class="card bg-light border-success">
                                     <div class="card-body">
@@ -254,20 +218,6 @@
                                     Tidak ada pemenang (tidak ada penawaran)
                                 </div>
                             @endif
-                        </div>
-
-                        {{-- Auction Time Info --}}
-                        <div class="border-top pt-4 mt-4">
-                            <div class="row g-2 small text-muted">
-                                <div class="col-6">
-                                    <i class="bi bi-calendar-event me-1"></i> Mulai:
-                                    {{ $auction->start_time->format('d M Y, H:i') }}
-                                </div>
-                                <div class="col-6 text-end">
-                                    <i class="bi bi-calendar-check me-1"></i> Selesai:
-                                    {{ $auction->end_time->format('d M Y, H:i') }}
-                                </div>
-                            </div>
                         @endif
                     </div>
 
@@ -285,6 +235,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
     {{-- Bidding Form Section (Full Width - Only when running) --}}
     @auth
@@ -309,6 +260,7 @@
                                     Rp {{ number_format(($auction->current_price ?? 0) + 1000, 0, ',', '.') }}
                                 </h3>
                             </div>
+                        </div>
 
                         {{-- Right: Bid Controls --}}
                         <div class="col-md-8">

@@ -51,7 +51,7 @@
                 <div class="card-body p-4">
                     <div class="position-relative">
                         @if($auction->product && $auction->product->product_img)
-                            <img src="{{ asset('storage/' . $auction->product->product_img) }}"
+                            <img src="{{ asset('storage/products/' . $auction->product->product_img) }}"
                                  alt="{{ $auction->product->product_name }}"
                                  class="img-fluid rounded w-100"
                                  style="height: 350px; object-fit: cover;">
