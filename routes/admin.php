@@ -50,6 +50,16 @@ Route::prefix('admin')->as('admin.')
             Route::get('/cancelled-orders/{orderItemId}', 'showCancelledOrderDetail')->name('cancelled_orders.show');
             Route::post('/cancelled-orders/{orderItemId}/mark-refunded', 'markAsRefunded')->name('cancelled_orders.mark_refunded');
             Route::post('/cancelled-orders/{orderItemId}/undo-refunded', 'undoRefunded')->name('cancelled_orders.undo_refunded');
+            
+            Route::get('/transaction-report-seller', 'showSellerTransactionReport')->name('transaction-report-seller.index');
+            Route::get('/transaction-report-seller/generate', 'generateSellerTransactionReport')->name('transaction-report-seller.generate');
+            Route::get('/transaction-report-seller/pdf', 'exportSellerPdf')->name('transaction-report-seller.pdf');
+            Route::get('/transaction-report-seller/excel', 'exportSellerExcel')->name('transaction-report-seller.excel');
+
+            Route::get('/income-report', 'showIncomeReport')->name('income-report.index');
+            Route::get('/income-report/generate', 'generateIncomeReport')->name('income-report.generate');
+            Route::get('/income-report/pdf', 'exportIncomePdf')->name('income-report.pdf');
+            Route::get('/income-report/excel', 'exportIncomeExcel')->name('income-report.excel');
         });
 
         Route::controller(ChatController::class)->group(function() {

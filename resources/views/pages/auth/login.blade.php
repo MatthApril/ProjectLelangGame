@@ -38,7 +38,7 @@
                             <div class="input-group flex-nowrap mb-3">
                                 <span class="input-group-text" id="addon-wrapping"><i
                                         class="bi bi-envelope-at-fill"></i></span>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Alamat Email"
                                     autocomplete="off" value="{{ old('email') }}" required>
                             </div>
                             <label>Password : </label>

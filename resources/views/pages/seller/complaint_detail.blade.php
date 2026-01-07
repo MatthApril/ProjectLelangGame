@@ -161,7 +161,7 @@
                             <div class="mt-3">
                                 <label>Lampiran Pendukung (Opsional)</label>
                                 <input type="file" name="attachment" accept="image/jpeg,image/png,image/jpg,application/pdf" class="form-control">
-                                <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></p>
+                                <i>Format: JPG, PNG, JPEG | Maksimal 2MB</i>
                             </div>
 
                             <button type="submit" onclick="return confirm('Pastikan tanggapan Anda sudah benar. Kirim tanggapan?')" class="btn btn-success float-end">

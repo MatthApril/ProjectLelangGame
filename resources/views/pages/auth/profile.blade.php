@@ -42,6 +42,11 @@
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bag"></i>
                             Kelola Toko</a>
                     </div>
+                    <div class="ms-3">
+                        <a href="{{ route('seller.withdraws.index') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-bank2"></i>
+                            Penarikan Saldo</a>
+                    </div>
                     <hr>
                 @endif
                 @if ($user->role != 'admin')
@@ -116,9 +121,10 @@
                         <form action="{{ route('change-bank-account-number') }}" method="post">
                             @csrf
                             <label>Nomor Rekening</label>
-                            <input type="text" name="bank_account_number" id="bank_account_number"
+                            <input type="number" name="bank_account_number" id="bank_account_number"
                                 value="{{ $user->bank_account_number }}" class="form-control"
                                 placeholder="Nomor Rekening Baru" required>
+                            <i>Wajib Nomor Rekening <strong>Bank BCA</strong> Untuk Pencairan Dana</i>
                             <div class="text-end">
                                 <button type="submit" class="btn btn-outline-dark my-3"><i
                                         class="bi bi-floppy-fill"></i>

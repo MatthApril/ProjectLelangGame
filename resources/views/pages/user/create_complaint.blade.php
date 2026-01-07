@@ -106,7 +106,7 @@
                 <div>
                     <label>Bukti Foto *</label>
                     <input type="file" name="proof_img" accept="image/jpeg,image/png,image/jpg" class="form-control" required>
-                    <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></p>
+                    <i>Format: JPG, PNG, JPEG | Maksimal 2MB</i>
                 </div>
                 
                 <div>
