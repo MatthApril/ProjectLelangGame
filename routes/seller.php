@@ -35,7 +35,11 @@ Route::prefix('seller')->as('seller.')
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');
             Route::post('/complaints/{complaintId}/respond', 'respondComplaint')->name('complaints.respond');
 
-            Route::get('/transaction-report', [SellerController::class, 'showTransactionReport'])->name('transaction-report.index');
-            Route::get('/transaction-report/generate', [SellerController::class, 'generateTransactionReport'])->name('transaction-report.generate');
+            // Route::get('/transaction-report', [SellerController::class, 'showTransactionReport'])->name('transaction-report.index');
+            // Route::get('/transaction-report/generate', [SellerController::class, 'generateTransactionReport'])->name('transaction-report.generate');
+            Route::get('/transaction-report', 'showTransactionReport')->name('transaction-report.index');
+            Route::get('/transaction-report/generate', 'generateTransactionReport')->name('transaction-report.generate');
+            Route::get('/transaction-report/pdf', 'exportPdf')->name('transaction-report.pdf');
+            Route::get('/transaction-report/excel', 'exportExcel')->name('transaction-report.excel');
         });
 });

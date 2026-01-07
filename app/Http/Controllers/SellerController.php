@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SellerController extends Controller
 {
@@ -625,11 +627,7 @@ class SellerController extends Controller
         $shop = Auth::user()->shop;
         $categories = Category::orderBy('category_name')->get();
 
-        // Data untuk filter
-        $currentMonth = now()->format('Y-m');
-        $currentYear = now()->format('Y');
-
-        return view('pages.seller.transaction_report', compact('shop', 'categories', 'currentMonth', 'currentYear'));
+        return view('pages.seller.transaction_report', compact('shop', 'categories'));
     }
 
     public function generateTransactionReport(Request $request)
@@ -643,7 +641,10 @@ class SellerController extends Controller
         $shop = Auth::user()->shop;
         
         $query = OrderItem::where('shop_id', $shop->shop_id)
-            ->whereBetween('paid_at', [$request->start_date, $request->end_date])
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
             ->with(['order.account', 'product']);
 
         if ($request->status && $request->status !== 'all') {
@@ -672,4 +673,70 @@ class SellerController extends Controller
         ));
     }
 
+    public function exportPdf(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'nullable|in:all,paid,shipped,completed,cancelled'
+        ]);
+
+        $data = $this->getReportData($request);
+
+        $pdf = Pdf::loadView('pages.seller.report.pdf', $data)
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->download('laporan-transaksi-' . date('Y-m-d') . '.pdf');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'nullable|in:all,paid,shipped,completed,cancelled'
+        ]);
+
+        $data = $this->getReportData($request);
+
+        return Excel::download(
+            new \App\Exports\TransactionReportExport($data['orderItems']),
+            'laporan-transaksi-' . date('Y-m-d') . '.xlsx'
+        );
+    }
+
+    private function getReportData(Request $request)
+    {
+        $shop = Auth::user()->shop;
+        
+        $query = OrderItem::where('shop_id', $shop->shop_id)
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->with(['order.account', 'product']);
+
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $orderItems = $query->orderBy('paid_at', 'desc')->get();
+
+        $totalTransactions = $orderItems->count();
+        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
+        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
+        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+
+        return [
+            'orderItems' => $orderItems,
+            'totalRevenue' => $totalRevenue,
+            'totalTransactions' => $totalTransactions,
+            'totalPending' => $totalPending,
+            'totalCancelled' => $totalCancelled,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+            'shop' => $shop
+        ];
+    }
 }

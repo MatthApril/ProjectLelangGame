@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="no-print">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
@@ -17,7 +17,7 @@
         <hr>
 
         {{-- Filter Form --}}
-        <div class="card mb-4">
+        <div class="card mb-4 no-print">
             <div class="card-body">
                 <form action="{{ route('seller.transaction-report.generate') }}" method="GET">
                     <div class="row">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-funnel"></i> Filter
+                            <i class="bi bi-funnel"></i> Generate Laporan
                         </button>
                         <a href="{{ route('seller.transaction-report.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-arrow-clockwise"></i> Reset
@@ -53,14 +53,25 @@
                 </form>
             </div>
         </div>
-        <button onclick="window.print()" class="btn btn-success">
-            <i class="bi bi-printer"></i> Cetak Laporan
-        </button>
-        <hr>
+
         @if(isset($orderItems))
+            <div class="mb-2 d-flex gap-2 no-print flex-wrap">
+                <button onclick="window.print()" class="btn btn-secondary text-nowrap">
+                    <i class="bi bi-printer"></i> Cetak
+                </button>
+
+                <a href="{{ route('seller.transaction-report.pdf', request()->all()) }}" class="btn btn-danger text-nowrap">
+                    <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                </a>
+
+                <a href="{{ route('seller.transaction-report.excel', request()->all()) }}" class="btn btn-success text-nowrap">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel
+                </a>
+            </div>
+
             {{-- Statistik --}}
-            <div class="row mb-4">
-                <div class="col-md-3">
+            <div class="row mb-4 no-print">
+                <div class="col-md-3 mt-2">
                     <div class="card">
                         <div class="card-body">
                             <h6 class="text-muted">Total Transaksi</h6>
@@ -68,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card">
                         <div class="card-body">
                             <h6 class="text-muted">Total Pendapatan</h6>
@@ -76,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card">
                         <div class="card-body">
                             <h6 class="text-muted">Dalam Proses</h6>
@@ -84,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card">
                         <div class="card-body">
                             <h6 class="text-muted">Dibatalkan</h6>
@@ -95,13 +106,10 @@
             </div>
 
             {{-- Tabel Transaksi --}}
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered text-center">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>No</th>
                                     <th>Tanggal</th>
                                     <th>Order ID</th>
                                     <th>Pembeli</th>
@@ -114,8 +122,7 @@
                             <tbody>
                                 @forelse($orderItems as $index => $item)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $item->paid_at->format('d/m/Y H:i') }}</td>
+                                        <td>{{ $item->paid_at ? $item->paid_at->format('d/m/Y H:i') : '-' }}</td>
                                         <td>{{ $item->order_id }}</td>
                                         <td>{{ $item->order->account->username }}</td>
                                         <td>{{ $item->product->product_name ?? 'Produk Dihapus' }}</td>
@@ -123,25 +130,24 @@
                                         <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
                                         <td>
                                             @if($item->status == 'paid')
-                                                <span class="badge bg-warning">Dibayar</span>
+                                                <span>Dibayar</span>
                                             @elseif($item->status == 'shipped')
-                                                <span class="badge bg-info">Dikirim</span>
+                                                <span>Dikirim</span>
                                             @elseif($item->status == 'completed')
-                                                <span class="badge bg-success">Selesai</span>
+                                                <span>Selesai</span>
                                             @elseif($item->status == 'cancelled')
-                                                <span class="badge bg-danger">Dibatalkan</span>
+                                                <span>Dibatalkan</span>
                                             @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">Tidak ada data transaksi</td>
+                                        <td colspan="8" class="text-center">Tidak ada data transaksi untuk periode yang dipilih</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
-                    </div>
-                </div>
+
             </div>
         @else
             <div class="alert alert-info">
@@ -149,8 +155,4 @@
             </div>
         @endif
     </div>
-    <script>function myFunction() {
-    window.print();
-    }
-    </script>
 @endsection
