@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\CreateComplaintRequest;
 use App\Http\Requests\InputProductCommentRequest;
+use App\Models\AdminSettings;
 use App\Models\Auction;
 use App\Models\AuctionBid;
 use App\Models\AuctionWinner;
@@ -126,7 +127,9 @@ class UserController extends Controller
 
         $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.cart', compact('cartItems', 'categories'));
+        $admin_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
+        return view('pages.user.cart', compact('cartItems', 'categories', 'admin_fee_percentage'));
     }
 
     public function showOrders()

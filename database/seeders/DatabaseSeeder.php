@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             NotificationSeeder::class,
             NotificationLogSeeder::class,
             AuctionSeeder::class,
+            AdminSettingSeeder::class,
         ]);
     }
 }

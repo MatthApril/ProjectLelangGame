@@ -19,6 +19,7 @@ class Order extends Model
         'status',
         'snap_token',
         'expire_payment_at',
+        'admin_fee',
         'total_prices',
     ];
 

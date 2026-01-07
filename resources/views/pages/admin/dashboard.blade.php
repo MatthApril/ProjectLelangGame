@@ -3,8 +3,21 @@
 @section('content')
     <div class="container my-3 text-dark">
         <h5 class="fw-semibold text-dark">Dashboard Admin</h5>
-
         <hr>
+
+        <h6 class="fw-bold">Pengaturan Admin</h6>
+        <form action="{{ route('admin.settings.update') }}" method="post">
+            @csrf
+            @method('PUT')
+            <div class="mb-3">
+                <label for="platform_fee_percentage" class="form-label">Persentase Biaya Admin (%)</label>
+                <input type="number" class="form-control" id="platform_fee_percentage" name="platform_fee_percentage"
+                    value="{{ $admin_settings->platform_fee_percentage ?? 0 }}" min="0" max="100" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
+        </form>
+
+        <br>
 
         <h6 class="fw-bold">Statistik Sistem</h6>
         <div class="table-responsive">
@@ -43,7 +56,7 @@
                 </tr>
             </table>
         </div>
-        
+
         {{-- <h6 class="fw-bold">Menu Manajemen</h6> --}}
         <p>
             {{-- <a href="{{ route('admin.categories.index') }}">Manage Kategori</a> |

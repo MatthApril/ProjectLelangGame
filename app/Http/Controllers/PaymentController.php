@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminSettings;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -151,6 +152,8 @@ class PaymentController extends Controller
             return redirect()->route('user.cart')->with('error', 'Keranjang kosong.');
         }
 
+        $admin_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
         foreach ($cart_items as $item) {
 
             $owner = $item->product->shop->owner;
@@ -181,6 +184,7 @@ class PaymentController extends Controller
                 'status' => 'unpaid',
                 'expire_payment_at' => now()->addHours(1),
                 'total_prices' => 0,
+                'admin_fee' => 0,
             ]);
 
 
@@ -209,7 +213,8 @@ class PaymentController extends Controller
 
             }
 
-            $order->update(['total_prices' => $totalPrice]);
+            $totalPrice += round($totalPrice * ($admin_fee_percentage / 100));
+            $order->update(['total_prices' => $totalPrice, 'admin_fee' => round($totalPrice * ($admin_fee_percentage / 100))]);
             // $product->decrement('stok', $item->quantity);
             // $cart->cartItems()->delete();
 

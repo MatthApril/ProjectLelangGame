@@ -44,6 +44,8 @@ Route::prefix('admin')->as('admin.')
             Route::get('/withdraw', 'showWithdraws')->name('withdraws.index');
             Route::post('/withdraw/{withdrawId}/process', 'processWithdraw')->name('withdraws.process');
 
+            Route::put('/settings', 'updateSettings')->name('settings.update');
+
             Route::get('/cancelled-orders', 'showCancelledOrders')->name('cancelled_orders.index');
             Route::get('/cancelled-orders/{orderItemId}', 'showCancelledOrderDetail')->name('cancelled_orders.show');
             Route::post('/cancelled-orders/{orderItemId}/mark-refunded', 'markAsRefunded')->name('cancelled_orders.mark_refunded');

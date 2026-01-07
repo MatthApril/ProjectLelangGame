@@ -18,6 +18,7 @@ use App\Http\Requests\UpdateTemplateRequest;
 use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
 use App\Mail\AccountBanned;
+use App\Models\AdminSettings;
 use App\Models\CartItem;
 use App\Models\NotificationLog;
 use App\Models\Complaint;
@@ -66,7 +67,26 @@ class AdminController extends Controller
         $totalGames = Game::count();
         $totalRecipients = NotificationLog::sum('recipients_count');
 
-        return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
+        $admin_settings = AdminSettings::first();
+
+        return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients', 'admin_settings'));
+    }
+
+    function updateSettings(Request $req) {
+        $req->validate([
+            'platform_fee_percentage' => 'required|integer|min:0|max:100',
+        ]);
+
+        $admin_settings = AdminSettings::first();
+        if (!$admin_settings) {
+            $admin_settings = new AdminSettings();
+        }
+
+        $admin_settings->update([
+            'platform_fee_percentage' => $req->platform_fee_percentage,
+        ]);
+
+        return redirect()->back()->with('success', 'Pengaturan admin fee berhasil diperbarui.');
     }
 
     public function showCancelledOrders(Request $request)
