@@ -44,7 +44,7 @@ class AuthController extends Controller
         $shop = Auth::user()->shop;
 
         if (!$shop) {
-            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko');
+            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko.');
         }
 
         return view('pages.auth.open_shop', compact('shop'));
@@ -85,7 +85,7 @@ class AuthController extends Controller
             return redirect()->route('user.home');
         }
 
-        return back()->with('error', 'Email Atau Password Salah!');
+        return back()->with('error', 'Email atau password salah. Silakan coba lagi.');
     }
 
     public function doRegister(RegisterRequest $req)
@@ -101,6 +101,7 @@ class AuthController extends Controller
                 'password' => bcrypt($req->password),
                 'email' => $req->email,
                 'role' => 'user',
+                'bank_account_number' => $req->bank_account_number,
                 'balance' => 0
             ]);
 
@@ -108,7 +109,7 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Pendaftaran Gagal. Silakan Coba Lagi.');
+            return back()->with('error', 'Pendaftaran gagal. Silakan coba lagi.');
         }
         DB::commit();
 
@@ -158,7 +159,7 @@ class AuthController extends Controller
             'shop_balance' => 0
         ]);
 
-        return redirect()->route('seller.dashboard')->with('success', 'Toko Berhasil Dibuat!');
+        return redirect()->route('seller.dashboard')->with('success', 'Toko berhasil dibuat.');
     }
 
     function doUpdateShop(UpdateShopRequest $req) {
@@ -167,7 +168,7 @@ class AuthController extends Controller
         $shop = Auth::user()->shop;
 
         if (!$shop) {
-            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko');
+            return redirect()->route('profile')->with('error', 'Anda belum memiliki toko.');
         }
 
         if ($req->hasFile('shop_img')) {
@@ -186,7 +187,7 @@ class AuthController extends Controller
             'close_hour' => $validated['close_hour'],
         ]);
 
-        return redirect()->route('profile')->with('success', 'Toko berhasil diupdate!');
+        return redirect()->route('profile')->with('success', 'Toko berhasil diupdate.');
     }
 
     function changeUsername(ChangeUsernameRequest $req) {
@@ -197,7 +198,7 @@ class AuthController extends Controller
             'username' => $req->username
         ]);
 
-        return back()->with('success', 'Username berhasil diubah');
+        return back()->with('success', 'Username berhasil diubah.');
     }
 
     function changeShopName(ChangeShopNameRequest $req) {
@@ -208,7 +209,7 @@ class AuthController extends Controller
             'shop_name' => $req->shop_name
         ]);
 
-        return back()->with('success', 'Nama Toko berhasil diubah');
+        return back()->with('success', 'Nama Toko berhasil diubah.');
     }
 
 }

@@ -47,11 +47,10 @@
                     </p>
                     <p class="text-secondary"><i class="bi bi-box-seam"></i> Produk Terjual ({{ $totalProductsSold }})</p>
                     @auth
-                        @if (Auth::user()->user_id != $shop->owner_id)
+                        @if (auth()->check() && Auth::user()->user_id != $shop->owner_id)
                             <form action="{{ route('chat.open', $shop->owner->user_id) }}" method="GET">
                                 <div class="d-grid">
-                                    <input type="hidden" name="return_url"
-                                        value="{{ route('shops.detail', $shop->shop_id) }}">
+                                    <input type="hidden" name="return_url" value="{{ route('shops.detail', $shop->shop_id) }}">
                                     <input type="hidden" name="return_label" value="Kembali ke Toko">
                                     <button type="submit" class="btn btn-outline-primary">
                                         <i class="bi bi-chat"></i> Chat Pemilik Toko
@@ -72,7 +71,7 @@
             <div class="col-md-4 mt-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i>
-                        {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
+                        {{ number_format($averageRating ?? 0, 1) }} / 5.0</h5>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -99,6 +98,8 @@
                                         style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                                 </div>
                             @endfor
+                            <hr>
+                            <p class="m-0 text-secondary float-end">Total Ulasan ({{ $totalReviews }})</p>
                         @else
                             <div class="text-center text-secondary">
                                 <i class="bi bi-star" style="font-size: 48px;"></i>
@@ -180,54 +181,8 @@
         <hr>
         @if ($products->count() > 0)
             <div class="row mt-3">
-                @auth
-                    @foreach ($products as $product)
-                        @if (Auth::user()->user_id == $shop->owner_id || $product->stok > 0)
-                            <div class="col-md-3 mt-3">
-                                {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
-                                <div class="card">
-                                    @if ($product->product_img)
-                                        <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
-                                            class="card-img-top product-img-16x9">
-                                    @endif
-                                    <div class="card-body">
-                                        <h5 class="fw-bold">{{ $product->product_name }}</h5>
-                                        <h5 class="text-primary fw-semibold">
-                                            Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
-                                        <p class="text-secondary">
-                                            <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
-                                            <i class="bi bi-controller"></i> Game : {{ $product->game->game_name }}
-                                        </p>
-                                        <div class="d-flex justify-content-between text-secondary">
-                                            <div>
-                                                <i class="bi bi-box-seam"></i> Stok {{ $product->stok }}
-                                            </div>
-                                            <div>
-                                                <i class="bi bi-star"></i> Rating {{ number_format($product->rating, 1) }}
-                                            </div>
-                                        </div>
-                                        <a href="{{ route('products.detail', $product->product_id) }}"
-                                            class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i
-                                                class="bi bi-caret-right-fill"></i></a>
-                                    </div>
-                                </div>
-                                {{-- </a> --}}
-                            </div>
-                        @else
-                            <div class="text-center">
-                                <div>
-                                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                                        class="img-fluid mt-3">
-                                </div>
-                                <div>
-                                    <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                                    <p>Coba ubah filter pencarian Anda.</p>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                @else
-                    @foreach ($products as $product)
+                @foreach ($products as $product)
+                    @if ((auth()->check() && Auth::user()->user_id == $shop->owner_id) || $product->stok > 0)
                         <div class="col-md-3 mt-3">
                             <div class="card">
                                 @if ($product->product_img)
@@ -235,7 +190,9 @@
                                         class="card-img-top product-img-16x9">
                                 @endif
                                 <div class="card-body">
-                                    <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
+                                    <h5 class="fw-bold">
+                                        {{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}
+                                    </h5>
                                     <h5 class="text-primary fw-semibold">
                                         Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                                     <p class="text-secondary">
@@ -258,35 +215,23 @@
                         </div>
                     @endforeach
                 @endauth
-            </div>
-            <div class="mt-3">
-                {{ $products->links() }}
-            </div>
-        @else
-            @auth
-                @if (Auth::user()->user_id == $shop->owner_id)
-                    <div class="text-center">
-                        <div>
-                            <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                                class="img-fluid mt-3">
-                        </div>
-                        <div>
-                            <h5 class="fw-semibold">Toko anda belum memiliki produk.</h5>
-                            <p>Silahkan menambahkan produk pada halaman profil anda.</p>
-                        </div>
+        </div>
+        <div class="mt-3">
+            {{ $products->links() }}
+        </div>
+    @else
+        @auth
+            @if (auth()->check() && Auth::user()->user_id == $shop->owner_id)
+                <div class="text-center">
+                    <div>
+                        <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                            class="img-fluid mt-3">
                     </div>
-                @else
-                    <div class="text-center">
-                        <div>
-                            <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
-                                class="img-fluid mt-3">
-                        </div>
-                        <div>
-                            <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                            <p>Coba ubah filter pencarian Anda atau hubungi pemilik toko.</p>
-                        </div>
+                    <div>
+                        <h5 class="fw-semibold">Toko anda belum memiliki produk.</h5>
+                        <p>Silahkan menambahkan produk pada halaman profil anda.</p>
                     </div>
-                @endif
+                </div>
             @else
                 <div class="text-center">
                     <div>
@@ -295,10 +240,22 @@
                     </div>
                     <div>
                         <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
-                        <p>Coba ubah filter pencarian Anda.</p>
+                        <p>Coba ubah filter pencarian Anda atau hubungi pemilik toko.</p>
                     </div>
                 </div>
-            @endauth
-        @endif
-    </div>
+            @endif
+        @else
+            <div class="text-center">
+                <div>
+                    <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300"
+                        class="img-fluid mt-3">
+                </div>
+                <div>
+                    <h5 class="fw-semibold">Wah toko ini belum memiliki produk yang sesuai.</h5>
+                    <p>Coba ubah filter pencarian Anda.</p>
+                </div>
+            </div>
+        @endauth
+    @endif
+</div>
 @endsection
