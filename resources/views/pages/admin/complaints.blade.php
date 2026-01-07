@@ -62,7 +62,7 @@
                             </td>
                             <td>{{ $complaint->created_at->format('d M Y H:i') }}</td>
                             <td>
-                                <a href="{{ route('admin.complaints.show', $complaint->complaint_id) }}">
+                                <a href="{{ route('admin.complaints.show', $complaint->complaint_id) }}" class="btn btn-primary">
                                     @if ($complaint->status === 'waiting_admin')
                                         Tinjau & Putuskan
                                     @else

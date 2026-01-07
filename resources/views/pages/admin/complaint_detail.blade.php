@@ -39,7 +39,7 @@
         </div>
 
         <div>
-            <h4>📦 Detail Transaksi</h4>
+            <h4 class="fw-bold">📦 Detail Transaksi</h4>
             <table>
                 <tr>
                     <td>
@@ -65,10 +65,9 @@
         </div>
 
         <div>
-            <h6 class="fw-bold">👤 BUKTI DARI BUYER</h6>
+            <h4 class="fw-bold">👤 BUKTI DARI BUYER</h4>
             <p><strong>Tanggal Komplain:</strong> {{ $complaint->created_at->format('d M Y H:i') }}</p>
-            <p><strong>Deskripsi Masalah:</strong></p>
-            <div>{{ $complaint->description }}</div>
+            <p><strong>Deskripsi Masalah:</strong> {{ $complaint->description }}</p>
 
             <p><strong>Bukti Foto:</strong></p>
             <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="Bukti Buyer"
@@ -78,10 +77,9 @@
 
         @if ($complaint->response)
             <div>
-                <h6 class="fw-bold">🛒 PEMBELAAN DARI SELLER</h6>
+                <h4 class="fw-bold">🛒 PEMBELAAN DARI SELLER</h4>
                 <p><strong>Tanggal Tanggapan:</strong> {{ $complaint->response->created_at->format('d M Y H:i') }}</p>
-                <p><strong>Pembelaan:</strong></p>
-                <div>{{ $complaint->response->message }}</div>
+                <p><strong>Pembelaan:</strong> {{ $complaint->response->message }}</p>
 
                 @if ($complaint->response->attachment)
                     <p><strong>Lampiran Seller:</strong></p>
@@ -107,7 +105,7 @@
         @endif
         @if ($complaint->status === 'waiting_admin' && $complaint->status !== 'resolved')
             <div>
-                <h6 class="fw-bold">⚖️ KEPUTUSAN ADMIN</h6>
+                <h4 class="fw-bold">⚖️ KEPUTUSAN ADMIN</h4>
 
                 <div>
                     <strong>⚠️ Pertimbangan:</strong>
@@ -146,15 +144,15 @@
                     </div>
 
                     <button type="submit"
-                        onclick="return confirm('YAKIN PUTUSKAN KOMPLAIN INI?\n\nKeputusan bersifat FINAL dan akan langsung dieksekusi!')">
+                        onclick="return confirm('YAKIN PUTUSKAN KOMPLAIN INI?\n\nKeputusan bersifat FINAL dan akan langsung dieksekusi!')" class="btn btn-primary">
                         PUTUSKAN KOMPLAIN
                     </button>
                 </form>
-            </div>
+            </div><br>
         @elseif($complaint->status === 'resolved')
             <div>
-                <h6 class="fw-bold">⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}
-                </h6>
+                <h4 class="fw-bold">⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}
+                </h4>
 
                 @if ($complaint->is_auto_resolved)
                     <p><strong>⚠️ Seller tidak merespons dalam 24 jam</strong></p>
@@ -182,7 +180,7 @@
         @endif
 
         <div>
-            <a href="{{ route('admin.complaints.index') }}">
+            <a href="{{ route('admin.complaints.index') }}" class="btn btn-primary">
                 ← Kembali ke Daftar Komplain
             </a>
         </div>

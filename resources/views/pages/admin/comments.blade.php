@@ -39,7 +39,7 @@
         </div>
     </form>
 
-    <h6 class="fw-bold">Daftar Komentar (Total: {{ $comments->count() }})</h6>
+    <h4 class="fw-bold">Daftar Komentar (Total: {{ $comments->count() }})</h4>
 
     <div id="comments-container">
         @include('partials.comments_table', ['comments' => $comments])

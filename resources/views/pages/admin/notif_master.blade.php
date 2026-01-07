@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <h6 class="fw-bold">Daftar Template Notifikasi (Total: {{ $templates->total() }})</h6>
+    <h4 class="fw-bold">Daftar Template Notifikasi (Total: {{ $templates->total() }})</h4>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach($templates as $template)

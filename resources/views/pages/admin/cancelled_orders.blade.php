@@ -16,7 +16,7 @@
         @endif
 
         <div>
-            <h6 class="fw-bold">Statistik Pesanan Dibatalkan</h6>
+            <h4 class="fw-bold">Statistik Pesanan Dibatalkan</h4>
             <div class="table-responsive">
                 <table border="1" class="table table-bordered">
                     <tr>
@@ -92,7 +92,7 @@
                             </td>
                             <td>{{ $item->paid_at->format('d M Y H:i') }}</td>
                             <td>
-                                <a href="{{ route('admin.cancelled_orders.show', $item->order_item_id) }}">
+                                <a href="{{ route('admin.cancelled_orders.show', $item->order_item_id) }}" class="btn btn-primary">
                                     Detail
                                 </a>
                             </td>

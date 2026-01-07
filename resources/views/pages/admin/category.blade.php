@@ -32,7 +32,7 @@
             {{-- <a href="{{ route('admin.dashboard') }}" class="text-decoration-none link-footer">Kembali ke Dashboard</a> --}}
 
             @if ($editCategory)
-                <h6 class="fw-bold">Edit Kategori</h6>
+                <h4 class="fw-bold">Edit Kategori</h4>
 
                 <form
                     action="{{ $editCategory ? route('admin.categories.update', $editCategory->category_id) : route('admin.categories.store') }}"
@@ -62,7 +62,7 @@
                     @endif
                 </form>
             @else
-                <h6 class="fw-bold">Daftar Kategori (Total: {{ $categories->count() }})</h6>
+                <h4 class="fw-bold">Daftar Kategori (Total: {{ $categories->count() }})</h4>
 
                 <div class="table-responsive">
                     <table border="1" class="table table-bordered">
