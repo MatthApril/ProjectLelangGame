@@ -130,10 +130,6 @@
                             <h5 class="fw-bold">Subtotal :</h5>
                             <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
                         </div>
-                        {{-- <div class="alert alert-light my-2" role="alert">
-                        <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah
-                        Melakukan Pembelian!
-                    </div> --}}
                         <div class="d-flex gap-2 mt-2">
                             <form class="flex-grow-1" action="{{ route('chat.open', $product->shop->owner->user_id) }}"
                                 method="GET">
@@ -142,7 +138,7 @@
                                     value="{{ route('products.detail', $product->product_id) }}">
                                 <input type="hidden" name="return_label" value="Kembali ke Produk">
                                 <button type="submit" class="btn btn-outline-primary text-center w-100">
-                                    <i class="bi bi-chat-left"></i> Hubungi
+                                    <i class="bi bi-chat"></i> Hubungi
                                 </button>
                             </form>
                             <form id="addToCartForm" class="flex-grow-1"
@@ -226,14 +222,13 @@
                 <hr>
                 @foreach ($relatedProducts as $related)
                     <div class="col-md-3 mt-2">
-                        {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                         <div class="card">
                             @if ($related->product_img)
                                 <img src="{{ asset('storage/' . $related->product_img) }}" alt=""
                                     class="card-img-top product-img-16x9">
                             @endif
                             <div class="card-body">
-                                <h5 class="fw-bold">{{ $related->product_name }}</h5>
+                                <h5 class="fw-bold">{{ strlen($related->product_name) > 22 ? substr($related->product_name, 0, 22) . '...' : $related->product_name }}</h5>
                                 <h5 class="text-primary fw-semibold">Rp{{ number_format($related->price, 0, ',', '.') }}
                                 </h5>
                                 <p class="text-secondary">
@@ -253,33 +248,12 @@
                                         class="bi bi-caret-right-fill"></i></a>
                             </div>
                         </div>
-                        {{-- </a> --}}
                     </div>
-                    {{-- @empty --}}
-                    {{-- <h4 class="fw-semibold mt-4 text-center">Tidak Ada Produk Ditemukan</h4> --}}
-                    {{-- @endforelse
-                {{ $products->links() }} --}}
-                    {{-- <div>
-                    @if ($related->product_img)
-                        <img
-                            src="{{ asset('storage/' . $related->product_img) }}"
-                            alt="{{ $related->product_name }}"
-                            width="150"
-                        >
-                    @endif
-
-                    <h4>{{ $related->product_name }}</h4>
-                    <p>
-                        Rp {{ number_format($related->price, 0, ',', '.') }}
-                    </p>
-
-                    <a href="{{ route('products.detail', $related->product_id) }}">
-                        Lihat Detail
-                    </a>
-                </div>
-                <br> --}}
                 @endforeach
             </div>
+            {{-- <div class="mt-3">
+                {{ $relatedProducts->links() }}
+            </div> --}}
         @endif
     </div>
     <script>

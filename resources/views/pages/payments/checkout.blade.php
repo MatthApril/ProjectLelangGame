@@ -27,18 +27,6 @@
                     
                         </div>
                     </div>
-                    {{-- @foreach ($order->orderItems as $item)
-                        <div>
-                            <h3>{{ $item->product->product_name }}</h3>
-                            <img src="{{ asset('storage/' . $item->product->product_img) }}" alt="{{ $item->product->product_name }}"
-                                width="200">
-                            <p>Toko: {{ $item->product->shop->shop_name }}</p>
-                            <p>Harga: Rp {{ number_format($item->product->price, 0, ',', '.') }}</p>
-                            <p>Jumlah: {{ $item->quantity }}</p>
-                            <p>Subtotal: Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
-                        </div>
-                        <br>
-                    @endforeach --}}
                 </div>
                 </div>
                 <div class="col-md-3"></div>

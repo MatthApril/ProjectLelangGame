@@ -33,9 +33,9 @@
                     <div>
                         <h5 class="mb-0 fw-semibold">Status Toko
                             @if ($shop->status === 'open')
-                                <span class="badge bg-success">Buka</span>
+                                <button class="btn btn-outline-success btn-sm" disabled>Buka</button>
                             @else
-                                <span class="badge bg-danger">Tutup</span>
+                                <button class="btn btn-outline-danger btn-sm" disabled>Tutup</button>
                             @endif
                         </h5>
                         <small class="text-muted">Jam Operasional {{ $shop->open_hour }} - {{ $shop->close_hour }}</small>
@@ -44,12 +44,12 @@
                         <form action="{{ route('seller.shop.toggle-status') }}" method="POST">
                             @csrf
                             @if ($shop->status === 'open')
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="bi bi-x-circle"></i> Tutup Toko
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Tutup Toko <i class="bi bi-x-lg"></i>
                                 </button>
                             @else
-                                <button type="submit" class="btn btn-success">
-                                    <i class="bi bi-check-circle"></i> Buka Toko
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Buka Toko <i class="bi bi-check-lg"></i>
                                 </button>
                             @endif
                         </form>
@@ -59,19 +59,19 @@
         </div>
 
         <h4 class="fw-bold">Menu Cepat</h4>
-        <div class="d-flex gap-2 mb-3">
+        <div class="d-flex gap-2 mb-2 flex-wrap">
             <a href="{{ route('seller.incoming_orders.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-clipboard"></i> Daftar Pesanan Pelanggan</a>
+                    class="bi bi-clipboard"></i> Pesanan Pelanggan</a>
             <a href="{{ route('seller.products.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-box-seam"></i> Kelola Produk</a>
             <a href="{{ route('seller.auctions.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
-                    class="bi bi-graph-up"></i> Kelola Lelang Produk</a>
+                    class="bi bi-graph-up"></i> Lelang Produk</a>
             <a href="{{ route('seller.complaints.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2">
-                <i class="bi bi-chat"></i> Kelola Keluhan</a>
+                <i class="bi bi-chat"></i> Komplain Pelanggan</a>
             <a href="{{ route('seller.reviews.index') }}"
                 class="btn btn-sm d-flex align-items-center btn-outline-primary text-decoration-none gap-2"><i
                     class="bi bi-star"></i> Lihat Ulasan</a>
@@ -80,7 +80,6 @@
                     class="bi bi-star"></i> Tarik Saldo</a>
         </div>
         <hr>
-
         <div>
             <h6 class="fw-bold">Keuangan Toko</h6>
             <table border="1" class="table table-striped">

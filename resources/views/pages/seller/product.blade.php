@@ -86,7 +86,7 @@
                             </div>
                         @endif
                         <div class="card-body">
-                            <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                            <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
                             <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                             <p class="text-secondary">
                                 <i class="bi bi-grid"></i> Kategori : <span

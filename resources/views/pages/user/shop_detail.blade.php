@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        {{-- <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item">
                     <a href="{{ route('user.home') }}">Beranda</a>
@@ -13,10 +13,10 @@
                     <a href="{{ route('products.index') }}">Semua Produk</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    Toko {{ $shop->shop_name }}
+                    {{ $shop->shop_name }}
                 </li>
             </ol>
-        </nav>
+        </nav> --}}
         <div class="row">
             <div class="col-md-4 d-flex align-items-start gap-3 mt-3">
                 @if ($shop->shop_img)
@@ -54,7 +54,7 @@
                                         value="{{ route('shops.detail', $shop->shop_id) }}">
                                     <input type="hidden" name="return_label" value="Kembali ke Toko">
                                     <button type="submit" class="btn btn-outline-primary">
-                                        <i class="bi bi-chat-left-fill"></i> Chat Pemilik Toko
+                                        <i class="bi bi-chat"></i> Chat Pemilik Toko
                                     </button>
                                 </div>
                             </form>
@@ -73,7 +73,6 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h5 class="fw-semibold m-0">Rating <i class="bi bi-star-fill text-warning"></i>
                         {{ number_format($shop->shop_rating, 1) }} / 5.0</h5>
-                    {{-- <a href="#" class="text-decoration-none fw-semibold m-0">Semua Ulasan</a> --}}
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -100,10 +99,6 @@
                                         style="min-width: 50px;">{{ number_format($ratingStats[$i]) }}</span>
                                 </div>
                             @endfor
-                            {{-- <hr class="my-2">
-                        <div class="text-center">
-                            <small class="text-secondary">Total {{ number_format($totalReviews) }} Ulasan</small>
-                        </div> --}}
                         @else
                             <div class="text-center text-secondary">
                                 <i class="bi bi-star" style="font-size: 48px;"></i>
@@ -234,14 +229,13 @@
                 @else
                     @foreach ($products as $product)
                         <div class="col-md-3 mt-3">
-                            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                             <div class="card">
                                 @if ($product->product_img)
                                     <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
                                         class="card-img-top product-img-16x9">
                                 @endif
                                 <div class="card-body">
-                                    <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                                    <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
                                     <h5 class="text-primary fw-semibold">
                                         Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                                     <p class="text-secondary">
@@ -261,7 +255,6 @@
                                             class="bi bi-caret-right-fill"></i></a>
                                 </div>
                             </div>
-                            {{-- </a> --}}
                         </div>
                     @endforeach
                 @endauth

@@ -272,7 +272,7 @@ class UserController extends Controller
             ->where('stok', '>', 0)
             ->whereNull('deleted_at');
 
-        $latestProducts = $latestProductsQuery->latest()->take(12)->get();
+        $latestProducts = $latestProductsQuery->latest()->take(4)->get();
 
         $topShops = Shop::where('shops.status', 'open')
             ->whereHas('owner')
@@ -308,6 +308,7 @@ class UserController extends Controller
             })
             ->where('end_time', '>', now())
             ->whereIn('auctions.status', ['running'])
+            ->take(4)
             ->orderBy('created_at', 'desc');
 
         $auctions = $auctionsQuery->get();
@@ -451,7 +452,7 @@ class UserController extends Controller
             ->where('product_id', '!=', $product->product_id)
             ->where('stok', '>', 0);
 
-        $relatedProducts = $relatedProductsQuery->take(12)->get();
+        $relatedProducts = $relatedProductsQuery->take(4)->get();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.product_detail', compact('product', 'relatedProducts', 'categories'));

@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col-md-3 text-center my-2">
                                     <img src="{{ asset('storage/' . $item->product->product_img) }}"
-                                        alt="{{ $item->product->product_name }}" width="300" class="img-fluid rounded shadow">
+                                        alt="" width="300" class="img-fluid rounded shadow">
                                 </div>
                                 <div class="col-md-9 my-2">
                                     <h4 class="fw-semibold m-0">{{ $item->product->product_name }}</h4>
@@ -125,13 +125,13 @@
                                                         <button type="submit"
                                                             onclick="return confirm('Konfirmasi pesanan sudah diterima?')"
                                                             class="btn btn-success btn-sm">
-                                                            Konfirmasi Terima
+                                                            <i class="bi bi-check-lg"></i> Konfirmasi Terima
                                                         </button>
                                                     </form>
         
                                                     <a href="{{ route('user.complaints.create', $item->order_item_id) }}"
                                                         class="btn btn-danger btn-sm">
-                                                        Ajukan Komplain
+                                                        <i class="bi bi-x-lg"></i> Ajukan Komplain
                                                     </a>
                                                 </div>
                                             @else
@@ -154,6 +154,16 @@
                                             @endif
                                         @endif
                                     </div>
+                                    <form class="mt-3" action="{{ route('chat.open', $item->shop->owner->user_id) }}"
+                                        method="GET">
+                                        {{-- <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+                                        <input type="hidden" name="return_url"
+                                            value="{{ route('products.detail', $item->product_id) }}">
+                                        <input type="hidden" name="return_label" value="Kembali ke Produk"> --}}
+                                        <button type="submit" class="btn btn-outline-primary btn-sm text-center">
+                                            <i class="bi bi-chat"></i> Hubungi Penjual
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +199,7 @@
                                         <div class="text-danger mb-2" id="error-rating-{{ $item->order_item_id }}"></div>
 
                                         <label class="mb-2">Komentar</label>
-                                        <textarea name="comment" id="comment-{{ $item->order_item_id }}" rows="4" maxlength="1000"
+                                        <textarea name="comment" id="comment-{{ $item->order_item_id }}" rows="5" maxlength="1000"
                                             class="form-control mb-2" placeholder="Berikan Komentar Tentang Produk Disini"></textarea>
                                         <div class="text-danger" id="error-comment-{{ $item->order_item_id }}"></div>
                                     </div>

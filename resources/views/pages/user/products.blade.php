@@ -74,7 +74,6 @@
     <div class="row">
         @forelse($products as $product)
         <div class="col-md-3 mt-3">
-            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
                     @if($product->product_img)
                         <img 
@@ -84,7 +83,7 @@
                         >
                     @endif
                     <div class="card-body">
-                        <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                        <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
                         <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                         <p class="text-secondary">
                             <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
@@ -101,7 +100,6 @@
                         <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                     </div>
                 </div>
-            {{-- </a> --}}
         </div>
         @empty
         <div class="text-center">
@@ -115,6 +113,8 @@
         </div>
         @endforelse
     </div>
-    {{ $products->links() }}
+    <div class="mt-3">
+        {{ $products->links() }}
+    </div>
 </div>
 @endsection
