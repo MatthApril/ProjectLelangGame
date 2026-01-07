@@ -29,21 +29,33 @@
     </nav>
     <div class="d-flex">
         <div class="offcanvas-md offcanvas-start bg-navyblue text-white" tabindex="-1" id="sidebarAdmin"
-            style="width: 182px; border: none;">
+            style="width: 297px; border: none;">
             <div class="offcanvas-header d-md-none">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     data-bs-target="#sidebarAdmin"></button>
             </div>
             <div class="offcanvas-body position-fixed flex-column py-4 px-4" style="min-height: 100vh;">
                 <a href="{{ route('admin.categories.index') }}"
-                    class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.categories.*') ? 'menu-active' : '' }}">Kategori</a>
                 <a href="{{ route('admin.games.index') }}"
-                    class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.games.*') ? 'menu-active' : '' }}">Game</a>
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.games.*') ? 'menu-active' : '' }}">Game</a>
                 <a href="{{ route('admin.comments.index') }}"
-                    class="text-decoration-none text-white d-block mb-2 {{ Route::is('admin.comments.*') ? 'menu-active' : '' }}">Komentar</a>
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.comments.*') ? 'menu-active' : '' }}">Komentar</a>
                 <a href="{{ route('admin.notifications.index') }}"
-                    class="text-decoration-none text-white d-block {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.notifications.*') ? 'menu-active' : '' }}">
                     Notifikasi</a>
+                <a href="{{ route('admin.users.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.users.*') ? 'menu-active' : '' }}">
+                    User</a>
+                <a href="{{ route('admin.complaints.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.complaints.*') ? 'menu-active' : '' }}">
+                    Komplain</a>
+                <a href="{{ route('admin.withdraws.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.withdraws.*') ? 'menu-active' : '' }}">
+                    Pencairan Saldo</a>
+                <a href="{{ route('admin.cancelled_orders.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
+                    Pesanan Dibatalkan</a>
             </div>
         </div>
         <div class="content px-4 py-2" style="width: 100%;">
@@ -61,8 +73,16 @@
                         <li class="breadcrumb-item active mt-3">Komentar</li>
                     @elseif(Route::is('admin.notifications.*'))
                         <li class="breadcrumb-item active mt-3">Notifikasi</li>
+                    @elseif(Route::is('admin.users.*'))
+                        <li class="breadcrumb-item active mt-3">User</li>
                     @elseif(Route::is('profile'))
                         <li class="breadcrumb-item active mt-3">Profile</li>
+                    @elseif(Route::is('admin.complaints.*'))
+                        <li class="breadcrumb-item active mt-3">Komplain</li>
+                    @elseif(Route::is('admin.withdraws.*'))
+                        <li class="breadcrumb-item active mt-3">Pencairan Saldo</li>
+                    @elseif(Route::is('admin.cancelled_orders.*'))
+                        <li class="breadcrumb-item active mt-3">Pesanan Dibatalkan</li>
                     @endif
 
                     @if (Route::is('*.edit'))

@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item">
                     <a href="{{ route('user.home') }}">Beranda</a>
                 </li>
@@ -31,8 +31,8 @@
                 <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            @endif
-            @if (session('success'))
+        @endif
+        @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -42,11 +42,10 @@
             <div class="col-md-8 my-3">
                 <div class="card p-3">
                     <div class="row">
-
                         <div class="col-md-5 text-center my-2">
                             @if ($product->product_img)
-                                <img src="{{ asset('storage/' . $product->product_img) }}"
-                                    alt="{{ $product->product_name }}" class="rounded shadow" style="width: 100%">
+                                <img src="{{ asset('storage/' . $product->product_img) }}" alt=""
+                                    class="img-fluid rounded shadow" style="width: 100%">
                             @endif
                         </div>
 
@@ -70,11 +69,8 @@
 
                                         <div>
                                             @if ($product->shop->shop_img)
-                                                <img 
-                                                    src="{{ asset('storage/' . $product->shop->shop_img) }}" 
-                                                    alt="{{ $product->shop->shop_name }}" 
-                                                    class="shop-avatar"
-                                                >
+                                                <img src="{{ asset('storage/' . $product->shop->shop_img) }}"
+                                                    alt="" class="shop-avatar">
                                             @else
                                                 <i class="bi bi-person-circle fs-1"></i>
                                             @endif
@@ -106,47 +102,48 @@
 
                         </div>
                     </div>
-                </div>
-                <h4 class="fw-semibold mt-3">Deskripsi Produk</h4>
-                <hr>
-                <div class="card p-3">
-                    <p>{{ $product->description }}</p>
+                    <h4 class="fw-semibold mt-3">Deskripsi Produk</h4>
+                    <hr>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>{{ $product->description }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 my-3">
                 @auth
-                @error('quantity')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror
-                <div class="card p-3">
-                    <h5 class="fw-semibold">Informasi Pesanan</h5>
-                    <hr>
-                    <p class="m-0 fw-semibold">Stok : {{ $product->stok }}</p>
-                    <input type="number" class="form-control" min="1" max="{{ $product->stok }}" value="1"
-                    id="quantity" name="quantity" form="addToCartForm" required>
-                    <hr>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="fw-bold">Subtotal :</h5>
-                        <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
-                    </div>
-                    {{-- <div class="alert alert-light my-2" role="alert">
-                        <i class="bi bi-info-circle-fill text-primary"></i> Wajib Update Info Login Akun Setelah
-                        Melakukan Pembelian!
-                    </div> --}}
-                    <div class="d-flex gap-2 mt-2">
-                        <form class="flex-grow-1" action="{{ route('chat.open', $product->shop->owner->user_id) }}" method="GET">
-                            <input type="hidden" name="product_id" value="{{ $product->product_id }}">
-                            <input type="hidden" name="return_url" value="{{ route('products.detail', $product->product_id) }}">
-                            <input type="hidden" name="return_label" value="Kembali ke Produk">
-                            <button type="submit" class="btn btn-outline-primary text-center w-100">
-                                <i class="bi bi-chat-left"></i> Hubungi
-                            </button>
-                        </form>
-                        <form id="addToCartForm" class="flex-grow-1" action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
-                            @csrf
+                    @error('quantity')
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
+                    <div class="card p-3">
+                        <h5 class="fw-semibold">Informasi Pesanan</h5>
+                        <hr>
+                        <p class="m-0 fw-semibold">Stok : {{ $product->stok }}</p>
+                        <input type="number" class="form-control" min="1" max="{{ $product->stok }}" value="1"
+                            id="quantity" name="quantity" form="addToCartForm" required>
+                        <hr>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="fw-bold">Subtotal :</h5>
+                            <h5 class="text-primary fw-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
+                        </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <form class="flex-grow-1" action="{{ route('chat.open', $product->shop->owner->user_id) }}"
+                                method="GET">
+                                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                                <input type="hidden" name="return_url"
+                                    value="{{ route('products.detail', $product->product_id) }}">
+                                <input type="hidden" name="return_label" value="Kembali ke Produk">
+                                <button type="submit" class="btn btn-outline-primary text-center w-100">
+                                    <i class="bi bi-chat"></i> Hubungi
+                                </button>
+                            </form>
+                            <form id="addToCartForm" class="flex-grow-1"
+                                action="{{ route('user.cart.add', $product->product_id) }}" method="POST">
+                                @csrf
                                 <button type="submit" class="btn btn-outline-primary text-center w-100">
                                     <i class="bi bi-cart3"></i> Tambahkan Ke Keranjang
                                 </button>
@@ -173,8 +170,9 @@
             @if ($product->comments->count() > 0)
 
                 <p>
-                    Rating Rata - Rata : 
-                    <strong>{{ number_format($product->rating, 1) }}/5</strong> <i class="bi bi-star-fill text-warning"></i>
+                    Rating Rata - Rata :
+                    <strong>{{ number_format($product->rating, 1) }}/5</strong> <i
+                        class="bi bi-star-fill text-warning"></i>
                 </p>
 
                 <div class="mt-3">
@@ -224,14 +222,13 @@
                 <hr>
                 @foreach ($relatedProducts as $related)
                     <div class="col-md-3 mt-2">
-                        {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                         <div class="card">
                             @if ($related->product_img)
-                                <img src="{{ asset('storage/' . $related->product_img) }}"
-                                    alt="{{ $related->product_name }}" class="card-img-top" height="170">
+                                <img src="{{ asset('storage/' . $related->product_img) }}" alt=""
+                                    class="card-img-top product-img-16x9">
                             @endif
                             <div class="card-body">
-                                <h5 class="fw-bold">{{ $related->product_name }}</h5>
+                                <h5 class="fw-bold">{{ strlen($related->product_name) > 22 ? substr($related->product_name, 0, 22) . '...' : $related->product_name }}</h5>
                                 <h5 class="text-primary fw-semibold">Rp{{ number_format($related->price, 0, ',', '.') }}
                                 </h5>
                                 <p class="text-secondary">
@@ -251,44 +248,23 @@
                                         class="bi bi-caret-right-fill"></i></a>
                             </div>
                         </div>
-                        {{-- </a> --}}
                     </div>
-                    {{-- @empty --}}
-                    {{-- <h4 class="fw-semibold mt-4 text-center">Tidak Ada Produk Ditemukan</h4> --}}
-                    {{-- @endforelse
-                {{ $products->links() }} --}}
-                    {{-- <div>
-                    @if ($related->product_img)
-                        <img
-                            src="{{ asset('storage/' . $related->product_img) }}"
-                            alt="{{ $related->product_name }}"
-                            width="150"
-                        >
-                    @endif
-
-                    <h4>{{ $related->product_name }}</h4>
-                    <p>
-                        Rp {{ number_format($related->price, 0, ',', '.') }}
-                    </p>
-
-                    <a href="{{ route('products.detail', $related->product_id) }}">
-                        Lihat Detail
-                    </a>
-                </div>
-                <br> --}}
                 @endforeach
             </div>
+            {{-- <div class="mt-3">
+                {{ $relatedProducts->links() }}
+            </div> --}}
         @endif
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const qtyInput = document.getElementById('quantity');
-    
-            qtyInput.addEventListener('input', function () {
+
+            qtyInput.addEventListener('input', function() {
                 const max = parseInt(this.max);
                 const min = parseInt(this.min);
                 let value = parseInt(this.value);
-    
+
                 if (value > max) {
                     this.value = max;
                 } else if (value < min || isNaN(value)) {

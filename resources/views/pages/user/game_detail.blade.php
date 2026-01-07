@@ -10,22 +10,25 @@
         </ol>
     </nav>
 
-    <div class="card mb-5 p-3">
-        <div class="row d-flex align-items-center">
-            <div class="col-md-4 text-center">
-                @if($game->game_img)
-                    <img src="{{ asset('storage/' . $game->game_img) }}" alt="{{ $game->game_name }}" width="300">
-                @endif
-            </div>
-            
-            <div class="col-md-8">
-            <h2 class="fw-semibold">Game : {{ $game->game_name }}</h2>
-            @if($categories->count() > 0)
-                <h5 class="fw-semibold">Kategori :</h5>
-                @foreach($categories as $category)
-                    <button class="btn btn-outline-primary btn-sm mt-2" disabled>{{ $category->category_name }}</button>
-                @endforeach
-                @endif
+    <div class="card mb-5">
+        <div class="card-body">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-4 text-center">
+                    @if($game->game_img)
+                        <img src="{{ asset('storage/' . $game->game_img) }}" alt="" width="300" class="img-fluid">
+                    @endif
+                </div>
+                
+                <div class="col-md-8">
+                <h2 class="fw-semibold">Game {{ $game->game_name }}</h2>
+                @if($categories->count() > 0)
+                    <div class="d-flex align-items-center gap-2">
+                        @foreach($categories as $category)
+                            <button class="btn btn-outline-primary btn-sm" disabled>{{ $category->category_name }}</button>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -84,17 +87,16 @@
     <div class="row">
         @forelse($products as $product)
         <div class="col-md-3 mt-2">
-            {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
                     @if($product->product_img)
                         <img 
                             src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
+                            alt="" 
                             class="card-img-top product-img-16x9"
                         >
                     @endif
                     <div class="card-body">
-                        <h5 class="fw-bold">{{ $product->product_name }}</h5>
+                        <h5 class="fw-bold">{{ strlen($product->product_name) > 22 ? substr($product->product_name, 0, 22) . '...' : $product->product_name }}</h5>
                         <h5 class="text-primary fw-semibold">Rp{{ number_format($product->price, 0, ',', '.') }}</h5>
                         <p class="text-secondary">
                             <i class="bi bi-grid"></i> Kategori : {{ $product->category->category_name }} <br>
@@ -111,18 +113,18 @@
                         <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary btn-sm float-end mt-3">Lihat Produk <i class="bi bi-caret-right-fill"></i></a>
                     </div>
                 </div>
-            {{-- </a> --}}
         </div>
         @empty
-        {{-- <h4 class="fw-semibold mt-4 text-center">Tidak Ada Produk Ditemukan</h4> --}}
         @endforelse
-        {{ $products->links() }}
+        <div class="mt-3">
+            {{ $products->links() }}
+        </div>
     </div>
 
     @else
         <div class="text-center">
             <div>
-                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300">
+                <img src="{{ asset('images/product-empty.png') }}" alt="Product Empty" width="300" class="img-fluid">
             </div>
             <div>
                 <h5 class="fw-semibold">Wah produk tidak ditemukan.</h5>

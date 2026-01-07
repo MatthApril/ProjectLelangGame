@@ -19,7 +19,6 @@
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     @if ($user->shop && $user->shop->shop_img)
                         <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="" class="shop-avatar">
-                        {{-- <img src="{{ asset('storage/' . $user->shop->shop_img) }}" alt="Foto Toko" width="70" class="rounded-5"> --}}
                     @else
                         <div>
                             <i class="bi bi-person-circle fs-1"></i>
@@ -50,6 +49,11 @@
                         <a href="{{ route('user.orders') }}"
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-cash-coin"></i>
                             Transaksi</a>
+                    </div>
+                    <div class="ms-3">
+                        <a href="{{ route('user.complaints.index') }}"
+                            class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-chat-dots"></i>
+                            Komplain</a>
                     </div>
                     <hr>
                 @endif

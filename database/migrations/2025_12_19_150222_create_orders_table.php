@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('status', ['unpaid', 'paid', 'completed', 'cancelled', 'expire'])->default('unpaid');
             $table->timestamp('order_date')->useCurrent();
             $table->timestamp('expire_payment_at')->nullable();
+            $table->integer('admin_fee')->default(0);
             $table->integer('total_prices');
             $table->string('snap_token')->nullable();
             $table->timestamps();

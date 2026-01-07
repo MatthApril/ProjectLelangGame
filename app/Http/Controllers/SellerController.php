@@ -17,6 +17,8 @@ use App\Models\ComplaintResponse;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
+use App\Models\Refund;
+use App\Models\Shop;
 use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +28,44 @@ use Illuminate\Support\Facades\DB;
 
 class SellerController extends Controller
 {
+    function showWithdraw()
+    {
+        $shop = Auth::user()->shop;
+        $categories = Category::orderBy('category_name')->get();
+        $withdraws = $shop->withdraws()->orderBy('created_at', 'desc')->get();
+
+        return view('pages.seller.withdraw', compact('shop', 'categories', 'withdraws'));
+    }
+
+    function requestWithdraw(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:10000|max:' . Auth::user()->shop->shop_balance,
+        ]);
+
+        $shop = Auth::user()->shop;
+
+        DB::beginTransaction();
+
+        try {
+            // Kurangi saldo toko
+            $shop->decrement('shop_balance', $request->amount);
+
+            // Buat permintaan pencairan
+            $shop->withdraws()->create([
+                'amount' => $request->amount,
+                'status' => 'waiting',
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal melakukan pencairan: ' . $e->getMessage());
+        }
+
+        DB::commit();
+
+        return redirect()->route('seller.withdraws.index')->with('success', 'Permintaan pencairan berhasil diajukan!');
+    }
 
     function showDashboard() {
         $user = Auth::user();
@@ -145,6 +185,26 @@ class SellerController extends Controller
             $query->where('product_id', $request->product_id);
         }
 
+                $ratingStats = [];
+        $totalReviews = 0;
+
+        for ($i = 5; $i >= 1; $i--) {
+            $count = DB::table('products_comments')
+                ->join('products', 'products_comments.product_id', '=', 'products.product_id')
+                ->where('products.shop_id', $shop->shop_id)
+                ->where('products_comments.rating', $i)
+                ->whereNull('products_comments.deleted_at')
+                ->count();
+
+            $ratingStats[$i] = $count;
+            $totalReviews += $count;
+        }
+
+        $ratingPercentages = [];
+        foreach ($ratingStats as $rating => $count) {
+            $ratingPercentages[$rating] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+        }
+
         $comments = $query->latest('created_at')->paginate(20);
 
         $products = $shop->products()->orderBy('product_name')->get();
@@ -168,37 +228,42 @@ class SellerController extends Controller
             ]);
         }
 
-        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
+        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution', 'ratingStats', 'ratingPercentages'));
     }
 
-    function showIncomingOrders()
+    function showIncomingOrders(Request $req)
     {
         $categories = Category::orderBy('category_name')->get();
-        $user = Auth::user();
+
         $orders = OrderItem::query()
             ->leftJoin('orders', 'orders.order_id', '=', 'order_items.order_id')
             ->leftJoin('products', 'products.product_id', '=', 'order_items.product_id')
             ->leftJoin('shops', 'shops.shop_id', '=', 'products.shop_id')
             ->where(function ($q) {
-                $q->where('shops.owner_id', Auth::id())   // PEMILIK TOKO
-                ->orWhereNull('products.product_id');  // product hard delete
+                $q->where('shops.owner_id', Auth::id())
+                ->orWhereNull('products.product_id');
             })
-            ->whereIn('order_items.status', ['paid', 'completed', 'cancelled','shipped'])
-            ->where('orders.status', '=', 'paid')
-            ->orderBy('order_items.paid_at', 'desc')       // SORT BY ORDER
-            ->select('order_items.*')
+            ->where('orders.status', 'paid')
+            ->whereIn('order_items.status', ['paid', 'completed', 'cancelled', 'shipped'])
+
+            // FILTER STATUS DI SINI
+            ->when($req->status, function ($q) use ($req) {
+                $q->where('order_items.status', $req->status);
+            })
+
             ->with([
                 'order.account',
                 'product' => function ($q) {
-                    $q->withTrashed()
-                    ->with([
+                    $q->withTrashed()->with([
                         'shop'     => fn ($q) => $q->withTrashed(),
                         'category' => fn ($q) => $q->withTrashed(),
                         'game'     => fn ($q) => $q->withTrashed(),
                     ]);
                 }
-                ])
-            ->orderBy('orders.created_at', 'desc')       // SORT BY ORDER
+            ])
+            ->orderBy('order_items.paid_at', 'desc')
+            ->orderBy('orders.created_at', 'desc')
+            ->select('order_items.*')
             ->paginate(20);
 
         return view('pages.seller.orders', compact('categories', 'orders'));
@@ -238,9 +303,12 @@ class SellerController extends Controller
         $orderItem->update([
             'status' => 'cancelled'
         ]);
+
         $buyer = $orderItem->order->account;
-        $buyer->increment('balance', $orderItem->subtotal);
         $orderItem->product->increment('stok', $orderItem->quantity);
+
+        Shop::find($orderItem->shop_id)->decrement('running_transactions', $orderItem->subtotal);
+
         return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan!');
 
     }

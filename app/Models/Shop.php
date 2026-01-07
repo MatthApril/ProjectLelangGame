@@ -24,7 +24,7 @@ class Shop extends Model
         'close_hour',
         'status'
     ];
-    
+
     protected $casts = [
         'shop_rating' => 'float',
     ];
@@ -42,6 +42,11 @@ class Shop extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'shop_id', 'shop_id');
+    }
+
+    public function withdraws()
+    {
+        return $this->hasMany(Withdraw::class, 'shop_id', 'shop_id');
     }
 
     public function getTotalProductsSoldAttribute()

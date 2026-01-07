@@ -61,6 +61,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Complaint::class, 'seller_id', 'user_id');
     }
+
     public function cart()
     {
         return $this->hasOne(Cart::class, 'user_id', 'user_id');
@@ -123,11 +124,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuctionWinner::class, 'user_id', 'user_id');
     }
-    
+
     public function comments(){
         return $this->hasMany(ProductComment::class,'user_id','user_id');
     }
-
-
 
 }

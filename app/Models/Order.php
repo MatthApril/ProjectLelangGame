@@ -19,12 +19,13 @@ class Order extends Model
         'status',
         'snap_token',
         'expire_payment_at',
+        'admin_fee',
         'total_prices',
     ];
 
     public function account()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
     public function orderItems()

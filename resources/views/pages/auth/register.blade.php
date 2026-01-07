@@ -36,35 +36,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                {{-- @error('username')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror
-                @error('email')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror
-                @error('password')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror
-                @error('confirm_password')
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @enderror --}}
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="d-flex justify-content-center align-items-center">
                             <img src="{{ asset('images/Logo/LogoWarna-RemoveBg.png') }}" alt="LelangGame Logo"
-                                width="100">
+                                width="100" class="img-fluid">
                             <h1 class="card-title text-center mb-4 fw-bold">LelangGame</h1>
                         </div>
                         <form action="{{ route('do-register') }}" method="post">

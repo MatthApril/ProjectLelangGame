@@ -13,22 +13,66 @@ class ShopSeeder extends Seeder
      */
     public function run(): void
     {
-        Shop::create([
-            'shop_name' => 'Zinx Store',
-            'shop_img' => 'shop_a.jpg',
-            'owner_id' => 2,
-            'open_hour' => '08:00:00',
-            'close_hour' => '22:00:00',
-            'status' => 'open',
-        ]);
+        $shops = [
+            [
+                'shop_name' => 'Zinx Gaming Store',
+                'shop_img' => 'zinx_store.jpg',
+                'owner_id' => 2,
+                'open_hour' => '08:00:00',
+                'close_hour' => '22:00:00',
+                'status' => 'open',
+                'running_transactions' => 0,
+                'shop_balance' => 0,
+                'shop_rating' => 4.8,
+            ],
+            [
+                'shop_name' => 'Test Gaming Hub',
+                'shop_img' => 'test_store.jpg',
+                'owner_id' => 3,
+                'open_hour' => '09:00:00',
+                'close_hour' => '23:00:00',
+                'status' => 'open',
+                'running_transactions' => 0,
+                'shop_balance' => 3500000,
+                'shop_rating' => 4.6,
+            ],
+            [
+                'shop_name' => 'Akun Gaming Gampang',
+                'shop_img' => 'akun_gampang.jpg',
+                'owner_id' => 2,
+                'open_hour' => '07:00:00',
+                'close_hour' => '23:59:00',
+                'status' => 'open',
+                'running_transactions' => 0,
+                'shop_balance' => 12500000,
+                'shop_rating' => 4.9,
+            ],
+            [
+                'shop_name' => 'Joki Pro Indonesia',
+                'shop_img' => 'joki_pro.jpg',
+                'owner_id' => 3,
+                'open_hour' => '10:00:00',
+                'close_hour' => '22:00:00',
+                'status' => 'open',
+                'running_transactions' => 0,
+                'shop_balance' => 8700000,
+                'shop_rating' => 4.7,
+            ],
+            [
+                'shop_name' => 'Item Langka Store',
+                'shop_img' => 'item_langka.jpg',
+                'owner_id' => 2,
+                'open_hour' => '08:30:00',
+                'close_hour' => '21:00:00',
+                'status' => 'open',
+                'running_transactions' => 0,
+                'shop_balance' => 6800000,
+                'shop_rating' => 4.5,
+            ],
+        ];
 
-        Shop::create([
-            'shop_name' => 'Test Store',
-            'shop_img' => 'shop_a.jpg',
-            'owner_id' => 3,
-            'open_hour' => '08:00:00',
-            'close_hour' => '22:00:00',
-            'status' => 'open',
-        ]);
+        foreach ($shops as $shop) {
+            Shop::create($shop);
+        }
     }
 }

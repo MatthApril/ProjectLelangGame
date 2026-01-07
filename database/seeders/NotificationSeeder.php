@@ -16,34 +16,142 @@ class NotificationSeeder extends Seeder
      */
     public function run(): void
     {
-        $notification = Notification::create([
-            'title' => 'Pencairan Dana Dompetku dan Saldo Toko Periode Hari Libur Nasional (Natal dan Tahun Baru)',
-            'type' => 'system',
-            'message' => <<<EOT
-        Hai Juragan!
-
-        Terima kasih telah menggunakan itemku sebagai sarana pemenuhan kebutuhan game dan aplikasi hiburan kamu.
-
-        Kami menginformasikan perihal proses pencairan dana di itemku selama Hari Libur Nasional Peringatan Hari Raya Natal pada tanggal 25 Desember 2025, Cuti Bersama pada tanggal 26 Desember 2025 dan Tahun Baru 2026 Masehi pada tanggal 1 Januari 2026 akan mengalami penyesuaian sebagai berikut:
-
-        1. Untuk pencairan dana pada hari libur tersebut berjalan seperti biasa dan pencairan menggunakan poin toko dinonaktifkan.
-        2. Maksimal pencairan dana pada hari libur tersebut adalah sebesar Rp. 500.000.000 (lima ratus juta rupiah) per hari per pengguna.
-        3. Permohonan pencairan dana yang melebihi nominal tersebut akan diproses pada hari kerja berikutnya.
-        4. Adapun semua transaksi maupun pengembalian dana akan berjalan seperti biasa.
-
-        Jika kamu memiliki pertanyaan lebih lanjut mengenai hal ini, silahkan hubungi Layanan Pengguna itemku. (https://itemku.com/hubungi-kami)
-
-        Happy Trading!
-        EOT
+        // Notification 1: Order Confirmed
+        $notif1 = Notification::create([
+            'title' => 'Pesanan Berhasil Dibayar! ✅',
+            'body' => 'Terima kasih! Pembayaran Rp 250.000 untuk akun ML Legend telah kami terima. Penjual akan segera mengirim akun ke email kamu.',
+            'category' => 'order',
         ]);
-        
-        $users = User::all();
+        NotificationRecipient::create([
+            'notification_id' => $notif1->notification_id,
+            'user_id' => 4,
+            'is_read' => true,
+        ]);
 
-        foreach ($users as $user) {
-            NotificationRecipient::create([
-                'notification_id' => $notification->notification_id,
-                'user_id' => $user->user_id,
-            ]);
-        }
+        // Notification 2: Item Shipped
+        $notif2 = Notification::create([
+            'title' => 'Pesanan Dikirim 📦',
+            'body' => 'Pesanan kamu telah dikirim oleh penjual. Link akun sudah dikirim ke email registrasi kamu.',
+            'category' => 'order',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif2->notification_id,
+            'user_id' => 4,
+            'is_read' => true,
+        ]);
+
+        // Notification 3: New Seller Greeting
+        $notif3 = Notification::create([
+            'title' => 'Selamat! Toko Kamu Sudah Aktif 🎉',
+            'body' => 'Toko gaming kamu telah berhasil dibuat. Mulai upload produk dan raih penjualan pertamamu!',
+            'category' => 'system',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif3->notification_id,
+            'user_id' => 2,
+            'is_read' => true,
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif3->notification_id,
+            'user_id' => 3,
+            'is_read' => true,
+        ]);
+
+        // Notification 4: New Year Promo Reminder
+        $notif4 = Notification::create([
+            'title' => 'Happy New Year 2026! 🎆',
+            'body' => 'Tahun baru sudah tiba! Dapatkan banyak flash sale dan promo menarik di LelangGame. Jangan sampai terlewatkan!',
+            'category' => 'promo',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif4->notification_id,
+            'user_id' => 2,
+            'is_read' => false,
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif4->notification_id,
+            'user_id' => 3,
+            'is_read' => false,
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif4->notification_id,
+            'user_id' => 4,
+            'is_read' => false,
+        ]);
+
+        // Notification 5: Security Alert
+        $notif5 = Notification::create([
+            'title' => 'Waspada Phishing Scam! 🚨',
+            'body' => 'Banyak akun palsu mengatasnamakan admin. Jangan bagikan OTP atau password ke siapapun!',
+            'category' => 'system',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif5->notification_id,
+            'user_id' => 2,
+            'is_read' => true,
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif5->notification_id,
+            'user_id' => 3,
+            'is_read' => true,
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif5->notification_id,
+            'user_id' => 4,
+            'is_read' => true,
+        ]);
+
+        // Notification 6: Auction Starting Soon
+        $notif6 = Notification::create([
+            'title' => 'Lelang Dimulai dalam 1 Jam! ⏰',
+            'body' => 'Akun Mobile Legends Collector Limited akan segera dibuka untuk lelang. Siapkan dompet kamu!',
+            'category' => 'promo',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif6->notification_id,
+            'user_id' => 4,
+            'is_read' => false,
+        ]);
+
+        // Notification 7: Complaint Status Update
+        $notif7 = Notification::create([
+            'title' => 'Admin Membalas Komplain Kamu 💬',
+            'body' => 'Komplain tentang akun ML kamu telah dikaji oleh tim admin. Lihat detail respons di halaman komplain.',
+            'category' => 'order',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif7->notification_id,
+            'user_id' => 4,
+            'is_read' => false,
+        ]);
+
+        // Notification 8: New Joki Available
+        $notif8 = Notification::create([
+            'title' => 'Joki Pro Baru Tersedia! 🎮',
+            'body' => 'Pro player Dota 2 immortal baru bergabung! Tawaran joki grind mereka lebih cepat dari yang lain.',
+            'category' => 'promo',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif8->notification_id,
+            'user_id' => 2,
+            'is_read' => false,
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif8->notification_id,
+            'user_id' => 3,
+            'is_read' => false,
+        ]);
+
+        // Notification 9: Flash Sale Alert
+        $notif9 = Notification::create([
+            'title' => 'Flash Sale Skin Legendary - 40% OFF! 🔥',
+            'body' => 'Dapatkan skin legendary Mobile Legends dengan harga promo hari ini. Stok terbatas!',
+            'category' => 'promo',
+        ]);
+        NotificationRecipient::create([
+            'notification_id' => $notif9->notification_id,
+            'user_id' => 4,
+            'is_read' => false,
+        ]);
     }
 }

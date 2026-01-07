@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
-use App\Http\Requests\BiddingRequests;
 use App\Http\Requests\CreateComplaintRequest;
 use App\Http\Requests\InputProductCommentRequest;
+use App\Models\AdminSettings;
 use App\Models\Auction;
 use App\Models\AuctionBid;
 use App\Models\AuctionWinner;
@@ -127,7 +127,9 @@ class UserController extends Controller
 
         $categories = Category::orderBy('category_name')->get();
 
-        return view('pages.user.cart', compact('cartItems', 'categories'));
+        $admin_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
+        return view('pages.user.cart', compact('cartItems', 'categories', 'admin_fee_percentage'));
     }
 
     public function showOrders()
@@ -169,9 +171,11 @@ class UserController extends Controller
         $orderItem->update([
             'status' => 'completed'
         ]);
+
         $shop = $orderItem->shop;
         $shop->decrement('running_transactions', $orderItem->subtotal);
         $shop->increment('shop_balance', $orderItem->subtotal);
+
         return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi!');
 
     }
@@ -244,43 +248,82 @@ class UserController extends Controller
         ]);
     }
 
-    function showHome() {
+    public function showHome() {
         $owners = User::where('role', 'seller')->get();
+
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
                     $q->where('status', 'open')->whereHas('owner');
                 })
-                ->where('type', 'normal');
-            }])->orderBy('products_count', 'desc')->take(6)->get();
+                ->where('type', 'normal')
+                ->where('stok', '>', 0)
+                ->whereNull('deleted_at');
+            }])
+            // ->having('products_count', '>', 0)
+            ->orderBy('products_count', 'desc')
+            ->take(6)
+            ->get();
 
         $latestProductsQuery = Product::with(['game', 'shop', 'category'])
             ->where('type', 'normal')
             ->whereHas('shop', function($query) {
                 $query->where('status', 'open')->whereHas('owner');
-            })->where('stok', '>', 0);
-
-        $latestProducts = $latestProductsQuery->latest()->take(12)->get();
-        $topShopsQuery = Shop::where('status', 'open')->whereHas('owner');
-
-        $auctions = Auction::with(['product.shop.owner'])
-            ->whereHas('product', function($q) {
-                $q->where('stok', '>', 0);
             })
-            ->whereHas('product.shop.owner')
-            ->where('end_time', '>', now())
-            ->whereHas('product.shop.owner')
+            ->where('stok', '>', 0)
+            ->whereNull('deleted_at');
+
+        $latestProducts = $latestProductsQuery->latest()->take(4)->get();
+
+        $topShops = Shop::where('shops.status', 'open')
+            ->whereHas('owner')
+            // ->whereHas('products', function($q) {
+            //     $q
+            //     ->where('stok', '>', 0)
+            //     ->where('type', 'normal')
+            //     ->whereNull('deleted_at');
+            // })
+            ->withCount(['orderItems as total_buyers' => function($query) {
+                $query->where('order_items.status', 'completed')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.order_id')
+                    ->distinct('orders.user_id');
+            }])
+            ->orderBy('total_buyers', 'desc')
+            ->orderBy('shop_rating', 'desc')
+            ->take(6)
+            ->get();
+
+        $auctionsQuery = Auction::with(['product.shop.owner', 'product.game', 'product.category', 'highestBid.user'])
+            ->whereHas('product', function($q) {
+                $q->where('stok', '>', 0)
+                ->whereNull('deleted_at');
+            })
+            ->whereHas('product.shop', function($q) {
+                $q->where('status', 'open')->whereHas('owner');
+            })
             ->whereHas('product.category', function($q) {
                 $q->whereNull('deleted_at');
             })
-            ->whereIn('status', ['running'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-            if(Auth::check() && Auth::user()->role === 'seller' && Auth::user()->shop){
-                $auctions->where('shop_id', '!=', Auth::user()->shop->shop_id);
-            }
+            ->whereHas('product.game', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->where('end_time', '>', now())
+            ->whereIn('auctions.status', ['running'])
+            ->take(4)
+            ->orderBy('created_at', 'desc');
 
-        $topShops= $topShopsQuery->orderBy('shop_rating', 'desc')->take(6)->get();
-        $categories = Category::orderBy('category_name')->get();
+        $auctions = $auctionsQuery->get();
+
+        $categories = Category::withCount(['products' => function($query) {
+                $query->where('stok', '>', 0)
+                    ->where('type', 'normal')
+                    ->whereHas('shop', function($q) {
+                        $q->where('status', 'open')->whereHas('owner');
+                    })
+                    ->whereNull('deleted_at');
+            }])
+            ->whereNull('deleted_at')
+            ->orderBy('category_name')
+            ->get();
 
         return view('pages.user.home', compact('featuredGames', 'latestProducts', 'topShops', 'owners', 'categories', 'auctions'));
     }
@@ -409,7 +452,7 @@ class UserController extends Controller
             ->where('product_id', '!=', $product->product_id)
             ->where('stok', '>', 0);
 
-        $relatedProducts = $relatedProductsQuery->take(12)->get();
+        $relatedProducts = $relatedProductsQuery->take(4)->get();
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.user.product_detail', compact('product', 'relatedProducts', 'categories'));

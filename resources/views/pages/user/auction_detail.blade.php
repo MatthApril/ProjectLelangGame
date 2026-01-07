@@ -3,52 +3,56 @@
 @section('title', 'Detail Lelang | LelangGame')
 
 @section('content')
-<div class="container my-4">
-    {{-- Breadcrumb --}}
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('auctions.index') }}">Daftar Lelang</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Detail Lelang</li>
-        </ol>
-    </nav>
+    <div class="container my-4">
+        {{-- Breadcrumb --}}
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('auctions.index') }}">Daftar Lelang</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detail Lelang</li>
+            </ol>
+        </nav>
 
-    {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fw-semibold mb-0">Detail Lelang</h2>
-        @php
-            $statusConfig = match($auction->status) {
-                'pending' => ['class' => 'bg-secondary', 'text' => 'Akan Dimulai', 'icon' => 'bi-clock'],
-                'running' => ['class' => 'bg-primary', 'text' => 'Berlangsung', 'icon' => 'bi-broadcast'],
-                'ended' => ['class' => 'bg-success', 'text' => 'Selesai', 'icon' => 'bi-check-circle'],
-                default => ['class' => 'bg-secondary', 'text' => ucfirst($auction->status), 'icon' => 'bi-question-circle'],
-            };
-        @endphp
-        <span class="badge {{ $statusConfig['class'] }} fs-6 px-3 py-2">
-            <i class="bi {{ $statusConfig['icon'] }} me-1"></i> {{ $statusConfig['text'] }}
-        </span>
-    </div>
-    <hr>
+        {{-- Header --}}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fw-semibold mb-0">Detail Lelang</h2>
+            @php
+                $statusConfig = match ($auction->status) {
+                    'pending' => ['class' => 'bg-secondary', 'text' => 'Akan Dimulai', 'icon' => 'bi-clock'],
+                    'running' => ['class' => 'bg-primary', 'text' => 'Berlangsung', 'icon' => 'bi-broadcast'],
+                    'ended' => ['class' => 'bg-success', 'text' => 'Selesai', 'icon' => 'bi-check-circle'],
+                    default => [
+                        'class' => 'bg-secondary',
+                        'text' => ucfirst($auction->status),
+                        'icon' => 'bi-question-circle',
+                    ],
+                };
+            @endphp
+            <span class="badge {{ $statusConfig['class'] }} fs-6 px-3 py-2">
+                <i class="bi {{ $statusConfig['icon'] }} me-1"></i> {{ $statusConfig['text'] }}
+            </span>
+        </div>
+        <hr>
 
-    {{-- Success/Error Messages --}}
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @error('bid_price')
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ $message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @enderror
+        {{-- Success/Error Messages --}}
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @error('bid_price')
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ $message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
 
     {{-- Main 2-Column Layout --}}
     <div class="row g-4">
@@ -92,17 +96,9 @@
                                 <i class="bi bi-box-seam me-1"></i>{{ $auction->product->stok }}
                             </span>
                         </div>
-                        <h4 class="fw-bold mb-2">{{ $auction->product->product_name ?? 'Produk tidak tersedia' }}</h4>
-                        @if ($auction->product->shop)
-                            <div class="text-muted mb-0 d-flex justify-content-between">
-                                <span><i class="bi bi-shop me-1"></i> {{ $auction->product->shop->shop_name ?? 'Toko tidak tersedia' }}</span>
-                                <span><i class="bi bi-star me-1"></i> Rating {{ number_format($auction->product->rating, 1) }}</span>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
-        </div>
 
         {{-- Right Column: Auction Details --}}
         <div class="col-lg-7">
@@ -180,14 +176,48 @@
                                     <small class="text-muted">Pada {{ $auction->start_time->format('d M Y, H:i') }} WIB</small>
                                 </div>
                             </div>
-                        @elseif($auction->status == 'ended')
-                            {{-- Ended Status with Winner Info --}}
-                            <div class="alert alert-success mb-3">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-trophy fs-4 me-3 text-warning"></i>
+                            <div class="col-6">
+                                <div class="bg-primary bg-opacity-10 rounded-3 p-3 text-center border border-primary">
+                                    <p class="text-primary small mb-1 fw-semibold">Tawaran Tertinggi</p>
+                                    <h5 class="fw-bold text-primary mb-0">
+                                        Rp {{ number_format($auction->current_price, 0, ',', '.') }}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Highest Bidder Info --}}
+                        @if ($auction->highestBid)
+                            <div class="d-flex align-items-center bg-light rounded-3 p-3 mb-4">
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+                                    style="width: 45px; height: 45px;">
+                                    <i class="bi bi-person-fill text-white fs-5"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Penawar Tertinggi</small>
+                                    <p class="fw-semibold mb-0">{{ $auction->highestBid->user->username ?? 'Anonim' }}</p>
+                                </div>
+                                <div class="ms-auto text-end">
+                                    <small class="text-muted">Waktu Tawaran</small>
+                                    <p class="fw-semibold mb-0 small">
+                                        {{ $auction->highestBid->created_at->format('d M Y, H:i') }}</p>
+                                </div>
+                            </div>
+                        @else
+                            <div class="alert alert-light border text-center mb-4">
+                                <i class="bi bi-info-circle me-1"></i> Belum ada penawaran
+                            </div>
+                        @endif
+
+                        {{-- Action Zone (Dynamic based on status) --}}
+                        <div class="border-top pt-4">
+                            @if ($auction->status == 'pending')
+                                <div class="alert alert-secondary d-flex align-items-center mb-0">
+                                    <i class="bi bi-hourglass-split fs-4 me-3"></i>
                                     <div>
-                                        <p class="mb-0 fw-semibold">Lelang Telah Berakhir</p>
-                                        <small>Selesai pada {{ $auction->end_time->format('d M Y, H:i') }} WIB</small>
+                                        <p class="mb-0 fw-semibold">Lelang Akan Dimulai</p>
+                                        <small class="text-muted">Pada {{ $auction->start_time->format('d M Y, H:i') }}
+                                            WIB</small>
                                     </div>
                                 </div>
                             </div>
@@ -224,13 +254,18 @@
                                     Tidak ada pemenang (tidak ada penawaran)
                                 </div>
                             @endif
-                        @else
-                            {{-- Running: Brief status message --}}
-                            <div class="alert alert-primary d-flex align-items-center mb-0">
-                                <i class="bi bi-broadcast fs-4 me-3"></i>
-                                <div>
-                                    <p class="mb-0 fw-semibold">Lelang Sedang Berlangsung</p>
-                                    <small>Pasang tawaran Anda di bawah ini</small>
+                        </div>
+
+                        {{-- Auction Time Info --}}
+                        <div class="border-top pt-4 mt-4">
+                            <div class="row g-2 small text-muted">
+                                <div class="col-6">
+                                    <i class="bi bi-calendar-event me-1"></i> Mulai:
+                                    {{ $auction->start_time->format('d M Y, H:i') }}
+                                </div>
+                                <div class="col-6 text-end">
+                                    <i class="bi bi-calendar-check me-1"></i> Selesai:
+                                    {{ $auction->end_time->format('d M Y, H:i') }}
                                 </div>
                             </div>
                         @endif
@@ -250,7 +285,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     {{-- Bidding Form Section (Full Width - Only when running) --}}
     @auth
@@ -275,7 +309,6 @@
                                     Rp {{ number_format(($auction->current_price ?? 0) + 1000, 0, ',', '.') }}
                                 </h3>
                             </div>
-                        </div>
 
                         {{-- Right: Bid Controls --}}
                         <div class="col-md-8">

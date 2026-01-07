@@ -24,7 +24,16 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             GameCategoriesSeeder::class,
             ShopSeeder::class,
+            ProductSeeder::class,
             CartSeeder::class,
+            MessageSeeder::class,
+            OrderSeeder::class,
+            ProductCommentSeeder::class,
+            ComplaintSeeder::class,
+            NotificationSeeder::class,
+            NotificationLogSeeder::class,
+            AuctionSeeder::class,
+            AdminSettingSeeder::class,
         ]);
     }
 }

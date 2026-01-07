@@ -43,7 +43,7 @@
                             <div class="mb-3">
                                 <label>Gambar Saat Ini :</label><br>
                                 <img src="{{ asset('storage/' . $product->product_img) }}"alt="Gambar Produk" width="300"
-                                    class="shadow rounded">
+                                    class="shadow rounded img-fluid">
                             </div>
                         @endif
                         <label>Gambar Produk {{ $product ? '' : '*' }}</label>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-12 mb-3">
                         <label>Deskripsi</label><br>
-                        <textarea id="description" name="description" class="form-control"
+                        <textarea rows="5" id="description" name="description" class="form-control"
                             placeholder="Tuliskan Deskripsi Produk Yang Ingin Di Jual">{{ old('description', $product->description ?? '') }}</textarea>
                     </div>
                 </div>

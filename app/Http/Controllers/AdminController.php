@@ -18,10 +18,14 @@ use App\Http\Requests\UpdateTemplateRequest;
 use App\Models\NotificationTemplate;
 use App\Services\NotificationService;
 use App\Mail\AccountBanned;
+use App\Models\AdminSettings;
+use App\Models\CartItem;
 use App\Models\NotificationLog;
 use App\Models\Complaint;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
+use App\Models\Refund;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -30,6 +34,29 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     // VIEW
+    function showWithdraws() {
+        $withdraws = Withdraw::with(['shop'])->orderBy('created_at', 'desc')->paginate(20);
+        return view('pages.admin.withdraw', compact('withdraws'));
+    }
+
+    function processWithdraw(Request $req, $withdrawId) {
+        $withdraw = Withdraw::with('shop')->where('status', 'waiting')->findOrFail($withdrawId);
+
+        $req->validate([
+            'action' => 'required|in:approve,reject'
+        ]);
+
+        if ($req->action === 'approve') {
+            $withdraw->update(['status' => 'done']);
+            $shop = $withdraw->shop;
+            $shop->decrement('shop_balance', $withdraw->amount);
+        } else {
+            $withdraw->update(['status' => 'rejected']);
+        }
+
+        return redirect()->route('admin.withdraws.index')->with('success', 'Permintaan pencairan saldo berhasil diproses.');
+    }
+
     function showDashboard() {
         $totalUsers = User::count();
         $totalSellers = User::where('role', 'seller')->count();
@@ -40,8 +67,28 @@ class AdminController extends Controller
         $totalGames = Game::count();
         $totalRecipients = NotificationLog::sum('recipients_count');
 
-        return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
+        $admin_settings = AdminSettings::first();
+
+        return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients', 'admin_settings'));
     }
+
+    function updateSettings(Request $req) {
+        $req->validate([
+            'platform_fee_percentage' => 'required|integer|min:0|max:100',
+        ]);
+
+        $admin_settings = AdminSettings::first();
+        if (!$admin_settings) {
+            $admin_settings = new AdminSettings();
+        }
+
+        $admin_settings->update([
+            'platform_fee_percentage' => $req->platform_fee_percentage,
+        ]);
+
+        return redirect()->back()->with('success', 'Pengaturan admin fee berhasil diperbarui.');
+    }
+
     public function showCancelledOrders(Request $request)
     {
         $query = OrderItem::where('status', 'cancelled')
@@ -120,6 +167,8 @@ class AdminController extends Controller
         }
 
         $complaints = $query->latest()->paginate(20);
+
+        // dd( $complaints);
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.admin.complaints', compact('complaints', 'categories'));
@@ -185,7 +234,13 @@ class AdminController extends Controller
 
     function showComments(Request $request)
     {
-        $query = ProductComment::with(['product', 'user', 'orderItem']);
+        $query = ProductComment::with(['product', 'user', 'orderItem'])
+                    ->whereHas('product', function($q) {
+                        $q->whereNull('deleted_at');
+                    })
+                    ->whereHas('user', function($q) {
+                        $q->whereNull('deleted_at');
+                    });
 
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
@@ -193,6 +248,7 @@ class AdminController extends Controller
 
         $comments = $query->latest('created_at')->paginate(20);
 
+        // dd($comments);
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -278,7 +334,7 @@ class AdminController extends Controller
     }
 
     function showGames() {
-        $games = Game::with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
+        $games = Game::withTrashed()->with(['gamesCategories.category' => function($query) {$query->withTrashed();}])->paginate(15);
         $game = null;
         $categories = Category::all();
         $editGame = null;
@@ -354,6 +410,7 @@ class AdminController extends Controller
 
         $game = Game::onlyTrashed()->findOrFail($request->id);
         $game->restore();
+        return redirect()->back()->with('success', 'Game direstore.');
     }
 
     function showNotificationMaster(Request $request){
@@ -399,6 +456,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.notifications.index')->with('success', 'Template notifikasi berhasil dihapus');
     }
+
     function broadcastNotification(Request $req, $id){
         $template = NotificationTemplate::findOrFail($id);
         (new NotificationService())->broadcast($template->code_tag, $req->target_audience);
@@ -425,10 +483,34 @@ class AdminController extends Controller
 
         $shop = Shop::where('owner_id', $user->user_id)->first();
         if ($shop) {
+            CartItem::whereHas('product', function ($query) use ($shop) {
+                $query->where('shop_id', $shop->shop_id);
+            })->delete();
+
             $shop->products()->delete();
         }
 
         Mail::to($user->email)->queue(new AccountBanned());
+
+        if ($user->role == 'user') {
+            $orderItems = OrderItem::whereHas('order', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id);
+            })->whereIn('status', ['pending', 'paid', 'shipped'])->get();
+
+            foreach ($orderItems as $item) {
+                if ($item->status == 'shipped') {
+                    $item->update(['status' => 'completed']);
+                    $shop = $item->shop;
+                    $shop->decrement('running_transactions', $item->subtotal);
+                    $shop->increment('shop_balance', $item->subtotal);
+                    continue;
+                }
+
+                $item->update(['status' => 'cancelled']);
+                $shop = $item->shop;
+                $shop->decrement('running_transactions', $item->subtotal);
+            }
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
     }

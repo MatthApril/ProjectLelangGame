@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminSettings;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -150,6 +152,8 @@ class PaymentController extends Controller
             return redirect()->route('user.cart')->with('error', 'Keranjang kosong.');
         }
 
+        $admin_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
         foreach ($cart_items as $item) {
 
             $owner = $item->product->shop->owner;
@@ -180,6 +184,7 @@ class PaymentController extends Controller
                 'status' => 'unpaid',
                 'expire_payment_at' => now()->addHours(1),
                 'total_prices' => 0,
+                'admin_fee' => 0,
             ]);
 
 
@@ -208,6 +213,8 @@ class PaymentController extends Controller
 
             }
 
+            $order->update(['admin_fee' => round($totalPrice * ($admin_fee_percentage / 100))]);
+            $totalPrice += round($totalPrice * ($admin_fee_percentage / 100));
             $order->update(['total_prices' => $totalPrice]);
             // $product->decrement('stok', $item->quantity);
             // $cart->cartItems()->delete();
@@ -275,8 +282,10 @@ class PaymentController extends Controller
                     $cart->cartItems()->delete();
                 }
 
+                // dd($cart->cartItems());
+
                 Mail::to($user->email)->queue(new \App\Mail\Invoice($order));
-                
+
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }
         }

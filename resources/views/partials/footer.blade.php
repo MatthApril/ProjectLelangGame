@@ -28,38 +28,38 @@
                 <h6 class="fw-bold">Metode Pembayaran</h6>
                 <div class="row">
                     <div class="col-12 my-1">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Flinkaja-sm.png&w=96&q=75" alt="" width="45">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Findodana.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Falfamidi.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Falfamart.png&w=96&q=75" alt="" width="45" class="ms-4">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Flinkaja-sm.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Findodana.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Falfamidi.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Falfamart.png&w=96&q=75" alt="" width="50">
                     </div>
                     <div class="col-12 my-1">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Findomaret.png&w=96&q=75" alt="" width="45">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2F3-sm.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Findosat.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fxl-sm.png&w=96&q=75" alt="" width="45" class="ms-4">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Findomaret.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2F3-sm.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Findosat.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fxl-sm.png&w=96&q=75" alt="" width="50">
                     </div>
                     <div class="col-12 my-1">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Ftelkomsel.png&w=96&q=75" alt="" width="45">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Flainnya.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fbri.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fpermata.png&w=96&q=75" alt="" width="45" class="ms-4">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Ftelkomsel.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Flainnya.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fbri.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fpermata.png&w=96&q=75" alt="" width="50">
                     </div>
                     <div class="col-12 my-1">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fmaybank.png&w=96&q=75" alt="" width="45">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fbni.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fmandiri.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fbca.png&w=96&q=75" alt="" width="45" class="ms-4">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fmaybank.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fbni.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fmandiri.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fbca.png&w=96&q=75" alt="" width="50">
                     </div>
                     <div class="col-12 my-1">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fqris.png&w=96&q=75" alt="" width="45">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fshopeepay.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fgopay.png&w=96&q=75" alt="" width="45" class="ms-4">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fdana.png&w=96&q=75" alt="" width="45" class="ms-4">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fqris.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fshopeepay.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fgopay.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fdana.png&w=96&q=75" alt="" width="50">
                     </div>
                     <div class="col-12 my-1">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fovo.png&w=96&q=75" alt="" width="45">
-                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fdompetku-sm.png&w=96&q=75" alt="" width="45" class="ms-4">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fovo.png&w=96&q=75" alt="" width="50">
+                        <img src="https://imgop.itemku.com/?url=https%3A%2F%2Ffiles.itemku.com%2Flogo%2Fpayment%2Fdompetku-sm.png&w=96&q=75" alt="" width="50">
                     </div>
                 </div>
             </div>
