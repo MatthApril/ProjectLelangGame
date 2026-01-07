@@ -75,7 +75,7 @@
                             <td>{{ $item->order->account->username }}</td>
                             <td>
                                 @if ($item->product->product_img)
-                                    <img src="{{ asset('storage/products/' . $item->product->product_img) }}" width="50"
+                                    <img src="{{ asset('storage/' . $item->product->product_img) }}" width="50"
                                         alt="">
                                 @endif
                                 {{ $item->product->product_name }}

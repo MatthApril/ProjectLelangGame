@@ -42,7 +42,7 @@
                     <div class="d-flex align-items-center gap-3">
                         @if ($item->product->product_img)
                             <div>
-                                <img src="{{ asset('storage/products/' . $item->product->product_img) }}" alt=""
+                                <img src="{{ asset('storage/' . $item->product->product_img) }}" alt=""
                                     width="170" class="img-fluid rounded shadow">
                             </div>
                         @endif

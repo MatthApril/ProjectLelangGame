@@ -47,7 +47,7 @@
                     <span>Tanggal Pesanan : {{ $item->paid_at->format('d M Y H:i') }}</span>
                     <hr>
                     @if ($item->product->product_img)
-                        <img src="{{ asset('storage/products/' . $item->product->product_img) }}" alt=""
+                        <img src="{{ asset('storage/' . $item->product->product_img) }}" alt=""
                             class="img-fluid rounded shadow mb-3" width="300">
                     @endif
                     <p class="m-0">Produk : {{ $item->product->product_name }}</p>
