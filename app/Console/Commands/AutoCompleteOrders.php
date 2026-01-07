@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\OrderItem;
+use App\Services\NotificationService;
 use Illuminate\Console\Command;
 
 class AutoCompleteOrders extends Command
@@ -42,10 +43,15 @@ class AutoCompleteOrders extends Command
             $shop->increment('shop_balance', $orderItem->subtotal);
 
             $this->info("Order #{$orderItem->order_item_id} auto-completed");
+
+            (new NotificationService())->send($orderItem->order->user_id, 'order_success', [
+                'username' => $orderItem->order->account->username,
+                'amount' => $orderItem->subtotal,
+            ]);
         }
 
 
         $this->info('Auto-complete orders finished!');
-        
+
     }
 }

@@ -9,7 +9,6 @@ class AuctionBid extends Model
     protected $table = 'auction_bids';
     protected $primaryKey = 'bid_id';
     public $timestamps = true;
-    const UPDATED_AT = null;
     protected $fillable = [
         'auction_id',
         'user_id',

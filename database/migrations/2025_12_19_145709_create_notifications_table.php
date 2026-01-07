@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('notification_id');
             $table->string('title'); // Snapshot of title at time of sending
             $table->text('body'); // Snapshot of body at time of sending
-            $table->enum('category', ['system', 'promo', 'order']);
+            $table->enum('category', ['system', 'order']);
             $table->timestamps();
         });
     }

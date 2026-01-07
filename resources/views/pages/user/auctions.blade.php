@@ -13,8 +13,8 @@
     </nav>
     <h2 class="fw-semibold">Semua Lelang</h2>
     <hr>
-    <input type="search" name="search" placeholder="Cari Lelang" value="{{ request('search') }}" class="form-control" autocomplete="off">
     <form method="GET" action="{{ route('auctions.index') }}">
+        <input type="search" name="search" placeholder="Cari Lelang" value="{{ request('search') }}" class="form-control" autocomplete="off">
         <div class="row">
             <div class="col-md-6 mt-3">
                 <label>Game :</label>
@@ -61,7 +61,7 @@
             <div class="row">
                 <div class="col-md-3 mt-3">
                     <div class="d-grid">
-                        <a href="{{ route('auctions.index') }}" class="btn btn-outline-secondary rounded-5"><i class="bi bi-arrow-clockwise"></i> Reset</a>
+                        <button type="reset" class="btn btn-outline-secondary rounded-5"><i class="bi bi-arrow-clockwise"></i> Reset</button>
                     </div>
                 </div>
                 <div class="col-md-9 mt-3">
@@ -87,17 +87,17 @@
             <div class="card h-100 shadow-sm border-0 pb-3">
                 <div class="position-relative">
                     @if($auction->product && $auction->product->product_img)
-                        <img src="{{ asset('storage/' . $auction->product->product_img) }}" 
-                            class="card-img-top object-fit-cover" 
-                            alt="{{ $auction->product->product_name }}" 
+                        <img src="{{ asset('storage/' . $auction->product->product_img) }}"
+                            class="card-img-top object-fit-cover"
+                            alt="{{ $auction->product->product_name }}"
                             style="height: 200px;">
                     @else
-                        <img src="{{ asset('images/no-image.png') }}" 
-                            class="card-img-top object-fit-cover" 
-                            alt="No Image" 
+                        <img src="{{ asset('images/no-image.png') }}"
+                            class="card-img-top object-fit-cover"
+                            alt="No Image"
                             style="height: 200px;">
                     @endif
-                    
+
                     {{-- Status Badge --}}
                     <div class="position-absolute top-0 start-0 m-2">
                         @if($auction->status == 'running')
@@ -114,13 +114,13 @@
                     {{-- Timer Bar --}}
                     @if($auction->status == 'pending')
                         <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
-                            <small><i class="bi bi-hourglass-split"></i> Dimulai dalam: 
+                            <small><i class="bi bi-hourglass-split"></i> Dimulai dalam:
                                 <span class="auction-timer fw-bold" data-time="{{ $auction->start_time }}" data-type="start">...</span>
                             </small>
                         </div>
                     @elseif($auction->status == 'running')
                         <div class="position-absolute bottom-0 start-0 w-100 bg-primary bg-opacity-75 text-white text-center py-1">
-                            <small><i class="bi bi-alarm"></i> Berakhir dalam: 
+                            <small><i class="bi bi-alarm"></i> Berakhir dalam:
                                 <span class="auction-timer fw-bold" data-time="{{ $auction->end_time }}" data-type="end">...</span>
                             </small>
                         </div>
@@ -135,7 +135,7 @@
                     <h5 class="fw-bold card-title text-truncate text-center" title="{{ $auction->product->product_name }}">
                         {{ $auction->product->product_name }}
                     </h5>
-                    
+
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <small class="text-muted">Harga {{ $statusConfig['harga'] }}:</small>
                         <span class="fw-bold text-primary fs-5">
@@ -171,7 +171,7 @@
                             @else
                                 Lihat Detail <i class="bi bi-arrow-right"></i>
                             @endif
-                        </a>    
+                        </a>
                     @endif
                 </div>
             </div>

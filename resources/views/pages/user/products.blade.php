@@ -12,8 +12,8 @@
     </nav>
     <h2 class="fw-semibold">Semua Produk</h2>
     <hr>
-    <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
     <form method="GET" action="{{ route('products.index') }}">
+        <input type="search" name="search" placeholder="Cari Produk" value="{{ request('search') }}" class="form-control" autocomplete="off">
         <div class="row">
             <div class="col-md-6 mt-3">
                 <label>Game :</label>
@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col-md-3 mt-3">
                     <div class="d-grid">
-                        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary rounded-5"><i class="bi bi-arrow-clockwise"></i> Reset</a>
+                        <button type="reset" class="btn btn-outline-secondary rounded-5"><i class="bi bi-arrow-clockwise"></i> Reset</button>
                     </div>
                 </div>
                 <div class="col-md-9 mt-3">
@@ -77,9 +77,9 @@
             {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="text-decoration-none text-dark"> --}}
                 <div class="card">
                     @if($product->product_img)
-                        <img 
-                            src="{{ asset('storage/' . $product->product_img) }}" 
-                            alt="{{ $product->product_name }}" 
+                        <img
+                            src="{{ asset('storage/' . $product->product_img) }}"
+                            alt="{{ $product->product_name }}"
                             class="card-img-top product-img-16x9"
                         >
                     @endif

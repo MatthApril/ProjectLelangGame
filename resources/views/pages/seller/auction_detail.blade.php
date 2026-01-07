@@ -51,17 +51,17 @@
                 <div class="card-body p-4">
                     <div class="position-relative">
                         @if($auction->product && $auction->product->product_img)
-                            <img src="{{ asset('storage/' . $auction->product->product_img) }}" 
-                                 alt="{{ $auction->product->product_name }}" 
+                            <img src="{{ asset('storage/' . $auction->product->product_img) }}"
+                                 alt="{{ $auction->product->product_name }}"
                                  class="img-fluid rounded w-100"
                                  style="height: 350px; object-fit: cover;">
                         @else
-                            <img src="{{ asset('images/no-image.png') }}" 
-                                 alt="No Image" 
+                            <img src="{{ asset('images/no-image.png') }}"
+                                 alt="No Image"
                                  class="img-fluid rounded w-100"
                                  style="height: 350px; object-fit: cover;">
                         @endif
-                        
+
                         {{-- Status Badge on Image --}}
                         @if($auction->status == 'running')
                             <div class="position-absolute top-0 start-0 m-3">
@@ -71,7 +71,7 @@
                             </div>
                         @endif
                     </div>
-                    
+
                     {{-- Product Info Below Image --}}
                     <div class="py-4">
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -138,7 +138,7 @@
                     {{-- Highest Bidder Info --}}
                     @if($auction->highestBid)
                         <div class="d-flex align-items-center bg-light rounded-3 p-3 mb-4">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3"
                                  style="width: 45px; height: 45px;">
                                  <i class="bi bi-person-fill text-white fs-5"></i>
                             </div>
@@ -160,7 +160,7 @@
                     {{-- Action Zone (Dynamic based on status) --}}
                     <div class="border-top pt-4">
                         <h6 class="fw-bold mb-3"><i class="bi bi-lightning-charge me-1"></i> Status Lelang</h6>
-                        
+
                         @if($auction->status == 'pending')
                             <div class="alert alert-secondary d-flex align-items-center">
                                 <i class="bi bi-hourglass-split fs-4 me-3"></i>
@@ -188,7 +188,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             @if($auction->winner)
                                 <div class="card bg-light border-success">
                                     <div class="card-body">
@@ -196,7 +196,7 @@
                                             <i class="bi bi-trophy-fill me-1"></i> Pemenang Lelang
                                         </h6>
                                         <div class="d-flex align-items-center">
-                                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3"
                                                  style="width: 50px; height: 50px;">
                                                  <i class="bi bi-person-fill text-white fs-5"></i>
                                             </div>
@@ -212,12 +212,12 @@
                                 </div>
                             @elseif($auction->highestBid)
                                 <div class="alert alert-info">
-                                    <i class="bi bi-info-circle me-1"></i> 
+                                    <i class="bi bi-info-circle me-1"></i>
                                     Pemenang akan segera diumumkan
                                 </div>
                             @else
                                 <div class="alert alert-warning">
-                                    <i class="bi bi-exclamation-triangle me-1"></i> 
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
                                     Tidak ada pemenang (tidak ada penawaran)
                                 </div>
                             @endif
@@ -286,15 +286,15 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" 
+                                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2"
                                                  style="width: 35px; height: 35px;">
                                                  <i class="bi bi-person-fill text-primary"></i>
                                             </div>
                                                 <span class="fw-semibold">
                                                     @php
                                                         $username = $bid->user->username ?? 'Anonim';
-                                                        $maskedName = strlen($username) > 6 
-                                                            ? substr($username, 0, 3) . '***' . substr($username, -2) 
+                                                        $maskedName = strlen($username) > 6
+                                                            ? substr($username, 0, 3) . '***' . substr($username, -2)
                                                             : $username;
                                                     @endphp
                                                     {{ $maskedName }}
@@ -306,7 +306,7 @@
                                     </td>
                                     <td class="text-center text-muted">
                                         <i class="bi bi-clock me-1"></i>
-                                        {{ $bid->created_at->format('d M Y, H:i:s') }}
+                                        {{ $bid->updated_at->format('d M Y, H:i:s') }}
                                     </td>
                                     <td class="text-end">
                                         <span class="fw-bold {{ $index == 0 ? 'text-success fs-5' : 'text-primary' }}">
@@ -346,16 +346,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const timers = document.querySelectorAll('.countdown-timer');
-        
+
         function updateTimers() {
             const now = new Date().getTime();
-            
+
             timers.forEach(timer => {
                 const timeStr = timer.getAttribute('data-time');
                 const type = timer.getAttribute('data-type');
                 const targetTime = new Date(timeStr).getTime();
                 const distance = targetTime - now;
-                
+
                 if (distance < 0) {
                     if (type === 'start') {
                         timer.innerHTML = '<span class="text-success">DIMULAI!</span>';
@@ -364,23 +364,23 @@
                     }
                     return;
                 }
-                
+
                 const d = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((distance % (1000 * 60)) / 1000);
-                
+
                 let timeDisplay = '';
                 if (d > 0) {
                     timeDisplay = `${d} hari ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                 } else {
                     timeDisplay = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                 }
-                
+
                 timer.innerHTML = timeDisplay;
             });
         }
-        
+
         updateTimers();
         setInterval(updateTimers, 1000);
     });

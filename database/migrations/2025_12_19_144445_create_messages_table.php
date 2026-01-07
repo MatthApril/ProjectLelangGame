@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('receiver_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->text('content');
             $table->timestamp('created_at')->useCurrent();
+            $table->boolean('is_read')->default(false);
         });
     }
 

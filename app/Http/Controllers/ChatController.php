@@ -14,7 +14,7 @@ class ChatController extends Controller
 {
     public function index(){
         $myId = Auth::user()->user_id;
-        
+
         $chatPartners = Message::where('sender_id', $myId)
             ->orWhere('receiver_id', $myId)
             ->get()
@@ -35,7 +35,12 @@ class ChatController extends Controller
 
         $product = null;
         $autoMessage = '';
-        
+
+        Message::where('sender_id', $userId)
+            ->where('receiver_id', Auth::id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
         // Capture where the user came from
         $returnUrl = $request->input('return_url', route('chat.index'));
         $returnLabel = $request->input('return_label', 'Daftar Chat');

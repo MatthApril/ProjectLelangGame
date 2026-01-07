@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('subject');
             $table->text('body'); // HTML content with variables like {username}
             $table->enum('trigger_type', ['transactional', 'broadcast']); // The logic controller
-            $table->enum('category', ['system', 'promo', 'order']);
+            $table->enum('category', ['system', 'order']);
             $table->timestamps();
             $table->softDeletes();
         });

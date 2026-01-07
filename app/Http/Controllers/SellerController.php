@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -215,6 +216,11 @@ class SellerController extends Controller
             'shipped_at' => now(),
         ]);
 
+        (new NotificationService())->send($orderItem->order->user_id, 'order_shipped', [
+            'username' => $orderItem->order->account->username,
+            'product_name' => $orderItem->product->product_name,
+        ]);
+
         $shop = $orderItem->shop;
         $shop->increment('running_transactions', $orderItem->subtotal);
 
@@ -271,17 +277,17 @@ class SellerController extends Controller
             ->limit(10)
             ->get();
 
-        $isOpen = $auction->status === 'running' 
+        $isOpen = $auction->status === 'running'
             && now()->between($auction->start_time, $auction->end_time);
 
         $categories = Category::orderBy('category_name')->get();
         $shop = Auth::user()->shop;
 
         return view('pages.seller.auction_detail', compact(
-            'auction', 
-            'topBids', 
-            'isOpen', 
-            'categories', 
+            'auction',
+            'topBids',
+            'isOpen',
+            'categories',
             'shop'
         ));
     }

@@ -49,7 +49,7 @@
 
         <br>
 
-        <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
+        {{-- <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
             <div class="col">
                 <a href="{{ route('user.topUp') }}" class="text-decoration-none">
                     <div class="card">
@@ -102,7 +102,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
         <br>
 

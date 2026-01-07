@@ -19,19 +19,40 @@
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-4 py-3">
                     <div class="d-flex align-items-center justify-content-end gap-3">
-                        <a href="{{ route('chat.index') }}" class="text-decoration-none text-white"><i class="bi bi-envelope"
-                                style="font-size: 1.5rem;"></i></a>
-                        <a href="{{ route('notifications.index') }}" class="text-decoration-none text-white"><i class="bi bi-bell"
-                                style="font-size: 1.5rem;"></i></a>
-                        <a href="{{ route('user.cart') }}" class="text-decoration-none text-white"><i class="bi bi-cart3"
-                                style="font-size: 1.5rem;"></i></a>
+                        <a href="{{ route('chat.index') }}" class="text-decoration-none text-white position-relative">
+                            <i class="bi bi-envelope" style="font-size: 1.5rem;"></i>
+                            @if(isset($unreadMessagesCount) && $unreadMessagesCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $unreadMessagesCount }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </a>
+                        <a href="{{ route('notifications.index') }}" class="text-decoration-none text-white position-relative">
+                            <i class="bi bi-bell" style="font-size: 1.5rem;"></i>
+                            @if(isset($unreadNotificationsCount) && $unreadNotificationsCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $unreadNotificationsCount }}
+                                    <span class="visually-hidden">unread notifications</span>
+                                </span>
+                            @endif
+                        </a>
+                        <a href="{{ route('user.cart') }}" class="text-decoration-none text-white position-relative">
+                            <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
+                            @if(isset($cartItemCount) && $cartItemCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $cartItemCount }}
+                                    <span class="visually-hidden">items in cart</span>
+                                </span>
+                            @endif
+                        </a>
                         <span class="fs-5"> | </span>
                         <div class="dropdown dropstart">
                             <button class="btn btn-outline-light text-decoration-none text-wrap dropdown-toggle"
                                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i>
-                                {{ strlen(Auth::user()->username) > 5 
-                                    ? substr(Auth::user()->username, 0, 5) . '...' 
+                                {{ strlen(Auth::user()->username) > 5
+                                    ? substr(Auth::user()->username, 0, 5) . '...'
                                     : Auth::user()->username }}
                             </button>
 

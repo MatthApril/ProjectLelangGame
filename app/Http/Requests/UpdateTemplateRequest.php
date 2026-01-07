@@ -26,7 +26,7 @@ class UpdateTemplateRequest extends FormRequest
             'subject' => 'required|string|max:255',
             'body' => 'required|string',
             'trigger_type' => 'required|in:transactional,broadcast',
-            'category' => 'required|in:system,promo,order',
+            'category' => 'required|in:system,order',
         ];
     }
 
