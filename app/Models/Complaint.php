@@ -33,12 +33,12 @@ class Complaint extends Model
 
     public function buyer()
     {
-        return $this->belongsTo(User::class, 'buyer_id', 'user_id');
+        return $this->belongsTo(User::class, 'buyer_id', 'user_id')->withTrashed();
     }
 
     public function seller()
     {
-        return $this->belongsTo(User::class, 'seller_id', 'user_id');
+        return $this->belongsTo(User::class, 'seller_id', 'user_id')->withTrashed();
     }
 
     public function response()

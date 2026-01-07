@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('withdraw', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users','user_id')->cascadeOnDelete();
+            $table->id('withdraw_id');
+            $table->foreignId('shop_id')->constrained('shops','shop_id')->cascadeOnDelete();
             $table->decimal('amount');
             $table->enum('status', ['waiting', 'done', 'rejected'])->default('waiting');
             $table->timestamps();

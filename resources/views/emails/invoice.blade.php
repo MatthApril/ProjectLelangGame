@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>LelangGame</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
+
 <body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, Helvetica, sans-serif;">
-    <div style="max-width:600px; margin:40px auto; background:#ffffff; padding:30px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+    <div
+        style="max-width:600px; margin:40px auto; background:#ffffff; padding:30px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
         <!-- Header -->
         <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:25px;">
-            <img src="https://res.cloudinary.com/ds4kbzrdd/image/upload/v1766537270/LogoWarna-RemoveBg_atsck7.png" alt="LelangGame Logo" height="56" style="display:block; vertical-align:middle;">
-            <h1 style="margin:0; font-size:30px; font-weight:800; line-height:56px; color:#1e293b; vertical-align:middle;">
+            <img src="https://res.cloudinary.com/ds4kbzrdd/image/upload/v1766537270/LogoWarna-RemoveBg_atsck7.png"
+                alt="LelangGame Logo" height="56" style="display:block; vertical-align:middle;">
+            <h1
+                style="margin:0; font-size:30px; font-weight:800; line-height:56px; color:#1e293b; vertical-align:middle;">
                 LelangGame
             </h1>
         </div>
@@ -26,7 +33,7 @@
         <!-- Invoice -->
         {{-- <div style="text-align:center; margin:30px 0;">
             <span style="display:inline-block; background:#2563eb; color:#ffffff; font-size:32px; font-weight:bold; letter-spacing:6px; padding:15px 30px; border-radius:8px;">
-                
+
             </span>
         </div> --}}
         <h5 style="font-size:17px; color:#334155;">Detail Transaksi</h5>
@@ -50,7 +57,7 @@
                 <td>Game Name</td>
                 <td>Category Name</td>
             </tr>
-            @foreach($invoice->orderItems as $item)
+            @foreach ($invoice->orderItems as $item)
                 <tr style="color:#334155;">
                     <td>{{ $item->shop->shop_name }}</td>
                     <td>{{ $item->product->product_name }}</td>
@@ -73,4 +80,5 @@
         </p>
     </div>
 </body>
+
 </html>

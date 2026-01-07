@@ -82,11 +82,6 @@ class User extends Authenticatable
         return $this->hasMany(Complaint::class, 'customer_id', 'user_id');
     }
 
-    public function withdraws()
-    {
-        return $this->hasMany(Withdraw::class, 'user_id', 'user_id');
-    }
-
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'sender_id', 'user_id');
@@ -133,7 +128,5 @@ class User extends Authenticatable
     public function comments(){
         return $this->hasMany(ProductComment::class,'user_id','user_id');
     }
-
-
 
 }

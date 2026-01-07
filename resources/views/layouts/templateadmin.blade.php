@@ -50,6 +50,9 @@
                 <a href="{{ route('admin.complaints.index') }}"
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.complaints.*') ? 'menu-active' : '' }}">
                     Komplain</a>
+                <a href="{{ route('admin.withdraws.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.withdraws.*') ? 'menu-active' : '' }}">
+                    Pencairan Saldo</a>
                 <a href="{{ route('admin.cancelled_orders.index') }}"
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
                     Pesanan Dibatalkan</a>
@@ -76,6 +79,8 @@
                         <li class="breadcrumb-item active mt-3">Profile</li>
                     @elseif(Route::is('admin.complaints.*'))
                         <li class="breadcrumb-item active mt-3">Komplain</li>
+                    @elseif(Route::is('admin.withdraws.*'))
+                        <li class="breadcrumb-item active mt-3">Pencairan Saldo</li>
                     @elseif(Route::is('admin.cancelled_orders.*'))
                         <li class="breadcrumb-item active mt-3">Pesanan Dibatalkan</li>
                     @endif

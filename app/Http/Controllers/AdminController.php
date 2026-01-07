@@ -24,6 +24,7 @@ use App\Models\Complaint;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\Refund;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -32,6 +33,29 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     // VIEW
+    function showWithdraws() {
+        $withdraws = Withdraw::with(['shop'])->orderBy('created_at', 'desc')->paginate(20);
+        return view('pages.admin.withdraw', compact('withdraws'));
+    }
+
+    function processWithdraw(Request $req, $withdrawId) {
+        $withdraw = Withdraw::with('shop')->where('status', 'waiting')->findOrFail($withdrawId);
+
+        $req->validate([
+            'action' => 'required|in:approve,reject'
+        ]);
+
+        if ($req->action === 'approve') {
+            $withdraw->update(['status' => 'done']);
+            $shop = $withdraw->shop;
+            $shop->decrement('shop_balance', $withdraw->amount);
+        } else {
+            $withdraw->update(['status' => 'rejected']);
+        }
+
+        return redirect()->route('admin.withdraws.index')->with('success', 'Permintaan pencairan saldo berhasil diproses.');
+    }
+
     function showDashboard() {
         $totalUsers = User::count();
         $totalSellers = User::where('role', 'seller')->count();
@@ -44,6 +68,7 @@ class AdminController extends Controller
 
         return view('pages.admin.dashboard', compact('totalUsers','totalSellers','totalShops','totalProducts','totalOrders','totalCategories','totalGames', 'totalRecipients'));
     }
+
     public function showCancelledOrders(Request $request)
     {
         $query = OrderItem::where('status', 'cancelled')
@@ -122,6 +147,8 @@ class AdminController extends Controller
         }
 
         $complaints = $query->latest()->paginate(20);
+
+        // dd( $complaints);
         $categories = Category::orderBy('category_name')->get();
 
         return view('pages.admin.complaints', compact('complaints', 'categories'));
@@ -451,14 +478,17 @@ class AdminController extends Controller
             })->whereIn('status', ['pending', 'paid', 'shipped'])->get();
 
             foreach ($orderItems as $item) {
+                if ($item->status == 'shipped') {
+                    $item->update(['status' => 'completed']);
+                    $shop = $item->shop;
+                    $shop->decrement('running_transactions', $item->subtotal);
+                    $shop->increment('shop_balance', $item->subtotal);
+                    continue;
+                }
+
                 $item->update(['status' => 'cancelled']);
                 $shop = $item->shop;
                 $shop->decrement('running_transactions', $item->subtotal);
-
-                Refund::create([
-                    'order_item_id' => $item->order_item_id,
-                    'reason' => 'Order cancelled due to account ban'
-                ]);
             }
         }
 

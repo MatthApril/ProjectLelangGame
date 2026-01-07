@@ -33,6 +33,7 @@ class OrderItem extends Model
     {
         return $this->hasOne(Complaint::class, 'order_item_id', 'order_item_id');
     }
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
@@ -40,22 +41,17 @@ class OrderItem extends Model
 
     public function shop()
     {
-        return $this->belongsTo(Shop::class, 'shop_id');
+        return $this->belongsTo(Shop::class, 'shop_id')->withTrashed();
     }
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_id')->withTrashed();
     }
 
     public function comment()
     {
         return $this->hasOne(ProductComment::class,'order_item_id');
-    }
-
-    public function refund()
-    {
-        return $this->hasOne(Refund::class,'order_item_id');
     }
 
     public function hasReview()

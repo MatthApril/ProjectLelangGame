@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\Refund;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,44 @@ use Illuminate\Support\Facades\DB;
 
 class SellerController extends Controller
 {
+    function showWithdraw()
+    {
+        $shop = Auth::user()->shop;
+        $categories = Category::orderBy('category_name')->get();
+        $withdraws = $shop->withdraws()->orderBy('created_at', 'desc')->get();
+
+        return view('pages.seller.withdraw', compact('shop', 'categories', 'withdraws'));
+    }
+
+    function requestWithdraw(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:10000|max:' . Auth::user()->shop->shop_balance,
+        ]);
+
+        $shop = Auth::user()->shop;
+
+        DB::beginTransaction();
+
+        try {
+            // Kurangi saldo toko
+            $shop->decrement('shop_balance', $request->amount);
+
+            // Buat permintaan pencairan
+            $shop->withdraws()->create([
+                'amount' => $request->amount,
+                'status' => 'waiting',
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal melakukan pencairan: ' . $e->getMessage());
+        }
+
+        DB::commit();
+
+        return redirect()->route('seller.withdraws.index')->with('success', 'Permintaan pencairan berhasil diajukan!');
+    }
 
     function showDashboard() {
         $user = Auth::user();
@@ -240,13 +279,9 @@ class SellerController extends Controller
         ]);
 
         $buyer = $orderItem->order->account;
-        $buyer->increment('balance', $orderItem->subtotal);
         $orderItem->product->increment('stok', $orderItem->quantity);
 
-        Refund::create([
-            'order_item_id' => $orderItem->order_item_id,
-            'reason' => 'Order cancelled by seller'
-        ]);
+        Shop::find($orderItem->shop_id)->decrement('running_transactions', $orderItem->subtotal);
 
         return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan!');
 

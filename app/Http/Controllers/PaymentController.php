@@ -6,6 +6,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -265,6 +266,7 @@ class PaymentController extends Controller
                         $product->decrement('stok', $item->quantity);
                     }
 
+                    Shop::find($item->shop_id)->increment('running_transactions', $item->subtotal);
                 }
 
                 $user = Auth::user();

@@ -30,6 +30,8 @@ Route::prefix('seller')->as('seller.')
             Route::post('/auctions/create', 'createAuction')->name('auctions.create');
             Route::get('/auctions/{auctionId}', 'showSellerAuctionDetail')->name('auctions.detail');
 
+            Route::get('/withdraw', 'showWithdraw')->name('withdraws.index');
+            Route::post('/withdraw', 'requestWithdraw')->name('withdraws.request');
 
             Route::get('/complaints', 'showComplaints')->name('complaints.index');
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
-use App\Http\Requests\BiddingRequests;
 use App\Http\Requests\CreateComplaintRequest;
 use App\Http\Requests\InputProductCommentRequest;
 use App\Models\Auction;
@@ -169,9 +168,11 @@ class UserController extends Controller
         $orderItem->update([
             'status' => 'completed'
         ]);
+
         $shop = $orderItem->shop;
         $shop->decrement('running_transactions', $orderItem->subtotal);
         $shop->increment('shop_balance', $orderItem->subtotal);
+
         return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi!');
 
     }
