@@ -144,6 +144,26 @@ class SellerController extends Controller
             $query->where('product_id', $request->product_id);
         }
 
+                $ratingStats = [];
+        $totalReviews = 0;
+
+        for ($i = 5; $i >= 1; $i--) {
+            $count = DB::table('products_comments')
+                ->join('products', 'products_comments.product_id', '=', 'products.product_id')
+                ->where('products.shop_id', $shop->shop_id)
+                ->where('products_comments.rating', $i)
+                ->whereNull('products_comments.deleted_at')
+                ->count();
+
+            $ratingStats[$i] = $count;
+            $totalReviews += $count;
+        }
+
+        $ratingPercentages = [];
+        foreach ($ratingStats as $rating => $count) {
+            $ratingPercentages[$rating] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+        }
+
         $comments = $query->latest('created_at')->paginate(20);
 
         $products = $shop->products()->orderBy('product_name')->get();
@@ -167,7 +187,7 @@ class SellerController extends Controller
             ]);
         }
 
-        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution'));
+        return view('pages.seller.reviews', compact('comments', 'products', 'totalReviews', 'ratingDistribution', 'ratingStats', 'ratingPercentages'));
     }
 
     function showIncomingOrders()

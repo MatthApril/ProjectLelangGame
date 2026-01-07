@@ -125,13 +125,13 @@
                                                         <button type="submit"
                                                             onclick="return confirm('Konfirmasi pesanan sudah diterima?')"
                                                             class="btn btn-success btn-sm">
-                                                            Konfirmasi Terima
+                                                            <i class="bi bi-check-lg"></i> Konfirmasi Terima
                                                         </button>
                                                     </form>
         
                                                     <a href="{{ route('user.complaints.create', $item->order_item_id) }}"
                                                         class="btn btn-danger btn-sm">
-                                                        Ajukan Komplain
+                                                        <i class="bi bi-x-lg"></i> Ajukan Komplain
                                                     </a>
                                                 </div>
                                             @else
@@ -160,7 +160,7 @@
                                         <input type="hidden" name="return_url"
                                             value="{{ route('products.detail', $item->product_id) }}">
                                         <input type="hidden" name="return_label" value="Kembali ke Produk"> --}}
-                                        <button type="submit" class="btn btn-outline-primary text-center">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm text-center">
                                             <i class="bi bi-chat"></i> Hubungi Penjual
                                         </button>
                                     </form>

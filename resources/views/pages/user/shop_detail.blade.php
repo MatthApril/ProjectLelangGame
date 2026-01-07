@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        {{-- <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
                 <li class="breadcrumb-item">
                     <a href="{{ route('user.home') }}">Beranda</a>
@@ -13,10 +13,10 @@
                     <a href="{{ route('products.index') }}">Semua Produk</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    Toko {{ $shop->shop_name }}
+                    {{ $shop->shop_name }}
                 </li>
             </ol>
-        </nav>
+        </nav> --}}
         <div class="row">
             <div class="col-md-4 d-flex align-items-start gap-3 mt-3">
                 @if ($shop->shop_img)

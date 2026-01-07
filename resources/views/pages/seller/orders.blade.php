@@ -62,30 +62,35 @@
                         <span class="text-danger">Cancelled (Dibatalkan)</span>
                     @endif
                 </p>
+                <button type="submit" class="btn btn-outline-primary btn-sm text-center mt-3">
+                    <i class="bi bi-chat"></i> Hubungi Pembeli
+                </button>
                 <hr>
                 <div>
                     @if($item->status === 'paid')
-                        <form action="{{ route('seller.orders.ship', $item->order_item_id) }}" method="POST" style="display:inline; margin-right: 5px;">
-                            @csrf
-                            <button type="submit" onclick="return confirm('Kirim pesanan ini?')" class="btn btn-primary">
-                                <i class="bi bi-box-seam"></i> Kirim
-                            </button>
-                        </form>
-                        <form action="{{ route('seller.orders.cancel', $item->order_item_id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" onclick="return confirm('Batalkan pesanan? Saldo pembeli akan dikembalikan.')" class="btn btn-danger">
-                                <i class="bi bi-x-circle"></i> Cancel
-                            </button>
-                        </form>
+                        <div class="d-flex gap-2 float-end">
+                            <form action="{{ route('seller.orders.cancel', $item->order_item_id) }}" method="POST">
+                                @csrf
+                                <button type="submit" onclick="return confirm('Batalkan pesanan? Saldo pembeli akan dikembalikan.')" class="btn btn-danger">
+                                    <i class="bi bi-x-lg"></i> Batal
+                                </button>
+                            </form>
+                            <form action="{{ route('seller.orders.ship', $item->order_item_id) }}" method="POST">
+                                @csrf
+                                <button type="submit" onclick="return confirm('Apakah yakin mengirim pesanan ini?')" class="btn btn-success">
+                                    <i class="bi bi-check-lg"></i> Kirim
+                                </button>
+                            </form>
+                        </div>
                     @elseif($item->status === 'shipped')
                         <div>
                             <small class="text-muted">Menunggu konfirmasi pembeli</small><br>
                             <small class="text-secondary">Batas konfirmasi : {{ $item->shipped_at->addDays(3)->format('d M Y') }}</small>
                         </div>
                     @elseif($item->status === 'completed')
-                        <span class="text-success">Pesanan selesai</span>
+                        <span class="text-success fw-semibold">Pesanan selesai</span>
                     @else
-                        <span class="text-danger">Pesanan dibatalkan</span>
+                        <span class="text-danger fw-semibold">Pesanan dibatalkan</span>
                     @endif
                 </div>
             </div>
