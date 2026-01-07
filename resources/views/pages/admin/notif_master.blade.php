@@ -27,7 +27,7 @@
             <div class="col">
                 <div class="card h-100 card-custom p-3">
                     <div class="card-body p-2 d-flex flex-column justify-content-between">
-                        <div class="">
+                        <div>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 @if($template->category === 'system')
                                     <span class="badge-category bg-warning text-black">
@@ -37,8 +37,15 @@
                                     <span class="badge-category bg-success text-white">
                                 @endif
                                     {{ $template->category }}</span>
-                                <div class="status-available">
-                                    <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>
+                                <div>
+                                    <button type="button" class="btn btn-generate badge-category bg-info"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalInfo"
+                                    data-title="{{ $template->title }}"
+                                    data-subject="{{ $template->subject }}"
+                                    data-body="{{ $template->body }}">
+                                        Info
+                                    </button>
                                 </div>
                             </div>
     
@@ -287,6 +294,35 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalInfo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="fw-semibold" id="info_title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label"><b>Subjek:</b></label><br>
+                    <div id="info_subject"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><b>Pesan:</b></label><br>
+                    <div id="info_body" style="white-space: pre-wrap;"></div>
+                </div>
+                <div class="mb-3">
+                    <div id="variable_container" class="d-none">
+                        <label class="form-label"><b>Variable:</b></label><br>
+                        <div id="info_variables"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
@@ -336,5 +372,38 @@
     //         modal.show();
     //     @endif
     // });
+    document.getElementById('modalInfo').addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        
+        var title = button.getAttribute('data-title');
+        var subject = button.getAttribute('data-subject');
+        var body = button.getAttribute('data-body');
+
+        document.getElementById('info_title').textContent = title;
+        document.getElementById('info_subject').textContent = subject;
+        document.getElementById('info_body').textContent = body;
+
+        const variableContainer = document.getElementById('variable_container');
+        const variableDisplay = document.getElementById('info_variables');
+        const variableSubject = subject.match(/\{(.+?)\}/g);
+        const variableBody = body.match(/\{(.+?)\}/g);
+        if (variableSubject || variableBody) {
+            variableContainer.classList.remove('d-none');
+            let htmlContent = [];
+            if (variableSubject) {
+                variableSubject.forEach(element => {
+                    htmlContent.push(`<label>${element}</label>`);
+                });
+            }
+            if (variableBody) {
+                variableBody.forEach(element => {
+                    htmlContent.push(`<label>${element}</label>`);
+                });
+            }
+            variableDisplay.innerHTML = htmlContent.join(', ');
+        } else {
+            variableContainer.classList.add('d-none');
+        }
+    });
 </script>
 @endsection

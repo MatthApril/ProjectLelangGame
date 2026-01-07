@@ -1,0 +1,1 @@
+[2026-01-07 19:38:56] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-15087563-c440-4787-83d3-4f1eef1a4d67","gross_amount":250000},"customer_details":{"name":"jess","email":"jesselynchristie8@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
