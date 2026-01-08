@@ -65,9 +65,11 @@
                             <span class="text-danger">Cancelled (Dibatalkan)</span>
                         @endif
                     </p>
-                    <button type="submit" class="btn btn-outline-primary btn-sm text-center mt-3">
-                        <i class="bi bi-chat"></i> Hubungi Pembeli
-                    </button>
+                    <form action="{{ route('chat.open', $item->order->account->user_id) }}" method="GET">
+                        <button type="submit" class="btn btn-outline-primary btn-sm text-center mt-3">
+                            <i class="bi bi-chat"></i> Hubungi Pembeli
+                        </button>
+                    </form>
                     <hr>
                     <div>
                         @if ($item->status === 'paid')

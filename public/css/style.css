@@ -256,3 +256,26 @@ th {
         margin: 15mm;
     }
 }
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+.min-width-0 {
+    min-width: 0;
+}
+
+.conversation-container {
+    background: #f8f9fa;
+}
+.message-bubble {
+    word-wrap: break-word;
+}
+.avatar {
+    font-size: 1.2rem;
+}
+.message-item.new-message {
+    animation: highlightNew 2s ease-out;
+}
+@keyframes highlightNew {
+    from { background-color: rgba(13, 110, 253, 0.1); }
+    to { background-color: transparent; }
+}

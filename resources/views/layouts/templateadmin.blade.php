@@ -50,6 +50,9 @@
                 <a href="{{ route('admin.complaints.index') }}"
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.complaints.*') ? 'menu-active' : '' }}">
                     Komplain</a>
+                <a href="{{ route('admin.support.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.support.*') ? 'menu-active' : '' }}">
+                    Tiket Bantuan</a>
                 <a href="{{ route('admin.withdraws.index') }}"
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.withdraws.*') ? 'menu-active' : '' }}">
                     Pencairan Saldo</a>
@@ -79,6 +82,11 @@
                         <li class="breadcrumb-item active mt-3">Profile</li>
                     @elseif(Route::is('admin.complaints.*'))
                         <li class="breadcrumb-item active mt-3">Komplain</li>
+                    @elseif(Route::is('admin.support.show'))
+                        <li class="breadcrumb-item mt-3"><a href="{{ route('admin.support.index') }}" class="text-decoration-none">Tiket Bantuan</a></li>
+                        <li class="breadcrumb-item active mt-3">#LP-{{ str_pad(request()->route('ticketId'), 4, '0', STR_PAD_LEFT) }}</li>
+                    @elseif(Route::is('admin.support.*'))
+                        <li class="breadcrumb-item active mt-3">Tiket Bantuan</li>
                     @elseif(Route::is('admin.withdraws.*'))
                         <li class="breadcrumb-item active mt-3">Pencairan Saldo</li>
                     @elseif(Route::is('admin.cancelled_orders.*'))

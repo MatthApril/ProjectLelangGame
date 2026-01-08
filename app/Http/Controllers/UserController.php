@@ -901,4 +901,12 @@ class UserController extends Controller
         return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 
+    public function showServices(){
+        return view('pages.user.services');
+    }
+
+    public function showChatAdmin(){
+        
+        return view('pages.user.chat_admin');
+    }
 }

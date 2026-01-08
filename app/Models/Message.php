@@ -13,10 +13,17 @@ class Message extends Model
     const UPDATED_AT = null;
 
     protected $fillable = [
+        'ticket_id',
         'sender_id',
         'receiver_id',
-        'content'
+        'content',
+        'is_read',
     ];
+
+    public function ticket()
+    {
+        return $this->belongsTo(SupportTickets::class, 'ticket_id', 'ticket_id');
+    }
 
     public function sender()
     {

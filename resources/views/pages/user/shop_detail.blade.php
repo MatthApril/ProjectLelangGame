@@ -51,9 +51,6 @@
                         @if (auth()->check() && Auth::user()->user_id != $shop->owner_id)
                             <form action="{{ route('chat.open', $shop->owner->user_id) }}" method="GET">
                                 <div class="d-grid">
-                                    <input type="hidden" name="return_url"
-                                        value="{{ route('shops.detail', $shop->shop_id) }}">
-                                    <input type="hidden" name="return_label" value="Kembali ke Toko">
                                     <button type="submit" class="btn btn-outline-primary">
                                         <i class="bi bi-chat"></i> Chat Pemilik Toko
                                     </button>

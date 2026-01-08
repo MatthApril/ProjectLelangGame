@@ -104,9 +104,11 @@
 
                             </div> --}}
                     <hr>
-                    <button type="submit" class="btn btn-outline-primary text-center">
-                        <i class="bi bi-chat"></i> Hubungi Pembeli
-                    </button>
+                    <form action="{{ route('chat.open', $complaint->buyer->user_id) }}" method="GET">
+                        <button type="submit" class="btn btn-outline-primary text-center">
+                            <i class="bi bi-chat"></i> Hubungi Pembeli
+                        </button>
+                    </form>
                 </div>
             </div>
             <h4 class="fw-semibold mt-3">Komplain Pembeli</h4>
