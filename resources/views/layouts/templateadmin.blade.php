@@ -67,6 +67,10 @@
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.income-report.*') ? 'menu-active' : '' }}">
                     Pendapatan
                 </a>
+                <a href="{{ route('admin.top-seller-report.index') }}"
+                    class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.top-seller-report.*') ? 'menu-active' : '' }}">
+                    Top Seller
+                </a>
                 {{-- <a href="{{ route('admin.cancelled_orders.index') }}"
                     class="text-decoration-none text-white d-block mb-3 {{ Route::is('admin.cancelled_orders.*') ? 'menu-active' : '' }}">
                     Top Seller
@@ -106,6 +110,8 @@
                         <li class="breadcrumb-item active mt-3">Laporan Transaksi Seller</li>
                     @elseif(Route::is('admin.income-report.*'))
                         <li class="breadcrumb-item active mt-3">Laporan Pendapatan Platform</li>
+                    @elseif(Route::is('admin.top-seller-report.*'))
+                        <li class="breadcrumb-item active mt-3">Laporan Top Seller</li>
                     @endif
 
                     @if (Route::is('*.edit'))

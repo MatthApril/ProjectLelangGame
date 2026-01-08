@@ -1,4 +1,4 @@
-<footer class="my-3">
+<footer class="my-3 no-print">
     <div class="container-fluid">
         <hr>
         <p class="text-center text-secondary">

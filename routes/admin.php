@@ -63,6 +63,11 @@ Route::prefix('admin')->as('admin.')
             Route::get('/income-report/generate', 'generateIncomeReport')->name('income-report.generate');
             Route::get('/income-report/pdf', 'exportIncomePdf')->name('income-report.pdf');
             Route::get('/income-report/excel', 'exportIncomeExcel')->name('income-report.excel');
+
+            Route::get('/top-seller-report', 'showTopSellerReport')->name('top-seller-report.index');
+            Route::get('/top-seller-report/generate', 'generateTopSellerReport')->name('top-seller-report.generate');
+            Route::get('/top-seller-report/pdf', 'exportTopSellerPdf')->name('top-seller-report.pdf');
+            Route::get('/top-seller-report/excel', 'exportTopSellerExcel')->name('top-seller-report.excel');
         });
 
         Route::controller(ChatController::class)->group(function() {

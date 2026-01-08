@@ -3,35 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Game;
-use App\Models\GameCategory;
 use App\Models\User;
 use App\Models\Shop;
-use App\Models\Product;
 use App\Models\Order;
-use App\Http\Requests\InsertCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Requests\InputGameRequest;
-use App\Http\Requests\InsertTemplateRequest;
-use App\Http\Requests\UpdateGameRequest;
-use App\Http\Requests\UpdateTemplateRequest;
-use App\Models\NotificationTemplate;
-use App\Services\NotificationService;
-use App\Mail\AccountBanned;
 use App\Models\AdminSettings;
-use App\Models\CartItem;
-use App\Models\NotificationLog;
-use App\Models\Complaint;
 use App\Models\OrderItem;
-use App\Models\ProductComment;
-use App\Models\Refund;
-use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -177,37 +158,25 @@ class ReportController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
-        $query = OrderItem::whereNotNull('paid_at')
-            ->whereBetween('paid_at', [
+        $orders = Order::whereBetween('order_date', [
                 $request->start_date . ' 00:00:00',
                 $request->end_date . ' 23:59:59'
             ])
-            ->with(['order.account', 'product.shop']);
+            ->where('status', 'paid')
+            ->with(['account', 'orderItems.product.shop'])
+            ->orderBy('order_date', 'desc')
+            ->get();
 
-        $orderItems = $query->get();
-
-        $totalAdminFee = Order::whereHas('orderItems', function($q) use ($request) {
-            $q->where('status', 'completed')
-            ->whereNotNull('paid_at')
-            ->whereBetween('paid_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-        })->sum('admin_fee');
-
-        $totalTransactions = $orderItems->count();
-        $completedOrders = $orderItems->where('status', 'completed')->count();
-        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
-        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
-        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+        $totalTransactions = $orders->count();
+        $completedOrders = $orders->count();
+        $totalRevenue = $orders->sum('total_prices');
+        $totalAdminFee = $orders->sum('admin_fee');
 
         return view('pages.report.admin.income_report', compact(
-            'orderItems',
+            'orders',
             'totalTransactions',
             'completedOrders',
             'totalRevenue',
-            'totalPending',
-            'totalCancelled',
             'totalAdminFee',
             'request'
         ));
@@ -220,40 +189,29 @@ class ReportController extends Controller
             'end_date' => 'required|date',
         ]);
 
-        $orderItems = OrderItem::whereNotNull('paid_at')
-            ->whereBetween('paid_at', [
+        $orders = Order::whereBetween('order_date', [
                 $request->start_date . ' 00:00:00',
                 $request->end_date . ' 23:59:59'
             ])
-            ->with(['order.account', 'product.shop'])
+            ->where('status', 'paid')
+            ->with(['account', 'orderItems.product.shop'])
+            ->orderBy('order_date', 'desc')
             ->get();
 
-        $totalAdminFee = Order::whereHas('orderItems', function($q) use ($request) {
-            $q->where('status', 'completed')
-            ->whereNotNull('paid_at')
-            ->whereBetween('paid_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-        })->sum('admin_fee');
-
-        $totalTransactions = $orderItems->count();
-        $completedOrders = $orderItems->where('status', 'completed')->count();
-        $totalRevenue = $orderItems->where('status', 'completed')->sum('subtotal');
-        $totalPending = $orderItems->whereIn('status', ['paid', 'shipped'])->sum('subtotal');
-        $totalCancelled = $orderItems->where('status', 'cancelled')->count();
+        $totalTransactions = $orders->count();
+        $completedOrders = $orders->count();
+        $totalRevenue = $orders->sum('total_prices');
+        $totalAdminFee = $orders->sum('admin_fee');
 
         $pdf = Pdf::loadView('pages.report.pdf_ui.income_pdf', [
-            'orderItems' => $orderItems,
+            'orders' => $orders,
             'totalTransactions' => $totalTransactions,
             'completedOrders' => $completedOrders,
             'totalRevenue' => $totalRevenue,
-            'totalPending' => $totalPending,
-            'totalCancelled' => $totalCancelled,
             'totalAdminFee' => $totalAdminFee,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-        ]);
+        ])->setPaper('a4', 'landscape');
 
         return $pdf->download('Laporan-Pendapatan-Platform-' . now()->format('YmdHis') . '.pdf');
     }
@@ -265,21 +223,22 @@ class ReportController extends Controller
             'end_date' => 'required|date',
         ]);
 
-        $orderItems = OrderItem::whereNotNull('paid_at')
-            ->whereBetween('paid_at', [
+        $orders = Order::whereBetween('order_date', [
                 $request->start_date . ' 00:00:00',
                 $request->end_date . ' 23:59:59'
             ])
-            ->with(['order.account', 'product.shop'])
+            ->where('status', 'paid')
+            ->with(['account', 'orderItems.product.shop'])
+            ->orderBy('order_date', 'desc')
             ->get();
 
         return Excel::download(
-            new \App\Exports\IncomeReportAdmin($orderItems),
-            'laporan-pendapatan-platform.xlsx'
+            new \App\Exports\IncomeReportAdmin($orders),
+            'Laporan-Pendapatan-Platform-' . now()->format('YmdHis') . '.xlsx'
         );
     }
 
-        public function showTransactionReport()
+    public function showTransactionReport()
     {
         $shop = Auth::user()->shop;
         $categories = Category::orderBy('category_name')->get();
@@ -397,5 +356,196 @@ class ReportController extends Controller
             'status' => $request->status,
             'shop' => $shop
         ];
+    }
+
+    public function showTopSellerReport()
+    {
+        return view('pages.report.admin.topseller_report');
+    }
+
+    public function generateTopSellerReport(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'top_limit' => 'required|in:10,15,20',
+        ]);
+
+        $topLimit = $request->top_limit;
+        $adminFeePercentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
+        $topSellers = OrderItem::select(
+                'shop_id',
+                 DB::raw('COUNT(*) as total_transactions'),
+                 DB::raw('SUM(quantity) as total_quantity'),
+                 DB::raw('SUM(subtotal) as total_revenue')
+            )
+            ->where('status', 'completed')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->groupBy('shop_id')
+            ->orderByDesc('total_revenue')
+            ->limit($topLimit)
+            ->get()
+            ->map(function($item) use ($adminFeePercentage) {
+                $shop = Shop::with('owner')->find($item->shop_id);
+                
+                if (!$shop) {
+                    return null;
+                }
+
+                $adminFee = round($item->total_revenue * ($adminFeePercentage / 100));
+                $netIncome = $item->total_revenue - $adminFee;
+
+                return (object) [
+                    'shop_id' => $item->shop_id,
+                    'shop_name' => $shop->shop_name,
+                    'owner' => $shop->owner,
+                    'total_transactions' => $item->total_transactions,
+                    'total_quantity' => $item->total_quantity,
+                    'total_revenue' => $item->total_revenue,
+                    'admin_fee' => $adminFee,
+                    'net_income' => $netIncome
+                ];
+            })
+            ->filter();
+
+        $totalRevenue = $topSellers->sum('total_revenue');
+        $totalTransactions = $topSellers->sum('total_transactions');
+        $totalAdminFee = $topSellers->sum('admin_fee');
+
+        return view('pages.report.admin.topseller_report', compact(
+            'topSellers',
+            'totalRevenue',
+            'totalTransactions',
+            'totalAdminFee',
+            'topLimit',
+            'adminFeePercentage',
+            'request'
+        ));
+    }
+
+    public function exportTopSellerPdf(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'top_limit' => 'required|in:10,15,20',
+        ]);
+
+        $topLimit = $request->top_limit;
+        $adminFeePercentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
+        $topSellers = OrderItem::select(
+                'shop_id',
+                 DB::raw('COUNT(*) as total_transactions'),
+                 DB::raw('SUM(quantity) as total_quantity'),
+                 DB::raw('SUM(subtotal) as total_revenue')
+            )
+            ->where('status', 'completed')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->groupBy('shop_id')
+            ->orderByDesc('total_revenue')
+            ->limit($topLimit)
+            ->get()
+            ->map(function($item) use ($adminFeePercentage) {
+                $shop = Shop::with('owner')->find($item->shop_id);
+                
+                if (!$shop) {
+                    return null;
+                }
+
+                $adminFee = round($item->total_revenue * ($adminFeePercentage / 100));
+                $netIncome = $item->total_revenue - $adminFee;
+
+                return (object) [
+                    'shop_id' => $item->shop_id,
+                    'shop_name' => $shop->shop_name,
+                    'owner' => $shop->owner,
+                    'total_transactions' => $item->total_transactions,
+                    'total_quantity' => $item->total_quantity,
+                    'total_revenue' => $item->total_revenue,
+                    'admin_fee' => $adminFee,
+                    'net_income' => $netIncome
+                ];
+            })
+            ->filter();
+
+        $totalRevenue = $topSellers->sum('total_revenue');
+        $totalTransactions = $topSellers->sum('total_transactions');
+        $totalAdminFee = $topSellers->sum('admin_fee');
+
+        $pdf = Pdf::loadView('pages.report.pdf_ui.topseller_pdf', [
+            'topSellers' => $topSellers,
+            'totalRevenue' => $totalRevenue,
+            'totalTransactions' => $totalTransactions,
+            'totalAdminFee' => $totalAdminFee,
+            'topLimit' => $topLimit,
+            'adminFeePercentage' => $adminFeePercentage,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download('Laporan-Top-' . $topLimit . '-Seller-' . now()->format('YmdHis') . '.pdf');
+    }
+
+    public function exportTopSellerExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'top_limit' => 'required|in:10,15,20',
+        ]);
+
+        $topLimit = $request->top_limit;
+        $adminFeePercentage = AdminSettings::first()->platform_fee_percentage ?? 0;
+
+        $topSellers = OrderItem::select(
+                'shop_id',
+                 DB::raw('COUNT(*) as total_transactions'),
+                 DB::raw('SUM(quantity) as total_quantity'),
+                 DB::raw('SUM(subtotal) as total_revenue')
+            )
+            ->where('status', 'completed')
+            ->whereBetween('paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ])
+            ->groupBy('shop_id')
+            ->orderByDesc('total_revenue')
+            ->limit($topLimit)
+            ->get()
+            ->map(function($item) use ($adminFeePercentage) {
+                $shop = Shop::with('owner')->find($item->shop_id);
+                
+                if (!$shop) {
+                    return null;
+                }
+
+                $adminFee = round($item->total_revenue * ($adminFeePercentage / 100));
+                $netIncome = $item->total_revenue - $adminFee;
+
+                return (object) [
+                    'shop_id' => $item->shop_id,
+                    'shop_name' => $shop->shop_name,
+                    'owner' => $shop->owner,
+                    'total_transactions' => $item->total_transactions,
+                    'total_quantity' => $item->total_quantity,
+                    'total_revenue' => $item->total_revenue,
+                    'admin_fee' => $adminFee,
+                    'net_income' => $netIncome
+                ];
+            })
+            ->filter();
+
+        return Excel::download(
+            new \App\Exports\TopSellerReportAdmin($topSellers, $topLimit, $adminFeePercentage),
+            'Laporan-Top-' . $topLimit . '-Seller-' . now()->format('YmdHis') . '.xlsx'
+        );
     }
 }
