@@ -50,7 +50,7 @@
                             <label>Captcha : </label>
                             <div class="input-group flex-nowrap mb-3">
                                 <div class="captcha">
-                                    <span>{!! captcha_img() !!}</span>
+                                    <img src="{{ captcha_src() }}" alt="captcha" id="captcha-img" class="img-fluid rounded">
                                     <button type="button" class="btn btn-danger my-2" id="refresh-captcha"><i
                                             class="bi bi-arrow-clockwise"></i></button>
                                 </div>
@@ -100,7 +100,7 @@
                     type: 'GET',
                     url: '/reload-captcha',
                     success: function(data) {
-                        $(".captcha img").attr('src', data.captcha);
+                        $("#captcha-img").attr('src', data.captcha);
                     }
                 });
             });

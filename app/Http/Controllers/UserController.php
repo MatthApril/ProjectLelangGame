@@ -287,7 +287,7 @@ class UserController extends Controller
 
         $featuredGames = Game::withCount(['products' => function($query) {
                 $query->whereHas('shop', function($q) {
-                    $q->where('status', 'open')->whereHas('owner');
+                    $q->whereHas('owner');
                 })
                 ->where('type', 'normal')
                 ->where('stok', '>', 0)
@@ -301,15 +301,14 @@ class UserController extends Controller
         $latestProductsQuery = Product::with(['game', 'shop', 'category'])
             ->where('type', 'normal')
             ->whereHas('shop', function($query) {
-                $query->where('status', 'open')->whereHas('owner');
+                $query->whereHas('owner');
             })
             ->where('stok', '>', 0)
             ->whereNull('deleted_at');
 
         $latestProducts = $latestProductsQuery->latest()->take(4)->get();
 
-        $topShops = Shop::where('shops.status', 'open')
-            ->whereHas('owner')
+        $topShops = Shop::whereHas('owner')
             // ->whereHas('products', function($q) {
             //     $q
             //     ->where('stok', '>', 0)
@@ -332,7 +331,7 @@ class UserController extends Controller
                 ->whereNull('deleted_at');
             })
             ->whereHas('product.shop', function($q) {
-                $q->where('status', 'open')->whereHas('owner');
+                $q->whereHas('owner');
             })
             ->whereHas('product.category', function($q) {
                 $q->whereNull('deleted_at');
@@ -351,7 +350,7 @@ class UserController extends Controller
                 $query->where('stok', '>', 0)
                     ->where('type', 'normal')
                     ->whereHas('shop', function($q) {
-                        $q->where('status', 'open')->whereHas('owner');
+                        $q->whereHas('owner');
                     })
                     ->whereNull('deleted_at');
             }])
@@ -370,8 +369,8 @@ class UserController extends Controller
                 $query->whereNull('deleted_at');
             })
             ->where('stok','>',0)
-            ->whereHas('shop',function($query){
-                $query->where('status','open');
+            ->whereHas('shop', function($query){
+                $query->whereHas('owner');
             });
         }]);
 
@@ -409,7 +408,7 @@ class UserController extends Controller
                     ->where('stok', '>', 0)
                     ->where('game_id', $game->game_id)
                     ->whereHas('shop', function ($q) {
-                        $q->where('status', 'open');
+                        $q->whereHas('owner');
                     })
                     ->latest()
                     ->paginate(12);
@@ -423,7 +422,7 @@ class UserController extends Controller
         ->where('type', 'normal')
         ->whereNull('deleted_at')
         ->whereHas('shop', function($q) {
-            $q->where('status', 'open')->whereHas('owner');
+            $q->whereHas('owner');
         })
         ->where('stok', '>', 0);
 
@@ -481,7 +480,7 @@ class UserController extends Controller
             ->with(['game', 'shop', 'category'])
             ->where('type', 'normal')
             ->whereHas('shop', function($query) {
-                $query->where('status', 'open')->whereHas('owner');
+                $query->whereHas('owner');
             })
             ->where('category_id', $product->category_id)
             ->where('product_id', '!=', $product->product_id)
@@ -908,7 +907,7 @@ class UserController extends Controller
     }
 
     public function showChatAdmin(){
-        
+
         return view('pages.user.chat_admin');
     }
 }
