@@ -1413,3 +1413,6 @@ Did you mean one of these?
 #64 D:/xampp/htdocs/IniProjectBenar/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
 #65 {main}
 "} 
+[2026-01-08 15:12:28] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-5e916835-fd54-42e4-98d8-adda17a15047","gross_amount":1016500.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+[2026-01-08 15:16:21] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-c3c35dc8-71c9-41a5-83cb-189a74ee43ef","gross_amount":267500.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+[2026-01-08 15:18:42] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-4e317bf6-9d6b-4830-bf5f-fbf5f5d2c747","gross_amount":428000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
