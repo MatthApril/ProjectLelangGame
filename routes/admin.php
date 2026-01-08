@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->as('admin.')
@@ -50,7 +51,9 @@ Route::prefix('admin')->as('admin.')
             Route::get('/cancelled-orders/{orderItemId}', 'showCancelledOrderDetail')->name('cancelled_orders.show');
             Route::post('/cancelled-orders/{orderItemId}/mark-refunded', 'markAsRefunded')->name('cancelled_orders.mark_refunded');
             Route::post('/cancelled-orders/{orderItemId}/undo-refunded', 'undoRefunded')->name('cancelled_orders.undo_refunded');
-            
+        });
+
+        Route::controller(ReportController::class)->group(function() {
             Route::get('/transaction-report-seller', 'showSellerTransactionReport')->name('transaction-report-seller.index');
             Route::get('/transaction-report-seller/generate', 'generateSellerTransactionReport')->name('transaction-report-seller.generate');
             Route::get('/transaction-report-seller/pdf', 'exportSellerPdf')->name('transaction-report-seller.pdf');

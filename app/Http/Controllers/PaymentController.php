@@ -207,6 +207,7 @@ class PaymentController extends Controller
                     'product_price' => $product->price,
                     'quantity' => $item->quantity,
                     'subtotal' => $subtotal,
+                    'admin_fee' => round($subtotal * ($admin_fee_percentage / 100)),
                     'status' => 'pending',
                     'paid_at'=> null,
                 ]);

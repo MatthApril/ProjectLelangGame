@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,9 +37,8 @@ Route::prefix('seller')->as('seller.')
             Route::get('/complaints', 'showComplaints')->name('complaints.index');
             Route::get('/complaints/{complaintId}', 'showComplaintDetail')->name('complaints.show');
             Route::post('/complaints/{complaintId}/respond', 'respondComplaint')->name('complaints.respond');
-
-            // Route::get('/transaction-report', [SellerController::class, 'showTransactionReport'])->name('transaction-report.index');
-            // Route::get('/transaction-report/generate', [SellerController::class, 'generateTransactionReport'])->name('transaction-report.generate');
+        });
+        Route::controller(ReportController::class)->group(function() {
             Route::get('/transaction-report', 'showTransactionReport')->name('transaction-report.index');
             Route::get('/transaction-report/generate', 'generateTransactionReport')->name('transaction-report.generate');
             Route::get('/transaction-report/pdf', 'exportPdf')->name('transaction-report.pdf');

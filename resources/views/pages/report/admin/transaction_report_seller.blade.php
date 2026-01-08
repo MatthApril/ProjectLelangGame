@@ -9,7 +9,6 @@
             <hr>
         </div>
 
-        {{-- Filter Form --}}
         <div class="card mb-4 no-print">
             <div class="card-body">
                 <form action="{{ route('admin.transaction-report-seller.generate') }}" method="GET">
@@ -37,11 +36,11 @@
                                 value="{{ request('end_date') ?? now()->format('Y-m-d') }}" required>
                         </div>
                     </div>
-                    <div class="mt-3 float-end">
-                        <a href="{{ route('admin.transaction-report-seller.index') }}" class="btn btn-outline-secondary">
+                    <div class="float-end">
+                        <a href="{{ route('admin.transaction-report-seller.index') }}" class="btn btn-outline-secondary mt-3">
                             <i class="bi bi-arrow-clockwise"></i> Reset
                         </a>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary mt-3">
                             <i class="bi bi-file-text"></i> Generate Laporan
                         </button>
                     </div>
@@ -49,7 +48,6 @@
             </div>
         </div>
 
-        {{-- Update download buttons --}}
         @if(isset($orderItems))
             <div class="mb-2 d-flex gap-2 no-print flex-wrap">
                 <button onclick="window.print()" class="btn btn-secondary text-nowrap">
@@ -65,7 +63,6 @@
                 </a>
             </div>
 
-            {{-- Update print header --}}
             <div class="print-only mb-3 d-none">
                 <h4 class="fw-bold mb-1">Laporan Transaksi Seller</h4>
                 <p class="mb-0">Seller : {{ $seller->shop->shop_name }}</p>
@@ -77,7 +74,6 @@
                 <hr>
             </div>
 
-            {{-- Tabel Transaksi --}}
             <div class="table-responsive">
                 <table class="table table-hover table-bordered text-center">
                             <thead>
@@ -114,7 +110,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">Tidak ada data transaksi untuk periode yang dipilih</td>
+                                        <td colspan="8" class="text-center">Tidak Ada Data Transaksi Untuk Periode Yang Dipilih</td>
                                     </tr>
                                 @endforelse
                             </tbody>

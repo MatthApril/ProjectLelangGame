@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Models\AdminSettings;
 use Illuminate\Console\Command;
 use App\Models\Auction;
 use App\Models\AuctionWinner;
@@ -39,6 +40,8 @@ class UpdateAuctionStatus extends Command
                 ->lockForUpdate()
                 ->get();
 
+            $admin_fee_percentage = AdminSettings::first()->admin_fee_percentage ?? 0;
+
             foreach ($auctions as $auction) {
 
                 $auction->update(['status' => 'ended']);
@@ -74,6 +77,7 @@ class UpdateAuctionStatus extends Command
                         'product_price' => $auction->product->price,
                         'quantity' => $auction->product->stok,
                         'subtotal' => $highestBid->bid_price,
+                        'admin_fee' => round($highestBid->bid_price * ($admin_fee_percentage / 100)),
                         'status' => 'pending',
                     ]);
 
