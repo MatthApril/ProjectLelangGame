@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SupportMessageSent;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\GameCategory;
@@ -25,6 +26,8 @@ use App\Models\Complaint;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\Refund;
+use App\Models\SupportTickets;
+use App\Models\Message;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -234,6 +237,16 @@ class AdminController extends Controller
         $message = $request->decision === 'refund'
             ? 'Komplain disetujui. Buyer telah di-refund.'
             : 'Komplain ditolak.';
+
+        $resolution = $request->decision === 'refund' ? 'Refund Disetujui' : 'Komplain Ditolak';
+
+        // komplain_diselesaikan - ke buyer
+        (new NotificationService())->send($complaint->buyer_id, 'komplain_diselesaikan', [
+            'username' => $complaint->buyer->username,
+            'order_id' => $complaint->orderItem->order_id,
+            'resolution' => $resolution,
+        ]);
+
         return redirect()->route('admin.complaints.index')->with('success', $message);
     }
 
@@ -522,6 +535,10 @@ class AdminController extends Controller
             }
         }
 
+        (new NotificationService())->send($user->user_id, 'akun_diblokir', [
+            'username' => $user->username,
+        ]);
+
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibanned');
     }
 
@@ -535,5 +552,147 @@ class AdminController extends Controller
         $user->restore();
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diunbanned');
+    }
+
+    // ==================== SUPPORT TICKETS ====================
+
+    /**
+     * Display all support tickets for admin.
+     */
+    public function showSupportTickets(Request $request)
+    {
+        $query = SupportTickets::with(['user', 'messages']);
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Search by ticket ID or subject
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('ticket_id', 'like', "%{$search}%")
+                  ->orWhere('subject', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($q2) use ($search) {
+                      $q2->where('username', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $tickets = $query->orderBy('updated_at', 'desc')->paginate(20);
+
+        // Count by status
+        $openCount = SupportTickets::where('status', 'open')->count();
+        $answeredCount = SupportTickets::where('status', 'answered')->count();
+        $closedCount = SupportTickets::where('status', 'closed')->count();
+
+        return view('pages.admin.support', compact('tickets', 'openCount', 'answeredCount', 'closedCount'));
+    }
+
+    /**
+     * Show specific support ticket for admin.
+     */
+    public function showSupportTicketDetail($ticketId)
+    {
+        $ticket = SupportTickets::with(['user', 'messages.sender', 'messages.receiver'])
+            ->findOrFail($ticketId);
+
+        // Mark messages from user as read
+        Message::where('ticket_id', $ticketId)
+            ->where('receiver_id', Auth::id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+        $messages = $ticket->messages()->orderBy('created_at', 'asc')->get();
+
+        return view('pages.admin.support_detail', compact('ticket', 'messages'));
+    }
+
+    /**
+     * Admin reply to support ticket.
+     */
+    public function replySupportTicket(Request $request, $ticketId)
+    {
+        $ticket = SupportTickets::where('status', '!=', 'closed')->findOrFail($ticketId);
+
+        $validated = $request->validate([
+            'message' => 'required|string|min:1|max:2000',
+        ], [
+            'message.required' => 'Pesan tidak boleh kosong.',
+            'message.max' => 'Pesan maksimal 2000 karakter.',
+        ]);
+
+        // Create the reply message
+        $message = Message::create([
+            'ticket_id' => $ticketId,
+            'sender_id' => Auth::id(), // Admin
+            'receiver_id' => $ticket->user_id,
+            'content' => $validated['message'],
+            'is_read' => false,
+        ]);
+
+        // Update ticket status to 'answered' when admin replies
+        $ticket->update([
+            'status' => 'answered',
+            'updated_at' => now(),
+        ]);
+
+        broadcast(new SupportMessageSent($message))->toOthers();
+
+        // Return JSON response for AJAX requests
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => [
+                    'message_id' => $message->message_id,
+                    'content' => $message->content,
+                    'sender_id' => $message->sender_id,
+                    'created_at' => $message->created_at->toISOString(),
+                ],
+                'status' => $ticket->status,
+            ]);
+        }
+
+        return redirect()->route('admin.support.show', $ticketId)
+            ->with('success', 'Balasan berhasil dikirim.');
+    }
+
+    /**
+     * Admin close support ticket.
+     */
+    public function closeSupportTicket($ticketId)
+    {
+        $ticket = SupportTickets::where('status', '!=', 'closed')->findOrFail($ticketId);
+
+        $ticket->update(['status' => 'closed']);
+
+        return redirect()->route('admin.support.show', $ticketId)
+            ->with('success', 'Tiket berhasil ditutup.');
+    }
+
+    public function supportMessages(Request $request, $id)
+    {
+        $ticket = SupportTickets::findOrFail($id);
+        $afterId = $request->input('after', 0);
+
+        $messages = Message::where('ticket_id', $id)
+            ->where('message_id', '>', $afterId)
+            ->orderBy('message_id', 'asc')
+            ->get()
+            ->map(function ($message) {
+                return [
+                    'message_id' => $message->message_id,
+                    'content' => $message->content,
+                    'sender_id' => $message->sender_id,
+                    'created_at' => $message->created_at->toISOString(),
+                ];
+            });
+
+        return response()->json([
+            'messages' => $messages,
+            'status' => $ticket->status,
+        ]);
     }
 }

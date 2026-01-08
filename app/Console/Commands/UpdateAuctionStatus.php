@@ -7,6 +7,7 @@ use App\Models\Auction;
 use App\Models\AuctionWinner;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\DB;
 
 class UpdateAuctionStatus extends Command
@@ -51,6 +52,10 @@ class UpdateAuctionStatus extends Command
 
                 // TIDAK ADA BID
                 if (!$highestBid) {
+                    (new NotificationService())->send($auction->seller_id, 'lelang_tanpa_penawar', [
+                        'username' => $auction->seller->username,
+                        'product_name' => $auction->product->product_name,
+                    ]);
                     $this->info("Auction {$auction->auction_id} completed with no bids.");
                     continue; // Lanjut ke auction berikutnya
                 }
@@ -103,6 +108,19 @@ class UpdateAuctionStatus extends Command
 
                     $snapToken = \Midtrans\Snap::getSnapToken($params);
                     $order->update(['snap_token' => $snapToken]);
+
+                    (new NotificationService())->send($auction->seller_id, 'lelang_berakhir', [
+                        'username' => $auction->seller->username,
+                        'product_name' => $auction->product->product_name,
+                        'final_price' => number_format($highestBid->bid_price, 0, ',', '.'),
+                        'winner_name' => $highestBid->user->username,
+                    ]);
+
+                    (new NotificationService())->send($highestBid->user_id, 'lelang_dimenangkan', [
+                        'username' => $highestBid->user->username,
+                        'product_name' => $auction->product->product_name,
+                        'final_price' => number_format($highestBid->bid_price, 0, ',', '.'),
+                    ]);
                 }
             }
 

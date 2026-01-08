@@ -60,6 +60,10 @@
                             class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-chat-dots"></i>
                             Komplain</a>
                     </div>
+                    <div class="ms-3">
+                        <a href="{{ route('user.services') }}" class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-gear"></i>
+                            Layanan</a>
+                    </div>
                     <hr>
                 @endif
             </div>

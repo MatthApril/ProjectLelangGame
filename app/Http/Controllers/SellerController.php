@@ -196,6 +196,13 @@ class SellerController extends Controller
             'attachment' => $attachmentPath
         ]);
         $complaint->update(['status' => 'waiting_admin']);
+
+        (new NotificationService())->send($complaint->buyer_id, 'tanggapan_komplain', [
+            'username' => $complaint->buyer->username,
+            'order_id' => $complaint->orderItem->order_id,
+            'response' => $validated['message'],
+        ]);
+
         return redirect()->route('seller.complaints.index')->with('success', 'Tanggapan berhasil dikirim. Menunggu keputusan admin.');
 
     }
@@ -353,9 +360,10 @@ class SellerController extends Controller
         ]);
 
         $platform_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
-
-        (new NotificationService())->send($orderItem->order->user_id, 'order_shipped', [
+        
+        (new NotificationService())->send($orderItem->order->user_id, 'pesanan_dikirim', [
             'username' => $orderItem->order->account->username,
+            'order_id' => $orderItem->order->order_id,
             'product_name' => $orderItem->product->product_name,
         ]);
 
@@ -390,6 +398,13 @@ class SellerController extends Controller
         $orderItem->product->increment('stok', $orderItem->quantity);
 
         Shop::find($orderItem->shop_id)->decrement('running_transactions', $orderItem->subtotal);
+
+        (new NotificationService())->send($orderItem->order->user_id, 'pesanan_dibatalkan', [
+            'username' => $orderItem->order->account->username,
+            'order_id' => $orderItem->order_id,
+            'product_name' => $orderItem->product->product_name,
+            'amount' => number_format($orderItem->subtotal, 0, ',', '.'),
+        ]);
 
         return redirect()->route('seller.incoming_orders.index')->with('success', 'Pesanan dibatalkan dan saldo buyer telah dikembalikan.');
 

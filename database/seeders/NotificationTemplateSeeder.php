@@ -189,7 +189,7 @@ class NotificationTemplateSeeder extends Seeder
                 'code_tag' => 'akun_diblokir',
                 'title' => 'Akun Diblokir',
                 'subject' => 'Akun Anda Telah Diblokir',
-                'body' => "Halo {username}!\n\nDengan berat hati kami informasikan bahwa akunmu telah diblokir karena melanggar Syarat & Ketentuan layanan kami.\n\nAlasan: {ban_reason}\n\nJika merasa ini adalah kesalahan, silakan hubungi tim support kami untuk mengajukan banding.",
+                'body' => "Halo {username}!\n\nDengan berat hati kami informasikan bahwa akunmu telah diblokir karena melanggar Syarat & Ketentuan layanan kami.\n\nJika merasa ini adalah kesalahan, silakan hubungi tim support kami untuk mengajukan banding.",
                 'trigger_type' => 'transactional',
                 'category' => 'system',
             ],

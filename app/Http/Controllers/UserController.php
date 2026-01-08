@@ -18,6 +18,7 @@ use App\Models\OrderItem;
 use App\Models\ProductComment;
 use App\Models\Shop;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -69,6 +70,13 @@ class UserController extends Controller
             'description' => $validated['description'],
             'proof_img' => $proofPath,
             'status' => 'waiting_seller'
+        ]);
+
+        (new NotificationService())->send($orderItem->shop->owner_id, 'komplain_dibuat', [
+            'username' => $orderItem->shop->owner->username,
+            'order_id' => $orderItem->order_id,
+            'product_name' => $orderItem->product->product_name,
+            'complaint_description' => $validated['description'],
         ]);
         return redirect()->route('user.complaints.index')->with('success', 'Komplain berhasil diajukan. Menunggu tanggapan seller.');
 
@@ -188,6 +196,13 @@ class UserController extends Controller
             $orderItem->order->update(['admin_fee' => round($orderItem->subtotal * ($platform_fee_percentage / 100)) ]);
         }
 
+        (new NotificationService())->send($orderItem->shop->owner_id, 'pesanan_selesai', [
+            'username' => $orderItem->shop->owner->username,
+            'order_id' => $orderItem->order_id,
+            'product_name' => $orderItem->product->product_name,
+            'amount' => number_format($orderItem->subtotal, 0, ',', '.'),
+        ]);
+
         return redirect()->route('user.orders.detail', $orderItem->order_id)->with('success', 'Pesanan berhasil dikonfirmasi.');
     }
 
@@ -225,6 +240,13 @@ class UserController extends Controller
                 'order_item_id' => $orderItem->order_item_id,
                 'rating' => $validated['rating'],
                 'comment' => $validated['comment'] ?? null,
+            ]);
+
+            (new NotificationService())->send($orderItem->shop->owner_id, 'ulasan_baru', [
+                'username' => $orderItem->shop->owner->username,
+                'product_name' => $orderItem->product->product_name,
+                'rating' => $validated['rating'],
+                'comment' => $validated['comment'] ?? '-',
             ]);
 
             return response()->json([
@@ -754,6 +776,13 @@ class UserController extends Controller
             $auction->update(['current_price' => $req->bid_price]);
         });
 
+        (new NotificationService())->send(Auth::user()->user_id, 'tawaran_berhasil', [
+            'username' => Auth::user()->username,
+            'bid_amount' => $req->bid_price,
+            'product_name' => $auction->product->product_name,
+            'end_time' => $auction->end_time,
+        ]);
+
         return redirect()->back()->with('success', 'Penawaran berhasil ditempatkan.');
     }
 
@@ -874,4 +903,12 @@ class UserController extends Controller
         return redirect()->route('user.cart')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 
+    public function showServices(){
+        return view('pages.user.services');
+    }
+
+    public function showChatAdmin(){
+        
+        return view('pages.user.chat_admin');
+    }
 }

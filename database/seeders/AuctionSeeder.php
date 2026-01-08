@@ -18,7 +18,7 @@ class AuctionSeeder extends Seeder
         // Auction 1: Akun ML Collector (Ongoing)
         $auction1 = Auction::create([
             'product_id' => 14,
-            'seller_id' => 2,
+            'seller_id' => 3,
             'start_price' => 1500000,
             'current_price' => 1750000,
             'start_time' => now()->subHours(2),
@@ -48,7 +48,7 @@ class AuctionSeeder extends Seeder
         // Auction 2: Akun Genshin Full 5 Star (Upcoming)
         $auction2 = Auction::create([
             'product_id' => 15,
-            'seller_id' => 1,
+            'seller_id' => 2,
             'start_price' => 2000000,
             'current_price' => 2000000,
             'start_time' => now()->addHours(24),
@@ -59,7 +59,7 @@ class AuctionSeeder extends Seeder
         // Auction 3: Akun Dota 2 Immortal (Ended - User 2 Won)
         $auction3 = Auction::create([
             'product_id' => 5,
-            'seller_id' => 2,
+            'seller_id' => 3,
             'start_price' => 500000,
             'current_price' => 725000,
             'start_time' => now()->subDays(3),
@@ -96,7 +96,7 @@ class AuctionSeeder extends Seeder
         // Auction 4: Item Skin Valorant (Running)
         $auction4 = Auction::create([
             'product_id' => 11,
-            'seller_id' => 3,
+            'seller_id' => 2,
             'start_price' => 350000,
             'current_price' => 425000,
             'start_time' => now()->subHours(8),
@@ -120,7 +120,7 @@ class AuctionSeeder extends Seeder
         // Auction 5: Item Mount CoC (Ended - User 3 Won)
         $auction5 = Auction::create([
             'product_id' => 13,
-            'seller_id' => 1,
+            'seller_id' => 2,
             'start_price' => 280000,
             'current_price' => 320000,
             'start_time' => now()->subDays(1)->subHours(4),
