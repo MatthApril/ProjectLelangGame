@@ -6,8 +6,8 @@
 
 <h3 align="center">
     Unduh Panduan Pengguna </br> </br>
-    <a href="readme_img/GuideBook.pdf"> 
-        <img src="https://img.shields.io/badge/⬇️-Unduh Panduan-00A572.svg?style=flat"
+    <a href="readme_img/GuideBook.pdf" download="LelangGame_GuideBook.pdf"> 
+        <img src="https://img.shields.io/badge/⬇️-Unduh Panduan-1E90FF.svg?style=flat"
              alt="Unduh Panduan"
              width="200">
     </a>
