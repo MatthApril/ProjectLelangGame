@@ -346,6 +346,7 @@ class SellerController extends Controller
             ->where('status', 'paid')
             ->firstOrFail();
 
+        // dd($orderItem);
         $orderItem->update([
             'status' => 'shipped',
             'shipped_at' => now(),

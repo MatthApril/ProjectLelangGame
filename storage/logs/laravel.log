@@ -857,3 +857,98 @@
 #65 {main}
 "} 
 [2026-01-08 11:19:55] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-3b93a8af-2a9c-4120-8129-06719a9833b5","gross_amount":1123500.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+[2026-01-08 13:04:46] local.ERROR: There are no commands defined in the "sheduler" namespace.
+
+Did you mean this?
+    schedule {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"sheduler\" namespace.
+
+Did you mean this?
+    schedule at D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php:694)
+[stacktrace]
+#0 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(743): Symfony/Component/Console/Application->findNamespace('sheduler')
+#1 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('sheduler:start')
+#2 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#5 D:/college/semester 3/proyek/BWP/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#6 {main}
+"} 
+[2026-01-08 13:04:55] local.ERROR: There are no commands defined in the "sheduler" namespace.
+
+Did you mean this?
+    schedule {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"sheduler\" namespace.
+
+Did you mean this?
+    schedule at D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php:694)
+[stacktrace]
+#0 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(743): Symfony/Component/Console/Application->findNamespace('sheduler')
+#1 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('sheduler:run')
+#2 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#5 D:/college/semester 3/proyek/BWP/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#6 {main}
+"} 
+[2026-01-08 13:05:01] local.ERROR: There are no commands defined in the "scheduler" namespace.
+
+Did you mean this?
+    schedule {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"scheduler\" namespace.
+
+Did you mean this?
+    schedule at D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php:694)
+[stacktrace]
+#0 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(743): Symfony/Component/Console/Application->findNamespace('scheduler')
+#1 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('scheduler:run')
+#2 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#5 D:/college/semester 3/proyek/BWP/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#6 {main}
+"} 
+[2026-01-08 13:05:13] local.ERROR: There are no commands defined in the "scheduler" namespace.
+
+Did you mean this?
+    schedule {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"scheduler\" namespace.
+
+Did you mean this?
+    schedule at D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php:694)
+[stacktrace]
+#0 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(743): Symfony/Component/Console/Application->findNamespace('scheduler')
+#1 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('scheduler:start')
+#2 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#5 D:/college/semester 3/proyek/BWP/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#6 {main}
+"} 
+[2026-01-08 13:05:20] local.ERROR: Command "schedule:start" is not defined.
+
+Did you mean one of these?
+    queue:restart
+    reverb:restart
+    reverb:start
+    schedule:clear-cache
+    schedule:interrupt
+    schedule:list
+    schedule:run
+    schedule:test
+    schedule:work {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"schedule:start\" is not defined.
+
+Did you mean one of these?
+    queue:restart
+    reverb:restart
+    reverb:start
+    schedule:clear-cache
+    schedule:interrupt
+    schedule:list
+    schedule:run
+    schedule:test
+    schedule:work at D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('schedule:start')
+#1 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 D:/college/semester 3/proyek/BWP/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#5 {main}
+"} 

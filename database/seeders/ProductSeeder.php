@@ -161,7 +161,7 @@ class ProductSeeder extends Seeder
                 'game_id' => 6,
             ],
             [
-                'shop_id' => 4,
+                'shop_id' => 1,
                 'product_name' => 'Character Outfit Elden Ring Cosmetic',
                 'description' => 'Elden Ring outfit exclusive dan gauntlet rare. Bikin character tambah bagus maksimal.',
                 'product_img' => '/products/elden_outfit.jpg',
