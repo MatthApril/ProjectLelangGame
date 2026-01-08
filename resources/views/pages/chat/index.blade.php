@@ -10,7 +10,7 @@
     </nav>
     <h3 class="fw-bold mb-4">Daftar Chat</h3>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm" style="min-height: 30rem;">
         <div class="card-body p-0">
             <div class="card-header bg-white">
                 <form action="{{ route('chat.index') }}" class="input-group" method="GET" id="search-form">
@@ -53,19 +53,21 @@
                         </div>
                     </a>
                 @empty
-                    @if($notFound)
-                        <div class="text-center py-5" id="not-found-message">
-                            <i class="bi bi-exclamation-circle text-muted" style="font-size: 4rem;"></i>
-                            <p class="text-muted mt-3">Pengguna tidak ditemukan</p>
-                            <p class="text-muted small">Coba gunakan kata kunci lain</p>
-                        </div>
-                    @else
-                        <div class="text-center py-5" id="empty-message">
-                            <i class="bi bi-chat-square-text text-muted" style="font-size: 4rem;"></i>
-                            <p class="text-muted mt-3">Belum ada percakapan</p>
-                            <p class="text-muted small">Mulai chat dengan mengunjungi halaman produk atau toko</p>
-                        </div>
-                    @endif
+                    <div class="d-flex justify-content-center align-items-center" style="min-height: 25rem;">
+                        @if($notFound)
+                            <div class="text-center py-5" id="not-found-message">
+                                <i class="bi bi-exclamation-circle text-muted" style="font-size: 4rem;"></i>
+                                <p class="text-muted mt-3">Pengguna tidak ditemukan</p>
+                                <p class="text-muted small">Coba gunakan kata kunci lain</p>
+                            </div>
+                        @else
+                            <div class="text-center py-5" id="empty-message">
+                                <i class="bi bi-chat-square-text text-muted" style="font-size: 4rem;"></i>
+                                <p class="text-muted mt-3">Belum ada percakapan</p>
+                                <p class="text-muted small">Mulai chat dengan mengunjungi halaman produk atau toko</p>
+                            </div>
+                        @endif
+                    </div>
                 @endforelse
             </div>
         </div>
@@ -139,18 +141,22 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.users.length === 0) {
                 if (search) {
                     chatList.innerHTML = `
-                        <div class="text-center py-5" id="not-found-message">
-                            <i class="bi bi-exclamation-circle text-muted" style="font-size: 4rem;"></i>
-                            <p class="text-muted mt-3">Pengguna tidak ditemukan</p>
-                            <p class="text-muted small">Coba gunakan kata kunci lain</p>
+                        <div class="d-flex justify-content-center align-items-center" style="min-height: 25rem;">
+                            <div class="text-center py-5" id="not-found-message">
+                                <i class="bi bi-exclamation-circle text-muted" style="font-size: 4rem;"></i>
+                                <p class="text-muted mt-3">Pengguna tidak ditemukan</p>
+                                <p class="text-muted small">Coba gunakan kata kunci lain</p>
+                            </div>
                         </div>
                     `;
                 } else {
                     chatList.innerHTML = `
-                        <div class="text-center py-5" id="empty-message">
-                            <i class="bi bi-chat-square-text text-muted" style="font-size: 4rem;"></i>
-                            <p class="text-muted mt-3">Belum ada percakapan</p>
-                            <p class="text-muted small">Mulai chat dengan mengunjungi halaman produk atau toko</p>
+                        <div class="d-flex justify-content-center align-items-center" style="min-height: 25rem;">
+                            <div class="text-center py-5" id="empty-message">
+                                <i class="bi bi-chat-square-text text-muted" style="font-size: 4rem;"></i>
+                                <p class="text-muted mt-3">Belum ada percakapan</p>
+                                <p class="text-muted small">Mulai chat dengan mengunjungi halaman produk atau toko</p>
+                            </div>
                         </div>
                     `;
                 }
