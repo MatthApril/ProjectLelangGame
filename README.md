@@ -222,13 +222,29 @@ npm i
 ```
 npm run build
 ```
-4. Link ke Folder Storage Proyek
+4. Jalankan Migration nya
+```
+php artisan migrate:fresh             --> Jika tidak mau pakai seeder
+php artisan migrate:fresh --seed      --> Jika ingin memakai data dummy dari seeder nya
+```
+5. Link ke Folder Storage Proyek
 ```
 php artisan storage:link
 ```
 
+- (Optional) Jika mau memakai gambar pada data seeder. Unduh Arsip Gambar di bawah ini </br>
+<a href="readme_img/public.zip?raw=true" download="public.zip"> 
+    <img src="https://img.shields.io/badge/⬇️-Unduh Arsip-1E90FF.svg?style=flat"
+         alt="Unduh Arsip"
+         width="200">
+</a>
+</br>
+- Letakkan di dalam folder storage/app
+</br>
+</br>
+
 ### 🚀 Cara Run Proyek
-REMINDER ❗❗❗
+REMINDER ❗❗❗ <br/>
 Pastikan layanan MySQL di XAMPP/Laragon sudah dalam status Started dan konfigurasi database di file .env sudah sesuai sebelum menjalankan aplikasi.
 1. Run Laravel pastikan 
 ```
@@ -263,15 +279,14 @@ composer require midtrans/midtrans-php        --> Untuk package Midtrans
 ```
 </br> </br>
 
-### Premium Partners
+### 🗄️ Stuktur Database
+Berikut adalah gambar Physical Data Model (PDM) dari database Proyek LelangGame
+<p align="center">
+    <img src="readme_img/PDM.png" width="100%" alt="struktur db">
+</p>
+</br></br>
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+
+
 
 
