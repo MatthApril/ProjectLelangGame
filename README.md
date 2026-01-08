@@ -19,7 +19,7 @@ Kelebihan Aplikasi ini:
 Nikmati pengalaman trading yang transparan, aman, dan tanpa rasa was-was. Gabung sekarang dan mulai transaksi pertamamu!
 </br> </br>
 
-## 📚 Guide Book
+## 📚 Guide Book Penggunaan Aplikasi
 <p> Klik tombol dibawah ini untuk mendownload Buku Panduan! </p>
 <a href="readme_img/GuideBook.pdf?raw=true" download="LelangGame_GuideBook.pdf"> 
     <img src="https://img.shields.io/badge/⬇️-Unduh Panduan-1E90FF.svg?style=flat"
@@ -222,27 +222,71 @@ npm i
 ```
 npm run build
 ```
-4. Link ke Folder Storage Proyek
+4. Jalankan Migration nya
+```
+php artisan migrate:fresh             --> Jika tidak mau pakai seeder
+php artisan migrate:fresh --seed      --> Jika ingin memakai data dummy dari seeder nya
+```
+5. Link ke Folder Storage Proyek
 ```
 php artisan storage:link
 ```
 
+- (Optional) Jika mau memakai gambar pada data seeder. Unduh Arsip Gambar di bawah ini </br>
+<a href="readme_img/public.zip?raw=true" download="public.zip"> 
+    <img src="https://img.shields.io/badge/⬇️-Unduh Arsip-1E90FF.svg?style=flat"
+         alt="Unduh Arsip"
+         width="150">
+</a>
+</br>
+- Letakkan di dalam folder storage/app
+</br>
+</br>
+
 ### 🚀 Cara Run Proyek
-
+REMINDER ❗❗❗ <br/>
+Pastikan layanan MySQL di XAMPP/Laragon sudah dalam status Started dan konfigurasi database di file .env sudah sesuai sebelum menjalankan aplikasi.
+1. Run Laravel pastikan 
+```
+php artisan serve
+```
+2. Run WebSocket untuk fitur Chat
+```
+php artisan reverb:start --debug
+```
+3. Run Queue untuk menerima Email
+```
+php artisan queue:work
+```
+4. Run Scheduler untuk fitur Auto Update Lelang dan Status buka toko
+```
+php artisan schedule:work
+```
 </br> </br>
 
-### ❗ Kemungkinan Error Instalasi
+### ⚠️ Kemungkinan Error Instalasi
+Jika muncul error `No application encryption key has been specified`,
+jalankan perintah berikut:
+```
+php artisan key:generate
+```
+Jika error composer pastikan anda menginstall semua package tambahan ini
+```
+composer require laravel/reverb               --> Untuk package WebSocket
+composer require barryvdh/laravel-dompdf      --> Untuk package Donwload Laporan dalam Pdf
+composer require maatwebsite/excel            --> Untuk package Download Laporan dalam Excel
+composer require midtrans/midtrans-php        --> Untuk package Midtrans
+```
 </br> </br>
 
-### Premium Partners
+### 🗄️ Stuktur Database
+Berikut adalah gambar Physical Data Model (PDM) dari database Proyek LelangGame
+<p align="center">
+    <img src="readme_img/PDM.png" width="100%" alt="struktur db">
+</p>
+</br></br>
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+
+
 
 

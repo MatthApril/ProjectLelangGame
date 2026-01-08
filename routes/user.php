@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,23 @@ Route::prefix('user')->as('user.')
     Route::get('/orders/{orderItemId}/complaint/create', [UserController::class, 'showCreateComplaint'])->name('complaints.create');
     Route::post('/orders/{orderItemId}/complaint', [UserController::class, 'storeComplaint'])->name('complaints.store');
 
+    Route::get('/services', [UserController::class, 'showServices'])->name('services');
+
     Route::controller(ChatController::class)->group(function() {
         Route::get('/chat/{userId}', 'show')->name('chat.show');
         Route::post('/chat/{userId}', 'store')->name('chat.store');
     });
+});
+
+// Support Ticket Routes
+Route::prefix('support')->as('support.')
+->middleware(['auth', 'check_status', 'check_banned'])
+->group(function() {
+    Route::get('/', [SupportController::class, 'index'])->name('index');
+    Route::post('/', [SupportController::class, 'store'])->name('store');
+    Route::get('/{ticketId}', [SupportController::class, 'show'])->name('show');
+    Route::get('/{ticketId}/messages', [SupportController::class, 'getMessages'])->name('messages');
+    Route::post('/{ticketId}/reply', [SupportController::class, 'reply'])->name('reply');
+    Route::put('/{ticketId}/close', [SupportController::class, 'close'])->name('close');
 });
 

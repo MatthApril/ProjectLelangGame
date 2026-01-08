@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -200,6 +201,8 @@ class PaymentController extends Controller
                 $subtotal = $product->price * $item->quantity;
                 $totalPrice += $subtotal;
 
+                $order_item_admin_fee = round($subtotal * ($admin_fee_percentage / 100));
+
                 OrderItem::create([
                     'order_id' => $order->order_id,
                     'product_id' => $product->product_id,
@@ -207,7 +210,7 @@ class PaymentController extends Controller
                     'product_price' => $product->price,
                     'quantity' => $item->quantity,
                     'subtotal' => $subtotal,
-                    'admin_fee' => round($subtotal * ($admin_fee_percentage / 100)),
+                    'admin_fee' => $order_item_admin_fee,
                     'status' => 'pending',
                     'paid_at'=> null,
                 ]);
@@ -286,6 +289,24 @@ class PaymentController extends Controller
                 // dd($cart->cartItems());
 
                 Mail::to($user->email)->queue(new \App\Mail\Invoice($order));
+
+                // Notifikasi ke buyer
+                (new NotificationService())->send($order->user_id, 'pembayaran_berhasil', [
+                    'username' => $order->account->username,
+                    'order_id' => $order->order_id,
+                    'amount' => number_format($order->total_prices, 0, ',', '.'),
+                ]);
+
+                // Notifikasi ke seller (untuk setiap order item)
+                foreach ($order->orderItems as $orderItem) {
+                    (new NotificationService())->send($orderItem->shop->owner_id, 'pesanan_baru', [
+                        'username' => $orderItem->shop->owner->username,
+                        'order_id' => $order->order_id,
+                        'product_name' => $orderItem->product->product_name,
+                        'quantity' => $orderItem->quantity,
+                        'amount' => number_format($orderItem->subtotal, 0, ',', '.'),
+                    ]);
+                }
 
                 return redirect()->route('user.orders')->with('success', 'Pembayaran berhasil!');
             }

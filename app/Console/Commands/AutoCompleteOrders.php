@@ -44,9 +44,9 @@ class AutoCompleteOrders extends Command
 
             $this->info("Order #{$orderItem->order_item_id} auto-completed");
 
-            (new NotificationService())->send($orderItem->order->user_id, 'order_success', [
+            (new NotificationService())->send($orderItem->order->user_id, 'pesanan_otomatis_selesai', [
+                'order_id' => $orderItem->order->order_id,
                 'username' => $orderItem->order->account->username,
-                'amount' => $orderItem->subtotal,
             ]);
         }
 

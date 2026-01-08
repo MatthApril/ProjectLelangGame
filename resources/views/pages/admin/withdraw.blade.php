@@ -57,4 +57,5 @@
         <div class="d-flex justify-content-center">
             {{ $withdraws->links() }}
         </div>
-    @endsection
+    </div>
+@endsection

@@ -27,9 +27,9 @@
         <hr>
 
         <div>
-            <h6 class="fw-bold">📦 Detail Pesanan</h6>
+            <h4 class="fw-bold">📦 Detail Pesanan</h4>
             <div class="table-responsive">
-                <table border="1">
+                <table border="1" class="table table-bordered">
                     <tr>
                         <td><strong>Order ID:</strong></td>
                         <td>#{{ $orderItem->order_id }}</td>
@@ -57,43 +57,45 @@
         <hr>
 
         <div class="product-detail-section">
-            <h4>🛍️ Detail Produk</h4>
-            <table border="1">
-                <tr>
-                    <td rowspan="5" style="text-align: center;">
-                        @if ($orderItem->product->product_img)
-                            <img src="{{ asset('storage/' . $orderItem->product->product_img) }}" alt=""
-                                width="150" height="150">
-                        @endif
-                    </td>
-                    <td><strong>Nama Produk:</strong></td>
-                    <td>{{ $orderItem->product->product_name }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Toko:</strong></td>
-                    <td>{{ $orderItem->shop->shop_name }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Harga Satuan:</strong></td>
-                    <td>Rp {{ number_format($orderItem->product_price, 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Jumlah:</strong></td>
-                    <td>{{ $orderItem->quantity }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Subtotal:</strong></td>
-                    <td><strong>Rp {{ number_format($orderItem->subtotal, 0, ',', '.') }}</strong></td>
-                </tr>
-            </table>
+            <h4 class="fw-bold">🛍️ Detail Produk</h4>
+            <div class="table-responsive">
+                <table border="1" class="table table-bordered">
+                    <tr>
+                        <td rowspan="5" style="text-align: center;">
+                            @if ($orderItem->product->product_img)
+                                <img src="{{ asset('storage/' . $orderItem->product->product_img) }}" alt=""
+                                    width="150" height="150">
+                            @endif
+                        </td>
+                        <td><strong>Nama Produk:</strong></td>
+                        <td>{{ $orderItem->product->product_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Toko:</strong></td>
+                        <td>{{ $orderItem->shop->shop_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Harga Satuan:</strong></td>
+                        <td>Rp {{ number_format($orderItem->product_price, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jumlah:</strong></td>
+                        <td>{{ $orderItem->quantity }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Subtotal:</strong></td>
+                        <td><strong>Rp {{ number_format($orderItem->subtotal, 0, ',', '.') }}</strong></td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <hr>
 
         <div class="buyer-detail-section">
-            <h6 class="fw-bold">👤 Detail Buyer</h6>
+            <h4 class="fw-bold">👤 Detail Buyer</h4>
             <div class="table-responsive">
-                <table border="1">
+                <table border="1" class="table table-bordered">
                     <tr>
                         <td><strong>Username:</strong></td>
                         <td>{{ $orderItem->order->account->username }}</td>
@@ -114,9 +116,9 @@
 
         @if ($orderItem->complaint)
             <div class="complaint-detail-section">
-                <h6 class="fw-bold">📝 Detail Complaint</h6>
+                <h4 class="fw-bold">📝 Detail Complaint</h4>
                 <div class="table-responsive">
-                    <table border="1">
+                    <table border="1" class="table table-bordered">
                         <tr>
                             <td><strong>Complaint ID:</strong></td>
                             <td>#{{ $orderItem->complaint->complaint_id }}</td>
@@ -152,7 +154,7 @@
                 </div>
 
                 <p>
-                    <a href="{{ route('admin.complaints.show', $orderItem->complaint->complaint_id) }}">
+                    <a href="{{ route('admin.complaints.show', $orderItem->complaint->complaint_id) }}" class="btn btn-primary">
                         → Lihat Detail Complaint Lengkap
                     </a>
                 </p>
@@ -161,7 +163,7 @@
         @endif
 
         <div class="refund-action-section">
-            <h6 class="fw-bold">💰 Aksi Refund</h6>
+            <h4 class="fw-bold">💰 Aksi Refund</h4>
 
             @if ($orderItem->is_refunded)
                 <div style="background: lightgreen; padding: 15px; border: 2px solid green;">
@@ -199,7 +201,7 @@
         <hr>
 
         <div class="actions">
-            <a href="{{ route('admin.cancelled_orders.index') }}">
+            <a href="{{ route('admin.cancelled_orders.index') }}" class="btn btn-primary">
                 ← Kembali ke Daftar Pesanan Dibatalkan
             </a>
         </div>

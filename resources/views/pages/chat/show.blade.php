@@ -3,15 +3,17 @@
 @section('title', 'Pesan | LelangGame')
 
 @section('content')
-<div class="container mt-4">
+<div class="container my-4">
+    <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('chat.index') }}">Daftar Chat</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chat dengan {{ $otherUser->username }}</li>
+        </ol>
+    </nav>
     <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-                <strong>{{ $otherUser->username }}</strong>
-            </div>
-            <a href="{{ $returnUrl ?? route('chat.index') }}" class="btn btn-sm btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> {{ $returnLabel ?? 'Kembali' }}
-            </a>
+        <div class="card-header">
+            <strong>{{ $otherUser->username }}</strong>
         </div>
 
         <div class="card-body chat-box" id="chat-box" style="height: 400px; overflow-y: scroll;">
@@ -32,7 +34,7 @@
             <form id="chat-form" action="{{ route('chat.store', ['userId' => $otherUser->user_id]) }}" method="POST">
                 @csrf
                 <div class="input-group">
-                    <input type="text" id="message-input" name="content" class="form-control" 
+                    <input type="text" id="message-input" name="content" class="form-control"
                            placeholder="Ketik pesan" value="{{ $autoMessage ?? '' }}" autocomplete="off">
                     <button type="submit" id="send-button" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
                 </div>

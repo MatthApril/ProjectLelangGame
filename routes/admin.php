@@ -51,6 +51,13 @@ Route::prefix('admin')->as('admin.')
             Route::get('/cancelled-orders/{orderItemId}', 'showCancelledOrderDetail')->name('cancelled_orders.show');
             Route::post('/cancelled-orders/{orderItemId}/mark-refunded', 'markAsRefunded')->name('cancelled_orders.mark_refunded');
             Route::post('/cancelled-orders/{orderItemId}/undo-refunded', 'undoRefunded')->name('cancelled_orders.undo_refunded');
+
+            // Support Tickets
+            Route::get('/support', 'showSupportTickets')->name('support.index');
+            Route::get('/support/{ticketId}', 'showSupportTicketDetail')->name('support.show');
+            Route::post('/support/{ticketId}/reply', 'replySupportTicket')->name('support.reply');
+            Route::put('/support/{ticketId}/close', 'closeSupportTicket')->name('support.close');
+            Route::get('/support/{id}/messages', 'supportMessages')->name('admin.support.messages');
         });
 
         Route::controller(ReportController::class)->group(function() {

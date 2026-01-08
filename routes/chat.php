@@ -9,6 +9,7 @@ Route::controller(ChatController::class)
     ->as('chat.')
     ->group(function() {
         Route::get('/', 'index')->name('index');
+        Route::get('/api/list', 'getChats')->name('api.list');
         Route::get('/{userId}', 'open')->name('open');
         Route::post('/{userId}', 'store')->name('store');
     });
