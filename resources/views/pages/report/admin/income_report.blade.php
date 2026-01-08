@@ -9,7 +9,6 @@
             <hr>
         </div>
 
-        {{-- Filter Form --}}
         <div class="card mb-4 no-print">
             <div class="card-body">
                 <form action="{{ route('admin.income-report.generate') }}" method="GET">
@@ -25,11 +24,11 @@
                                 value="{{ request('end_date') ?? now()->format('Y-m-d') }}" required>
                         </div>
                     </div>
-                    <div class="mt-3 float-end">
-                        <a href="{{ route('admin.income-report.index') }}" class="btn btn-outline-secondary">
+                    <div class="float-end">
+                        <a href="{{ route('admin.income-report.index') }}" class="btn btn-outline-secondary mt-3">
                             <i class="bi bi-arrow-clockwise"></i> Reset
                         </a>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary mt-3">
                             <i class="bi bi-file-text"></i> Generate Laporan
                         </button>
                     </div>
@@ -38,7 +37,6 @@
         </div>
 
         @if(isset($orderItems))
-            {{-- Download buttons --}}
             <div class="mb-2 d-flex gap-2 no-print flex-wrap">
                 <button onclick="window.print()" class="btn btn-secondary text-nowrap">
                     <i class="bi bi-printer"></i> Cetak
@@ -53,7 +51,6 @@
                 </a>
             </div>
 
-            {{-- Print header --}}
             <div class="print-only mb-3 d-none">
                 <h4 class="fw-bold mb-1">Laporan Pendapatan Platform</h4>
                 <p class="mb-0">
@@ -64,9 +61,8 @@
                 <hr>
             </div>
 
-            {{-- Statistik Pendapatan --}}
             <div class="row mb-4 no-print">
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card card-left-primary">
                         <div class="card-body">
                             <h6 class="text-muted mb-2">Total Transaksi</h6>
@@ -75,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card card-left-success">
                         <div class="card-body">
                             <h6 class="text-muted mb-2">Transaksi Selesai</h6>
@@ -84,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card card-left-warning">
                         <div class="card-body">
                             <h6 class="text-muted mb-2">Total Nilai Transaksi</h6>
@@ -93,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="card card-left-info">
                         <div class="card-body">
                             <h6 class="text-muted mb-2">Pendapatan Admin Fee</h6>
@@ -104,7 +100,6 @@
                 </div>
             </div>
 
-        {{-- Tabel Transaksi --}}
         <div class="table-responsive">
             <table class="table table-hover table-bordered text-center">
                 <thead>
@@ -145,7 +140,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center">Tidak ada data transaksi untuk periode yang dipilih</td>
+                            <td colspan="9" class="text-center">Tidak Ada Data Transaksi Untuk Periode Yang Dipilih</td>
                         </tr>
                     @endforelse
                 </tbody>

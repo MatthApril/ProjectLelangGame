@@ -18,7 +18,6 @@
             <hr>
         </div>
 
-        {{-- Header khusus CETAK --}}
         <div class="print-only mb-3 d-none">
             <h4 class="fw-bold mb-1">Laporan Transaksi</h4>
             <p class="mb-0">
@@ -47,7 +46,6 @@
             <hr>
         </div>
 
-        {{-- Filter Form --}}
         <div class="card mb-4 no-print">
             <div class="card-body">
                 <form action="{{ route('seller.transaction-report.generate') }}" method="GET">
@@ -73,11 +71,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mt-3 float-end">
-                        <a href="{{ route('seller.transaction-report.index') }}" class="btn btn-outline-secondary">
+                    <div class="float-end">
+                        <a href="{{ route('seller.transaction-report.index') }}" class="btn btn-outline-secondary mt-3">
                             <i class="bi bi-arrow-clockwise"></i> Reset
                         </a>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary mt-3">
                             <i class="bi bi-file-text"></i> Generate Laporan
                         </button>
                     </div>
@@ -100,7 +98,6 @@
                 </a>
             </div>
 
-            {{-- Statistik --}}
             <div class="row mb-4 no-print">
                 <div class="col-md-3 mt-2">
                     <div class="card">
@@ -136,7 +133,6 @@
                 </div>
             </div>
 
-            {{-- Tabel Transaksi --}}
             <div class="table-responsive">
                 <table class="table table-hover table-bordered text-center">
                             <thead>
@@ -173,7 +169,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">Tidak ada data transaksi untuk periode yang dipilih</td>
+                                        <td colspan="8" class="text-center">Tidak Ada Data Transaksi Untuk Periode Yang Dipilih</td>
                                     </tr>
                                 @endforelse
                             </tbody>
