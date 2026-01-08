@@ -1,37 +1,32 @@
-<h1 align="center">⚖️ Aplikasi LelangGame</h1>
+<h1 align="center">⚖️ Proyek LelangGame</h1>
 
 <p align="center">
-    <img src="readme_img/LogoWarna-RemoveBg.png" width="400" alt="Laravel Logo">
+    <img src="readme_img/LogoWarna-RemoveBg.png" width="30%" alt="homepage">
 </p>
-
-<h3 align="center">
-    Unduh Panduan Pengguna </br> </br>
-    <a href="readme_img/GuideBook.pdf?raw=true" download="LelangGame_GuideBook.pdf"> 
-        <img src="https://img.shields.io/badge/⬇️-Unduh Panduan-1E90FF.svg?style=flat"
-             alt="Unduh Panduan"
-             width="200">
-    </a>
-</h3>
 
 ## Tentang Aplikasi
-
-<p align="center">
-    <img src="readme_img/homepage.png" width="100%" alt="Laravel Logo">
-</p>
-
 LelangGame adalah marketplace terpercaya tempat kamu bisa jual-beli item game dengan mudah dan cepat.
 
-Tak perlu khawatir soal keamanan; setiap transaksi dilindungi oleh sistem kami. Jika barang yang diterima tidak sesuai, kamu bisa langsung mengajukan komplain. Tim admin kami akan meninjau setiap kasus secara adil untuk memastikan hakmu terlindungi, termasuk proses refund jika terjadi kendala.
+Tak perlu khawatir soal keamanan; setiap transaksi dilindungi oleh sistem kami. Jika barang yang diterima tidak sesuai, kamu bisa langsung mengajukan komplain. Tim admin kami akan meninjau setiap kasus secara adil untuk memastikan hakmu terlindungi, termasuk proses refund jika terjadi kendala. 
+</br> </br>
+Kelebihan Aplikasi ini:
+- Fitur Chat Langsung: Hubungi penjual secara real-time untuk menanyakan detail item, stok, atau sekadar bernegosiasi sebelum melakukan pembayaran.
+- Transaksi Aman (Sistem Rekber): Dana pembeli ditahan oleh sistem dan hanya akan diteruskan ke penjual setelah barang dikonfirmasi telah diterima.
+- Perlindungan Refund & Komplain: Tak perlu takut tertipu. Jika barang tidak sesuai, tim admin kami siap memproses komplain dan mengembalikan dana secara adil.
+- Ekosistem Terpercaya: Setiap transaksi diawasi oleh admin profesional untuk memastikan kenyamanan bagi penjual maupun pembeli.
+- Transparansi Status: Pantau status pesanan dan proses pengiriman item secara real-time di dalam aplikasi.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Nikmati pengalaman trading yang transparan, aman, dan tanpa rasa was-was. Gabung sekarang dan mulai transaksi pertamamu!
+</br> </br>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Guide Book
+<p> Klik tombol dibawah ini untuk mendownload Buku Panduan! </p>
+<a href="readme_img/GuideBook.pdf?raw=true" download="LelangGame_GuideBook.pdf"> 
+    <img src="https://img.shields.io/badge/⬇️-Unduh Panduan-1E90FF.svg?style=flat"
+         alt="Unduh Panduan"
+         width="200">
+</a>
+</br> </br>
 
 ## Learning Laravel
 
