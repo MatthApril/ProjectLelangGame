@@ -28,7 +28,7 @@
         <div class="row">
             @forelse ($auctions as $index => $auction)
                 <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm border-0 pb-3">
+                    <div class="card h-100 pb-3">
                         @if ($auction->product && $auction->product->product_img)
                             @php
                                 $statusClass = match ($auction->status) {
