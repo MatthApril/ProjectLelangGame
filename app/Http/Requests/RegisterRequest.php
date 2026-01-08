@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'string'],
             'confirm_password' => ['required', 'same:password'],
             'bank_account_number' => ['required', 'digits:10'],
-            // 'terms' => ['required'],
+            'terms' => ['accepted', 'required'],
         ];
     }
     
@@ -45,7 +45,8 @@ class RegisterRequest extends FormRequest
             'confirm_password.same' => 'Konfirmasi password dengan password tidak sama.',
             'bank_account_number.required' => 'Nomor rekening wajib diisi.',
             'bank_account_number.digits' => 'Nomor rekening harus 10 digit.',
-            // 'terms.required' => 'Anda harus menyetujui Syarat & Ketentuan untuk melanjutkan.',
+            'terms.accepted' => 'Anda harus menyetujui Syarat & Ketentuan untuk melanjutkan.',
+            'terms.required' => 'Anda harus menyetujui Syarat & Ketentuan untuk melanjutkan.',
         ];
     }
 }

@@ -79,7 +79,7 @@
                                     placeholder="Konfirmasi Password" autocomplete="off" required>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" name="terms" id="terms" required>
+                                <input class="form-check-input" type="checkbox" value="1" name="terms" id="terms" required>
                                 <label class="form-check-label" for="terms">
                                     Setuju Dengan <a href="" data-bs-toggle="modal" data-bs-target="#termsConditions">Syarat & Ketentuan</a> Yang Berlaku
                                 </label>
