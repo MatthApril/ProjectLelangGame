@@ -27,9 +27,21 @@
             </select>
         </form>
 
+        <hr>
+
         @if ($complaints->count() > 0)
             <div class="table-responsive">
                 <table border="1" class="table table-bordered">
+                    <tr>
+                        <th>No</th>
+                        <th>Produk</th>
+                        <th>Pembeli</th>
+                        <th>Penjual</th>
+                        <th>Status</th>
+                        <th>Keputusan</th>
+                        <th>Tanggal Komplain</th>
+                        <th>Aksi</th>
+                    </tr>
                     @foreach ($complaints as $complaint)
                         <tr>
                             <td>{{ ($complaints->currentPage() - 1) * $complaints->perPage() + $loop->iteration }}</td>

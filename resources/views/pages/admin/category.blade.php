@@ -70,6 +70,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Kategori</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
