@@ -228,10 +228,39 @@ php artisan storage:link
 ```
 
 ### 🚀 Cara Run Proyek
-
+REMINDER ❗❗❗
+Pastikan layanan MySQL di XAMPP/Laragon sudah dalam status Started dan konfigurasi database di file .env sudah sesuai sebelum menjalankan aplikasi.
+1. Run Laravel pastikan 
+```
+php artisan serve
+```
+2. Run WebSocket untuk fitur Chat
+```
+php artisan reverb:start --debug
+```
+3. Run Queue untuk menerima Email
+```
+php artisan queue:work
+```
+4. Run Scheduler untuk fitur Auto Update Lelang dan Status buka toko
+```
+php artisan schedule:work
+```
 </br> </br>
 
-### ❗ Kemungkinan Error Instalasi
+### ⚠️ Kemungkinan Error Instalasi
+Jika muncul error `No application encryption key has been specified`,
+jalankan perintah berikut:
+```
+php artisan key:generate
+```
+Jika error composer pastikan anda menginstall semua package tambahan ini
+```
+composer require laravel/reverb               --> Untuk package WebSocket
+composer require barryvdh/laravel-dompdf      --> Untuk package Donwload Laporan dalam Pdf
+composer require maatwebsite/excel            --> Untuk package Download Laporan dalam Excel
+composer require midtrans/midtrans-php        --> Untuk package Midtrans
+```
 </br> </br>
 
 ### Premium Partners
