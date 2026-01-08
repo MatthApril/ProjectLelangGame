@@ -170,7 +170,7 @@ class VerificationController extends Controller
             'unique_id' => uniqid(),
             'otp' => md5($otp),
             'type' => 'forgot_password',
-            'expires_at' => now()->addMinute()
+            'expires_at' => now()->addMinutes(5)
         ]);
 
         Mail::to($user->email)->queue(new OtpForgotPwd($otp));
