@@ -29,11 +29,11 @@ class InputProductCommentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'rating.required' => 'Rating wajib diisi',
-            'rating.integer' => 'Rating harus berupa angka',
-            'rating.min' => 'Rating minimal 1',
-            'rating.max' => 'Rating maksimal 5',
-            'comment.max' => 'Komentar maksimal 1000 karakter',
+            'rating.required' => 'Rating wajib diisi.',
+            'rating.integer' => 'Rating harus berupa angka.',
+            'rating.min' => 'Rating minimal 1.',
+            'rating.max' => 'Rating maksimal 5.',
+            'comment.max' => 'Komentar maksimal 1000 karakter.',
         ];
     }
 }

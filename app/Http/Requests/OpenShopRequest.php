@@ -50,16 +50,16 @@ class OpenShopRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'shop_name.required' => 'Nama Toko wajib diisi',
-            'shop_name.max' => 'Nama Toko maksimal 255 karakter',
-            'shop_img.image' => 'File harus berupa gambar',
-            'shop_img.mimes' => 'Format gambar harus: jpeg, png, atau jpg',
-            'shop_img.max' => 'Ukuran gambar maksimal 2MB',
-            'open_hour.required' => 'Jam buka wajib diisi',
-            'open_hour.date_format' => 'Format jam buka tidak valid',
-            'close_hour.required' => 'Jam tutup wajib diisi',
-            'close_hour.date_format' => 'Format jam tutup tidak valid',
-            'close_hour.after' => 'Jam tutup harus lebih lambat dari jam buka',
+            'shop_name.required' => 'Nama Toko wajib diisi.',
+            'shop_name.max' => 'Nama Toko maksimal 255 karakter.',
+            'shop_img.image' => 'File harus berupa gambar.',
+            'shop_img.mimes' => 'Format gambar harus: jpeg, png, atau jpg.',
+            'shop_img.max' => 'Ukuran gambar maksimal 2MB.',
+            'open_hour.required' => 'Jam buka wajib diisi.',
+            'open_hour.date_format' => 'Format jam buka tidak valid.',
+            'close_hour.required' => 'Jam tutup wajib diisi.',
+            'close_hour.date_format' => 'Format jam tutup tidak valid.',
+            'close_hour.after' => 'Jam tutup harus lebih lambat dari jam buka.',
         ];
     }
 

@@ -29,13 +29,13 @@ class CreateComplaintRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'description.required' => 'Deskripsi masalah wajib diisi',
-            'description.min' => 'Deskripsi minimal 20 karakter',
-            'description.max' => 'Deskripsi maksimal 1000 karakter',
-            'evidence_image.required' => 'Bukti foto wajib diupload',
-            'evidence_image.image' => 'File harus berupa gambar',
-            'evidence_image.mimes' => 'Format gambar: jpeg, png, jpg',
-            'evidence_image.max' => 'Ukuran gambar maksimal 2MB'
+            'description.required' => 'Deskripsi masalah wajib diisi.',
+            'description.min' => 'Deskripsi minimal 20 karakter.',
+            'description.max' => 'Deskripsi maksimal 1000 karakter.',
+            'evidence_image.required' => 'Bukti foto wajib diupload.',
+            'evidence_image.image' => 'File harus berupa gambar.',
+            'evidence_image.mimes' => 'Format gambar: jpeg, png, jpg.',
+            'evidence_image.max' => 'Ukuran gambar maksimal 2MB.'
         ];
     }
 }

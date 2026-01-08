@@ -10,7 +10,7 @@
             </button>
         </a>
         <div class="row d-flex justify-content-center">
-            <div class="col-md-6">
+            <div class="col-sm-12 col-md-8 col-xl-6">
                 {{-- Session Error Messages --}}
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -79,8 +79,8 @@
                                     placeholder="Konfirmasi Password" autocomplete="off" required>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="checkDefault" required>
-                                <label class="form-check-label" for="checkDefault">
+                                <input class="form-check-input" type="checkbox" value="1" name="terms" id="terms" required>
+                                <label class="form-check-label" for="terms">
                                     Setuju Dengan <a href="" data-bs-toggle="modal" data-bs-target="#termsConditions">Syarat & Ketentuan</a> Yang Berlaku
                                 </label>
                             </div>

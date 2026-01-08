@@ -10,7 +10,7 @@
             </button>
         </a>
         <div class="row d-flex justify-content-center">
-            <div class="col-md-6">
+            <div class="col-sm-12 col-md-8 col-xl-6">
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}

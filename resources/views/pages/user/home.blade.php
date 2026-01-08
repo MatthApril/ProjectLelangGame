@@ -9,28 +9,28 @@
                 <div class="col-md-3 mt-4 position-relative">
                     <img src="{{ asset('images/sampul/img_sampul_1.jpg') }}" alt="" style="width: 100%;"
                         class="img-fluid rounded shadow-lg">
-                    <a href="#"
+                    <a href="{{ route('games.detail', 1) }}"
                         class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli
                         Sekarang</a>
                 </div>
                 <div class="col-md-3 mt-4 position-relative">
                     <img src="{{ asset('images/sampul/img_sampul_2.jpg') }}" alt="" style="width: 100%;"
                         class="img-fluid rounded shadow-lg">
-                    <a href="#"
+                    <a href="{{ route('games.detail', 4) }}"
                         class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli
                         Sekarang</a>
                 </div>
                 <div class="col-md-3 mt-4 position-relative">
                     <img src="{{ asset('images/sampul/img_sampul_3.jpg') }}" alt="" style="width: 100%;"
                         class="img-fluid rounded shadow-lg">
-                    <a href="#"
+                    <a href="{{ route('games.detail', 3) }}"
                         class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli
                         Sekarang</a>
                 </div>
                 <div class="col-md-3 mt-4 position-relative">
                     <img src="{{ asset('images/sampul/img_sampul_4.jpg') }}" alt="" style="width: 100%;"
                         class="img-fluid rounded shadow-lg">
-                    <a href="#"
+                    <a href="{{ route('games.detail', 6) }}"
                         class="btn btn-outline-light position-absolute bottom-0 start-50 translate-middle-x mb-5 px-5 text-nowrap">Beli
                         Sekarang</a>
                 </div>

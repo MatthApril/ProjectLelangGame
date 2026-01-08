@@ -30,7 +30,7 @@ class ForgotPwdRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => 'Email wajib diisi',
+            'email.required' => 'Email wajib diisi.',
         ];
     }
 }
