@@ -3,7 +3,7 @@
 @section('title', 'Daftar | LelangGame')
 
 @section('content')
-    <div class="container">
+    <div class="container mb-sm-5">
         <a href="{{ route('user.home') }}">
             <button type="submit" class="btn btn-outline-danger rounded-5 px-3 my-3">
                 <i class="bi bi-caret-left-fill"></i> Kembali Ke Beranda
@@ -78,6 +78,12 @@
                                 <input type="password" class="form-control" name="confirm_password" id="confirm_password"
                                     placeholder="Konfirmasi Password" autocomplete="off" required>
                             </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault" required>
+                                <label class="form-check-label" for="checkDefault">
+                                    Setuju Dengan <a href="" data-bs-toggle="modal" data-bs-target="#termsConditions">Syarat & Ketentuan</a> Yang Berlaku
+                                </label>
+                            </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary rounded-5 my-3">Daftar</button>
                             </div>
@@ -90,5 +96,24 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Terms Conditions Modal -->
+    <div class="modal fade" id="termsConditions" tabindex="-1" aria-labelledby="termsConditionsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5 fw-bold" id="termsConditionsLabel">Syarat & Ketentuan</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0" style="height: 500px;">
+                <iframe 
+                    src="{{ asset('SyaratDanKetentuanLelangGame.pdf') }}#toolbar=0&navpanes=0&scrollbar=1"
+                    width="100%"
+                    height="100%"
+                    style="border: none;">
+                </iframe>
+        </div>
+        </div>
+    </div>
     </div>
 @endsection
