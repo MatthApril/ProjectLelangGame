@@ -7,26 +7,27 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class IncomeReportAdmin implements FromCollection, WithHeadings
 {
-    protected $items;
+    protected $orders;
 
-    public function __construct($items)
+    public function __construct($orders)
     {
-        $this->items = $items;
+        $this->orders = $orders;
     }
 
     public function collection()
     {
-        return $this->items->map(function ($item, $index) {
+        return $this->orders->map(function ($order, $index) {
+            $netIncome = $order->total_prices - $order->admin_fee;
+            
             return [
                 $index + 1,
-                $item->paid_at ? $item->paid_at->format('d/m/Y H:i') : '-',
-                $item->order_id,
-                $item->product->shop->shop_name ?? 'Toko Dihapus',
-                $item->order->account->username,
-                $item->product->product_name ?? 'Produk Dihapus',
-                $item->quantity,
-                $item->subtotal,
-                $this->getStatusText($item->status)
+                $order->order_date,
+                $order->order_id,
+                $order->account->username,
+                $order->orderItems->count(),
+                $order->total_prices,
+                $order->admin_fee,
+                $netIncome
             ];
         });
     }
@@ -37,23 +38,11 @@ class IncomeReportAdmin implements FromCollection, WithHeadings
             'No',
             'Tanggal',
             'Order ID',
-            'Toko',
             'Pembeli',
-            'Produk',
-            'Qty',
-            'Subtotal',
-            'Status'
+            'Jumlah Item',
+            'Total Transaksi',
+            'Admin Fee',
+            'Pendapatan Bersih'
         ];
-    }
-
-    private function getStatusText($status)
-    {
-        return match($status) {
-            'paid' => 'Dibayar',
-            'shipped' => 'Dikirim',
-            'completed' => 'Selesai',
-            'cancelled' => 'Dibatalkan',
-            default => $status
-        };
     }
 }

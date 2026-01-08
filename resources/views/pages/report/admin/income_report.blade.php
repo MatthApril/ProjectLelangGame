@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        @if(isset($orderItems))
+        @if(isset($orders))
             <div class="mb-2 d-flex gap-2 no-print flex-wrap">
                 <button onclick="window.print()" class="btn btn-secondary text-nowrap">
                     <i class="bi bi-printer"></i> Cetak
@@ -61,44 +61,44 @@
                 <hr>
             </div>
 
-            <div class="row mb-4 no-print">
-                <div class="col-md-3 mt-2">
-                    <div class="card card-left-primary">
-                        <div class="card-body">
-                            <h6 class="text-muted mb-2">Total Transaksi</h6>
-                            <h3 class="fw-bold text-primary">{{ $totalTransactions }}</h3>
-                            <small class="text-muted">Semua transaksi</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-2">
-                    <div class="card card-left-success">
-                        <div class="card-body">
-                            <h6 class="text-muted mb-2">Transaksi Selesai</h6>
-                            <h3 class="fw-bold text-success">{{ $completedOrders }}</h3>
-                            <small class="text-muted">Order completed</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-2">
-                    <div class="card card-left-warning">
-                        <div class="card-body">
-                            <h6 class="text-muted mb-2">Total Nilai Transaksi</h6>
-                            <h3 class="fw-bold text-warning">Rp{{ number_format($totalRevenue, 0, ',', '.') }}</h3>
-                            <small class="text-muted">Transaksi selesai</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-2">
-                    <div class="card card-left-info">
-                        <div class="card-body">
-                            <h6 class="text-muted mb-2">Pendapatan Admin Fee</h6>
-                            <h3 class="fw-bold text-info">Rp{{ number_format($totalAdminFee, 0, ',', '.') }}</h3>
-                            <small class="text-muted">Dari transaksi selesai</small>
-                        </div>
+        <div class="row mb-4 no-print">
+            <div class="col-md-3 mt-2">
+                <div class="card card-left-success">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Total Transaksi Selesai</h6>
+                        <h3 class="fw-bold text-success">{{ $totalTransactions }}</h3>
+                        <small class="text-muted">Order completed only</small>
                     </div>
                 </div>
             </div>
+            <div class="col-md-3 mt-2">
+                <div class="card card-left-warning">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Total Nilai Transaksi</h6>
+                        <h3 class="fw-bold text-warning">Rp{{ number_format($totalRevenue, 0, ',', '.') }}</h3>
+                        <small class="text-muted">Dari transaksi selesai</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mt-2">
+                <div class="card card-left-info">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Pendapatan Admin Fee</h6>
+                        <h3 class="fw-bold text-info">Rp{{ number_format($totalAdminFee, 0, ',', '.') }}</h3>
+                        <small class="text-muted">Fee platform</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mt-2">
+                <div class="card card-left-primary">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Pendapatan Seller</h6>
+                        <h3 class="fw-bold text-primary">Rp{{ number_format($totalRevenue - $totalAdminFee, 0, ',', '.') }}</h3>
+                        <small class="text-muted">Setelah dikurangi fee</small>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-hover table-bordered text-center">
@@ -107,51 +107,40 @@
                         <th style="width: 3%;">No</th>
                         <th style="width: 10%;">Tanggal</th>
                         <th style="width: 12%;">Order ID</th>
-                        <th style="width: 15%;">Toko</th>
                         <th style="width: 12%;">Pembeli</th>
-                        <th style="width: 20%;">Produk</th>
-                        <th style="width: 5%;">Qty</th>
-                        <th style="width: 13%;">Subtotal</th>
-                        <th style="width: 10%;">Status</th>
+                        <th style="width: 8%;">Jumlah Item</th>
+                        <th style="width: 13%;">Total Transaksi</th>
+                        <th style="width: 13%;">Admin Fee</th>
+                        <th style="width: 13%;">Pendapatan Seller</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($orderItems as $index => $item)
+                    @forelse($orders as $index => $order)
+                        @php
+                            $netIncome = $order->total_prices - $order->admin_fee;
+                        @endphp
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->paid_at ? $item->paid_at->format('d/m/Y H:i') : '-' }}</td>
-                            <td>{{ $item->order_id }}</td>
-                            <td class="text-left">{{ $item->product->shop->shop_name ?? 'Toko Dihapus' }}</td>
-                            <td>{{ $item->order->account->username }}</td>
-                            <td class="text-left">{{ $item->product->product_name ?? 'Produk Dihapus' }}</td>
-                            <td>{{ $item->quantity }}</td>
-                            <td class="text-right">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                            <td>
-                                @if($item->status == 'paid')
-                                    <span class="badge bg-info">Dibayar</span>
-                                @elseif($item->status == 'shipped')
-                                    <span class="badge bg-primary">Dikirim</span>
-                                @elseif($item->status == 'completed')
-                                    <span class="badge bg-success">Selesai</span>
-                                @elseif($item->status == 'cancelled')
-                                    <span class="badge bg-danger">Dibatalkan</span>
-                                @endif
-                            </td>
+                            <td>{{ $order->order_date }}</td>
+                            <td>{{ $order->order_id }}</td>
+                            <td>{{ $order->account->username }}</td>
+                            <td>{{ $order->orderItems->count() }}</td>
+                            <td>Rp {{ number_format($order->total_prices, 0, ',', '.') }}</td>
+                            <td class="text-info fw-semibold">Rp {{ number_format($order->admin_fee, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($netIncome, 0, ',', '.') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center">Tidak Ada Data Transaksi Untuk Periode Yang Dipilih</td>
+                            <td colspan="8" class="text-center">Tidak Ada Transaksi Selesai Untuk Periode Yang Dipilih</td>
                         </tr>
                     @endforelse
                 </tbody>
                 <tfoot class="table-light">
                     <tr>
-                        <th colspan="7" class="text-end">Total Pendapatan (Selesai):</th>
-                        <th colspan="2" class="text-center">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</th>
-                    </tr>
-                    <tr>
-                        <th colspan="7" class="text-end">Admin Fee Platform:</th>
-                        <th colspan="2" class="text-center text-info">Rp {{ number_format($totalAdminFee, 0, ',', '.') }}</th>
+                        <th colspan="5" class="text-end">Total :</th>
+                        <th class="text-center">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</th>
+                        <th class="text-center text-info">Rp {{ number_format($totalAdminFee, 0, ',', '.') }}</th>
+                        <th class="text-center">Rp {{ number_format($totalRevenue - $totalAdminFee, 0, ',', '.') }}</th>
                     </tr>
                 </tfoot>
             </table>

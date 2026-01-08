@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Pendapatan Platform</title>
+    <title>Laporan Top Seller</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -46,19 +46,23 @@
 </head>
 <body>
 
-<h3 align="center">Laporan Pendapatan Platform LelangGame</h3>
+<h3 align="center">Laporan Top {{ $topLimit }} Seller Dengan Pendapatan Tertinggi</h3>
 <p align="center" style="font-size: 10px;">
-    Periode: {{ date('d/m/Y', strtotime($start_date)) }} s/d {{ date('d/m/Y', strtotime($end_date)) }}
+    Periode : {{ date('d/m/Y', strtotime($start_date)) }} s/d {{ date('d/m/Y', strtotime($end_date)) }}
 </p>
 
 <div class="stats">
     <table>
         <tr>
-            <th>Total Transaksi Selesai</th>
+            <th>Top Seller</th>
+            <td>{{ $topLimit }}</td>
+        </tr>
+        <tr>
+            <th>Total Transaksi</th>
             <td>{{ $totalTransactions }}</td>
         </tr>
         <tr>
-            <th>Total Nilai Transaksi</th>
+            <th>Total Pendapatan</th>
             <td>Rp{{ number_format($totalRevenue, 0, ',', '.') }}</td>
         </tr>
         <tr>
@@ -66,7 +70,7 @@
             <td>Rp{{ number_format($totalAdminFee, 0, ',', '.') }}</td>
         </tr>
         <tr>
-            <th>Total Pendapatan Seller</th>
+            <th>Total Pendapatan Bersih</th>
             <td>Rp{{ number_format($totalRevenue - $totalAdminFee, 0, ',', '.') }}</td>
         </tr>
     </table>
@@ -75,40 +79,35 @@
 <table>
     <thead>
         <tr>
-            <th width="4%">No</th>
-            <th width="11%">Tanggal</th>
-            <th width="14%">Order ID</th>
-            <th width="13%">Pembeli</th>
-            <th width="8%">Item</th>
+            <th width="5%">Rank</th>
+            <th width="20%">Nama Toko</th>
+            <th width="15%">Pemilik</th>
+            <th width="10%">Transaksi</th>
             <th width="17%">Total</th>
             <th width="17%">Admin Fee</th>
-            <th width="16%">Seller</th>
+            <th width="16%">Bersih</th>
         </tr>
     </thead>
     <tbody>
-        @forelse($orders as $i => $order)
-            @php
-                $netIncome = $order->total_prices - $order->admin_fee;
-            @endphp
+        @forelse($topSellers as $i => $shop)
             <tr>
-                <td>{{ $i+1 }}</td>
-                <td>{{ $order->order_date }}</td>
-                <td>{{ $order->order_id }}</td>
-                <td>{{ $order->account->username }}</td>
-                <td>{{ $order->orderItems->count() }}</td>
-                <td>Rp {{ number_format($order->total_prices, 0, ',', '.') }}</td>
-                <td class="text-info">Rp {{ number_format($order->admin_fee, 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($netIncome, 0, ',', '.') }}</td>
+                <td>#{{ $i + 1 }}</td>
+                <td>{{ $shop->shop_name }}</td>
+                <td>{{ $shop->owner->username }}</td>
+                <td>{{ $shop->total_transactions }}</td>
+                <td>Rp {{ number_format($shop->total_revenue, 0, ',', '.') }}</td>
+                <td class="text-info">Rp {{ number_format($shop->admin_fee, 0, ',', '.') }}</td>
+                <td>Rp {{ number_format($shop->net_income, 0, ',', '.') }}</td>
             </tr>
         @empty
         <tr>
-            <td colspan="8">Tidak Ada Transaksi Selesai</td>
+            <td colspan="7">Tidak Ada Data Seller</td>
         </tr>
         @endforelse
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="5">TOTAL:</th>
+            <th colspan="4">Total :</th>
             <th>Rp {{ number_format($totalRevenue, 0, ',', '.') }}</th>
             <th class="text-info">Rp {{ number_format($totalAdminFee, 0, ',', '.') }}</th>
             <th>Rp {{ number_format($totalRevenue - $totalAdminFee, 0, ',', '.') }}</th>
