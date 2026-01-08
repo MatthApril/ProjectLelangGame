@@ -236,7 +236,7 @@ php artisan storage:link
 <a href="readme_img/public.zip?raw=true" download="public.zip"> 
     <img src="https://img.shields.io/badge/⬇️-Unduh Arsip-1E90FF.svg?style=flat"
          alt="Unduh Arsip"
-         width="200">
+         width="150">
 </a>
 </br>
 - Letakkan di dalam folder storage/app
