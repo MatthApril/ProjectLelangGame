@@ -19,7 +19,7 @@ Kelebihan Aplikasi ini:
 Nikmati pengalaman trading yang transparan, aman, dan tanpa rasa was-was. Gabung sekarang dan mulai transaksi pertamamu!
 </br> </br>
 
-## 📚 Guide Book
+## 📚 Guide Book Penggunaan Aplikasi
 <p> Klik tombol dibawah ini untuk mendownload Buku Panduan! </p>
 <a href="readme_img/GuideBook.pdf?raw=true" download="LelangGame_GuideBook.pdf"> 
     <img src="https://img.shields.io/badge/⬇️-Unduh Panduan-1E90FF.svg?style=flat"
