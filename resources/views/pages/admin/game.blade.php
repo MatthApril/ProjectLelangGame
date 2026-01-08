@@ -18,7 +18,7 @@
         <hr>
 
         @if ($editGame)
-            <h6 class="fw-bold">Edit Game</h6>
+            <h4 class="fw-bold">Edit Game</h6>
 
             <form action="{{ route('admin.games.update', $editGame->game_id) }}" method="POST"
                 enctype="multipart/form-data">
@@ -28,7 +28,7 @@
                 <div>
                     <label for="game_name">Nama Game *</label><br>
                     <input type="text" id="game_name" name="game_name"
-                        value="{{ old('game_name', $editGame->game_name ?? '') }}" class="form-control" required>
+                        value="{{ old('game_name', $editGame->game_name ?? '') }}" class="form-control" required><br>
                     @error('game_name')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
@@ -82,7 +82,7 @@
                 <a href="{{ route('admin.games.index') }}" class="text-decoration-none link-footer">Batal</a>
             </form>
         @else
-            <h6 class="fw-bold">Daftar Game (Total: {{ $games->count() }})</h6>
+            <h4 class="fw-bold">Daftar Game (Total: {{ $games->count() }})</h4>
 
             <div class="table-responsive">
                 <table border="1" class="table table-bordered">

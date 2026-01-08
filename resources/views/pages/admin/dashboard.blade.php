@@ -5,7 +5,7 @@
         <h5 class="fw-semibold text-dark">Dashboard Admin</h5>
         <hr>
 
-        <h6 class="fw-bold">Pengaturan Admin</h6>
+        <h4 class="fw-bold">Pengaturan Admin</h4>
         <form action="{{ route('admin.settings.update') }}" method="post">
             @csrf
             @method('PUT')
@@ -19,7 +19,7 @@
 
         <br>
 
-        <h6 class="fw-bold">Statistik Sistem</h6>
+        <h4 class="fw-bold">Statistik Sistem</h4>
         <div class="table-responsive">
             <table border="1" class="table table-bordered">
                 <tr>
