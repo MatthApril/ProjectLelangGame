@@ -30,12 +30,12 @@ class CreateComplaintResponseRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'message.required' => 'Pesan pembelaan wajib diisi',
-            'message.min' => 'Pesan minimal 20 karakter',
-            'message.max' => 'Pesan maksimal 1000 karakter',
-            'attachment.file' => 'File tidak valid',
-            'attachment.mimes' => 'Format file: jpeg, png, jpg, pdf',
-            'attachment.max' => 'Ukuran file maksimal 5MB'
+            'message.required' => 'Pesan pembelaan wajib diisi.',
+            'message.min' => 'Pesan minimal 20 karakter.',
+            'message.max' => 'Pesan maksimal 1000 karakter.',
+            'attachment.file' => 'File tidak valid.',
+            'attachment.mimes' => 'Format file: jpeg, png, jpg, pdf.',
+            'attachment.max' => 'Ukuran file maksimal 5MB.'
         ];
     }
 }

@@ -31,11 +31,11 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => 'Email Wajib Diisi!',
-            'email.email' => 'Format Email Tidak Valid!',
-            'password.required' => 'Password Wajib Diisi!',
-            'captcha.required' => 'Captcha Wajib Diisi!',
-            'captcha.captcha' => 'Captcha Tidak Valid!',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
+            'captcha.required' => 'Captcha wajib diisi.',
+            'captcha.captcha' => 'Captcha tidak valid.',
         ];
     }
 

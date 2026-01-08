@@ -51,10 +51,8 @@ class SellerController extends Controller
         DB::beginTransaction();
 
         try {
-            // Kurangi saldo toko
             $shop->decrement('shop_balance', $request->amount);
 
-            // Buat permintaan pencairan
             $shop->withdraws()->create([
                 'amount' => $request->amount,
                 'status' => 'waiting',
@@ -74,28 +72,23 @@ class SellerController extends Controller
         $user = Auth::user();
         $shop = $user->shop;
 
-        // Statistik Produk
         $totalProducts = $shop->products()->count();
         $activeProducts = $shop->products()->where('stok', '>', 0)->count();
         $inactiveProducts = $shop->products()->where('stok', '=', 0)->count();
 
-        // Statistik Pesanan
         $totalOrders = $shop->orderItems()->count();
         $pendingOrders = $shop->orderItems()->where('status', 'paid')->count();
         $shippedOrders = $shop->orderItems()->where('status', 'shipped')->count();
         $completedOrders = $shop->orderItems()->where('status', 'completed')->count();
         $cancelledOrders = $shop->orderItems()->where('status', 'cancelled')->count();
 
-        // Statistik Keuangan
-        $runningTransactions = $shop->running_transactions; // Saldo dalam proses
-        $shopBalance = $shop->shop_balance; // Saldo yang bisa dicairkan
+        $runningTransactions = $shop->running_transactions;
+        $shopBalance = $shop->shop_balance;
 
-        // Total penjualan yang sudah selesai
         $totalRevenue = $shop->orderItems()
             ->where('status', 'completed')
             ->sum('subtotal');
 
-        // Statistik Lelang
         $totalAuctions = Auction::where('seller_id', $user->user_id)->count();
         $runningAuctions = Auction::where('seller_id', $user->user_id)
             ->where('status', 'running')
@@ -104,7 +97,6 @@ class SellerController extends Controller
             ->where('status', 'ended')
             ->count();
 
-        // Statistik Komplain
         $totalComplaints = Complaint::where('seller_id', $user->user_id)->count();
         $waitingComplaints = Complaint::where('seller_id', $user->user_id)
             ->where('status', 'waiting_seller')
@@ -113,7 +105,6 @@ class SellerController extends Controller
             ->where('status', 'resolved')
             ->count();
 
-        // Statistik Rating & Review
         $totalReviews = ProductComment::whereHas('product', function($q) use ($shop) {
             $q->where('shop_id', $shop->shop_id);
         })->count();
@@ -323,7 +314,6 @@ class SellerController extends Controller
             ->where('orders.status', 'paid')
             ->whereIn('order_items.status', ['paid', 'completed', 'cancelled', 'shipped'])
 
-            // FILTER STATUS DI SINI
             ->when($req->status, function ($q) use ($req) {
                 $q->where('order_items.status', $req->status);
             })
@@ -374,7 +364,6 @@ class SellerController extends Controller
         }
 
         if ($orderItem->product->type === 'auction') {
-            // Untuk produk lelang, pindahkan dari running_transactions ke shop_balance
             $shop->increment('running_transactions', round($orderItem->subtotal * (1 - $platform_fee_percentage / 100)));
             $orderItem->order->update(['admin_fee' => round($orderItem->subtotal * ($platform_fee_percentage / 100)) ]);
         }

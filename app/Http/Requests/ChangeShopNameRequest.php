@@ -30,7 +30,7 @@ class ChangeShopNameRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'shop_name.required' => 'Nama Toko Wajib Diisi!',
+            'shop_name.required' => 'Nama toko wajib diisi.',
         ];
     }
 }

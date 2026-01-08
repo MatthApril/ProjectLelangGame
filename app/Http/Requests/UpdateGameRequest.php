@@ -39,14 +39,14 @@ class UpdateGameRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'game_name.required' => 'Nama game wajib diisi',
-            'game_name.max' => 'Nama game maksimal 255 karakter',
-            'game_img.image' => 'File harus berupa gambar',
-            'game_img.mimes' => 'Format gambar harus: jpeg, png, atau jpg',
-            'game_img.max' => 'Ukuran gambar maksimal 2MB',
-            'categories.required' => 'Minimal pilih 1 kategori',
-            'categories.min' => 'Minimal pilih 1 kategori',
-            'categories.*.exists' => 'Kategori tidak valid'
+            'game_name.required' => 'Nama game wajib diisi.',
+            'game_name.max' => 'Nama game maksimal 255 karakter.',
+            'game_img.image' => 'File harus berupa gambar.',
+            'game_img.mimes' => 'Format gambar harus: jpeg, png, atau jpg.',
+            'game_img.max' => 'Ukuran gambar maksimal 2MB.',
+            'categories.required' => 'Minimal pilih 1 kategori.',
+            'categories.min' => 'Minimal pilih 1 kategori.',
+            'categories.*.exists' => 'Kategori tidak valid.'
         ];
     }
 }

@@ -34,13 +34,13 @@ class InsertTemplateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'code_tag.required' => 'Kode tag wajib diisi',
-            'code_tag.unique' => 'Kode tag sudah digunakan',
-            'category.required' => 'Kategori wajib diisi',
-            'trigger_type.required' => 'Tipe pemicu wajib diisi',
-            'title.required' => 'Judul wajib diisi',
-            'subject.required' => 'Subjek wajib diisi',
-            'body.required' => 'Pesan wajib diisi',
+            'code_tag.required' => 'Kode tag wajib diisi.',
+            'code_tag.unique' => 'Kode tag sudah digunakan.',
+            'category.required' => 'Kategori wajib diisi.',
+            'trigger_type.required' => 'Tipe pemicu wajib diisi.',
+            'title.required' => 'Judul wajib diisi.',
+            'subject.required' => 'Subjek wajib diisi.',
+            'body.required' => 'Pesan wajib diisi.',
         ];
     }
 }

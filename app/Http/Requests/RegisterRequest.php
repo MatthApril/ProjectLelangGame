@@ -37,17 +37,16 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'username.required' => 'Username Wajib Diisi!',
-            'email.required' => 'Email Wajib Diisi!',
-            'email.email' => 'Format Email Tidak Valid!',
-            'password.required' => 'Password Wajib Diisi!',
-            'confirm_password.required' => 'Konfirmasi Password Wajib Diisi!',
-            'confirm_password.same' => 'Konfirmasi Password Dengan Password Tidak Sama!',
-            'bank_account_number.required' => 'Nomor Rekening Wajib Diisi!',
-            'bank_account_number.digits' => 'Nomor Rekening Harus 10 Digit!',
+            'username.required' => 'Username wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
+            'confirm_password.required' => 'Konfirmasi password wajib diisi.',
+            'confirm_password.same' => 'Konfirmasi password dengan password tidak sama.',
+            'bank_account_number.required' => 'Nomor rekening wajib diisi.',
+            'bank_account_number.digits' => 'Nomor rekening harus 10 digit.',
             'terms.required' => 'Anda harus menyetujui Syarat & Ketentuan untuk melanjutkan.',
             'terms.accepted' => 'Anda harus menyetujui Syarat & Ketentuan untuk melanjutkan.',
         ];
     }
-
 }
