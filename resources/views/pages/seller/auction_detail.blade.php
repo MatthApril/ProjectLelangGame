@@ -51,7 +51,7 @@
         {{-- Main 2-Column Layout --}}
         <div class="row g-4">
             <div class="col-lg-5">
-                <div class="card border-0 shadow-sm h-100">
+                <div class="card h-100">
                     <div class="card-body p-4">
                         <div class="position-relative">
                             @if ($auction->product && $auction->product->product_img)
@@ -96,7 +96,7 @@
 
             {{-- Right Column: Auction Details --}}
             <div class="col-lg-7">
-                <div class="card border-0 shadow-sm h-100">
+                <div class="card h-100">
                     <div class="card-body p-4">
                         {{-- Countdown Timer --}}
                         <div class="bg-dark text-white rounded-3 p-4 mb-4 text-center">
@@ -252,7 +252,7 @@
         </div>
 
         {{-- Leaderboard: Riwayat Penawaran Tertinggi --}}
-        <div class="card border-0 shadow-sm mt-4">
+        <div class="card mt-4">
             <div class="card-header bg-white border-bottom py-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="fw-bold mb-0">
@@ -346,7 +346,7 @@
         </div>
 
         {{-- Product Description --}}
-        <div class="card border-0 shadow-sm mt-4">
+        <div class="card mt-4">
             <div class="card-header bg-white border-bottom py-3">
                 <h5 class="fw-bold mb-0">
                     <i class="bi bi-file-text me-2 text-primary"></i>Deskripsi Produk

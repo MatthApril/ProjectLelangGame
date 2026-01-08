@@ -98,7 +98,7 @@
                     };
                 @endphp
                 <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm border-0">
+                    <div class="card h-100">
                         <div class="position-relative">
                             @if ($auction->product && $auction->product->product_img)
                                 <img src="{{ asset('storage/' . $auction->product->product_img) }}"
