@@ -201,6 +201,8 @@ class PaymentController extends Controller
                 $subtotal = $product->price * $item->quantity;
                 $totalPrice += $subtotal;
 
+                $order_item_admin_fee = round($subtotal * ($admin_fee_percentage / 100));
+
                 OrderItem::create([
                     'order_id' => $order->order_id,
                     'product_id' => $product->product_id,
@@ -208,6 +210,7 @@ class PaymentController extends Controller
                     'product_price' => $product->price,
                     'quantity' => $item->quantity,
                     'subtotal' => $subtotal,
+                    'admin_fee' => $order_item_admin_fee,
                     'status' => 'pending',
                     'paid_at'=> null,
                 ]);

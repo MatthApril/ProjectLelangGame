@@ -37,7 +37,7 @@ class ComplaintSeeder extends Seeder
         $complaint2 = Complaint::create([
             'order_item_id' => 2,
             'buyer_id' => 4,
-            'seller_id' => 4,
+            'seller_id' => 2,
             'description' => 'Joki yang dipesan sudah 2 hari tapi belum ada progress sama sekali. Padahal katanya 24 jam selesai.',
             'proof_img' => null,
             'status' => 'waiting_admin',
@@ -56,7 +56,7 @@ class ComplaintSeeder extends Seeder
         $complaint3 = Complaint::create([
             'order_item_id' => 3,
             'buyer_id' => 2,
-            'seller_id' => 1,
+            'seller_id' => 5,
             'description' => 'Akun Dota yang saya beli 3 hari kemudian kena banned oleh system. Chat dengan penjual tapi tidak dibalas-balas.',
             'proof_img' => 'storage/app/public/complaint/proof_dota_banned.jpg',
             'status' => 'resolved',

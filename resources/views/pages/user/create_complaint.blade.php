@@ -90,58 +90,95 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="fw-semibold p-4 pb-0">Form Komplain</h3>
-                <hr>
-                <div class="card-body">
-                    <form action="{{ route('user.complaints.store', $orderItem->order_item_id) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div>
-                            <label>Deskripsi Masalah *</label>
-                            <textarea name="description" rows="5" maxlength="1000"
-                                placeholder="Jelaskan Masalah Yang Anda Alami Dengan Detail (Minimal 20 Karakter)" class="form-control" required>{{ old('description') }}</textarea>
-                            <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></p>
-                        </div>
+                    <div class="card">
+                        <h3 class="fw-semibold p-4 pb-0">Form Komplain</h3>
+                        <hr>
+                        <div class="card-body">
+                            <form action="{{ route('user.complaints.store', $orderItem->order_item_id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div>
+                                    <label>Deskripsi Masalah *</label>
+                                    <textarea name="description" rows="5" maxlength="1000"
+                                        placeholder="Jelaskan Masalah Yang Anda Alami Dengan Detail (Minimal 20 Karakter)" class="form-control" required>{{ old('description') }}</textarea>
+                                    <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></p>
+                                </div>
 
-                        <div>
-                            <label>Bukti Foto *</label>
-                            <input type="file" name="proof_img" accept="image/jpeg,image/png,image/jpg"
-                                class="form-control" required>
-                            <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></p>
-                        </div>
+                                <div>
+                                    <label>Bukti Foto *</label>
+                                    <input type="file" name="proof_img" accept="image/jpeg,image/png,image/jpg"
+                                        class="form-control" required>
+                                    <i>Format: JPG, PNG, JPEG | Maksimal 2MB</i>
+                                </div>
 
-                        <div>
-                            <strong>
-                                <i class="bi bi-exclamation-triangle-fill"></i> Perhatian:
-                            </strong>
-                            <ul>
-                                <li>Setiap produk hanya dapat diajukan <strong>1 kali komplain</strong>.</li>
-                                <li>Harap sertakan <strong>deskripsi masalah</strong> dan <strong>bukti pendukung</strong>
-                                    yang jelas serta valid.</li>
-                                <li>Seller wajib memberikan respons maksimal dalam waktu <strong>24 jam</strong> setelah
-                                    komplain diajukan.</li>
-                                <li>Admin akan melakukan peninjauan terhadap bukti dari kedua belah pihak dan
-                                    <strong>keputusan admin bersifat final</strong>.
-                                </li>
-                            </ul>
+                                <div>
+                                    <strong>
+                                        <i class="bi bi-exclamation-triangle-fill"></i> Perhatian:
+                                    </strong>
+                                    <ul>
+                                        <li>Setiap produk hanya dapat diajukan <strong>1 kali komplain</strong>.</li>
+                                        <li>Harap sertakan <strong>deskripsi masalah</strong> dan <strong>bukti
+                                                pendukung</strong> yang jelas serta valid.</li>
+                                        <li>Seller wajib memberikan respons maksimal dalam waktu <strong>24 jam</strong>
+                                            setelah komplain diajukan.</li>
+                                        <li>Admin akan melakukan peninjauan terhadap bukti dari kedua belah pihak dan
+                                            <strong>keputusan admin bersifat final</strong>.</li>
+                                    </ul>
+                                </div>
                         </div>
-                </div>
-                <div class="card-footer">
-                    <div class="text-end">
-                        <a href="{{ route('user.orders.detail', $orderItem->order_id) }}" class="btn btn-danger">
-                            <i class="bi bi-x-lg"></i> Batal
-                        </a>
-                        <button type="submit"
-                            onclick="return confirm('Pastikan data yang Anda masukkan sudah benar. Ajukan komplain?')"
-                            class="btn btn-success">
-                            Ajukan Komplain <i class="bi bi-caret-right-fill"></i>
-                        </button>
+                        <div class="card">
+                            <h3 class="fw-semibold p-4 pb-0">Form Komplain</h3>
+                            <hr>
+                            <div class="card-body">
+                                <form action="{{ route('user.complaints.store', $orderItem->order_item_id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div>
+                                        <label>Deskripsi Masalah *</label>
+                                        <textarea name="description" rows="5" maxlength="1000"
+                                            placeholder="Jelaskan Masalah Yang Anda Alami Dengan Detail (Minimal 20 Karakter)" class="form-control" required>{{ old('description') }}</textarea>
+                                        <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></p>
+                                    </div>
+
+                                    <div>
+                                        <label>Bukti Foto *</label>
+                                        <input type="file" name="proof_img" accept="image/jpeg,image/png,image/jpg"
+                                            class="form-control" required>
+                                        <p><i>Format: JPG, PNG, JPEG | Maksimal 2MB</i></p>
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            <i class="bi bi-exclamation-triangle-fill"></i> Perhatian:
+                                        </strong>
+                                        <ul>
+                                            <li>Setiap produk hanya dapat diajukan <strong>1 kali komplain</strong>.</li>
+                                            <li>Harap sertakan <strong>deskripsi masalah</strong> dan <strong>bukti
+                                                    pendukung</strong>
+                                                yang jelas serta valid.</li>
+                                            <li>Seller wajib memberikan respons maksimal dalam waktu <strong>24 jam</strong>
+                                                setelah
+                                                komplain diajukan.</li>
+                                            <li>Admin akan melakukan peninjauan terhadap bukti dari kedua belah pihak dan
+                                                <strong>keputusan admin bersifat final</strong>.
+                                            </li>
+                                        </ul>
+                                    </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-end">
+                                    <a href="{{ route('user.orders.detail', $orderItem->order_id) }}"
+                                        class="btn btn-danger">
+                                        <i class="bi bi-x-lg"></i> Batal
+                                    </a>
+                                    <button type="submit"
+                                        onclick="return confirm('Pastikan data yang Anda masukkan sudah benar. Ajukan komplain?')"
+                                        class="btn btn-success">
+                                        Ajukan Komplain <i class="bi bi-caret-right-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    @endsection
+                @endsection

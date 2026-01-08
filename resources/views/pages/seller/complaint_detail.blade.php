@@ -135,22 +135,44 @@
                 <div>
                     <h4 class="fw-semibold mt-5">Berikan Tanggapan Anda</h4>
                     <div>
-                        <strong><i class="bi bi-exclamation-triangle-fill"></i> Penting :</strong>
-                        <ul>
-                            <li>Berikan penjelasan secara <strong>jelas, jujur, dan objektif</strong>.</li>
-                            <li>Lampirkan <strong>bukti pendukung</strong> apabila diperlukan (opsional).</li>
-                            <li>Tanggapan Anda akan <strong>ditinjau oleh Admin</strong> sebelum keputusan diambil.</li>
-                            <li>Keputusan yang diberikan oleh Admin bersifat <strong>final</strong>.</li>
-                            <li>
-                                Batas waktu pemberian tanggapan:
-                                <strong>{{ $complaint->created_at->addDay()->format('d M Y H:i') }}</strong>.
-                            </li>
-                            <li>
-                                Apabila tidak ada tanggapan hingga batas waktu tersebut,
-                                komplain akan <strong>diproses secara otomatis oleh sistem</strong>
-                                sesuai dengan ketentuan yang berlaku.
-                            </li>
-                        </ul>
+                        <h4 class="fw-semibold mt-5">Berikan Tanggapan Anda</h4>
+                        <div>
+                            <strong><i class="bi bi-exclamation-triangle-fill"></i> Penting :</strong>
+                            <ul>
+                                <li>Berikan penjelasan secara <strong>jelas, jujur, dan objektif</strong>.</li>
+                                <li>Lampirkan <strong>bukti pendukung</strong> apabila diperlukan (opsional).</li>
+                                <li>Tanggapan Anda akan <strong>ditinjau oleh Admin</strong> sebelum keputusan diambil.</li>
+                                <li>Keputusan yang diberikan oleh Admin bersifat <strong>final</strong>.</li>
+                                <li>
+                                    Batas waktu pemberian tanggapan:
+                                    <strong>{{ $complaint->created_at->addDay()->format('d M Y H:i') }}</strong>.
+                                </li>
+                                <li>
+                                    Apabila tidak ada tanggapan hingga batas waktu tersebut,
+                                    komplain akan <strong>diproses secara otomatis oleh sistem</strong>
+                                    sesuai dengan ketentuan yang berlaku.
+                                </li>
+                            </ul>
+                        </div>
+                        <hr>
+                        <form action="{{ route('seller.complaints.respond', $complaint->complaint_id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div>
+                                <label>Pembelaan / Klarifikasi *</label>
+                                <textarea name="message" rows="5" required maxlength="1000" placeholder="Jelaskan Pembelaan Anda Dengan Detail (Minimal 20 Karakter)" class="form-control">{{ old('message') }}</textarea>
+                                <p><i>Minimal 20 Karakter, Maksimal 1000 Karakter</i></p>
+                            </div>
+
+                            <div class="mt-3">
+                                <label>Lampiran Pendukung (Opsional)</label>
+                                <input type="file" name="attachment" accept="image/jpeg,image/png,image/jpg,application/pdf" class="form-control">
+                                <i>Format: JPG, PNG, JPEG | Maksimal 2MB</i>
+                            </div>
+
+                            <button type="submit" onclick="return confirm('Pastikan tanggapan Anda sudah benar. Kirim tanggapan?')" class="btn btn-success float-end">
+                                Kirim Tanggapan <i class="bi bi-caret-right-fill"></i>
+                            </button>
+                        </form>
                     </div>
                     <hr>
                     <form action="{{ route('seller.complaints.respond', $complaint->complaint_id) }}" method="POST"

@@ -44,7 +44,7 @@
                                     {{ $template->category }}</span>
                                 <div>
                                     <button type="button" class="btn btn-generate badge-category bg-info"
-                                    data-bs-toggle="modal" 
+                                    data-bs-toggle="modal"
                                     data-bs-target="#modalInfo"
                                     data-title="{{ $template->title }}"
                                     data-subject="{{ $template->subject }}"
@@ -377,7 +377,7 @@
     // });
     document.getElementById('modalInfo').addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
-        
+
         var title = button.getAttribute('data-title');
         var subject = button.getAttribute('data-subject');
         var body = button.getAttribute('data-body');

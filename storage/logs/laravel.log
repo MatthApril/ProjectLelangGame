@@ -1103,7 +1103,7 @@ Stack trace:
 #20 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #21 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #22 {main}
-"} 
+"}
 [2026-01-08 00:30:00] local.ERROR: Scheduled command ["C:\xampp\php\php.exe" "artisan" auction:update-status] failed with exit code [1]. {"exception":"[object] (Exception(code: 0): Scheduled command [\"C:\\xampp\\php\\php.exe\" \"artisan\" auction:update-status] failed with exit code [1]. at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/Scheduling/ScheduleRunCommand.php:207)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(41): Illuminate/Console/Scheduling/ScheduleRunCommand->Illuminate/Console/Scheduling/{closure}()
@@ -1125,7 +1125,7 @@ Stack trace:
 #16 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #17 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #18 {main}
-"} 
+"}
 [2026-01-08 09:29:27] local.ERROR: Route [user.services] not defined. (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\auth\profile.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [user.services] not defined. (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\auth\\profile.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:526)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(Symfony/Component/Routing/Exception/RouteNotFoundException), 1)
@@ -1271,7 +1271,7 @@ Stack trace:
 #69 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #70 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #71 {main}
-"} 
+"}
 [2026-01-08 09:56:37] local.ERROR: Undefined variable $template (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\services.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $template (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\services.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/storage/framework/views/151244aebd58760da74fd839c5870b62.php:67)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -1417,7 +1417,7 @@ Stack trace:
 #69 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #70 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #71 {main}
-"} 
+"}
 [2026-01-08 10:55:19] local.ERROR: Undefined variable $users (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\chat\index.blade.php) (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\chat\index.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $users (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\chat\\index.blade.php) (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\chat\\index.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/storage/framework/views/388349fca2a41b0256dfcaaeed2ccc49.php:14)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(Illuminate/View/ViewException), 1)
@@ -1632,7 +1632,7 @@ Stack trace:
 #71 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #72 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #73 {main}
-"} 
+"}
 [2026-01-08 11:00:57] local.ERROR: Undefined variable $users (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\chat\index.blade.php) (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\chat\index.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $users (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\chat\\index.blade.php) (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\chat\\index.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/storage/framework/views/388349fca2a41b0256dfcaaeed2ccc49.php:20)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(Illuminate/View/ViewException), 1)
@@ -1847,7 +1847,7 @@ Stack trace:
 #71 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #72 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #73 {main}
-"} 
+"}
 [2026-01-08 14:04:51] local.ERROR: syntax error, unexpected identifier "Admin", expecting "(" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Admin\", expecting \"(\" at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/app/Http/Controllers/UserController.php:908)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://Files Kuliah...')
@@ -1886,7 +1886,7 @@ Stack trace:
 #33 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #34 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #35 {main}
-"} 
+"}
 [2026-01-08 14:05:17] local.ERROR: syntax error, unexpected identifier "Admin", expecting "(" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Admin\", expecting \"(\" at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/app/Http/Controllers/UserController.php:908)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://Files Kuliah...')
@@ -1925,7 +1925,7 @@ Stack trace:
 #33 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #34 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #35 {main}
-"} 
+"}
 [2026-01-08 14:53:20] local.ERROR: Route [user.profile] not defined. (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\chat_admin.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [user.profile] not defined. (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\chat_admin.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:526)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(Symfony/Component/Routing/Exception/RouteNotFoundException), 1)
@@ -2071,7 +2071,7 @@ Stack trace:
 #69 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #70 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #71 {main}
-"} 
+"}
 [2026-01-08 16:01:13] local.ERROR: Route [support.create] not defined. (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\user\support\show.blade.php) {"userId":4,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [support.create] not defined. (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\user\\support\\show.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:526)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(Symfony/Component/Routing/Exception/RouteNotFoundException), 1)
@@ -2205,7 +2205,7 @@ Stack trace:
 #63 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #64 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #65 {main}
-"} 
+"}
 [2026-01-08 17:10:32] local.ERROR: syntax error, unexpected token "extends" (View: D:\Files Kuliah\INF_Semester_3\Backend Web Programming\ProjectLelangGame\resources\views\pages\admin\support_detail.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"extends\" (View: D:\\Files Kuliah\\INF_Semester_3\\Backend Web Programming\\ProjectLelangGame\\resources\\views\\pages\\admin\\support_detail.blade.php) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/storage/framework/views/40e2f281a97eab848470cdd454c1dc24.php:2)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(59): Illuminate/View/Engines/CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -2332,7 +2332,7 @@ Stack trace:
 #58 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #59 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #60 {main}
-"} 
+"}
 [2026-01-08 17:44:29] local.ERROR: Call to undefined method App\Http\Controllers\SupportController::close() {"userId":4,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\SupportController::close() at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Routing/Route.php(265): Illuminate/Routing/ControllerDispatcher->dispatch(Object(Illuminate/Routing/Route), Object(App/Http/Controllers/SupportController), 'close')
@@ -2390,7 +2390,7 @@ Stack trace:
 #52 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #53 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #54 {main}
-"} 
+"}
 [2026-01-08 18:17:15] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select * from `cache` where `key` in (lelanggame-cache-illuminate:queue:restart)) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select * from `cache` where `key` in (lelanggame-cache-illuminate:queue:restart)) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php:824)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php(978): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -2471,7 +2471,7 @@ Stack trace:
 #40 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #41 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #42 {main}
-"} 
+"}
 [2026-01-08 19:17:09] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: update `auctions` set `status` = running, `auctions`.`updated_at` = 2026-01-08 19:17:01 where `status` = pending and `start_time` <= 2026-01-08 19:17:01) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: update `auctions` set `status` = running, `auctions`.`updated_at` = 2026-01-08 19:17:01 where `status` = pending and `start_time` <= 2026-01-08 19:17:01) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php:831)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php(992): Illuminate/Database/Connection->runQueryCallback('update `auction...', Array, Object(Closure))
@@ -2532,7 +2532,7 @@ Stack trace:
 #29 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #30 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #31 {main}
-"} 
+"}
 [2026-01-08 19:17:10] local.ERROR: Scheduled command ["C:\xampp\php\php.exe" "artisan" auction:update-status] failed with exit code [1]. {"exception":"[object] (Exception(code: 0): Scheduled command [\"C:\\xampp\\php\\php.exe\" \"artisan\" auction:update-status] failed with exit code [1]. at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/Scheduling/ScheduleRunCommand.php:207)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(41): Illuminate/Console/Scheduling/ScheduleRunCommand->Illuminate/Console/Scheduling/{closure}()
@@ -2554,7 +2554,7 @@ Stack trace:
 #16 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #17 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #18 {main}
-"} 
+"}
 [2026-01-08 19:17:19] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: select * from `shops` where `status` = closed and `open_hour` <= 19:17:11 and `close_hour` > 19:17:11 and `shops`.`deleted_at` is null) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: select * from `shops` where `status` = closed and `open_hour` <= 19:17:11 and `close_hour` > 19:17:11 and `shops`.`deleted_at` is null) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php:831)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php(992): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -2623,7 +2623,7 @@ Stack trace:
 #34 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #35 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #36 {main}
-"} 
+"}
 [2026-01-08 19:17:19] local.ERROR: Scheduled command ["C:\xampp\php\php.exe" "artisan" shops:auto-toggle] failed with exit code [1]. {"exception":"[object] (Exception(code: 0): Scheduled command [\"C:\\xampp\\php\\php.exe\" \"artisan\" shops:auto-toggle] failed with exit code [1]. at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/Scheduling/ScheduleRunCommand.php:207)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(41): Illuminate/Console/Scheduling/ScheduleRunCommand->Illuminate/Console/Scheduling/{closure}()
@@ -2645,7 +2645,7 @@ Stack trace:
 #16 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #17 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #18 {main}
-"} 
+"}
 [2026-01-08 19:18:07] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: select * from `sessions` where `id` = ghjzGaD3zrQvXGIOWH9833UzDQjiSkHss0GSyX3g limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: select * from `sessions` where `id` = ghjzGaD3zrQvXGIOWH9833UzDQjiSkHss0GSyX3g limit 1) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php:831)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php(992): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -2773,7 +2773,7 @@ Stack trace:
 #63 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #64 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://Files Kuliah...')
 #65 {main}
-"} 
+"}
 [2026-01-08 19:18:09] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: update `auctions` set `status` = running, `auctions`.`updated_at` = 2026-01-08 19:18:01 where `status` = pending and `start_time` <= 2026-01-08 19:18:01) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: update `auctions` set `status` = running, `auctions`.`updated_at` = 2026-01-08 19:18:01 where `status` = pending and `start_time` <= 2026-01-08 19:18:01) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php:831)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php(992): Illuminate/Database/Connection->runQueryCallback('update `auction...', Array, Object(Closure))
@@ -2834,7 +2834,7 @@ Stack trace:
 #29 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #30 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #31 {main}
-"} 
+"}
 [2026-01-08 19:18:10] local.ERROR: Scheduled command ["C:\xampp\php\php.exe" "artisan" auction:update-status] failed with exit code [1]. {"exception":"[object] (Exception(code: 0): Scheduled command [\"C:\\xampp\\php\\php.exe\" \"artisan\" auction:update-status] failed with exit code [1]. at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/Scheduling/ScheduleRunCommand.php:207)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(41): Illuminate/Console/Scheduling/ScheduleRunCommand->Illuminate/Console/Scheduling/{closure}()
@@ -2856,7 +2856,7 @@ Stack trace:
 #16 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #17 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #18 {main}
-"} 
+"}
 [2026-01-08 19:18:19] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: select * from `shops` where `status` = closed and `open_hour` <= 19:18:11 and `close_hour` > 19:18:11 and `shops`.`deleted_at` is null) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: db_proyek_bwp, SQL: select * from `shops` where `status` = closed and `open_hour` <= 19:18:11 and `close_hour` > 19:18:11 and `shops`.`deleted_at` is null) at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php:831)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Database/Connection.php(992): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -2925,7 +2925,7 @@ Stack trace:
 #34 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #35 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #36 {main}
-"} 
+"}
 [2026-01-08 19:18:19] local.ERROR: Scheduled command ["C:\xampp\php\php.exe" "artisan" shops:auto-toggle] failed with exit code [1]. {"exception":"[object] (Exception(code: 0): Scheduled command [\"C:\\xampp\\php\\php.exe\" \"artisan\" shops:auto-toggle] failed with exit code [1]. at D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/Scheduling/ScheduleRunCommand.php:207)
 [stacktrace]
 #0 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(41): Illuminate/Console/Scheduling/ScheduleRunCommand->Illuminate/Console/Scheduling/{closure}()
@@ -2947,5 +2947,5 @@ Stack trace:
 #16 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #17 D:/Files Kuliah/INF_Semester_3/Backend Web Programming/ProjectLelangGame/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #18 {main}
-"} 
-[2026-01-08 21:24:32] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-1b5caeb5-75fa-4295-a7cd-a3f41ae5c2b2","gross_amount":1284000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
+"}
+[2026-01-08 21:24:32] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-1b5caeb5-75fa-4295-a7cd-a3f41ae5c2b2","gross_amount":1284000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}}

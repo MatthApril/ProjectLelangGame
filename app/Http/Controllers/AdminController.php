@@ -33,6 +33,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -49,11 +51,11 @@ class AdminController extends Controller
             'action' => 'required|in:approve,reject'
         ]);
 
+        $shop = $withdraw->shop;
         if ($req->action === 'approve') {
             $withdraw->update(['status' => 'done']);
-            $shop = $withdraw->shop;
-            $shop->decrement('shop_balance', $withdraw->amount);
         } else {
+            $shop->increment('shop_balance', $withdraw->amount);
             $withdraw->update(['status' => 'rejected']);
         }
 

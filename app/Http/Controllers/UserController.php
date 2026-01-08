@@ -275,9 +275,10 @@ class UserController extends Controller
             ? $user_cart->cartItems()->with('product')->get()
             : collect();
         $categories = Category::orderBy('category_name')->get();
+        $admin_fee_percentage = AdminSettings::first()->platform_fee_percentage ?? 0;
 
         return response()->json([
-            'html' => view('pages.user.cart-partial', compact('cartItems', 'categories'))->render()
+            'html' => view('pages.user.cart-partial', compact('cartItems', 'categories', 'admin_fee_percentage'))->render()
         ]);
     }
 
@@ -406,6 +407,7 @@ class UserController extends Controller
                     ->with(['shop', 'game', 'category'])
                     ->where('type', 'normal')
                     ->where('stok', '>', 0)
+                    ->where('game_id', $game->game_id)
                     ->whereHas('shop', function ($q) {
                         $q->where('status', 'open');
                     })

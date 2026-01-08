@@ -16,7 +16,7 @@
         @endif
 
         <div>
-            <h6 class="fw-bold">Statistik Pesanan Dibatalkan</h6>
+            <h4 class="fw-bold">Statistik Pesanan Dibatalkan</h4>
             <div class="table-responsive">
                 <table border="1" class="table table-bordered">
                     <tr>
@@ -51,55 +51,57 @@
         <hr>
 
         @if ($cancelledOrders->count() > 0)
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Order ID</th>
-                        <th>Buyer</th>
-                        <th>Produk</th>
-                        <th>Toko</th>
-                        <th>Subtotal</th>
-                        <th>Alasan Cancel</th>
-                        <th>Status Refund</th>
-                        <th>Tanggal</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($cancelledOrders as $item)
+            <div class="table-responsive">
+                <table border="1" class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ ($cancelledOrders->currentPage() - 1) * $cancelledOrders->perPage() + $loop->iteration }}
-                            </td>
-                            <td>#{{ $item->order_id }}</td>
-                            <td>{{ $item->order->account->username }}</td>
-                            <td>
-                                @if ($item->product->product_img)
-                                    <img src="{{ asset('storage/' . $item->product->product_img) }}" width="50"
-                                        alt="">
-                                @endif
-                                {{ $item->product->product_name }}
-                            </td>
-                            <td>{{ $item->shop->shop_name }}</td>
-                            <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                            <td>{{ $item->getCancelReason() }}</td>
-                            <td>
-                                @if ($item->is_refunded)
-                                    <span style="color: green; font-weight: bold;">✓ SUDAH REFUND</span>
-                                @else
-                                    <span style="color: red; font-weight: bold;">✗ BELUM REFUND</span>
-                                @endif
-                            </td>
-                            <td>{{ $item->paid_at->format('d M Y H:i') }}</td>
-                            <td>
-                                <a href="{{ route('admin.cancelled_orders.show', $item->order_item_id) }}">
-                                    Detail
-                                </a>
-                            </td>
+                            <th>No</th>
+                            <th>Order ID</th>
+                            <th>Buyer</th>
+                            <th>Produk</th>
+                            <th>Toko</th>
+                            <th>Subtotal</th>
+                            <th>Alasan Cancel</th>
+                            <th>Status Refund</th>
+                            <th>Tanggal</th>
+                            <th>Aksi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($cancelledOrders as $item)
+                            <tr>
+                                <td>{{ ($cancelledOrders->currentPage() - 1) * $cancelledOrders->perPage() + $loop->iteration }}
+                                </td>
+                                <td>#{{ $item->order_id }}</td>
+                                <td>{{ $item->order->account->username }}</td>
+                                <td>
+                                    @if ($item->product->product_img)
+                                        <img src="{{ asset('storage/' . $item->product->product_img) }}" width="50"
+                                            alt="">
+                                    @endif
+                                    {{ $item->product->product_name }}
+                                </td>
+                                <td>{{ $item->shop->shop_name }}</td>
+                                <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                                <td>{{ $item->getCancelReason() }}</td>
+                                <td>
+                                    @if ($item->is_refunded)
+                                        <span style="color: green; font-weight: bold;">✓ SUDAH REFUND</span>
+                                    @else
+                                        <span style="color: red; font-weight: bold;">✗ BELUM REFUND</span>
+                                    @endif
+                                </td>
+                                <td>{{ $item->paid_at->format('d M Y H:i') }}</td>
+                                <td>
+                                    <a href="{{ route('admin.cancelled_orders.show', $item->order_item_id) }}" class="btn btn-primary">
+                                        Detail
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <div>
                 {{ $cancelledOrders->appends(request()->query())->links() }}

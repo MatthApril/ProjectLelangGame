@@ -36,67 +36,89 @@
                     @endif
                 </span>
             @endif
-        </div>
+        </div><br>
 
         <div>
-            <h4>📦 Detail Transaksi</h4>
-            <table>
-                <tr>
-                    <td>
-                        @if ($complaint->orderItem->product->product_img)
-                            <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt=""
-                                width="100" height="100">
-                        @endif
-                    </td>
-                    <td>
-                        <p><strong>Produk:</strong> {{ $complaint->orderItem->product->product_name }}</p>
-                        <p><strong>Toko:</strong> {{ $complaint->orderItem->product->shop->shop_name }}</p>
-                        <p><strong>Buyer:</strong> {{ $complaint->buyer->username }} (ID: {{ $complaint->buyer->user_id }})
-                        </p>
-                        <p><strong>Seller:</strong> {{ $complaint->seller->username }} (ID:
-                            {{ $complaint->seller->user_id }})</p>
-                        <p><strong>Jumlah:</strong> {{ $complaint->orderItem->quantity }}</p>
-                        <p><strong>Nilai Transaksi:</strong> Rp
-                            {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</p>
-                        <p><strong>Order ID:</strong> #{{ $complaint->orderItem->order_id }}</p>
-                    </td>
-                </tr>
-            </table>
-        </div>
+            <h4 class="fw-bold">📦 DETAIL TRANSAKSI</h4>
+            <div class="table-responsive">
+                <table border="1" class="table table-bordered">
+                    <tr>
+                        <td>
+                            @if ($complaint->orderItem->product->product_img)
+                                <img src="{{ asset('storage/' . $complaint->orderItem->product->product_img) }}" alt=""
+                                    width="100%">
+                            @endif
+                        </td>
+                        <td>
+                            <p><strong>Produk:</strong> {{ $complaint->orderItem->product->product_name }}</p>
+                            <p><strong>Kategori:</strong> <i class="bi bi-grid"></i> {{ $complaint->orderItem->product->category->category_name }}</p>
+                            <p><strong>Game:</strong> <i class="bi bi-controller"></i> {{ $complaint->orderItem->product->game->game_name }}</p>
+                            <p><strong>Toko:</strong> {{ $complaint->orderItem->product->shop->shop_name }}</p>
+                            <p><strong>Pembeli:</strong> {{ $complaint->buyer->username }} (ID: {{ $complaint->buyer->user_id }})
+                            </p>
+                            <p><strong>Penjual:</strong> {{ $complaint->seller->username }} (ID:
+                                {{ $complaint->seller->user_id }})</p>
+                            <p><strong>Jumlah:</strong> {{ $complaint->orderItem->quantity }}</p>
+                            <p><strong>Nilai Transaksi:</strong> Rp
+                                {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</p>
+                            <p><strong>Order ID:</strong> #{{ $complaint->orderItem->order_id }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div><br>
 
         <div>
-            <h6 class="fw-bold">👤 BUKTI DARI BUYER</h6>
+            <h4 class="fw-bold">👤 BUKTI DARI PEMBELI</h4>
             <p><strong>Tanggal Komplain:</strong> {{ $complaint->created_at->format('d M Y H:i') }}</p>
-            <p><strong>Deskripsi Masalah:</strong></p>
-            <div>{{ $complaint->description }}</div>
+            <label><strong>Deskripsi Masalah:</strong></label>
+            <div class="card mb-3">
+                <div class="card-body">
+                    {{ $complaint->description }}
+                </div>
+            </div>
 
-            <p><strong>Bukti Foto:</strong></p>
-            <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="Bukti Buyer"
-                onclick="window.open(this.src, '_blank')">
-            <br><small>Klik gambar untuk memperbesar</small>
-        </div>
+            <label><strong>Bukti Foto:</strong></label>
+            <div>
+                <a href="{{ asset('storage/' . $complaint->proof_img) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-card-image"></i> Lihat Bukti Pembeli
+                </a>
+                <br><small>Klik gambar untuk memperbesar</small>
+            </div>
+            {{-- <img src="{{ asset('storage/' . $complaint->proof_img) }}" alt="Bukti Buyer"
+                onclick="window.open(this.src, '_blank')"> --}}
+        </div><br><br>
 
         @if ($complaint->response)
             <div>
-                <h6 class="fw-bold">🛒 PEMBELAAN DARI SELLER</h6>
+                <h4 class="fw-bold">🛒 PEMBELAAN DARI PENJUAL</h4>
                 <p><strong>Tanggal Tanggapan:</strong> {{ $complaint->response->created_at->format('d M Y H:i') }}</p>
-                <p><strong>Pembelaan:</strong></p>
-                <div>{{ $complaint->response->message }}</div>
+                <label><strong>Pembelaan:</strong></label>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        {{ $complaint->response->message }}
+                    </div>
+                </div>
 
                 @if ($complaint->response->attachment)
-                    <p><strong>Lampiran Seller:</strong></p>
+                    <label><strong>Lampiran Penjualan:</strong></label>
                     @php
                         $ext = pathinfo($complaint->response->attachment, PATHINFO_EXTENSION);
                     @endphp
 
                     @if (in_array($ext, ['jpg', 'jpeg', 'png']))
-                        <img src="{{ asset('storage/' . $complaint->response->attachment) }}" alt="Lampiran Seller"
-                            onclick="window.open(this.src, '_blank')">
-                        <br><small>Klik gambar untuk memperbesar</small>
+                        <div>
+                            <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-card-image"></i> Lihat Bukti Pembeli
+                            </a>
+                            <br><small>Klik gambar untuk memperbesar</small>
+                        </div>
                     @else
-                        <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank">
-                            📎 Lihat Lampiran PDF
-                        </a>
+                        <div>
+                            <a href="{{ asset('storage/' . $complaint->response->attachment) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-file-earmark-pdf"></i> Lihat Lampiran PDF
+                            </a>
+                        </div><br><br>
                     @endif
                 @endif
             </div>
@@ -106,15 +128,16 @@
             </div>
         @endif
         @if ($complaint->status === 'waiting_admin' && $complaint->status !== 'resolved')
+        <br>
             <div>
-                <h6 class="fw-bold">⚖️ KEPUTUSAN ADMIN</h6>
+                <h4 class="fw-bold">⚖️ KEPUTUSAN ADMIN</h4>
 
                 <div>
                     <strong>⚠️ Pertimbangan:</strong>
                     <ul>
                         <li><strong>Refund:</strong> Buyer akan menerima Rp
                             {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }} kembali</li>
-                        <li><strong>Refund:</strong> running transactions seller akan dikurangi Rp
+                        <li><strong>Refund:</strong> running transactions penjual akan dikurangi Rp
                             {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</li>
                         <li><strong>Refund:</strong> Order item status menjadi "cancelled"</li>
                         <li><strong>Reject:</strong> Tidak ada perubahan transaksi</li>
@@ -127,18 +150,22 @@
 
                     <div>
                         <label><strong>Pilih Keputusan:</strong></label>
-
-                        <label>
-                            <input type="radio" name="decision" value="refund" required>
-                            <strong>✓ SETUJU REFUND BUYER</strong>
-                            <br><small>Buyer menerima uang kembali, seller rugi</small>
-                        </label>
-
-                        <label>
-                            <input type="radio" name="decision" value="reject" required>
-                            <strong>✗ TOLAK KOMPLAIN</strong>
-                            <br><small>Transaksi tetap berjalan, tidak ada refund</small>
-                        </label>
+                        <table border="1" class="table table-bordered text-center">
+                            <td>
+                                <label>
+                                    <input type="radio" name="decision" value="refund" required>
+                                    <strong>✓ SETUJU REFUND PEMBELI</strong>
+                                    <br><small>Pembeli menerima uang kembali, penjual rugi</small>
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="decision" value="reject" required>
+                                    <strong>✗ TOLAK KOMPLAIN</strong>
+                                    <br><small>Transaksi tetap berjalan, tidak ada refund</small>
+                                </label>
+                            </td>
+                        </table>
 
                         @error('decision')
                             <small>{{ $message }}</small>
@@ -146,18 +173,18 @@
                     </div>
 
                     <button type="submit"
-                        onclick="return confirm('YAKIN PUTUSKAN KOMPLAIN INI?\n\nKeputusan bersifat FINAL dan akan langsung dieksekusi!')">
+                        onclick="return confirm('YAKIN PUTUSKAN KOMPLAIN INI?\n\nKeputusan bersifat FINAL dan akan langsung dieksekusi!')" class="btn btn-primary">
                         PUTUSKAN KOMPLAIN
-                    </button>
+                </button>
                 </form>
             </div>
         @elseif($complaint->status === 'resolved')
             <div>
-                <h6 class="fw-bold">⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}
-                </h6>
+                <h4 class="fw-bold">⚖️ KEPUTUSAN FINAL {{ $complaint->is_auto_resolved ? '(AUTO-RESOLVED)' : '(MANUAL)' }}
+                </h4>
 
                 @if ($complaint->is_auto_resolved)
-                    <p><strong>⚠️ Seller tidak merespons dalam 24 jam</strong></p>
+                    <p><strong>⚠️ Penjual tidak merespons dalam 24 jam</strong></p>
                 @endif
 
                 <p><strong>Tanggal:</strong> {{ $complaint->resolved_at->format('d M Y, H:i:s') }}</p>
@@ -166,7 +193,7 @@
                         <strong>✓ KOMPLAIN DISETUJUI - BUYER DIREFUND</strong>
                         <br><small>• Saldo buyer bertambah: Rp
                             {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</small>
-                        <br><small>• Running transactions seller berkurang: Rp
+                        <br><small>• Running transactions penjual berkurang: Rp
                             {{ number_format($complaint->orderItem->subtotal, 0, ',', '.') }}</small>
                         <br><small>• Status order_item: CANCELLED</small>
 
@@ -180,9 +207,9 @@
                 </p>
             </div>
         @endif
-
+        <br>
         <div>
-            <a href="{{ route('admin.complaints.index') }}">
+            <a href="{{ route('admin.complaints.index') }}" class="btn btn-primary">
                 ← Kembali ke Daftar Komplain
             </a>
         </div>

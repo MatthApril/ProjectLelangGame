@@ -163,20 +163,21 @@ th {
 }
 
 @media print {
+    .print-only {
+        display: block !important;
+    }
 
-    /* Reset dasar */
     * {
         box-shadow: none !important;
         text-shadow: none !important;
     }
 
     body {
-        font-size: 11px;
+        font-size: 10px;
         color: #000;
         background: #fff;
     }
 
-    /* Sembunyikan elemen yang tidak perlu */
     .no-print,
     nav,
     .breadcrumb,
@@ -186,29 +187,17 @@ th {
         display: none !important;
     }
 
-    /* Container full lebar */
     .container {
         max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
     }
 
-    /* Judul */
-    /* h2 {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 16px;
-    } */
-
-    /* hr {
-        border: 1px solid #000;
-    } */
-
-    /* Tabel */
     table {
         width: 100% !important;
         border-collapse: collapse !important;
         page-break-inside: auto;
+        table-layout: fixed;
     }
 
     thead {
@@ -223,24 +212,30 @@ th {
     th,
     td {
         border: 1px solid #000 !important;
-        padding: 6px !important;
-        font-size: 10px;
-        vertical-align: middle !important;
+        padding: 4px !important;
+        font-size: 9px;
+        vertical-align: top !important;
         text-align: center;
-        white-space: nowrap;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+    }
+
+    td.text-left {
+        text-align: left !important;
     }
 
     th {
         background-color: #f2f2f2 !important;
         font-weight: bold;
+        padding: 5px !important;
     }
 
-    /* Hilangkan hover bootstrap */
     .table-hover tbody tr:hover {
         background-color: transparent !important;
     }
 
-    /* Card statistik jadi simple */
     .card {
         border: 1px solid #000 !important;
         page-break-inside: avoid;
@@ -250,10 +245,9 @@ th {
         padding: 8px !important;
     }
 
-    /* Margin halaman */
     @page {
-        size: A4 portrait;
-        margin: 15mm;
+        size: A4 landscape;
+        margin: 10mm;
     }
 }
 .list-group-item:hover {

@@ -35,7 +35,6 @@
                         <option value="">Semua Status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Akan Dimulai</option>
                         <option value="running" {{ request('status') == 'running' ? 'selected' : '' }}>Berlangsung</option>
-                        <option value="ended" {{ request('status') == 'ended' ? 'selected' : '' }}>Selesai</option>
                     </select>
                 </div>
             </div>
@@ -99,7 +98,7 @@
                     };
                 @endphp
                 <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm border-0">
+                    <div class="card h-100">
                         <div class="position-relative">
                             @if ($auction->product && $auction->product->product_img)
                                 <img src="{{ asset('storage/' . $auction->product->product_img) }}"

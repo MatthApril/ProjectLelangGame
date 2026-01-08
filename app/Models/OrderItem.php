@@ -18,6 +18,7 @@ class OrderItem extends Model
         'product_price',
         'subtotal',
         'quantity',
+        'admin_fee',
         'status',
         'shipped_at',
         'paid_at',

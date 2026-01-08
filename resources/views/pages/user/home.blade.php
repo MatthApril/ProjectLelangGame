@@ -119,7 +119,7 @@
                     };
                 @endphp
                 <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm border-0 pb-3">
+                    <div class="card h-100 pb-3">
                         <div class="position-relative">
                             @if ($auction->product && $auction->product->product_img)
                                 <img src="{{ asset('storage/' . $auction->product->product_img) }}"
@@ -234,7 +234,7 @@
                 <div class="col-md-2 mt-4">
                     <div class="card">
                         @if ($game->game_img)
-                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="" class="card-img-top">
+                            <img src="{{ asset('storage/' . $game->game_img) }}" alt="" class="card-img-top shop-avatar w-100 h-100">
                         @endif
                         <div class="card-body">
                             <h5 class="card-title fw-semibold text-truncate">{{ $game->game_name }}</h5>

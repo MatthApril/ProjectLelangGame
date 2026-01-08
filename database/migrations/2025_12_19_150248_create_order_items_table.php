@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('product_price');
             $table->integer('quantity');
             $table->integer('subtotal');
+            $table->integer('admin_fee')->default(0);
             $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled']);
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('shipped_at')->nullable();

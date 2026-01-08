@@ -16,45 +16,51 @@
     </div>
 
     <div class="container mb-5">
-        @foreach ($withdraws as $withdraw)
-            <div class="card mb-3">
-                <div class="card-body">
-                    <p class="card-text"><strong>Toko:</strong> {{ $withdraw->shop->shop_name }}</p>
-                    <p class="card-text"><strong>Jumlah:</strong> Rp {{ number_format($withdraw->amount, 0, ',', '.') }}</p>
-                    <p class="card-text"><strong>Status:</strong>
-                        @if ($withdraw->status === 'waiting')
-                            <span class="badge bg-warning text-dark">Waiting</span>
-                        @elseif ($withdraw->status === 'done')
-                            <span class="badge bg-success">Completed</span>
-                        @elseif ($withdraw->status === 'rejected')
-                            <span class="badge bg-danger">Rejected</span>
+        @if ($withdraws->count() == 0)
+            <p>Tidak ada permintaan pencairan saldo.</p>
+        @else
+            @foreach ($withdraws as $withdraw)
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Toko:</strong> {{ $withdraw->shop->shop_name }}</p>
+                        <p class="card-text"><strong>Jumlah:</strong> Rp {{ number_format($withdraw->amount, 0, ',', '.') }}
+                        </p>
+                        <p class="card-text"><strong>Status:</strong>
+                            @if ($withdraw->status === 'waiting')
+                                <span class="badge bg-warning text-dark">Waiting</span>
+                            @elseif ($withdraw->status === 'done')
+                                <span class="badge bg-success">Completed</span>
+                            @elseif ($withdraw->status === 'rejected')
+                                <span class="badge bg-danger">Rejected</span>
+                            @endif
+                        </p>
+                        <p class="card-text"><small class="text-muted">Tanggal Permintaan:
+                                {{ $withdraw->created_at->format('d M Y H:i') }}</small></p>
+                    </div>
+                    <div class="card-footer">
+                        @if ($withdraw->status == 'waiting')
+                            <form action="{{ route('admin.withdraws.process', $withdraw->withdraw_id) }}" method="POST"
+                                class="d-inline">
+                                @csrf
+                                <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">
+                                    Reject
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.withdraws.process', $withdraw->withdraw_id) }}" method="POST"
+                                class="d-inline">
+                                @csrf
+                                <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">
+                                    Approve
+                                </button>
+                            </form>
                         @endif
-                    </p>
-                    <p class="card-text"><small class="text-muted">Tanggal Permintaan:
-                            {{ $withdraw->created_at->format('d M Y H:i') }}</small></p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    @if ($withdraw->status == 'waiting')
-                        <form action="{{ route('admin.withdraws.process', $withdraw->withdraw_id) }}" method="POST"
-                            class="d-inline">
-                            @csrf
-                            <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">
-                                Reject
-                            </button>
-                        </form>
-                        <form action="{{ route('admin.withdraws.process', $withdraw->withdraw_id) }}" method="POST"
-                            class="d-inline">
-                            @csrf
-                            <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">
-                                Approve
-                            </button>
-                        </form>
-                    @endif
-                </div>
-            </div>
-        @endforeach
+            @endforeach
+        @endif
 
         <div class="d-flex justify-content-center">
             {{ $withdraws->links() }}
         </div>
-    @endsection
+    </div>
+@endsection

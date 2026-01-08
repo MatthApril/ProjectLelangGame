@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->as('admin.')
@@ -57,6 +58,23 @@ Route::prefix('admin')->as('admin.')
             Route::post('/support/{ticketId}/reply', 'replySupportTicket')->name('support.reply');
             Route::put('/support/{ticketId}/close', 'closeSupportTicket')->name('support.close');
             Route::get('/support/{id}/messages', 'supportMessages')->name('admin.support.messages');
+        });
+
+        Route::controller(ReportController::class)->group(function() {
+            Route::get('/transaction-report-seller', 'showSellerTransactionReport')->name('transaction-report-seller.index');
+            Route::get('/transaction-report-seller/generate', 'generateSellerTransactionReport')->name('transaction-report-seller.generate');
+            Route::get('/transaction-report-seller/pdf', 'exportSellerPdf')->name('transaction-report-seller.pdf');
+            Route::get('/transaction-report-seller/excel', 'exportSellerExcel')->name('transaction-report-seller.excel');
+
+            Route::get('/income-report', 'showIncomeReport')->name('income-report.index');
+            Route::get('/income-report/generate', 'generateIncomeReport')->name('income-report.generate');
+            Route::get('/income-report/pdf', 'exportIncomePdf')->name('income-report.pdf');
+            Route::get('/income-report/excel', 'exportIncomeExcel')->name('income-report.excel');
+
+            Route::get('/top-seller-report', 'showTopSellerReport')->name('top-seller-report.index');
+            Route::get('/top-seller-report/generate', 'generateTopSellerReport')->name('top-seller-report.generate');
+            Route::get('/top-seller-report/pdf', 'exportTopSellerPdf')->name('top-seller-report.pdf');
+            Route::get('/top-seller-report/excel', 'exportTopSellerExcel')->name('top-seller-report.excel');
         });
 
         Route::controller(ChatController::class)->group(function() {
