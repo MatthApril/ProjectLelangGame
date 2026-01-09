@@ -39,6 +39,17 @@
         //     }, 3000);
         // });
     </script>
+    <script>
+        const btnScrollTop = document.getElementById('btnScrollTop');
+
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 300) {
+                btnScrollTop.style.display = 'block';
+            } else {
+                btnScrollTop.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>

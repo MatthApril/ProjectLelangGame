@@ -3,9 +3,9 @@
 @section('title', 'Laporan Transaksi Seller')
 
 @section('content')
-    <div class="container">
+    <div class="container my-3 text-dark">
         <div class="no-print">
-            <h2 class="fw-semibold">Laporan Transaksi Seller</h2>
+            <h5 class="fw-semibold">Laporan Transaksi Seller</h5>
             <hr>
         </div>
 

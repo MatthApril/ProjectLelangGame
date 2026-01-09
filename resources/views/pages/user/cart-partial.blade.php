@@ -1,3 +1,4 @@
+<a href="#" id="btnScrollTop" class="btn btn-primary position-fixed rounded-5 btn-lg fw-bold bottom-0 end-0 mb-5 me-3 fs-3" style="z-index: 9999; display: none;"><i class="bi bi-arrow-up"></i></a>
 <div class="container">
     <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
@@ -84,7 +85,7 @@
                             <span
                                 class="text-secondary">{{ strlen($item->product->product_name) > 22 ? substr($item->product->product_name, 0, 22) . '...' : $item->product->product_name }}
                                 x{{ $item->quantity }}</span>
-                            <span class="text-primary">
+                            <span>
                                 Rp{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
                             </span>
                         </div>
@@ -92,7 +93,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-semibold">Total Pembelian</h6>
-                        <h5 class="fw-semibold text-primary">
+                        <h6 class="fw-semibold">
                             Rp{{ number_format(
                                 $cartItems->sum(function ($item) {
                                     return $item->product->price * $item->quantity;
@@ -101,11 +102,11 @@
                                 ',',
                                 '.',
                             ) }}
-                        </h5>
+                        </h6>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-semibold">Biaya Layanan ({{ $admin_fee_percentage }}%)</h6>
-                        <h5 class="fw-semibold text-primary">
+                        <h6 class="text-secondary">
                             Rp{{ number_format(
                                 round(
                                     ($cartItems->sum(function ($item) {
@@ -118,7 +119,7 @@
                                 ',',
                                 '.',
                             ) }}
-                        </h5>
+                        </h6>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-semibold">Total Harga</h6>

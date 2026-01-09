@@ -62,7 +62,7 @@
                     </div>
                     <div class="ms-3">
                         <a href="{{ route('user.services') }}" class="text-decoration-none text-secondary nav-link link-footer"><i class="bi bi-gear"></i>
-                            Layanan</a>
+                            Pusat Bantuan</a>
                     </div>
                     <hr>
                 @endif

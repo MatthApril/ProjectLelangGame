@@ -152,12 +152,6 @@
                             @error('category_name')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
-                            <label for="category_img">Gambar Kategori *</label><br>
-                            <input type="file" id="category_img" name="category_img" accept="image/*" required>
-                            <p>Format: JPG, PNG, JPEG. Max: 2MB</p>
-                            @error('category_img')
-                                <span style="color: red;">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer">

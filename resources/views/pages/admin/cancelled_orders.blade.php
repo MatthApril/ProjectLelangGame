@@ -39,7 +39,7 @@
 
         <form method="GET" action="{{ route('admin.cancelled_orders.index') }}">
             <label><strong>Filter Status Refund:</strong></label>
-            <select name="refund_status" onchange="this.form.submit()">
+            <select name="refund_status" onchange="this.form.submit()" class="form-select">
                 <option value="">Semua Status</option>
                 <option value="refunded" {{ request('refund_status') === 'refunded' ? 'selected' : '' }}>Sudah Refund
                 </option>
