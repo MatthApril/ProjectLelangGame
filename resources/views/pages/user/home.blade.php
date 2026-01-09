@@ -3,6 +3,7 @@
 @section('title', 'Beranda | LelangGame')
 
 @section('content')
+    <a href="#" id="btnScrollTop" class="btn btn-primary position-fixed rounded-5 btn-lg fw-bold bottom-0 end-0 mb-5 me-3 fs-3" style="z-index: 9999; display: none;"><i class="bi bi-arrow-up"></i></a>
     <div class="sampul">
         <div class="container">
             <div class="row mb-4 px-2">

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    // Admin
     public function showSellerTransactionReport()
     {
         $sellers = User::where('role', 'seller')
@@ -246,7 +245,6 @@ class ReportController extends Controller
         return view('pages.report.seller.transaction_report', compact('shop', 'categories'));
     }
 
-    // Seller
     public function generateTransactionReport(Request $request)
     {
         $request->validate([
