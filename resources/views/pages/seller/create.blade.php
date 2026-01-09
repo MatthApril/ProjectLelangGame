@@ -1,9 +1,9 @@
-{{-- filepath: c:\kuliah\semester 3\BWP\project\ProjectLelangGame\resources\views\pages\seller\create.blade.php --}}
 @extends('layouts.template')
 
 @section('title', $product ? 'Edit Produk | LelangGame' : 'Tambah Produk | LelangGame')
 
 @section('content')
+    <a href="#" id="btnScrollTop" class="btn btn-primary position-fixed rounded-5 btn-lg fw-bold bottom-0 end-0 mb-5 me-3 fs-3" style="z-index: 9999; display: none;"><i class="bi bi-arrow-up"></i></a>
     <div class="container mt-3">
         <nav nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3">
