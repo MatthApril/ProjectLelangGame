@@ -17,7 +17,7 @@
                         @endif
 
                         <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                             style="width: 100px; height: 100px;">
+                            style="width: 100px; height: 100px;">
                             <i class="bi bi-envelope-check-fill text-success" style="font-size: 3rem;"></i>
                         </div>
 
@@ -29,7 +29,7 @@
 
                         <div class="alert alert-light border mb-3">
                             <i class="bi bi-envelope-at-fill text-success me-2"></i>
-                            <strong>{{ Auth::user()->email }}</strong>
+                            <strong>{{ session('forgot_pwd_email') }}</strong>
                         </div>
 
                         <form action="{{ route('forgot-pwd.verify.uid', $unique_id) }}" method="post">
@@ -37,16 +37,10 @@
                             @method('PUT')
                             <input type="hidden" name="type" value="register">
                             <div class="mb-3">
-                                <input type="text" 
-                                       class="form-control form-control-lg text-center fw-bold fs-3 letter-spacing-wide" 
-                                       name="otp" 
-                                       id="otp" 
-                                       placeholder="000000"
-                                       maxlength="6"
-                                       pattern="[0-9]{6}"
-                                       autofocus 
-                                       required
-                                       style="letter-spacing: 0.5rem;">
+                                <input type="text"
+                                    class="form-control form-control-lg text-center fw-bold fs-3 letter-spacing-wide"
+                                    name="otp" id="otp" placeholder="000000" maxlength="6" pattern="[0-9]{6}"
+                                    autofocus required style="letter-spacing: 0.5rem;">
                                 <small class="text-muted mt-2 d-block">
                                     <i class="bi bi-info-circle me-1"></i>
                                     Masukkan 6 digit kode OTP
@@ -95,18 +89,18 @@
 
         const timer = setInterval(function() {
             countdown--;
-            
+
             if (countdownElement) {
                 countdownElement.textContent = countdown;
             }
-            
+
             if (countdown <= 0) {
                 clearInterval(timer);
-                
+
                 if (timerText) {
                     timerText.classList.add('d-none');
                 }
-                
+
                 if (resendButton) {
                     resendButton.disabled = false;
                 }
