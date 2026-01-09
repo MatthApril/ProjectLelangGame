@@ -22,13 +22,13 @@
             <h4 class="fw-bold mb-1">Laporan Transaksi</h4>
             <p class="mb-0">
                 Periode :
-                {{ \Carbon\Carbon::parse($request->start_date)->format('d/m/Y') }}
+                {{ \Carbon\Carbon::parse($request->start_date ?? now()->startOfMonth())->format('d/m/Y') }}
                 s/d
-                {{ \Carbon\Carbon::parse($request->end_date)->format('d/m/Y') }}
+                {{ \Carbon\Carbon::parse($request->end_date ?? now())->format('d/m/Y') }}
             </p>
             <p class="mb-0">
                 Status :
-                @if(!$request->status || $request->status == 'all')
+                @if(!isset($request->status) || $request->status == 'all')
                     Semua
                 @elseif($request->status == 'paid')
                     Dibayar
