@@ -81,7 +81,7 @@
                     </div>
 
                     <hr>
-                    <form action="{{ route('chat.open', $complaint->orderItem->product->shop->user_id) }}" method="GET">
+                    <form action="{{ route('chat.open', $complaint->orderItem->product->shop->owner_id) }}" method="GET">
                         <button type="submit" class="btn btn-outline-primary text-center">
                             <i class="bi bi-chat"></i> Hubungi Penjual
                         </button>
