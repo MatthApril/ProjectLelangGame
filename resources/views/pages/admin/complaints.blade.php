@@ -17,7 +17,7 @@
 
         <form method="GET" action="{{ route('admin.complaints.index') }}">
             <label><strong>Filter Status:</strong></label>
-            <select name="status" onchange="this.form.submit()">
+            <select name="status" onchange="this.form.submit()" class="form-select">
                 <option value="">Semua Status</option>
                 <option value="waiting_seller" {{ request('status') === 'waiting_seller' ? 'selected' : '' }}>Menunggu Seller
                 </option>

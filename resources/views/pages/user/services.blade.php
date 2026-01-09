@@ -9,11 +9,11 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('profile') }}">Profile</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Layanan</li>
+                <li class="breadcrumb-item active" aria-current="page">Pusat Bantuan</li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between align-items-center">
-            <span class="fw-semibold fs-2">Layanan</span>
+            <span class="fw-semibold fs-2">Pusat Bantuan</span>
             <a href="{{ route('support.index') }}" class="btn btn-outline-primary"><i class="bi bi-headset"></i> Hubungi Kita</a>
         </div>
         <hr>

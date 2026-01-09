@@ -14,8 +14,7 @@ class Category extends Model
     public $incrementing = true;
 
     protected $fillable = [
-        'category_name',
-        'category_img'
+        'category_name'
     ];
 
     public function products()
