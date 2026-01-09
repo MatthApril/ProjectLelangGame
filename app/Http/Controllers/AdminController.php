@@ -311,11 +311,8 @@ class AdminController extends Controller
     function storeCategory(InsertCategoryRequest $request) {
         $validated = $request->validated();
 
-        $imagePath = $request->file('category_img')->store('categories', 'public');
-
         Category::create([
-            'category_name' => $validated['category_name'],
-            'category_img' => $imagePath
+            'category_name' => $validated['category_name']
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
