@@ -120,3 +120,4 @@
 #58 D:/college/semester 3/proyek/BWP/ProjectLelangGame/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://college//seme...')
 #59 {main}
 "} 
+[2026-01-09 10:30:21] local.INFO: MIDTRANS PARAMS {"transaction_details":{"order_id":"ORD-4652a90a-3050-41e6-a13b-380e7ff2c8e4","gross_amount":2140000.0},"customer_details":{"name":"han","email":"hanchandra14@gmail.com"},"callbacks":{"finish":"http://127.0.0.1:8000/payment/midtrans-callback"}} 
