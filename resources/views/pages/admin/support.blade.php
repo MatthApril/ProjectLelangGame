@@ -3,13 +3,13 @@
 @section('title', 'Tiket Bantuan | Admin LelangGame')
 
 @section('content')
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 text-dark">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1">Pusat Tiket Bantuan</h4>
+            <h5 class="fw-semibold mb-1">Pusat Tiket Bantuan</h5>
             <p class="text-muted mb-0">Kelola dan respons tiket bantuan dari pengguna</p>
         </div>
-    </div>
+    </div><hr>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">

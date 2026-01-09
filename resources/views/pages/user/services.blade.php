@@ -12,7 +12,7 @@
             </ol>
         </nav>
         <div class="d-flex justify-content-between align-items-center">
-            <span class="fw-semibold fs-2">Layanan</span>
+            <span class="fw-semibold fs-2">Pusat Bantuan</span>
             <a href="{{ route('support.index') }}" class="btn btn-outline-primary"><i class="bi bi-headset"></i> Hubungi Kita</a>
         </div>
         <hr>

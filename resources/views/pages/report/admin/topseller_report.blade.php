@@ -3,9 +3,9 @@
 @section('title', 'Laporan Top Seller')
 
 @section('content')
-    <div class="container">
+    <div class="container my-3 text-dark">
         <div class="no-print">
-            <h2 class="fw-semibold">Laporan Top Seller Dengan Pendapatan Tertinggi</h2>
+            <h5 class="fw-semibold">Laporan Top Seller Dengan Pendapatan Tertinggi</h5>
             <hr>
         </div>
 
