@@ -90,6 +90,15 @@ Tidak ada aktivitas yang terlewat.
 
 ---
 
+### 🎫 Pusat Bantuan
+Selesaikan setiap kendala akun dan transaksi secara terstruktur dan transparan.
+- Sistem Tiket agar laporan tidak tertumpuk
+- Kategorisasi Masalah (Akun, Lelang, Pembayaran)
+- Private Chat langsung dengan Admin di dalam tiket
+- Pantau progres penyelesaian (Open / Closed)
+
+---
+
 ### 🛡️ Sistem Komplain & Resolusi
 Perlindungan maksimal untuk pembeli.
 - Pengajuan komplain resmi
